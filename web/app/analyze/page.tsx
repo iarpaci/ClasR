@@ -28,6 +28,7 @@ export default function AnalyzePage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [prompt, setPrompt] = useState('');
   const [file, setFile] = useState<File | null>(null);
+  const [dragging, setDragging] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [convId, setConvId] = useState<string | null>(null);
@@ -109,8 +110,29 @@ export default function AnalyzePage() {
     });
   }
 
+  function handleDragOver(e: React.DragEvent) { e.preventDefault(); setDragging(true); }
+  function handleDragLeave(e: React.DragEvent) { if (!e.currentTarget.contains(e.relatedTarget as Node)) setDragging(false); }
+  function handleDrop(e: React.DragEvent) {
+    e.preventDefault(); setDragging(false);
+    const f = e.dataTransfer.files[0];
+    if (f && (f.name.endsWith('.docx') || f.name.endsWith('.txt'))) setFile(f);
+    else if (f) setError('Only .docx and .txt files are supported');
+  }
+
   return (
-    <div className="min-h-screen bg-gray-950 flex flex-col">
+    <div className="min-h-screen bg-gray-950 flex flex-col"
+      onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop}>
+      {/* Drag overlay */}
+      {dragging && (
+        <div className="fixed inset-0 z-50 bg-blue-950/90 border-4 border-dashed border-blue-400 flex items-center justify-center pointer-events-none">
+          <div className="text-center">
+            <p className="text-5xl mb-4">📄</p>
+            <p className="text-blue-300 text-xl font-bold">Drop your file here</p>
+            <p className="text-blue-400 text-sm mt-1">.docx or .txt</p>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <header className="border-b border-gray-800 px-5 py-3 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-3">
@@ -141,13 +163,18 @@ export default function AnalyzePage() {
 
           {/* Empty state */}
           {messages.length === 0 && (
-            <div className="text-center py-16">
-              <p className="text-5xl mb-4">📄</p>
-              <p className="text-white font-bold text-xl mb-1">CLASR-EN</p>
-              <p className="text-gray-500 text-sm max-w-md mx-auto">
-                Upload a manuscript or paste text. Type a prompt or choose a quick action below.
-              </p>
-              <div className="mt-8 flex flex-wrap gap-2 justify-center">
+            <div className="text-center py-10">
+              {/* Drop zone */}
+              <div
+                onClick={() => fileRef.current?.click()}
+                className="border-2 border-dashed border-gray-700 hover:border-blue-500 rounded-2xl p-10 cursor-pointer transition-colors mb-8 max-w-md mx-auto"
+              >
+                <p className="text-4xl mb-3">📂</p>
+                <p className="text-gray-300 font-medium">Drop file here or click to browse</p>
+                <p className="text-gray-600 text-sm mt-1">.docx and .txt supported · Max 10 MB</p>
+              </div>
+              <p className="text-gray-600 text-sm mb-4">or choose a quick action:</p>
+              <div className="flex flex-wrap gap-2 justify-center">
                 {QUICK_PROMPTS.map(s => (
                   <button key={s} onClick={() => { setPrompt(s); textareaRef.current?.focus(); }}
                     className="text-xs text-gray-400 hover:text-white bg-gray-800 hover:bg-gray-700 border border-gray-700 px-3 py-2 rounded-xl transition-colors">
