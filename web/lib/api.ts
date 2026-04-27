@@ -45,6 +45,12 @@ export const analyzeApi = {
   get: (id: string) => api.get(`/analyze/${id}`),
 };
 
+export const chatApi = {
+  sendMessage: (formData: FormData) => api.post('/chat/message', formData, { headers: { 'Content-Type': 'multipart/form-data' } }),
+  conversations: () => api.get('/chat/conversations'),
+  getConversation: (id: string) => api.get(`/chat/conversations/${id}`),
+};
+
 export const subscriptionApi = {
   status: () => api.get('/subscription/status'),
   checkout: (price_key: string) => api.post('/subscription/checkout', { price_key }),

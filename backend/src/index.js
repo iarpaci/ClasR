@@ -7,6 +7,7 @@ const rateLimit = require('express-rate-limit');
 
 const authRoutes = require('./routes/auth');
 const analyzeRoutes = require('./routes/analyze');
+const chatRoutes = require('./routes/chat');
 const subscriptionRoutes = require('./routes/subscription');
 
 const app = express();
@@ -43,6 +44,7 @@ const analyzeLimiter = rateLimit({ windowMs: 60 * 1000, max: isDev ? 50 : 5, sta
 app.use(globalLimiter);
 app.use('/auth', authLimiter, authRoutes);
 app.use('/analyze', analyzeLimiter, analyzeRoutes);
+app.use('/chat', analyzeLimiter, chatRoutes);
 app.use('/subscription', subscriptionRoutes);
 
 app.get('/health', (req, res) => res.json({ status: 'ok', version: '1.0.0' }));
