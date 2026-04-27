@@ -65,21 +65,13 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* CTAs */}
-        <div className="grid grid-cols-2 gap-4">
-          <Link href="/analyze"
-            className="block bg-blue-600 hover:bg-blue-700 text-white rounded-2xl p-5 text-center transition-colors">
-            <p className="text-2xl mb-1">📄</p>
-            <p className="font-bold">Analysis Report</p>
-            <p className="text-blue-200 text-xs mt-1">Full SECTION 0–8 report</p>
-          </Link>
-          <Link href="/chat"
-            className="block bg-gray-800 hover:bg-gray-700 text-white rounded-2xl p-5 text-center transition-colors border border-gray-700">
-            <p className="text-2xl mb-1">💬</p>
-            <p className="font-bold">Chat</p>
-            <p className="text-gray-400 text-xs mt-1">Ask questions, follow-ups</p>
-          </Link>
-        </div>
+        {/* New analysis CTA */}
+        <Link href="/analyze"
+          className="block bg-blue-600 hover:bg-blue-700 text-white rounded-2xl p-6 text-center transition-colors">
+          <p className="text-2xl mb-1">📄</p>
+          <p className="font-bold text-lg">New Analysis</p>
+          <p className="text-blue-200 text-sm mt-1">Upload manuscript · type prompt · ask follow-ups</p>
+        </Link>
 
         {/* History */}
         {history.length > 0 && (

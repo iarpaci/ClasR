@@ -2,33 +2,35 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { analyzeApi, subscriptionApi } from '@/lib/api';
+import { chatApi, subscriptionApi } from '@/lib/api';
 import { isLoggedIn } from '@/lib/auth';
 
-const Q_VARIANTS = [
-  { key: '', label: 'AUTO-Q', desc: 'System detects target quartile' },
-  { key: 'Q1', label: 'Q1', desc: 'Maximum restraint' },
-  { key: 'Q2', label: 'Q2', desc: 'Controlled flexibility' },
-  { key: 'Q3', label: 'Q3', desc: 'Narrative register' },
-];
+interface Message {
+  role: 'user' | 'assistant';
+  content: string;
+  filename?: string;
+}
 
-const MODES = [
-  { key: '', label: 'Standard' },
-  { key: 'R1', label: 'R1 Revision' },
-  { key: 'R2', label: 'R2 Revision' },
-  { key: 'summary', label: 'Summary' },
+const QUICK_PROMPTS = [
+  'Run a full Q1 analysis:',
+  'Run a full Q2 analysis:',
+  'Run a full Q3 analysis:',
+  'Run a revision round analysis (R1):',
+  'Run a summary report:',
 ];
 
 export default function AnalyzePage() {
   const router = useRouter();
   const fileRef = useRef<HTMLInputElement>(null);
-  const [tab, setTab] = useState<'file' | 'text'>('file');
+  const bottomRef = useRef<HTMLDivElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [prompt, setPrompt] = useState('');
   const [file, setFile] = useState<File | null>(null);
-  const [text, setText] = useState('');
-  const [qVariant, setQVariant] = useState('');
-  const [mode, setMode] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [convId, setConvId] = useState<string | null>(null);
   const [sub, setSub] = useState<any>(null);
 
   useEffect(() => {
@@ -36,131 +38,208 @@ export default function AnalyzePage() {
     subscriptionApi.status().then(r => setSub(r.data)).catch(() => {});
   }, [router]);
 
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages, loading]);
+
+  // Auto-resize textarea
+  useEffect(() => {
+    const ta = textareaRef.current;
+    if (ta) { ta.style.height = 'auto'; ta.style.height = Math.min(ta.scrollHeight, 200) + 'px'; }
+  }, [prompt]);
+
   const limitReached = sub && sub.used >= sub.limit;
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
+  async function handleSend(e?: React.FormEvent) {
+    e?.preventDefault();
     if (loading || limitReached) return;
-    if (tab === 'file' && !file) { setError('Please select a file'); return; }
-    if (tab === 'text' && !text.trim()) { setError('Please enter text'); return; }
-    setError(''); setLoading(true);
+    if (!prompt.trim() && !file) { setError('Enter a prompt or attach a file'); return; }
+    setError('');
+
+    const userMsg: Message = {
+      role: 'user',
+      content: prompt.trim() || `[File: ${file?.name}]`,
+      filename: file?.name,
+    };
+    setMessages(prev => [...prev, userMsg]);
+    const sentPrompt = prompt;
+    const sentFile = file;
+    setPrompt('');
+    setFile(null);
+    setLoading(true);
+
     try {
       const fd = new FormData();
-      if (tab === 'file' && file) fd.append('file', file);
-      else fd.append('text', text.trim());
-      if (qVariant) fd.append('q_variant', qVariant);
-      if (mode) fd.append('mode', mode);
-      const { data } = await analyzeApi.submit(fd);
-      router.push(`/report/${data.id}`);
+      if (sentPrompt.trim()) fd.append('prompt', sentPrompt.trim());
+      if (sentFile) fd.append('file', sentFile);
+      if (convId) fd.append('conversation_id', convId);
+
+      const { data } = await chatApi.sendMessage(fd);
+      setConvId(data.conversation_id);
+      setMessages(prev => [...prev, { role: 'assistant', content: data.message }]);
+      setSub((s: any) => s ? { ...s, used: s.used + 1 } : s);
     } catch (err: any) {
       const code = err?.response?.data?.error;
       if (code === 'free_limit_reached' || code === 'monthly_limit_reached') router.push('/pricing');
-      else setError(err?.response?.data?.error || 'Analysis failed');
-    } finally { setLoading(false); }
+      else setError(err?.response?.data?.error || 'Something went wrong');
+      setMessages(prev => prev.slice(0, -1));
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); }
+  }
+
+  function renderAssistant(content: string) {
+    return content.split('\n').map((line, i) => {
+      if (line.startsWith('▸ SECTION') || line.startsWith('▸ ARGUMENT')) {
+        return <p key={i} className="text-blue-400 font-bold text-sm mt-5 mb-1 border-b border-gray-800 pb-1">{line}</p>;
+      }
+      if (line.match(/^[━═─]{3,}/)) return <hr key={i} className="border-gray-700 my-3" />;
+      if (line.startsWith('[AUTO-Q') || line.startsWith('[CONTRIBUTION') || line.startsWith('[SCOPE DRIFT') ||
+          line.startsWith('[CITATION') || line.startsWith('[REPLICATION') || line.startsWith('[ORIENTATION') ||
+          line.startsWith('[INTEGRITY') || line.startsWith('[COHERENCE') || line.startsWith('[SILENCE')) {
+        return <p key={i} className="text-amber-400 text-xs bg-amber-950/50 px-3 py-1.5 rounded-lg my-1.5">{line}</p>;
+      }
+      if (line.trim() === '') return <div key={i} className="h-1.5" />;
+      const html = line.replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>');
+      return <p key={i} className="text-sm leading-relaxed text-gray-300" dangerouslySetInnerHTML={{ __html: html }} />;
+    });
   }
 
   return (
-    <div className="min-h-screen bg-gray-950">
-      <header className="border-b border-gray-800 px-6 py-4 flex items-center gap-4">
-        <Link href="/" className="text-gray-500 hover:text-gray-300 text-sm">← Dashboard</Link>
-        <h1 className="text-xl font-black tracking-widest text-white">CLASR</h1>
+    <div className="min-h-screen bg-gray-950 flex flex-col">
+      {/* Header */}
+      <header className="border-b border-gray-800 px-5 py-3 flex items-center justify-between shrink-0">
+        <div className="flex items-center gap-3">
+          <Link href="/" className="text-gray-500 hover:text-gray-300 text-sm">←</Link>
+          <span className="text-white font-black tracking-widest text-lg">CLASR</span>
+        </div>
+        <div className="flex items-center gap-3">
+          {sub && (
+            <span className="text-xs text-gray-500 bg-gray-800 px-2 py-1 rounded-lg">
+              {sub.used}/{sub.limit}
+              <span className="text-gray-600 ml-1">{sub.plan === 'free' ? 'lifetime' : '/mo'}</span>
+            </span>
+          )}
+          {sub?.plan !== 'pro' && (
+            <Link href="/pricing" className="text-xs text-blue-400 hover:underline">Upgrade</Link>
+          )}
+          <button onClick={() => { setMessages([]); setConvId(null); setPrompt(''); setFile(null); }}
+            className="text-xs text-gray-500 hover:text-gray-300 px-3 py-1.5 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors">
+            New
+          </button>
+          <Link href="/settings" className="text-gray-500 hover:text-gray-300 text-sm">⚙</Link>
+        </div>
       </header>
 
-      <main className="max-w-2xl mx-auto px-6 py-10">
-        <h2 className="text-2xl font-bold text-white mb-1">New Analysis</h2>
-        <p className="text-gray-500 text-sm mb-8">Upload your manuscript and receive a structured signal report.</p>
+      {/* Messages area */}
+      <div className="flex-1 overflow-y-auto px-4 py-6">
+        <div className="max-w-3xl mx-auto space-y-6">
 
-        {limitReached && (
-          <div className="bg-amber-950 border border-amber-800 rounded-xl p-4 mb-6 flex items-center justify-between">
-            <p className="text-amber-300 text-sm">Analysis limit reached for your plan.</p>
-            <Link href="/pricing" className="bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold px-3 py-1.5 rounded-lg">Upgrade</Link>
-          </div>
-        )}
+          {/* Empty state */}
+          {messages.length === 0 && (
+            <div className="text-center py-16">
+              <p className="text-5xl mb-4">📄</p>
+              <p className="text-white font-bold text-xl mb-1">CLASR-EN</p>
+              <p className="text-gray-500 text-sm max-w-md mx-auto">
+                Upload a manuscript or paste text. Type a prompt or choose a quick action below.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-2 justify-center">
+                {QUICK_PROMPTS.map(s => (
+                  <button key={s} onClick={() => { setPrompt(s); textareaRef.current?.focus(); }}
+                    className="text-xs text-gray-400 hover:text-white bg-gray-800 hover:bg-gray-700 border border-gray-700 px-3 py-2 rounded-xl transition-colors">
+                    {s}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Input tabs */}
-          <div className="flex gap-2 bg-gray-900 rounded-xl p-1 border border-gray-800 w-fit">
-            {(['file', 'text'] as const).map(t => (
-              <button key={t} type="button" onClick={() => setTab(t)}
-                className={`px-5 py-2 rounded-lg text-sm font-medium transition-colors capitalize ${tab === t ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-gray-200'}`}>
-                {t === 'file' ? 'Upload File' : 'Paste Text'}
-              </button>
-            ))}
-          </div>
-
-          {/* File drop */}
-          {tab === 'file' && (
-            <div onClick={() => fileRef.current?.click()}
-              onDrop={e => { e.preventDefault(); if (e.dataTransfer.files[0]) setFile(e.dataTransfer.files[0]); }}
-              onDragOver={e => e.preventDefault()}
-              className="border-2 border-dashed border-gray-700 hover:border-blue-500 rounded-2xl p-12 text-center cursor-pointer transition-colors">
-              <input ref={fileRef} type="file" accept=".docx,.txt" onChange={e => e.target.files?.[0] && setFile(e.target.files[0])} className="hidden" />
-              {file ? (
-                <div>
-                  <p className="text-3xl mb-2">📄</p>
-                  <p className="text-white font-semibold">{file.name}</p>
-                  <p className="text-gray-500 text-sm mt-1">{(file.size / 1024).toFixed(0)} KB</p>
-                  <button type="button" onClick={e => { e.stopPropagation(); setFile(null); }} className="text-xs text-gray-600 hover:text-red-400 mt-2">Remove</button>
+          {/* Messages */}
+          {messages.map((msg, i) => (
+            <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+              {msg.role === 'user' ? (
+                <div className="max-w-xl bg-blue-600 text-white rounded-2xl rounded-br-sm px-4 py-3">
+                  {msg.filename && <p className="text-xs opacity-70 mb-1">📄 {msg.filename}</p>}
+                  <p className="text-sm leading-relaxed whitespace-pre-wrap">{msg.content}</p>
                 </div>
               ) : (
-                <div>
-                  <p className="text-4xl mb-3">📂</p>
-                  <p className="text-gray-300 font-medium">Drop file here or click to browse</p>
-                  <p className="text-gray-600 text-sm mt-1">.docx and .txt · Max 10 MB</p>
+                <div className="max-w-2xl w-full bg-gray-900 border border-gray-800 rounded-2xl rounded-bl-sm px-5 py-4">
+                  {renderAssistant(msg.content)}
+                  <div className="mt-3 pt-3 border-t border-gray-800 flex gap-2">
+                    <button onClick={() => navigator.clipboard.writeText(msg.content)}
+                      className="text-xs text-gray-600 hover:text-gray-400 transition-colors">
+                      Copy
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
-          )}
+          ))}
 
-          {tab === 'text' && (
-            <textarea value={text} onChange={e => setText(e.target.value)}
-              placeholder="Paste your manuscript text here..."
-              className="w-full h-64 bg-gray-900 border border-gray-700 rounded-xl p-4 text-gray-100 placeholder-gray-600 text-sm leading-relaxed resize-none focus:outline-none focus:border-blue-500" />
-          )}
-
-          {/* Options */}
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs text-gray-500 uppercase tracking-wider mb-2">Q-Variant</label>
-              <div className="flex flex-col gap-1">
-                {Q_VARIANTS.map(q => (
-                  <button key={q.key} type="button" onClick={() => setQVariant(q.key)}
-                    className={`text-left px-3 py-2 rounded-lg text-sm transition-colors border ${qVariant === q.key ? 'bg-blue-600 border-blue-600 text-white' : 'bg-gray-900 border-gray-700 text-gray-400 hover:border-gray-500'}`}>
-                    <span className="font-semibold">{q.label}</span>
-                    <span className="text-xs ml-2 opacity-70">{q.desc}</span>
-                  </button>
-                ))}
+          {/* Loading */}
+          {loading && (
+            <div className="flex justify-start">
+              <div className="bg-gray-900 border border-gray-800 rounded-2xl px-4 py-3">
+                <div className="flex gap-1.5 items-center">
+                  {[0, 150, 300].map(d => (
+                    <div key={d} className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: `${d}ms` }} />
+                  ))}
+                  <span className="text-gray-600 text-xs ml-2">Analyzing...</span>
+                </div>
               </div>
             </div>
-            <div>
-              <label className="block text-xs text-gray-500 uppercase tracking-wider mb-2">Mode</label>
-              <div className="flex flex-col gap-1">
-                {MODES.map(m => (
-                  <button key={m.key} type="button" onClick={() => setMode(m.key)}
-                    className={`text-left px-3 py-2 rounded-lg text-sm transition-colors border ${mode === m.key ? 'bg-blue-600 border-blue-600 text-white' : 'bg-gray-900 border-gray-700 text-gray-400 hover:border-gray-500'}`}>
-                    {m.label}
-                  </button>
-                ))}
-              </div>
+          )}
+
+          <div ref={bottomRef} />
+        </div>
+      </div>
+
+      {/* Input area */}
+      <div className="border-t border-gray-800 bg-gray-950 px-4 py-4 shrink-0">
+        <div className="max-w-3xl mx-auto">
+          {limitReached && (
+            <div className="flex items-center justify-between bg-amber-950 border border-amber-800 rounded-xl px-4 py-2 mb-3">
+              <p className="text-amber-300 text-sm">Analysis limit reached</p>
+              <Link href="/pricing" className="text-sm font-semibold text-amber-400 hover:underline">Upgrade →</Link>
             </div>
-          </div>
-
-          {error && <p className="text-red-400 text-sm bg-red-950 px-3 py-2 rounded-lg">{error}</p>}
-
-          <button type="submit" disabled={loading || limitReached || (tab === 'file' ? !file : !text.trim())}
-            className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-40 text-white font-bold py-4 rounded-xl transition-colors">
-            {loading ? (
-              <span className="flex items-center justify-center gap-2">
-                <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
-                </svg>
-                Analyzing... (1–2 minutes)
-              </span>
-            ) : 'Run Analysis'}
-          </button>
-        </form>
-      </main>
+          )}
+          {error && <p className="text-red-400 text-sm mb-2 bg-red-950 px-3 py-2 rounded-lg">{error}</p>}
+          {file && (
+            <div className="flex items-center gap-2 mb-2 bg-gray-800 rounded-xl px-3 py-2">
+              <span className="text-sm text-gray-300">📄 {file.name}</span>
+              <span className="text-gray-600 text-xs ml-1">({(file.size / 1024).toFixed(0)} KB)</span>
+              <button onClick={() => setFile(null)} className="text-gray-500 hover:text-red-400 ml-auto text-xs px-1">✕</button>
+            </div>
+          )}
+          <form onSubmit={handleSend} className="flex gap-2 items-end">
+            <input ref={fileRef} type="file" accept=".docx,.txt" onChange={e => e.target.files?.[0] && setFile(e.target.files[0])} className="hidden" />
+            <button type="button" onClick={() => fileRef.current?.click()}
+              title="Attach .docx or .txt"
+              className="shrink-0 p-3 bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-gray-200 rounded-xl transition-colors text-lg">
+              📎
+            </button>
+            <textarea
+              ref={textareaRef}
+              value={prompt}
+              onChange={e => setPrompt(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="Type a prompt, paste text, or attach a file... (Enter to send, Shift+Enter for new line)"
+              rows={1}
+              className="flex-1 bg-gray-800 border border-gray-700 focus:border-blue-500 rounded-xl px-4 py-3 text-gray-100 placeholder-gray-600 text-sm resize-none focus:outline-none transition-colors"
+            />
+            <button type="submit"
+              disabled={loading || limitReached || (!prompt.trim() && !file)}
+              className="shrink-0 bg-blue-600 hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed text-white w-12 h-12 rounded-xl transition-colors flex items-center justify-center text-xl font-bold">
+              {loading ? '⏳' : '↑'}
+            </button>
+          </form>
+          <p className="text-center text-gray-700 text-xs mt-2">CLASR-EN · 24 signal kits · SECTION 0–8</p>
+        </div>
+      </div>
     </div>
   );
 }
