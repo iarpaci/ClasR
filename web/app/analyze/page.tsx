@@ -115,8 +115,8 @@ export default function AnalyzePage() {
   function handleDrop(e: React.DragEvent) {
     e.preventDefault(); setDragging(false);
     const f = e.dataTransfer.files[0];
-    if (f && (f.name.endsWith('.docx') || f.name.endsWith('.txt'))) setFile(f);
-    else if (f) setError('Only .docx and .txt files are supported');
+    if (f && (f.name.endsWith('.docx') || f.name.endsWith('.pdf') || f.name.endsWith('.txt'))) setFile(f);
+    else if (f) setError('Only .docx, .pdf and .txt files are supported');
   }
 
   return (
@@ -171,7 +171,7 @@ export default function AnalyzePage() {
               >
                 <p className="text-4xl mb-3 group-hover:scale-110 transition-transform inline-block">📂</p>
                 <p className="text-gray-300 font-semibold">Drop manuscript here or click to browse</p>
-                <p className="text-gray-600 text-sm mt-1">.docx · .txt · Max 10 MB</p>
+                <p className="text-gray-600 text-sm mt-1">.docx · .pdf · .txt · Max 10 MB</p>
               </div>
 
               {/* Divider */}
@@ -251,7 +251,7 @@ export default function AnalyzePage() {
             </div>
           )}
           <form onSubmit={handleSend} className="flex gap-2 items-end">
-            <input ref={fileRef} type="file" accept=".docx,.txt" onChange={e => e.target.files?.[0] && setFile(e.target.files[0])} className="hidden" />
+            <input ref={fileRef} type="file" accept=".docx,.pdf,.txt" onChange={e => e.target.files?.[0] && setFile(e.target.files[0])} className="hidden" />
             <button type="button" onClick={() => fileRef.current?.click()}
               title="Attach .docx or .txt"
               className="shrink-0 p-3 bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-gray-200 rounded-xl transition-colors text-lg">

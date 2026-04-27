@@ -1,6 +1,6 @@
 const express = require('express');
 const multer = require('multer');
-const mammoth = require('mammoth');
+const { extractText } = require('../services/fileParser');
 const { z } = require('zod');
 const { v4: uuidv4 } = require('uuid');
 const { requireAuth } = require('../middleware/auth');
@@ -13,10 +13,9 @@ const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
   fileFilter: (req, file, cb) => {
-    const allowed = ['application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain'];
     const ext = file.originalname.split('.').pop().toLowerCase();
-    if (['docx', 'txt'].includes(ext)) return cb(null, true);
-    cb(new Error('Only .docx and .txt files are allowed'));
+    if (['docx', 'pdf', 'txt'].includes(ext)) return cb(null, true);
+    cb(new Error('Only .docx, .pdf and .txt files are supported'));
   },
 });
 
@@ -44,13 +43,7 @@ router.post('/', requireAuth, handleUpload, requireSubscription, async (req, res
     let manuscriptText = '';
 
     if (req.file) {
-      const ext = req.file.originalname.split('.').pop().toLowerCase();
-      if (ext === 'docx') {
-        const result = await mammoth.extractRawText({ buffer: req.file.buffer });
-        manuscriptText = result.value;
-      } else {
-        manuscriptText = req.file.buffer.toString('utf-8');
-      }
+      manuscriptText = await extractText(req.file.buffer, req.file.originalname);
     } else if (req.body.text) {
       manuscriptText = String(req.body.text);
     } else {

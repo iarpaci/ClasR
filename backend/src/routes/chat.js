@@ -1,6 +1,6 @@
 const express = require('express');
 const multer = require('multer');
-const mammoth = require('mammoth');
+const { extractText } = require('../services/fileParser');
 const { v4: uuidv4 } = require('uuid');
 const { requireAuth } = require('../middleware/auth');
 const { requireSubscription, incrementUsage } = require('../middleware/subscription');
@@ -15,6 +15,11 @@ const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 10 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    const ext = file.originalname.split('.').pop().toLowerCase();
+    if (['docx', 'pdf', 'txt'].includes(ext)) return cb(null, true);
+    cb(new Error('Only .docx, .pdf and .txt files are supported'));
+  },
 });
 
 function handleUpload(req, res, next) {
@@ -35,13 +40,7 @@ router.post('/message', requireAuth, handleUpload, requireSubscription, async (r
     // Extract file text if uploaded
     let fileText = '';
     if (req.file) {
-      const ext = req.file.originalname.split('.').pop().toLowerCase();
-      if (ext === 'docx') {
-        const result = await mammoth.extractRawText({ buffer: req.file.buffer });
-        fileText = result.value;
-      } else if (ext === 'txt') {
-        fileText = req.file.buffer.toString('utf-8');
-      }
+      fileText = await extractText(req.file.buffer, req.file.originalname);
     }
 
     // Build user message
