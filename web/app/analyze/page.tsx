@@ -12,11 +12,11 @@ interface Message {
 }
 
 const QUICK_PROMPTS = [
-  'Run a full Q1 analysis:',
-  'Run a full Q2 analysis:',
-  'Run a full Q3 analysis:',
-  'Run a revision round analysis (R1):',
-  'Run a summary report:',
+  { label: 'Q1 Analysis', prompt: 'Run a full Q1 analysis' },
+  { label: 'Q2 Analysis', prompt: 'Run a full Q2 analysis' },
+  { label: 'Q3 Analysis', prompt: 'Run a full Q3 analysis' },
+  { label: 'R1 Revision', prompt: 'Run a revision round analysis (R1)' },
+  { label: 'Summary', prompt: 'Run a summary report' },
 ];
 
 export default function AnalyzePage() {
@@ -163,22 +163,30 @@ export default function AnalyzePage() {
 
           {/* Empty state */}
           {messages.length === 0 && (
-            <div className="text-center py-10">
+            <div className="flex flex-col items-center py-10 gap-8">
               {/* Drop zone */}
               <div
                 onClick={() => fileRef.current?.click()}
-                className="border-2 border-dashed border-gray-700 hover:border-blue-500 rounded-2xl p-10 cursor-pointer transition-colors mb-8 max-w-md mx-auto"
+                className="w-full max-w-lg border-2 border-dashed border-gray-700 hover:border-blue-500 bg-gray-900/50 hover:bg-gray-900 rounded-2xl p-10 cursor-pointer transition-all text-center group"
               >
-                <p className="text-4xl mb-3">📂</p>
-                <p className="text-gray-300 font-medium">Drop file here or click to browse</p>
-                <p className="text-gray-600 text-sm mt-1">.docx and .txt supported · Max 10 MB</p>
+                <p className="text-4xl mb-3 group-hover:scale-110 transition-transform inline-block">📂</p>
+                <p className="text-gray-300 font-semibold">Drop manuscript here or click to browse</p>
+                <p className="text-gray-600 text-sm mt-1">.docx · .txt · Max 10 MB</p>
               </div>
-              <p className="text-gray-600 text-sm mb-4">or choose a quick action:</p>
-              <div className="flex flex-wrap gap-2 justify-center">
-                {QUICK_PROMPTS.map(s => (
-                  <button key={s} onClick={() => { setPrompt(s); textareaRef.current?.focus(); }}
-                    className="text-xs text-gray-400 hover:text-white bg-gray-800 hover:bg-gray-700 border border-gray-700 px-3 py-2 rounded-xl transition-colors">
-                    {s}
+
+              {/* Divider */}
+              <div className="flex items-center gap-4 w-full max-w-lg">
+                <hr className="flex-1 border-gray-800" />
+                <span className="text-gray-700 text-xs">or run a quick action</span>
+                <hr className="flex-1 border-gray-800" />
+              </div>
+
+              {/* Quick actions */}
+              <div className="flex flex-wrap gap-2 justify-center max-w-lg">
+                {QUICK_PROMPTS.map(q => (
+                  <button key={q.label} onClick={() => { setPrompt(q.prompt); textareaRef.current?.focus(); }}
+                    className="text-sm text-gray-400 hover:text-white bg-gray-800/80 hover:bg-gray-700 border border-gray-700 hover:border-gray-500 px-4 py-2 rounded-xl transition-all">
+                    {q.label}
                   </button>
                 ))}
               </div>
