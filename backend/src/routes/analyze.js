@@ -25,8 +25,21 @@ const analyzeSchema = z.object({
   mode: z.enum(['R1', 'R2', 'revision', 'resubmission', 'summary']).optional(),
 });
 
+// Multer error handler
+function handleUpload(req, res, next) {
+  upload.single('file')(req, res, (err) => {
+    if (err instanceof multer.MulterError) {
+      return res.status(400).json({ error: `Upload error: ${err.message}` });
+    }
+    if (err) {
+      return res.status(400).json({ error: err.message });
+    }
+    next();
+  });
+}
+
 // POST /analyze
-router.post('/', requireAuth, upload.single('file'), requireSubscription, async (req, res, next) => {
+router.post('/', requireAuth, handleUpload, requireSubscription, async (req, res, next) => {
   try {
     let manuscriptText = '';
 

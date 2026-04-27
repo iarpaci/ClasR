@@ -33,6 +33,7 @@ function isNewMonth(periodStart) {
 }
 
 async function requireSubscription(req, res, next) {
+  try {
   const sub = await getUserPlan(req.user.id);
   const plan = PLANS[sub.plan] || PLANS.free;
 
@@ -55,6 +56,7 @@ async function requireSubscription(req, res, next) {
 
   req.userSub = sub;
   next();
+  } catch (err) { next(err); }
 }
 
 async function incrementUsage(userId, plan) {
