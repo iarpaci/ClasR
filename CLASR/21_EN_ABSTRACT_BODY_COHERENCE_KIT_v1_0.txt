@@ -1,0 +1,291 @@
+# EN — ABSTRACT–BODY COHERENCE KIT v1.0
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.0 — Cross-section claim consistency detection overlay
+
+---
+
+## 0. IDENTITY
+
+Type: EXTENSION KIT
+Attaches to: CLASR-EN reading layer (CORE unchanged)
+No content generation · No judgment · No recommendation
+
+Tier: 3 — Extension
+Primary SECTION: SECTION 0 — Macro Frame
+Secondary SECTION: SECTION 8 — Limits & Uncertainties
+
+---
+
+## 1. PURPOSE (ONE SENTENCE)
+
+To surface discrepancies between the claim posture,
+scope boundaries, and uncertainty signals
+declared in the abstract and those present in the manuscript body —
+as coherence gap indicators, without producing editorial judgment.
+
+---
+
+## 2. DESIGN PRINCIPLE
+
+The abstract and the body are not always the same manuscript.
+
+The abstract is the manuscript's public face.
+A reviewer reads it first and forms expectations.
+When the body departs from those expectations —
+in claim strength, scope, or acknowledged limits —
+a coherence gap exists.
+
+This kit reads the gap, not the quality of either part.
+
+```
+Abstract read → claim posture, scope, uncertainty signals extracted
+         ↓
+Body read → same dimensions extracted
+         ↓
+Gap between abstract signal and body signal mapped
+         ↓
+Coherence gap reported as signal, not evaluation
+```
+
+Three gap dimensions are tracked:
+
+```
+CLAIM GAP    → abstract claim stronger or weaker than body
+SCOPE GAP    → abstract scope wider or narrower than body evidence
+LIMIT GAP    → abstract uncertainty signals absent or present in body
+```
+
+---
+
+## 3. SCOPE — SIGNALS READ
+
+### 3.1 Claim Escalation Gap
+
+The abstract makes a stronger claim than the body supports.
+
+Signal indicators:
+- Abstract uses "demonstrates", "proves", "shows"
+  while body uses "suggests", "indicates", "appears"
+- Abstract states a causal relationship
+  that the body presents as correlational only
+- Abstract conclusion absent from or softened in the body's Discussion
+
+Label: CLAIM ESCALATION — ABSTRACT EXCEEDS BODY
+
+---
+
+### 3.2 Claim Deflation Gap
+
+The abstract understates the claims present in the body.
+
+Signal indicators:
+- Abstract uses hedged language ("may suggest")
+  while body makes stronger assertions in Discussion
+- Findings in Results section carry higher claim intensity
+  than the abstract represents
+- Body's conclusion section introduces claims
+  not signaled in the abstract
+
+Label: CLAIM DEFLATION — BODY EXCEEDS ABSTRACT
+
+Note: Claim deflation is less common but structurally significant.
+It may indicate late-stage revision artifacts.
+
+---
+
+### 3.3 Scope Boundary Gap
+
+The abstract declares a scope boundary
+that the body does not respect — or vice versa.
+
+Signal indicators:
+- Abstract states "within [bounded context]"
+  while body's Discussion generalizes beyond that boundary
+- Abstract implies a generalizable finding
+  while body's Methods section reveals a narrow sample
+- Geographic, temporal, or population scope
+  stated in abstract not matched by body's data description
+
+Label: SCOPE BOUNDARY GAP
+
+---
+
+### 3.4 Limit Signal Gap
+
+The abstract acknowledges limitations
+that are not substantively addressed in the body,
+or the body contains limitations
+that are absent from the abstract.
+
+Signal indicators:
+- Abstract: "acknowledging the limitations of this study"
+  Body SECTION 8: one line or absent
+- Body SECTION 8: substantive limitations present
+  Abstract: no limitation signal whatsoever
+- Specific data constraint named in abstract
+  not explained or developed in the body
+
+Label: LIMIT SIGNAL GAP
+
+---
+
+### 3.5 Method Signal Gap
+
+The abstract names a method or analytic approach
+that is inadequately described in the body,
+or the body's method is more complex or different
+than the abstract implies.
+
+Signal indicators:
+- Abstract: "using [method X]"
+  Body SECTION 3: method absent, minimal, or different
+- Abstract implies a single clean method
+  while body reveals multipart or conditional analytic pipeline
+- Abstract names a dataset
+  that the body does not adequately describe
+
+Label: METHOD SIGNAL GAP
+
+---
+
+## 4. WHAT THIS KIT DOES NOT DO
+
+Does not:
+  Evaluate which version (abstract or body) is correct
+  Recommend abstract rewrites
+  Judge whether the gap is intentional
+  Produce a consistency score or rating
+  Replace section-level reading by other kits
+
+Reads only:
+  The directional distance between
+  abstract-level signals and body-level signals
+  across claim, scope, limit, and method dimensions
+
+---
+
+## 5. OUTPUT BEHAVIOR
+
+Coherence gap signals are reported as:
+
+```
+COHERENCE GAP DETECTED: [type]
+Direction: [ABSTRACT → BODY or BODY → ABSTRACT]
+Label: CLAIM ESCALATION / CLAIM DEFLATION /
+       SCOPE BOUNDARY GAP / LIMIT SIGNAL GAP /
+       METHOD SIGNAL GAP
+```
+
+No judgment. No recommendation.
+Signal + direction + label only.
+
+If no coherence gap is detected:
+→ No note produced. Kit runs silently.
+
+---
+
+## 6. INTEGRATION — LENS-BRIDGE CONNECTION
+
+### Primary: SECTION 0 — Macro Frame
+Claim escalation and scope boundary gaps
+that affect the overall behavioral profile
+of the manuscript as visible from its opening frame
+→ reported as coherence sub-signal within SECTION 0
+
+### Secondary: SECTION 8 — Limits & Uncertainties
+Limit signal gaps — where abstract-declared uncertainty
+is not substantiated in the body, or where body limits
+are suppressed from the abstract
+→ reported as coherence note within SECTION 8
+
+Abstract–Body Coherence Kit output never opens a new section.
+Always appears as a sub-signal within the relevant SECTION.
+
+---
+
+## 7. ACTIVATION
+
+Requires both abstract and at least one body section to be present.
+
+If abstract only (Partial Input Type A):
+→ Kit cannot run — body not available for comparison
+→ Kit runs silently; no note produced
+
+If body only (no abstract present):
+→ Kit cannot run — abstract not available for comparison
+→ Single note in SECTION 0: [Abstract absent — coherence scan not performed]
+
+If both abstract and body present:
+→ Kit activates automatically
+→ All five gap dimensions scanned
+
+---
+
+## 8. COLLISION MANAGEMENT
+
+If a coherence gap signal overlaps with a Calibration-Deep
+over-claim detection in the same SECTION:
+→ Calibration-Deep takes precedence on expression correction
+→ Coherence Kit reports the structural gap separately
+→ Not merged; collision not surfaced to user
+
+If a limit signal gap overlaps with Silence Lens
+silenced uncertainty in SECTION 8:
+→ Both may fire; reported as separate sub-signals
+→ Coherence Kit reports the abstract–body distance;
+  Silence Lens reports the argumentative absence
+
+---
+
+## 9. PARTIAL INPUT BEHAVIOR
+
+Type A (abstract only): Kit inactive — body required
+Type B (introduction only): Partial scan — claim and scope gap readable
+Type C (methods only): Method signal gap readable only
+Type D (results/discussion only): Claim and limit gap partially readable
+Type E (mixed): Kit runs on available zone pairs
+
+In all partial cases:
+→ Label appended: [Coherence scan — partial input, reduced coverage]
+
+---
+
+## 10. REVISION ROUND INTERACTION
+
+In Revision Round Mode, coherence gaps carry additional weight.
+
+Post-review manuscripts are expected to have resolved
+abstract–body inconsistencies identified by reviewers.
+Persistent coherence gaps in a revised manuscript
+are read as residual risk signals under the stricter
+proportionality standard of the Revision Round Kit.
+
+No separate flag is produced.
+The coherence gap signal is reported as normal;
+the Revision Round Kit's sensitivity applies implicitly.
+
+---
+
+## 11. HARD LOCK
+
+This kit must never:
+  Rewrite or suggest rewrites for the abstract or body
+  Declare one version more accurate than the other
+  Produce a coherence score or numerical rating
+  Label discrepancy as intentional or strategic
+  Generate independent flags outside SECTION 0 and SECTION 8
+  Act as a standalone abstract review tool
+
+---
+
+## 12. CANONICAL DEFINITION
+
+ABSTRACT–BODY COHERENCE KIT v1.0 surfaces discrepancies
+between claim posture, scope boundaries, and uncertainty signals
+in the abstract versus the manuscript body —
+as directional coherence gap indicators,
+without producing judgment, evaluation, or editorial recommendation.
+
+---
+
+# ABSTRACT–BODY COHERENCE KIT v1.0 — END

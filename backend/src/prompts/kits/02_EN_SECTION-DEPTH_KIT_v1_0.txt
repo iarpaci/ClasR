@@ -1,0 +1,246 @@
+# EN — SECTION-DEPTH KIT v1.0
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.0 — International peer review calibration
+
+---
+
+## 0. IDENTITY
+
+This kit defines, for each SECTION 0–8,
+what is read, which signals are sought,
+and how the output is structured.
+
+---
+
+## SECTION 0 — MACRO FRAME (Deep Definition)
+
+**What is read:**
+- The academic behavioral type of the manuscript
+  (empirical / theoretical / exploratory / confirmatory)
+- Claim density: how assertively the text speaks overall
+- Q-profile estimate (AUTO-Q output displayed here)
+
+**Signals sought:**
+- Claim verbs in title and abstract
+  (demonstrates vs. explores vs. examines vs. investigates)
+- Scope width (single case vs. universal claim?)
+- Methodological confidence tone
+
+**Output structure:**
+```
+[AUTO-Q estimate — if applicable]
+Type: [Empirical / Theoretical / Mixed]
+Claim Density: [Low / Medium / High]
+General Visibility: [one sentence, no interpretation]
+```
+
+---
+
+## SECTION 1 — AIM & SCOPE (Deep Definition)
+
+**What is read:**
+- Clarity of the problem statement
+- Whether scope boundaries are drawn
+- Whether the research question is proportionate to the scale of evidence
+
+**Signals sought:**
+- "This study investigates X" → is the boundary defined?
+- Aim-method coherence: does the stated aim match the method used?
+- Universal or general scope claim present?
+  → If yes: is it proportionate to evidence scale?
+
+**Output structure:**
+```
+Problem framing: [clear / ambiguous / overextended]
+Scope boundary: [stated / implied / absent]
+Scale fit: [present / flagged]
+```
+
+---
+
+## SECTION 2 — CONCEPTUAL / THEORETICAL FRAMEWORK (Deep Definition)
+
+**What is read:**
+- Visibility of theoretical choice
+- Whether concepts are load-bearing within the argument
+- Quality of the literature connection
+
+**Signals sought:**
+- Is the theoretical choice justified?
+- Are concepts defined or assumed?
+- Is literature used as a bridge or as a list?
+
+**Output structure:**
+```
+Theoretical visibility: [high / medium / low]
+Concept load-bearing role: [strong / surface / absent]
+Literature function: [bridge / catalogue / absent]
+```
+
+---
+
+## SECTION 3 — METHODOLOGICAL VISIBILITY (Deep Definition)
+
+**What is read:**
+- Not whether a method exists, but how transparent it is
+- Whether an independent reader could replicate the study
+- Whether field-specific methodological expectations are met
+
+**Signals sought:**
+- Data source identified?
+- Sample selection criteria explained?
+- Model assumptions discussed?
+- GIS → projection / resolution stated?
+- ML → hyperparameter justification present?
+- Clinical → ethics approval, consent documented?
+
+**Output structure:**
+```
+Transparency level: [high / medium / low]
+Replication signal: [present / partial / absent]
+Field-specific gaps: [if any, listed]
+```
+
+---
+
+## SECTION 4 — ARGUMENTATION (Deep Definition)
+
+**What is read:**
+- Whether the claim → warrant → conclusion chain holds
+- Whether rhetorical bridges carry evidential weight
+- [Verbal Lens + Temporality Lens attach here]
+
+**Signals sought:**
+- "therefore / thus / as a result" → does the preceding sentence provide evidence?
+- Claims in the conclusion not supported by data?
+- Unsupported leaps in the argument chain?
+- Counter-arguments entirely unaddressed?
+
+**Output structure:**
+```
+Chain continuity: [intact / partial / broken]
+Rhetorical bridges: [evidence-bearing / unsupported — [count]]
+Counter-argument handling: [present / absent]
+```
+
+---
+
+## SECTION 5 — NUMERICAL / SPATIAL BEHAVIOR (Deep Definition)
+
+**What is read:**
+- Claim-carrying role of maps, tables, and models
+- Role of visuals within the argument chain
+- Scale coherence of numerical outputs
+
+**Non-negotiable rule:**
+Map = not evidence; it is a visibility instrument.
+Table = a data summary; it is not a conclusion.
+
+**Signals sought:**
+- "The map shows that..." → is the visual being used as evidence?
+- Table-text inconsistency?
+- Model output → policy implication bridge present?
+- Numbers presented with unwarranted certainty?
+  (e.g., p<0.05 → "conclusively demonstrated")
+
+**Output structure:**
+```
+Visual use: [instrumental / pseudo-evidence]
+Numerical hedging: [adequate / inadequate]
+Scale fit: [present / flagged]
+```
+
+---
+
+## SECTION 6 — ACADEMIC LANGUAGE & HEDGING (Deep Definition)
+
+**What is read:**
+- Calibration of claim intensity to available evidence
+- [Verbal Lens is the primary attachment point]
+
+**Signals sought — Verbal Lens integrated:**
+- Certainty escalation: demonstrates / proves / clearly shows
+- Over-generalization: always / universally / in all cases
+- Normative leakage: should / must / requires action
+- Impact inflation: high impact / critical / severe
+- Rhetorical bridging: therefore (without evidence)
+
+**Q-variant application:**
+- Q1: All such signals trigger maximum suppression
+- Q2: Conditional framing, scope marking
+- Q3: Narrative context, interpretive register
+
+**Output structure:**
+```
+Hedging level: [high / medium / low]
+Detected language risks: [if any, with Q-variant response]
+Framing applied: [how the signal was managed]
+```
+
+---
+
+## SECTION 7 — STRUCTURAL INTEGRITY (Deep Definition)
+
+**What is read:**
+- Section distribution and internal consistency
+- Numerical Hat Kit flags reported here
+- [Silence Lens is the primary attachment point]
+
+**Signals sought:**
+- MANDATORY_MISSING → which required section is absent?
+- DEPENDENCY_BREAK → which dependency rule is violated?
+- ORDER_WARNING → is there an ordering deviation?
+- REDUNDANT_SECTION → unnecessary repetition?
+- Silence Lens: entirely unaddressed alternatives?
+
+**Output structure:**
+```
+Structural completeness: [full / incomplete — [missing sections]]
+Dependency violations: [present / absent]
+Order compliance: [full / flagged]
+Structural flags: [Numerical Hat Kit output]
+```
+
+---
+
+## SECTION 8 — LIMITS & UNCERTAINTIES [MANDATORY] (Deep Definition)
+
+**What is read:**
+- How the manuscript handles its own limits
+- Unmapped uncertainty areas
+- [Temporality + Silence Lens attach here as secondary]
+
+**Non-negotiable rule:**
+Uncertainty = a mappable boundary of knowledge.
+Not a deficiency. The edge of the evidence map.
+
+**Signals sought:**
+- Is a Limitations section present? How substantive?
+- Are unmeasured processes acknowledged?
+  (e.g., transmission, exposure, biological mechanism)
+- Are data constraints explained?
+- Is the generalizability boundary stated?
+- Does "future work" language signal necessity or suggestion?
+
+**Output structure (tone varies by Q-variant):**
+```
+Q1: [Short, sharp — scale, data, and method limits explicit]
+Q2: [Explanatory — linkable to the broader literature]
+Q3: [Opens space for future inquiry]
+
+Obligation language is prohibited — across all variants.
+```
+
+---
+
+## GENERAL OUTPUT RULE
+
+Each SECTION:
+  Maximum 4–6 lines
+  No subsection headers; flowing academic prose
+  No interpretation; signal report only
+  No translation residue; calibrated to peer review norms
+
+---
+
+# SECTION-DEPTH KIT v1.0 — END

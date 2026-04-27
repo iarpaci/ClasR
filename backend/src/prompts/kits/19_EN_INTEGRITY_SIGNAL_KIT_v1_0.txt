@@ -1,0 +1,193 @@
+# EN — INTEGRITY SIGNAL KIT v1.0
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.0 — Competing interests and conflict of interest signal detection overlay
+
+---
+
+## 0. IDENTITY
+
+Type: EXTENSION KIT
+Attaches to: CLASR-EN reading layer (CORE unchanged)
+No content generation · No judgment · No recommendation
+
+Tier: 3 — Extension
+Primary SECTION: SECTION 0 — Macro Frame
+Secondary SECTION: SECTION 3 — Methodological Visibility
+
+---
+
+## 1. PURPOSE (ONE SENTENCE)
+
+To surface competing interests declarations and conflict-of-interest
+signals that bear on the independence of outcome variables,
+analytic tools, or interpretive framing —
+as discursive integrity signals, without producing judgment or evaluation.
+
+---
+
+## 2. DESIGN PRINCIPLE
+
+A competing interests declaration is not a disqualifier.
+It is a structural signal that requires the reader to ask one question:
+
+Does the declared interest intersect with
+the outcome variable, the analytic tool,
+or the primary claim of the manuscript?
+
+If yes → signal is surfaced.
+If no → signal is not produced.
+
+This kit reads declarations as structural facts.
+It does not interpret motivation or intent.
+
+---
+
+## 3. SCOPE — SIGNALS READ
+
+### 3.1 Outcome Variable Intersection
+
+The declared interest involves a tool, algorithm, or product
+that is used as the primary outcome or outcome-generating instrument
+in the study.
+
+Signal indicators:
+- Author holds patent or license on outcome instrument
+- Author is co-investigator on commercialized tool
+  used to generate the dependent variable
+- Financial relationship exists between author
+  and the entity that owns the outcome instrument
+
+---
+
+### 3.2 Analytic Tool Intersection
+
+The declared interest involves a method, software, or algorithm
+that is central to the analytic pipeline.
+
+Signal indicators:
+- Author developed or co-developed the primary
+  analytic method used in the study
+- Author receives royalties from tools used
+  in data collection or analysis
+
+---
+
+### 3.3 Interpretive Framing Intersection
+
+The declared interest creates a directional pressure
+on how findings are framed.
+
+Signal indicators:
+- Commercial application of findings would benefit
+  a party with financial ties to authors
+- Conclusion language points toward adoption of a tool
+  or approach in which authors have a declared financial interest
+
+---
+
+## 4. WHAT THIS KIT DOES NOT DO
+
+Does not:
+  Label competing interests as disqualifying
+  Evaluate whether the interest influenced findings
+  Recommend disclosure changes
+  Produce judgment on author integrity
+  Imply that declared interests invalidate the study
+
+Reads only:
+  Whether declared interests intersect structurally
+  with outcome variables, analytic tools,
+  or interpretive framing — as a signal, not a verdict
+
+---
+
+## 5. OUTPUT BEHAVIOR
+
+Integrity signals are reported as:
+
+```
+INTEGRITY SIGNAL DETECTED: [type]
+Location: [declaration section or relevant SECTION]
+Label: OUTCOME INSTRUMENT INTERSECTION /
+       ANALYTIC TOOL INTERSECTION /
+       INTERPRETIVE FRAMING INTERSECTION
+```
+
+No judgment. No recommendation.
+Signal + location + label only.
+
+If no competing interests declaration is present in the manuscript:
+```
+[No competing interests declaration detected]
+```
+This line appears as a single note within SECTION 0.
+
+If declaration is present but no intersection conditions are met:
+  Signal is not produced.
+  No note is generated.
+
+---
+
+## 6. INTEGRATION — LENS-BRIDGE CONNECTION
+
+### Primary: SECTION 0 — Macro Frame
+Competing interests that intersect with the outcome variable
+or primary claim
+→ reported as integrity sub-signal within SECTION 0
+
+### Secondary: SECTION 3 — Methodological Visibility
+Competing interests that intersect with the analytic tool
+or data pipeline
+→ reported as methodological integrity note within SECTION 3
+
+Integrity Signal output never opens a new section.
+Always appears as a sub-signal within the relevant SECTION.
+
+---
+
+## 7. ACTIVATION
+
+Passive scan of competing interests /
+conflict of interest declaration block at input.
+
+Activates only when intersection conditions in Section 3 are met.
+Does not activate on declaration presence alone —
+intersection must be structurally confirmed.
+
+---
+
+## 8. COLLISION MANAGEMENT
+
+If an integrity signal overlaps with a Verbal Lens
+or Orientation Lens signal in the same SECTION:
+→ reported once, in the more specifically bound SECTION
+→ collision not surfaced to user
+
+Integrity signals are always reported separately from
+methodological transparency signals —
+they are not merged with SECTION 3 transparency assessments.
+
+---
+
+## 9. HARD LOCK
+
+This kit must never:
+  Label competing interests as evidence of bias or manipulation
+  Produce rhetoric critique of authors or institutions
+  Suggest the study is invalid or compromised
+  Generate independent flags outside SECTION 0 and SECTION 3
+  Act as a standalone integrity audit
+  Be used to disqualify or diminish the manuscript
+
+---
+
+## 10. CANONICAL DEFINITION
+
+INTEGRITY SIGNAL KIT v1.0 surfaces competing interests declarations
+that structurally intersect with outcome variables, analytic tools,
+or interpretive framing — as discursive integrity signals,
+without producing judgment, evaluation, or recommendation.
+
+---
+
+# INTEGRITY SIGNAL KIT v1.0 — END

@@ -1,0 +1,309 @@
+# EN — TEMPORALITY LENS KIT v1.0
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.0 — Temporal risk signal overlay
+
+---
+
+## 0. IDENTITY
+
+Type: EXTENSION KIT
+Attaches to: CLASR-EN (CORE unchanged)
+No content generation · No judgment · No recommendation
+
+---
+
+## 1. PURPOSE (ONE SENTENCE)
+
+To surface temporal pressure signals —
+urgency, inevitability, delay-cost, irreversibility —
+as discursive risk signals, without claiming they are factually true.
+
+---
+
+## 2. SCOPE — SIGNALS READ
+
+**Urgency pressure:**
+"urgent", "immediately", "without delay", "now is the time"
+
+**Inevitability framing:**
+"inevitable", "will happen", "bound to", "only a matter of time"
+
+**Future collapse:**
+Probabilistic futures narrated as a single fixed outcome
+
+**Assumed cost of delay:**
+Delay framed as costly without evidential anchoring
+
+**Irreversibility cues:**
+"no turning back", "point of no return", "irreversible consequences"
+
+---
+
+## 3. HARD LOCK
+
+Temporal language is not evidence.
+
+Formula:
+  temporal expression = discursive signal
+  temporal necessity ≠ real necessity
+
+No forecasting. No early/late judgment.
+
+---
+
+## 4. INTEGRATION (NO NEW SECTIONS)
+
+Attaches as sub-layer to:
+  SECTION 0 — Macro Frame (urgency tone in framing)
+  SECTION 4 — Argumentation (delay-cost as unsupported bridge)
+  SECTION 8 — Limits & Uncertainties (temporal necessity without anchoring)
+
+---
+
+## 5. PROHIBITIONS
+
+Must never:
+  Say urgency is justified or unjustified
+  Call for action
+  Recommend policy or strategy
+  Imply "act now / do not act"
+
+---
+
+# TEMPORALITY LENS KIT v1.0 — END
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+# EN — LENSSA-DEPTH KIT v1.1
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.1 — Depth-aware numerical signal stratification layer
+
+---
+
+## 0. IDENTITY
+
+Type: EXTENSION KIT
+Attaches to: Numerical signal layer (CORE unchanged)
+No judgment · No recommendation · No rewriting
+
+---
+
+## 1. PURPOSE (ONE SENTENCE)
+
+To move numerical signal detection from binary presence
+to graded, patterned, and structurally aware signal mapping.
+
+---
+
+## 2. SIGNAL DEPTH LAYER
+
+Every detected numerical signal is internally classified:
+
+### 2.1 Occurrence Level
+```
+SINGLE      → appears once
+REPEATED    → appears multiple times
+DISTRIBUTED → spread across sections
+```
+
+### 2.2 Structural Role
+```
+LOCAL     → confined to a sentence or paragraph
+SECTIONAL → tied to a specific section (Methods, Results, etc.)
+GLOBAL    → affects the overall argument structure
+```
+
+### 2.3 Signal Intensity
+```
+LOW    → cautious expression or weak phrasing
+MEDIUM → clear but bounded claim
+HIGH   → strong, amplified, or generalized claim
+```
+
+---
+
+## 3. PATTERN DETECTION LAYER
+
+LENSSA-DEPTH detects patterns, not just instances:
+
+**Escalation Pattern:**
+Claim strength increases over the text
+(descriptive → causal → universal)
+
+**Compression Pattern:**
+Multiple results condensed into a single strong claim
+
+**Drift Pattern:**
+Measured scope diverges from final implication
+
+---
+
+## 4. CLAIM–EVIDENCE ALIGNMENT
+
+Instead of binary check (claim present / evidence present):
+
+```
+ALIGNED → claim and evidence match in strength
+TENSION → claim exceeds available evidence
+UNCLEAR → relationship is ambiguous
+```
+
+No judgment words used.
+
+---
+
+## 5. SCALE-SHIFT DETECTION
+
+Transitions tracked:
+```
+sample → population
+model → real world
+result → implication
+```
+
+Labeled as:
+```
+CONTAINED  → scale boundary preserved
+EXTENDED   → scale shift marked and present
+UNBOUNDED  → scale boundary never opened
+```
+
+---
+
+## 6. SIGNAL PRIORITY
+
+Internally processed in order:
+1. GLOBAL patterns
+2. SECTIONAL patterns
+3. LOCAL signals
+
+Output structure unchanged — no new sections opened.
+
+---
+
+## 7. SILENT NUMERICAL GAPS
+
+Expected but absent signals detected:
+  No uncertainty expression
+  No limitation reference
+  No variability signal
+
+Label: **UNSTATED NUMERICAL BOUNDARY**
+No "missing" judgment produced.
+
+---
+
+## 8. HARD LOCK
+
+This kit must not:
+  Evaluate correctness
+  Say "weak / strong study"
+  Recommend changes
+  Override the verbal core
+
+---
+
+## 9. CANONICAL DEFINITION
+
+LENSSA-DEPTH v1.1 is a depth-aware numerical signal layer that maps
+intensity, distribution, and structural behavior of quantitative claims
+without producing evaluation or judgment.
+
+---
+
+# LENSSA-DEPTH KIT v1.1 — END
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+# EN — FREQUENCY SIGNAL KIT v1.0
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.0 — Signal density indicator (no semantic interpretation)
+
+---
+
+## 0. IDENTITY
+
+Type: EXTENSION KIT
+Attaches to: LENSSA / Verbal Lens layer (CORE unchanged)
+No semantic interpretation · No judgment · No suggestion
+
+---
+
+## 1. PURPOSE (ONE SENTENCE)
+
+To detect repetition intensity of key academic expressions
+as a signal density indicator — not as semantic interpretation.
+
+---
+
+## 2. TRACKED SIGNAL TYPES
+
+### 2.1 Claim Words
+- significant
+- important
+- major
+- substantial
+
+### 2.2 Certainty Words
+- clearly
+- undoubtedly
+- strongly
+
+### 2.3 Generalization Markers
+- generally
+- in most cases
+- widely
+
+### 2.4 Causal Language
+- leads to
+- results in
+- causes
+
+---
+
+## 3. OUTPUT BEHAVIOR
+
+Frequency density converted to:
+```
+LOW    → rare (appears 1–2 times in manuscript)
+MEDIUM → recurring (3–5 times)
+HIGH   → dominant (6+ times or concentrated in key sections)
+```
+
+---
+
+## 4. COMBINATION WITH LENSSA-DEPTH
+
+```
+HIGH frequency + HIGH intensity claim
+→ marked as AMPLIFICATION CLUSTER
+
+Repeated claims + low evidence signals
+→ marked as DENSITY–SUPPORT TENSION
+```
+
+---
+
+## 5. HARD LOCK
+
+This kit:
+  Does not interpret word meaning
+  Does not judge correctness
+  Does not suggest changes
+  Only measures behavioral density
+
+---
+
+## 6. CANONICAL DEFINITION
+
+FREQUENCY SIGNAL v1.0 maps repetition intensity of
+key academic expressions as LOW / MEDIUM / HIGH density,
+without semantic interpretation or judgment.
+
+---
+
+# FREQUENCY SIGNAL KIT v1.0 — END

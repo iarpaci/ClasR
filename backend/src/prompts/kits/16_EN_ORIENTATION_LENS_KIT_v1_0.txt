@@ -1,0 +1,201 @@
+# EN — ORIENTATION LENS KIT v1.0
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.0 — Alternativeless framing and scope-lock detection overlay
+
+---
+
+## 0. IDENTITY
+
+Type: EXTENSION KIT
+Attaches to: CLASR-EN reading layer (CORE unchanged)
+No content generation · No judgment · No recommendation
+
+Tier: 3 — Extension
+Primary SECTION: SECTION 1 — Aim & Scope
+Secondary SECTION: SECTION 4 — Argumentation
+
+---
+
+## 1. PURPOSE (ONE SENTENCE)
+
+To surface framing behaviors that present a single analytical
+or methodological direction as the only available path —
+closing off alternatives before the argument has established
+why alternatives are excluded.
+
+---
+
+## 2. DESIGN PRINCIPLE
+
+Orientation signals are scope-shaping behaviors.
+
+They do not appear as explicit claims.
+They operate by:
+  treating one direction as inevitable
+  treating one method as obvious
+  treating one outcome as the only relevant one
+
+This creates a constrained reading frame
+before the evidence has justified that constraint.
+
+---
+
+## 3. SCOPE — SIGNALS READ
+
+### 3.1 "Only Option" Framing
+
+The manuscript presents its approach as the only viable one
+without stating why alternatives were excluded.
+
+Signal indicators:
+- "The only way to address X is..."
+- "No other method is capable of..."
+- "This is the appropriate framework for..."
+  (without justification for appropriateness)
+
+---
+
+### 3.2 Alternativeless Problem Framing
+
+The problem is defined in a way that pre-selects the solution.
+
+Signal indicators:
+- Problem statement written so that only one method answers it
+- Research question framed to exclude competing interpretations
+- "Given X, it is clear that Y must be examined"
+  (clarity asserted, not demonstrated)
+
+---
+
+### 3.3 Inevitability Language in Scope-Setting
+
+The scope of the study is presented as naturally or logically given
+rather than as a deliberate analytical choice.
+
+Signal indicators:
+- "Naturally, this study focuses on..."
+- "It follows that the analysis must..."
+- "The logical next step is..."
+
+---
+
+### 3.4 Foreclosed Comparison
+
+The manuscript acknowledges that alternatives exist
+but dismisses them without evidential basis.
+
+Signal indicators:
+- "While other approaches exist, they are not suitable here"
+  (without explaining why)
+- Brief citation of alternatives followed by immediate dismissal
+- "Unlike X, this study..." framing used as scope justification
+
+---
+
+### 3.5 Threshold Lock Without Justification
+
+A threshold, boundary, or cutoff is used
+as if it were a natural or standard value
+when it is in fact an analytical choice.
+
+Signal indicators:
+- Statistical significance thresholds presented as universal
+- Spatial boundaries treated as given
+- Temporal windows treated as obvious
+
+---
+
+## 4. WHAT THIS KIT DOES NOT DO
+
+Does not:
+  Evaluate whether the chosen approach is correct
+  Judge whether alternatives should have been used
+  Recommend methodological changes
+  Label framing as biased or strategic
+
+Reads only:
+  Whether scope and aim language forecloses alternatives
+  before evidence has established the basis for that foreclosure
+
+---
+
+## 5. OUTPUT BEHAVIOR
+
+Orientation signals are reported as:
+
+```
+ORIENTATION SIGNAL DETECTED: [type]
+Location: [SECTION 1 or argument zone]
+Label: ONLY-OPTION FRAMING / ALTERNATIVELESS SCOPE /
+       INEVITABILITY LANGUAGE / FORECLOSED COMPARISON /
+       THRESHOLD LOCK
+```
+
+No judgment. No recommendation.
+Signal + location + label only.
+
+---
+
+## 6. INTEGRATION — LENS-BRIDGE CONNECTION
+
+### Primary: SECTION 1 — Aim & Scope
+"Only option" framing and alternativeless language
+→ reported as scope-setting sub-signal within SECTION 1
+
+### Secondary: SECTION 4 — Argumentation
+Where orientation signals enter the argument chain
+as unsupported bridges or inevitability claims
+→ flagged within SECTION 4 as argumentative constraint
+
+Orientation Lens output never opens a new section.
+Always appears as a sub-signal within the relevant SECTION.
+
+---
+
+## 7. ACTIVATION
+
+Automatically active in SECTION 1 for every report.
+Passive scan in SECTION 4.
+Activates in SECTION 4 only when orientation signals
+function as argumentative bridges without evidential support.
+
+---
+
+## 8. COLLISION MANAGEMENT
+
+If an orientation signal overlaps with a Verbal Lens
+or Temporality Lens signal:
+→ reported once, in the more specifically bound SECTION
+→ collision not surfaced to user
+
+Typical collision:
+Temporality Lens: "inevitability" signal → SECTION 0
+Orientation Lens: "inevitability" in scope framing → SECTION 1
+→ Both may fire; reported in their respective SECTIONs separately
+→ Not merged unless in the same SECTION
+
+---
+
+## 9. HARD LOCK
+
+This kit must never:
+  Label scope choices as manipulative or misleading
+  Evaluate methodological appropriateness
+  Suggest alternative approaches
+  Generate independent flags or scores outside SECTION 1 / SECTION 4
+  Act as a standalone methodological review
+
+---
+
+## 10. CANONICAL DEFINITION
+
+ORIENTATION LENS v1.0 surfaces framing behaviors that present
+a single analytical direction as the only available path —
+"only option" language, alternativeless scope-setting,
+and threshold locks without justification —
+as discursive constraint signals, without producing
+judgment, evaluation, or recommendation.
+
+---
+
+# ORIENTATION LENS KIT v1.0 — END

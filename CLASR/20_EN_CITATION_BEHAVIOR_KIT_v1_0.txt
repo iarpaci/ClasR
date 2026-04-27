@@ -1,0 +1,275 @@
+# EN — CITATION BEHAVIOR KIT v1.0
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.0 — Citation pattern signal detection overlay
+
+---
+
+## 0. IDENTITY
+
+Type: EXTENSION KIT
+Attaches to: CLASR-EN reading layer (CORE unchanged)
+No content generation · No judgment · No recommendation
+
+Tier: 3 — Extension
+Primary SECTION: SECTION 2 — Conceptual / Theoretical Framework
+Secondary SECTION: SECTION 4 — Argumentation
+
+---
+
+## 1. PURPOSE (ONE SENTENCE)
+
+To surface citation pattern behaviors — self-citation density,
+confirmatory-only literature use, unsupported claims,
+and reference age distribution — as discursive signal indicators,
+without producing judgment or evaluation of individual sources.
+
+---
+
+## 2. DESIGN PRINCIPLE
+
+Citations are not merely bibliographic records.
+They are structural choices that shape the evidential envelope
+of the manuscript's claims.
+
+This kit reads citation behavior as a pattern —
+not as a list of sources, not as a quality ranking,
+not as a completeness audit.
+
+Three behavioral dimensions are mapped:
+
+```
+DENSITY     → how many claims carry citation support
+DIRECTION   → whether citations are confirmatory, contrastive, or mixed
+DISTRIBUTION → age, self-citation ratio, field concentration
+```
+
+---
+
+## 3. SCOPE — SIGNALS READ
+
+### 3.1 Unsupported Claim Detection
+
+A claim is made without any accompanying citation
+in a zone where citation support is structurally expected.
+
+Structurally expected zones:
+- Theoretical framework assertions (SECTION 2)
+- Methodological justifications (SECTION 3)
+- Causal or interpretive claims in Discussion (SECTION 4)
+
+Signal indicators:
+- "It is widely accepted that..." (no citation)
+- "Previous studies have shown..." (no citation)
+- "Research confirms that..." (no citation)
+- Causal bridge ("therefore X leads to Y") without evidential anchor
+
+Label: UNSUPPORTED CLAIM ZONE
+
+---
+
+### 3.2 Confirmatory Citation Pattern
+
+The manuscript's literature base consists predominantly
+of sources that support the manuscript's own position,
+with minimal or no engagement with contrastive or
+competing literature.
+
+Signal indicators:
+- All cited sources align with the manuscript's conclusion
+- Counter-evidence literature absent from the reference list
+- "Consistent with [X], [Y], and [Z]..." chains without exception
+- Debate or controversy in the field unacknowledged
+
+Label: CONFIRMATORY CITATION PATTERN
+
+This signal does not imply the position is wrong.
+It maps the evidential structure only.
+
+---
+
+### 3.3 Self-Citation Density
+
+Author(s) cite their own prior work at a rate
+that may constitute a structural load on the argument.
+
+Detection threshold:
+- Self-citations constitute 25% or more of total reference list
+  OR
+- A single argument chain relies on 3+ consecutive self-citations
+
+Signal indicators:
+- Author name appears repeatedly in the reference list
+- "As we have shown previously..." chains
+- Theoretical framework grounded primarily in own prior work
+
+Label: ELEVATED SELF-CITATION DENSITY
+
+This signal is not a judgment on the validity of the cited work.
+It maps the structural dependency pattern only.
+
+---
+
+### 3.4 Reference Age Distribution
+
+The manuscript's citation base is concentrated
+in a narrow or outdated temporal window,
+without acknowledgment of more recent developments.
+
+Detection signals:
+- Majority of references pre-date the manuscript by 10+ years
+  without field-specific justification
+- Foundational citations used as if no subsequent work exists
+- Recent literature (last 3 years) absent or minimal
+
+Label: REFERENCE AGE SIGNAL
+
+Field-sensitivity note:
+Some fields (philosophy, legal theory, historical scholarship)
+have structurally older citation bases.
+This kit reads signal presence only —
+it does not compare against field norms.
+
+---
+
+### 3.5 Field Concentration Signal
+
+All or nearly all citations draw from a single disciplinary tradition,
+without acknowledgment that the research question
+intersects with other fields.
+
+Signal indicators:
+- Interdisciplinary topic with single-discipline reference base
+- Methods borrowed from another field without citing that field's literature
+- Cross-disciplinary claims without cross-disciplinary citations
+
+Label: FIELD CONCENTRATION SIGNAL
+
+---
+
+## 4. WHAT THIS KIT DOES NOT DO
+
+Does not:
+  Evaluate the quality or reliability of any individual source
+  Count total references or assess reference list length
+  Check citation formatting or style compliance
+  Recommend specific sources to add
+  Label the manuscript as under-cited or over-cited
+  Produce a completeness audit
+
+Reads only:
+  Behavioral patterns in how citations are distributed,
+  directed, and used within the argument structure
+
+---
+
+## 5. OUTPUT BEHAVIOR
+
+Citation signals are reported as:
+
+```
+CITATION SIGNAL DETECTED: [type]
+Location: [SECTION or argument zone where pattern observed]
+Label: UNSUPPORTED CLAIM ZONE / CONFIRMATORY CITATION PATTERN /
+       ELEVATED SELF-CITATION DENSITY / REFERENCE AGE SIGNAL /
+       FIELD CONCENTRATION SIGNAL
+```
+
+No judgment. No recommendation.
+Signal + location + label only.
+
+Multiple signals may fire in the same report.
+Each reported separately with its location.
+
+---
+
+## 6. INTEGRATION — LENS-BRIDGE CONNECTION
+
+### Primary: SECTION 2 — Conceptual / Theoretical Framework
+Confirmatory citation pattern, field concentration,
+and reference age signals — where they shape the
+theoretical and conceptual framing of the manuscript
+→ reported as citation sub-signal within SECTION 2
+
+### Secondary: SECTION 4 — Argumentation
+Unsupported claim zones and self-citation chains
+that function as argumentative bridges without
+independent evidential support
+→ flagged within SECTION 4 as citation-gap signal
+
+Citation Behavior Kit output never opens a new section.
+Always appears as a sub-signal within the relevant SECTION.
+
+---
+
+## 7. ACTIVATION
+
+Automatically active in SECTION 2 for every report.
+Passive scan in SECTION 4.
+
+Activates in SECTION 4 only when unsupported claim zones
+or self-citation chains function as load-bearing
+argumentative elements.
+
+If no citation behavior signals are detected:
+→ No note produced. Kit runs silently.
+
+---
+
+## 8. COLLISION MANAGEMENT
+
+If a citation signal overlaps with a Silence Lens signal
+(e.g., confirmatory citations + suppressed alternative explanations):
+→ Reported in the more specifically bound SECTION
+→ Silence Lens takes precedence on argumentative silence;
+  Citation Kit takes precedence on bibliographic pattern
+→ Collision not surfaced to user
+
+If a citation signal overlaps with an Orientation Lens signal
+(e.g., foreclosed comparison + confirmatory citations):
+→ Both may fire; reported in their respective SECTIONs
+→ Not merged
+
+---
+
+## 9. PARTIAL INPUT BEHAVIOR
+
+Abstract only (Type A):
+→ Citation behavior largely not visible; kit runs silently
+
+Introduction only (Type B):
+→ SECTION 2 citation patterns partially visible; signal at reduced confidence
+
+Methods only (Type C):
+→ SECTION 3 unsupported claim zones readable
+
+Results / Discussion only (Type D):
+→ SECTION 4 unsupported claim and self-citation chains fully readable
+
+In all partial input cases:
+→ Label appended: [Citation signal — partial input, reduced confidence]
+
+---
+
+## 10. HARD LOCK
+
+This kit must never:
+  Name, rank, or evaluate any specific cited source
+  Produce a reference list audit or completeness score
+  Suggest sources the author should have cited
+  Label citation behavior as manipulative or strategic
+  Generate independent flags outside SECTION 2 and SECTION 4
+  Act as a standalone bibliometric review
+
+---
+
+## 11. CANONICAL DEFINITION
+
+CITATION BEHAVIOR KIT v1.0 surfaces citation pattern signals —
+unsupported claim zones, confirmatory literature use,
+self-citation density, reference age distribution,
+and field concentration — as discursive structural indicators,
+without producing judgment, source evaluation, or recommendation.
+
+---
+
+# CITATION BEHAVIOR KIT v1.0 — END

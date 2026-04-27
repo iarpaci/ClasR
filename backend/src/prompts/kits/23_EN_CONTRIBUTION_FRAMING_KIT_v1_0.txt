@@ -1,0 +1,346 @@
+# EN — CONTRIBUTION FRAMING KIT v1.0
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.0 — Novelty and originality claim signal detection overlay
+
+---
+
+## 0. IDENTITY
+
+Type: EXTENSION KIT
+Attaches to: CLASR-EN reading layer (CORE unchanged)
+No content generation · No judgment · No recommendation
+
+Tier: 3 — Extension
+Primary SECTION: SECTION 1 — Aim & Scope
+Secondary SECTION: SECTION 4 — Argumentation
+
+---
+
+## 1. PURPOSE (ONE SENTENCE)
+
+To surface novelty and originality claim behaviors —
+"first study," "novel contribution," "to our knowledge,"
+and related framing — as discursive signals that may
+exceed the evidential support available in the manuscript,
+without producing judgment on the claim's validity.
+
+---
+
+## 2. DESIGN PRINCIPLE
+
+Contribution claims are structural choices.
+
+They shape reviewer expectations before the evidence is presented.
+When a manuscript asserts novelty — "first," "unique," "novel" —
+it creates a verification burden that the body must meet.
+
+This kit reads whether that burden is:
+  acknowledged
+  proportionate to available evidence
+  or silently assumed
+
+```
+Contribution claim detected
+         ↓
+Is the claim bounded?
+  (scope, time period, geography, method explicitly stated?)
+         ↓
+Is the claim anchored?
+  (literature gap demonstrated, not asserted?)
+         ↓
+Signal mapped — no verdict produced
+```
+
+---
+
+## 3. SCOPE — SIGNALS READ
+
+### 3.1 "First Study" Framing
+
+The manuscript asserts primacy — that it is the first
+to examine, demonstrate, apply, or produce something.
+
+Signal indicators:
+- "This is the first study to..."
+- "No previous study has examined..."
+- "For the first time in the literature..."
+- "This paper introduces the first..."
+
+Bounded version (lower signal intensity):
+- "To our knowledge, this is the first study in [region/period/context]..."
+  → Scope is named; signal present but bounded
+
+Unbounded version (higher signal intensity):
+- "This is the first study to demonstrate..."
+  → No scope boundary; claim is universal
+
+Labels:
+PRIMACY CLAIM — BOUNDED / PRIMACY CLAIM — UNBOUNDED
+
+---
+
+### 3.2 "To Our Knowledge" Framing
+
+The manuscript qualifies a novelty claim with epistemic hedging
+but does not demonstrate the literature gap.
+
+Signal indicators:
+- "To our knowledge, no study has..."
+- "As far as we are aware, this is the first..."
+- "We are not aware of any previous work on..."
+
+This framing is common and often appropriate.
+It becomes a signal when:
+- No systematic literature review supports the claim
+- The asserted gap is not demonstrated, only stated
+- The hedge substitutes for evidence rather than qualifying it
+
+Label: KNOWLEDGE-BOUNDARY ASSERTION
+
+---
+
+### 3.3 "Novel Contribution" Framing
+
+The manuscript claims novelty of method, framework,
+or theoretical contribution without specifying
+what existing work the contribution departs from.
+
+Signal indicators:
+- "This study makes a novel contribution to..."
+- "We propose a new framework for..."
+- "This paper offers an original approach to..."
+- "Our contribution is unique in that..."
+
+Lower signal: departure from prior work is named and cited
+Higher signal: novelty asserted without comparative anchor
+
+Label: NOVELTY ASSERTION — ANCHORED / NOVELTY ASSERTION — UNANCHORED
+
+---
+
+### 3.4 Gap Assertion Without Gap Demonstration
+
+The manuscript identifies a "gap in the literature"
+without providing evidence that the gap exists.
+
+Signal indicators:
+- "There is a lack of studies on..."
+- "This area remains understudied..."
+- "The literature is silent on..."
+- "Existing research has neglected..."
+
+These statements are structurally expected in introductions.
+They become signals when:
+- No citation supports the gap claim
+- The gap is defined so narrowly that it is trivially true
+- The gap claim is contradicted by the manuscript's own reference list
+
+Label: GAP ASSERTION — SUPPORTED / GAP ASSERTION — UNSUPPORTED
+
+---
+
+### 3.5 Contribution Inflation
+
+The manuscript's stated contribution exceeds
+what the study's design, scope, or data can deliver.
+
+Signal indicators:
+- Contribution claim spans multiple fields
+  while study scope is single-domain
+- "Theoretical contribution" claimed from a purely empirical study
+- "Policy contribution" claimed without policy-relevant data
+- "Methodological contribution" claimed for a standard application
+
+Label: CONTRIBUTION SCOPE INFLATION
+
+---
+
+## 4. SIGNAL INTENSITY CALIBRATION
+
+Contribution framing signals are internally weighted:
+
+```
+LOW    → bounded claim, anchored in literature, proportionate to scope
+MEDIUM → partially bounded, gap asserted with limited support
+HIGH   → unbounded, unanchored, or inflated relative to study design
+```
+
+Intensity level is reported alongside the label.
+No recommendation is produced at any intensity level.
+
+---
+
+## 5. WHAT THIS KIT DOES NOT DO
+
+Does not:
+  Verify whether the claimed novelty is accurate
+  Search or assess the actual literature
+  Determine whether prior work exists
+  Label the contribution claim as true or false
+  Recommend revisions to contribution statements
+  Evaluate the importance or significance of the contribution
+
+Reads only:
+  The structural behavior of novelty and contribution claims
+  — whether they are bounded, anchored, and proportionate —
+  as discursive signals within the manuscript's visible text
+
+---
+
+## 6. OUTPUT BEHAVIOR
+
+Contribution framing signals are reported as:
+
+```
+CONTRIBUTION SIGNAL DETECTED: [type]
+Location: [SECTION 1 or argument zone]
+Intensity: [LOW / MEDIUM / HIGH]
+Label: PRIMACY CLAIM — BOUNDED / UNBOUNDED /
+       KNOWLEDGE-BOUNDARY ASSERTION /
+       NOVELTY ASSERTION — ANCHORED / UNANCHORED /
+       GAP ASSERTION — SUPPORTED / UNSUPPORTED /
+       CONTRIBUTION SCOPE INFLATION
+```
+
+No judgment. No recommendation.
+Signal + location + intensity + label only.
+
+If no contribution framing signals are detected:
+→ No note produced. Kit runs silently.
+
+---
+
+## 7. Q-VARIANT CALIBRATION
+
+Q1:
+  HIGH intensity contribution signals are explicitly surfaced.
+  Unbounded primacy claims and unanchored novelty assertions
+  are noted as potential desk-reject triggers.
+  Q1 reviewers are most likely to verify novelty claims.
+
+Q2:
+  Signals reported at standard detail.
+  MEDIUM intensity signals noted without escalation.
+
+Q3:
+  Signals reported at summary level.
+  LOW intensity signals suppressed silently.
+  HIGH intensity signals retained.
+
+---
+
+## 8. INTEGRATION — LENS-BRIDGE CONNECTION
+
+### Primary: SECTION 1 — Aim & Scope
+Contribution framing signals that appear in the introduction,
+aim statement, or scope-setting zone
+→ reported as contribution sub-signal within SECTION 1
+
+### Secondary: SECTION 4 — Argumentation
+Where contribution claims function as argumentative bridges —
+i.e., where a novelty assertion is used to justify
+a conclusion or scope expansion that the evidence does not support
+→ flagged within SECTION 4 as unsupported argumentative anchor
+
+Contribution Framing Kit output never opens a new section.
+Always appears as a sub-signal within the relevant SECTION.
+
+---
+
+## 9. ACTIVATION
+
+Automatically active in SECTION 1 for every report.
+Passive scan in SECTION 4.
+
+Activates in SECTION 4 only when contribution claims
+function as load-bearing argumentative elements
+rather than framing statements.
+
+If no contribution framing signals are detected:
+→ Kit runs silently. No note produced.
+
+---
+
+## 10. COLLISION MANAGEMENT
+
+If a contribution signal overlaps with an Orientation Lens signal
+(e.g., "only option" framing + primacy claim in same zone):
+→ Both may fire; reported in their respective SECTIONs
+→ Orientation Lens takes precedence on scope-closure behavior;
+  Contribution Kit takes precedence on novelty claim behavior
+→ Not merged
+
+If a contribution signal overlaps with a Silence Lens signal
+(e.g., gap assertion without counter-literature):
+→ Silence Lens takes precedence on argumentative silence;
+  Contribution Kit reports the structural framing behavior
+→ Reported in their respective SECTIONs; not merged
+
+If a GAP ASSERTION — UNSUPPORTED overlaps with
+Citation Behavior Kit UNSUPPORTED CLAIM ZONE:
+→ Citation Kit takes precedence on bibliographic absence;
+  Contribution Kit reports the gap claim behavior
+→ Combined note if in same SECTION; otherwise separate
+
+---
+
+## 11. PARTIAL INPUT BEHAVIOR
+
+Abstract only (Type A):
+→ Contribution signals often visible in abstract
+→ Full scan; signal at standard confidence
+
+Introduction only (Type B):
+→ Full scan — introduction is primary contribution claim zone
+
+Methods only (Type C):
+→ Methodological contribution claims readable
+→ Other signal types not assessable
+
+Results / Discussion only (Type D):
+→ Contribution inflation signals readable in Discussion
+→ Primacy and gap claims largely not visible
+
+In all partial cases where signal confidence is reduced:
+→ Label appended: [Contribution signal — partial input, reduced confidence]
+
+---
+
+## 12. REVISION ROUND INTERACTION
+
+In Revision Round Mode, contribution framing signals
+carry additional weight under Q1-level sensitivity.
+
+Reviewers commonly challenge novelty claims in R1 comments.
+Unresolved HIGH intensity contribution signals in a revised manuscript
+are read as residual risk under the Revision Round Kit's
+stricter proportionality standard.
+
+No separate flag produced.
+Signal reported as normal; sensitivity applies implicitly.
+
+---
+
+## 13. HARD LOCK
+
+This kit must never:
+  Verify the factual accuracy of novelty claims
+  Assert that prior work exists or does not exist
+  Recommend contribution statement revisions
+  Label the manuscript's contribution as significant or insignificant
+  Generate independent flags outside SECTION 1 and SECTION 4
+  Act as a standalone novelty audit or priority claim checker
+
+---
+
+## 14. CANONICAL DEFINITION
+
+CONTRIBUTION FRAMING KIT v1.0 surfaces novelty and originality
+claim behaviors — primacy assertions, knowledge-boundary hedges,
+gap claims, and contribution scope framing — as discursive
+structural signals calibrated by intensity and boundedness,
+without producing judgment, verification, or recommendation.
+
+---
+
+# CONTRIBUTION FRAMING KIT v1.0 — END

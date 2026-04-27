@@ -1,0 +1,139 @@
+# EN — Q1-GATE KIT v1.0
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.0 — Q1 threshold regime for international peer review
+
+---
+
+## 0. IDENTITY AND STATUS
+
+This document defines the threshold, flexibility,
+and expression tolerance regime for Q1-targeted manuscripts
+within the CLASR-EN system.
+
+This document:
+  Is not CORE
+  Is not the MASTER SECTION KIT
+  Does not generate analysis
+  Does not produce output
+
+It locks only:
+  Which linguistic and interpretive limits apply
+  when Q1 is active
+
+---
+
+## 1. Q1 READING PHILOSOPHY
+
+Q1 journals screen for:
+  Overstatement of findings
+  Implicit scale transitions (sample → population)
+  Visuals or statistics substituting for argument
+  Risk language with policy or health connotations
+  Any signal likely to trigger an editorial desk-reject reflex
+
+CLASR-EN Q1 function:
+  Surface strong-claim behavior in the manuscript
+  and map it to the most cautious expression posture
+  calibrated to Q1 reviewer expectations —
+  without suppressing the scientific content.
+
+---
+
+## 2. Q1 CORE LOCKS
+
+### Claim and Effect Language (Q1 Regime)
+
+Strictly prohibited in Q1 output:
+  "demonstrates"
+  "conclusively shows"
+  "proves"
+  "directly implies"
+  "high impact / critical / severe" (when unmeasured)
+  Any policy or intervention call
+
+Q1 re-framings:
+  "demonstrates" → "is consistent with / suggests / indicates"
+  "impact" → "potential visibility domain"
+  "implications for policy" → "contextually discussable within the literature"
+
+---
+
+## 3. SCALE-TRANSITION LOCK (Q1)
+
+The most frequent Q1 desk-reject trigger:
+  Sample → field → society jump without flagging
+
+In Q1 mode:
+  Local data → regional generalization: flagged, not produced
+  Map → population effect: flagged, not produced
+  Model output → real-world outcome: flagged, not produced
+
+Standard Q1 framing applied:
+"These findings provide spatial / observational visibility
+within the bounds of the data and methods employed."
+
+---
+
+## 4. MAP ≠ EVIDENCE LOCK (Q1 VERSION)
+
+The most dangerous sentence type for Q1 reviewers:
+"The map shows that…"
+
+CLASR-EN Q1 automatically re-frames this as:
+"the map renders the distribution pattern visible"
+"the map contextualizes spatial interpretation"
+
+A map is:
+  not evidence
+  not a conclusion
+  not a policy warrant
+
+---
+
+## 5. MANDATORY SECTION 8 NOTE (Q1)
+
+SECTION 8 in Q1 mode must surface:
+  Unmeasured processes (transmission, exposure, biological mechanism, etc.)
+  Source and justification of thresholds used
+  Relationship between map resolution and sample density
+  Explicit statement that findings are valid only
+  within the methodological and data context employed
+
+This section cannot be omitted.
+
+---
+
+## 6. Q1 OUTPUT PROFILE
+
+CLASR-EN Q1 output is:
+  Not "striking"
+  Not assertive
+  Not amplified
+
+But it is:
+  Precise
+  Controlled
+  Editorial-safe
+  Ready for peer review
+
+Target editor perception:
+"This manuscript knows its limits."
+In Q1 contexts, this is the critical signal.
+
+---
+
+## 7. HARD LIMITS
+
+This Q1-GATE KIT:
+  Cannot modify CORE
+  Cannot rewrite the MASTER SECTION KIT
+  Cannot override AUTO-Q detection
+
+It only:
+  Tightens expression tolerance
+  For Q1-targeted reading sessions
+  In a defined and bounded way
+
+---
+
+# Q1-GATE KIT v1.0 — END

@@ -1,0 +1,353 @@
+# EN — DISCUSSION SCOPE DRIFT KIT v1.0
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.0 — Results-to-Discussion interpretive expansion detection overlay
+
+---
+
+## 0. IDENTITY
+
+Type: EXTENSION KIT
+Attaches to: CLASR-EN reading layer (CORE unchanged)
+No content generation · No judgment · No recommendation
+
+Tier: 3 — Extension
+Primary SECTION: SECTION 4 — Argumentation
+Secondary SECTION: SECTION 8 — Limits & Uncertainties
+
+---
+
+## 1. PURPOSE (ONE SENTENCE)
+
+To surface the directional distance between what the Results section
+measures and what the Discussion section interprets —
+as scope drift signals that map interpretive expansion
+beyond the evidential boundary, without producing judgment.
+
+---
+
+## 2. DESIGN PRINCIPLE
+
+Results and Discussion are not the same zone.
+
+Results: what was measured, observed, or computed.
+Discussion: what the author interprets those measurements to mean.
+
+The gap between them is structurally expected and legitimate.
+Interpretation is the function of Discussion.
+
+But the gap becomes a signal when:
+  the Discussion introduces claims not traceable to Results
+  the Discussion generalizes beyond the sample or scope
+  the Discussion attributes causes where Results show correlations
+  the Discussion opens implications the data cannot support
+
+This kit reads the drift, not the interpretation.
+
+```
+Results zone signals extracted
+         ↓
+Discussion zone signals extracted
+         ↓
+Directional distance between them mapped
+         ↓
+Drift type and magnitude reported — no verdict
+```
+
+---
+
+## 3. SCOPE — SIGNALS READ
+
+### 3.1 Causal Drift
+
+The Results section presents correlational, associational,
+or descriptive findings. The Discussion reframes them as causal.
+
+Signal indicators:
+- Results: "X was associated with Y"
+  Discussion: "X leads to / causes / produces Y"
+- Results: "A significant relationship was found between..."
+  Discussion: "This demonstrates that A affects B"
+- Results: statistical association
+  Discussion: mechanistic explanation presented as established
+
+Label: CAUSAL DRIFT
+
+---
+
+### 3.2 Scale Drift
+
+The Results section reports findings within a defined scope
+(sample, region, time period). The Discussion extends them
+beyond that scope without flagging the transition.
+
+Signal indicators:
+- Results: findings from a single city, institution, or cohort
+  Discussion: "These findings suggest that [broader population]..."
+- Results: cross-sectional data from one year
+  Discussion: "This trend indicates..." (temporal generalization)
+- Results: specific subgroup
+  Discussion: general population framing
+
+Label: SCALE DRIFT
+
+This signal overlaps with LENSSA-DEPTH scale-shift detection.
+Where both fire in SECTION 4 → combined note, one appearance.
+
+---
+
+### 3.3 Mechanism Introduction
+
+The Discussion introduces an explanatory mechanism
+that is not present in the Results and not cited from prior literature.
+
+Signal indicators:
+- "This may be explained by [mechanism]..."
+  with no data on the mechanism and no citation
+- "The underlying process is likely..."
+  without evidence for the process
+- "This pattern suggests that [biological / social / economic]
+  mechanism is operating..." without measurement of that mechanism
+
+Label: MECHANISM INTRODUCTION — UNSUPPORTED
+
+Lower signal: mechanism explicitly labeled as speculative
+Higher signal: mechanism presented as likely or probable
+  without evidential or citation anchor
+
+---
+
+### 3.4 Implication Extension
+
+The Discussion introduces policy, clinical, social, or practical
+implications that the study design cannot support.
+
+Signal indicators:
+- Observational study → "These findings should inform policy..."
+- Correlational study → "Practitioners should therefore..."
+- Single-context study → "This has implications for [global / national]..."
+- Pilot or exploratory study → recommendations stated as actionable
+
+Label: IMPLICATION EXTENSION
+
+Note: This signal overlaps with Normative Language Detection
+in CALIBRATION-DEEP KIT (§1.4).
+Where both fire → Calibration-Deep governs expression correction;
+Discussion Scope Drift Kit reports the structural drift signal separately.
+
+---
+
+### 3.5 Conclusion Introduction
+
+The Conclusion section introduces claims or implications
+not present in either Results or Discussion.
+
+Signal indicators:
+- New variables, mechanisms, or populations appear only in Conclusion
+- Contribution claims in Conclusion exceed what Discussion supports
+- "Future work" language in Conclusion reveals
+  that key claims are actually aspirational, not established
+
+Label: CONCLUSION INTRODUCTION — NEW CLAIM
+
+---
+
+## 4. DRIFT MAGNITUDE
+
+Each detected drift signal is internally assessed for magnitude:
+
+```
+MINOR   → small interpretive step; boundary is labeled or hedged
+MODERATE → interpretive expansion present; boundary unmarked
+MAJOR   → significant departure from Results scope;
+           no boundary acknowledgment
+```
+
+Magnitude is reported alongside the label.
+No recommendation is produced at any magnitude level.
+
+---
+
+## 5. WHAT THIS KIT DOES NOT DO
+
+Does not:
+  Evaluate whether the interpretation is correct
+  Judge whether the mechanism proposed is plausible
+  Assess the quality of the Discussion
+  Recommend how to revise the Discussion
+  Determine whether implications are appropriate
+  Label the Discussion as weak or strong
+
+Reads only:
+  The directional distance between Results-zone signals
+  and Discussion-zone signals — as scope drift indicators
+  within the manuscript's visible argumentative structure
+
+---
+
+## 6. OUTPUT BEHAVIOR
+
+Scope drift signals are reported as:
+
+```
+SCOPE DRIFT SIGNAL DETECTED: [type]
+Direction: RESULTS → DISCUSSION or DISCUSSION → CONCLUSION
+Magnitude: [MINOR / MODERATE / MAJOR]
+Label: CAUSAL DRIFT / SCALE DRIFT /
+       MECHANISM INTRODUCTION — UNSUPPORTED /
+       IMPLICATION EXTENSION /
+       CONCLUSION INTRODUCTION — NEW CLAIM
+```
+
+No judgment. No recommendation.
+Signal + direction + magnitude + label only.
+
+If no scope drift signals are detected:
+→ No note produced. Kit runs silently.
+
+---
+
+## 7. Q-VARIANT CALIBRATION
+
+Q1:
+  MODERATE and MAJOR drift signals explicitly surfaced.
+  MAJOR signals noted as potential reviewer concern.
+  Q1 reviewers are most sensitive to Results–Discussion boundary violations.
+
+Q2:
+  MAJOR drift signals reported at standard detail.
+  MODERATE signals noted without escalation.
+  MINOR signals suppressed silently.
+
+Q3:
+  Only MAJOR drift signals reported.
+  Interpretive expansion treated as contextually permissible
+  unless boundary is entirely absent.
+
+---
+
+## 8. INTEGRATION — LENS-BRIDGE CONNECTION
+
+### Primary: SECTION 4 — Argumentation
+Causal drift, scale drift, mechanism introduction,
+and implication extension signals
+→ reported as scope drift sub-signal within SECTION 4
+→ extends (does not replace) existing argumentation chain signals
+
+### Secondary: SECTION 8 — Limits & Uncertainties
+Where scope drift signals reveal unmapped knowledge boundaries —
+specifically where Discussion claims exceed what Limitations
+section acknowledges
+→ flagged as scope-limit gap within SECTION 8
+
+Discussion Scope Drift Kit output never opens a new section.
+Always appears as a sub-signal within the relevant SECTION.
+
+---
+
+## 9. ACTIVATION
+
+Automatically active in SECTION 4 for every report
+where both Results and Discussion zones are present.
+
+Passive scan in SECTION 8 for limit-gap signals.
+
+If Results zone absent (Partial Input Types A, B, C):
+→ Kit cannot perform full drift scan
+→ Partial scan on available Discussion zone only
+→ Label: [Scope drift scan — results zone absent, reduced coverage]
+
+---
+
+## 10. COLLISION MANAGEMENT
+
+If a CAUSAL DRIFT signal overlaps with
+Verbal Lens certainty escalation in SECTION 4:
+→ Verbal Lens takes precedence on language-level signal;
+  Discussion Scope Drift Kit reports structural drift
+→ Combined note if same sentence; otherwise separate
+
+If a SCALE DRIFT signal overlaps with
+LENSSA-DEPTH scale-shift detection in SECTION 5:
+→ LENSSA-DEPTH takes precedence in SECTION 5;
+  Discussion Scope Drift Kit reports the drift in SECTION 4
+→ Both active; not merged
+
+If an IMPLICATION EXTENSION signal overlaps with
+Calibration-Deep normative language detection (§1.4):
+→ Calibration-Deep governs expression correction;
+  Discussion Scope Drift Kit reports the structural implication pattern
+→ Not merged; collision not surfaced to user
+
+If a CONCLUSION INTRODUCTION signal overlaps with
+Abstract–Body Coherence Kit claim deflation or escalation:
+→ Coherence Kit takes precedence on abstract–body distance;
+  Discussion Scope Drift Kit reports Results–Discussion–Conclusion chain
+→ Both active; reported in their respective SECTIONs
+
+---
+
+## 11. PARTIAL INPUT BEHAVIOR
+
+Abstract only (Type A):
+→ Kit cannot run — Results and Discussion not available
+→ Kit runs silently
+
+Introduction only (Type B):
+→ Kit cannot run
+→ Kit runs silently
+
+Methods only (Type C):
+→ Kit cannot run
+→ Kit runs silently
+
+Results / Discussion only (Type D):
+→ Full scan possible — primary input type for this kit
+→ All drift signal types readable
+
+Mixed (Type E):
+→ Kit runs on available Results + Discussion zones
+→ Label appended if coverage is reduced:
+  [Scope drift scan — partial input, reduced coverage]
+
+---
+
+## 12. REVISION ROUND INTERACTION
+
+In Revision Round Mode, scope drift signals are read
+under Q1-level sensitivity regardless of declared Q-variant.
+
+Rationale: Results–Discussion boundary violations are
+among the most common R1 reviewer comments.
+Unresolved MODERATE or MAJOR drift signals in a revised manuscript
+are read as residual risk under the Revision Round Kit's
+stricter proportionality standard.
+
+No separate flag produced.
+Signal reported as normal; sensitivity applies implicitly.
+
+---
+
+## 13. HARD LOCK
+
+This kit must never:
+  Evaluate the correctness or plausibility of interpretations
+  Recommend how to align Results and Discussion
+  Label the Discussion as over-reaching or inadequate
+  Produce interpretive judgments about mechanisms or implications
+  Generate independent flags outside SECTION 4 and SECTION 8
+  Act as a standalone Discussion review tool
+
+---
+
+## 14. CANONICAL DEFINITION
+
+DISCUSSION SCOPE DRIFT KIT v1.0 surfaces the directional distance
+between Results-zone measurements and Discussion-zone interpretations —
+mapping causal drift, scale drift, unsupported mechanism introduction,
+implication extension, and conclusion-level new claims —
+as structural scope drift signals with magnitude labels,
+without producing judgment, evaluation, or recommendation.
+
+---
+
+# DISCUSSION SCOPE DRIFT KIT v1.0 — END

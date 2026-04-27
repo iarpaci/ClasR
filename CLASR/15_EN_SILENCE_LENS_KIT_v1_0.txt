@@ -1,0 +1,193 @@
+# EN — SILENCE LENS KIT v1.0
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.0 — Systematic absence detection overlay
+
+---
+
+## 0. IDENTITY
+
+Type: EXTENSION KIT
+Attaches to: CLASR-EN reading layer (CORE unchanged)
+No content generation · No judgment · No recommendation
+
+Tier: 3 — Extension
+Primary SECTION: SECTION 7 — Structural Integrity
+Secondary SECTION: SECTION 8 — Limits & Uncertainties
+
+---
+
+## 1. PURPOSE (ONE SENTENCE)
+
+To surface systematically absent elements —
+counter-cases, alternative explanations, competing frameworks,
+unacknowledged scope limits —
+that are structurally expected but never opened in the manuscript.
+
+---
+
+## 2. DESIGN PRINCIPLE
+
+Silence is not the same as omission.
+
+Omission = a section or element is missing.
+Silence = an element is present by implication
+but never explicitly acknowledged or addressed.
+
+This kit reads:
+  not what is absent from the structure
+  but what the argument implies yet never confronts.
+
+Structural absences → NUMERICAL HAT KIT (SECTION 7)
+Argumentative silences → this kit (SECTION 7 + SECTION 8)
+
+---
+
+## 3. SCOPE — SIGNALS READ
+
+### 3.1 Unacknowledged Counter-Cases
+
+The manuscript presents a pattern or finding
+without acknowledging cases that contradict or complicate it.
+
+Signal indicators:
+- Single-direction results presented without variance discussion
+- "All cases show..." or "consistently..." without exception handling
+- Comparative framing where only one side is developed
+
+---
+
+### 3.2 Alternative Explanations Never Opened
+
+A causal or interpretive claim is made
+without acknowledging competing explanations.
+
+Signal indicators:
+- "X leads to Y" with no discussion of Z as alternative driver
+- Theoretical framework chosen without acknowledgment
+  that other frameworks exist
+- Results attributed to one mechanism when multiple are plausible
+
+---
+
+### 3.3 Competing Frameworks Suppressed
+
+The manuscript operates within one theoretical tradition
+and treats it as the only available lens.
+
+Signal indicators:
+- Literature review cites only confirmatory sources
+- Methodological choice presented as neutral or obvious
+- Disciplinary assumptions never stated as assumptions
+
+---
+
+### 3.4 Unacknowledged Scope Limits
+
+The manuscript's claims extend beyond what the data supports,
+but the extension is never flagged as a limit.
+
+Signal indicators:
+- Local findings narrated without scope boundary
+- Temporal scope of data wider than analysis acknowledges
+- Subgroup findings generalized without subgroup acknowledgment
+
+---
+
+### 3.5 Silenced Uncertainty
+
+Uncertainty is present in the analysis
+but suppressed in the language.
+
+Signal indicators:
+- Confidence intervals present but not discussed
+- Model fit statistics reported but not interpreted
+- "Future work" language used to deflect rather than bound
+
+---
+
+## 4. WHAT THIS KIT DOES NOT DO
+
+Does not:
+  Judge whether silences are intentional
+  Evaluate the quality of the argument
+  Recommend additions or revisions
+  Label the manuscript as incomplete
+
+Reads only:
+  Whether structurally expected confrontations are present or absent
+  Whether the argument implies an alternative it never addresses
+
+---
+
+## 5. OUTPUT BEHAVIOR
+
+Silence signals are reported as:
+
+```
+SILENCE DETECTED: [type — e.g., alternative explanation absent]
+Location: [SECTION or argument zone where implied]
+Label: UNADDRESSED ALTERNATIVE / UNACKNOWLEDGED COUNTER-CASE /
+       SUPPRESSED SCOPE LIMIT / SILENCED UNCERTAINTY /
+       FRAMEWORK MONOPOLY
+```
+
+No judgment word. No recommendation.
+Signal + location + label only.
+
+---
+
+## 6. INTEGRATION — LENS-BRIDGE CONNECTION
+
+### Primary: SECTION 7 — Structural Integrity
+Systematic absences and unacknowledged counter-cases
+→ reported as structural integrity notes within SECTION 7
+
+### Secondary: SECTION 8 — Limits & Uncertainties
+Silence-detected absences that constitute unmapped knowledge boundaries
+→ reported as "unmapped boundary" flags within SECTION 8
+
+Silence Lens output never opens a new section.
+Always appears as a sub-signal within the relevant SECTION.
+
+---
+
+## 7. ACTIVATION
+
+Automatically active in SECTION 7 for every report.
+Passive scan across all SECTIONs.
+Activates in SECTION 8 only when silence signals
+qualify as unmapped knowledge boundaries.
+
+---
+
+## 8. COLLISION MANAGEMENT
+
+If a silence signal overlaps with a LENSSA-DEPTH
+or Verbal Lens signal in the same SECTION:
+→ reported once, combined note
+→ more specifically bound lens takes precedence
+→ collision not surfaced to user
+
+---
+
+## 9. HARD LOCK
+
+This kit must never:
+  Label silence as deliberate or strategic
+  Produce rhetoric critique
+  Suggest what the author "should have" included
+  Generate independent flags or scores outside SECTION 7 / SECTION 8
+  Act as a standalone structural report
+
+---
+
+## 10. CANONICAL DEFINITION
+
+SILENCE LENS v1.0 surfaces systematically absent elements —
+counter-cases, alternative explanations, competing frameworks,
+and unacknowledged scope limits — as discursive absence signals,
+without producing judgment, evaluation, or recommendation.
+
+---
+
+# SILENCE LENS KIT v1.0 — END

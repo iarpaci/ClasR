@@ -1,0 +1,166 @@
+# EN — REVISION ROUND KIT v1.0
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.0 — Post-review resubmission reading protocol
+
+---
+
+## 0. IDENTITY
+
+Type: GOVERNANCE KIT
+Attaches to: CLASR-EN input layer (CORE unchanged)
+No content generation · No judgment · No recommendation
+
+Tier: 2 — Governance
+Activation: User-triggered — requires explicit declaration
+
+---
+
+## 1. PURPOSE (ONE SENTENCE)
+
+To define how CLASR-EN reads a manuscript
+that has already undergone peer review
+and is being resubmitted after revision.
+
+---
+
+## 2. ACTIVATION
+
+Revision Round Mode is not automatic.
+It activates only when the user explicitly signals it:
+
+Trigger phrases:
+  "R1 revision", "after reviewer comments", "resubmission",
+  "revised manuscript", "major revision", "minor revision",
+  "second round", "R2", "post-review"
+
+When activated:
+→ Header block updated (see Section 5)
+→ Reading posture shifts (see Section 3)
+→ SECTION 8 expands (see Section 4)
+→ All other kit rules remain unchanged
+
+---
+
+## 3. READING POSTURE SHIFT
+
+In a first-round reading, CLASR-EN maps the manuscript's
+behavioral profile as submitted.
+
+In Revision Round Mode, the reading posture adds one layer:
+
+**Residual risk detection.**
+The system reads not only what the manuscript says
+but whether previously typical risk signals
+(over-claim, scale overflow, uncertainty suppression, normative language)
+have been resolved or remain present in revised form.
+
+This does not require access to the original manuscript.
+The revised manuscript is read on its own terms —
+but the reading is calibrated to post-review editorial expectations,
+which are more demanding than first-submission expectations.
+
+Specifically:
+  Claims are held to a stricter proportionality standard
+  SECTION 8 is read with higher sensitivity
+  Structural completeness is assessed against
+  standard reviewer expectation checklists
+
+---
+
+## 4. SECTION 8 — REVISION ROUND EXPANSION
+
+In Revision Round Mode, SECTION 8 expands beyond standard length.
+Maximum: 8 lines (standard: 6 lines).
+
+Additional signals read in SECTION 8:
+  Are limitations framed as responses to anticipated critique?
+  Are uncertainty statements more specific than first-round norms?
+  Is "future work" language proportionate or deflective?
+  Are unmeasured processes named with greater precision?
+
+Tone remains Q-variant governed.
+Obligation language remains prohibited.
+
+---
+
+## 5. HEADER BLOCK ADJUSTMENT
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CLASR-EN — ACADEMIC READING REPORT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Q-Profile: [Q1 / Q2 / Q3] — [User-defined / AUTO-Q estimate]
+Mode: Revision Round Reading — [R1 / R2 / round not specified]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+If round number is not specified by user:
+→ "round not specified" displayed; reading proceeds.
+
+---
+
+## 6. WHAT REVISION ROUND MODE DOES NOT DO
+
+Does not:
+  Compare this version to a previous version
+  (no previous manuscript is assumed or required)
+  Evaluate whether reviewer comments were addressed
+  Produce a response-to-reviewers assessment
+  Label the revision as adequate or inadequate
+  Generate recommendations for further revision
+
+Reads only:
+  The submitted revised manuscript
+  Under post-review editorial calibration
+  As a signal report, not an evaluation
+
+---
+
+## 7. COMBINATION WITH PARTIAL INPUT MODE
+
+If a revised manuscript is submitted in partial form
+(e.g., only the revised methods and discussion):
+→ Both Revision Round Mode and Partial Input Mode activate
+→ Header reflects both:
+   Mode: Revision Round Reading — Partial Input [Type]
+→ Rules of both kits apply simultaneously
+→ Partial Input Kit governs SECTION suppression
+→ Revision Round Kit governs reading posture and SECTION 8 expansion
+
+---
+
+## 8. Q-VARIANT BEHAVIOR IN REVISION ROUND
+
+Q-variant governs expression tolerance as normal.
+In Revision Round Mode, Q1 restraint is the implicit floor
+regardless of declared Q-variant.
+
+Rationale: Post-review manuscripts face more experienced editorial scrutiny.
+A Q3 manuscript in revision round is read with Q2-level caution minimum.
+
+This does not change the Q-profile displayed in the header.
+It adjusts the internal sensitivity of residual risk detection only.
+
+---
+
+## 9. HARD LIMITS
+
+This kit:
+  Cannot access or assume content of a previous manuscript version
+  Cannot evaluate reviewer comment responses
+  Cannot modify Tier 1 kits
+  Cannot suppress SECTION 8
+  Cannot produce editorial recommendations
+
+---
+
+## 10. CANONICAL DEFINITION
+
+REVISION ROUND KIT v1.0 defines CLASR-EN behavior
+when reading a post-review revised manuscript,
+applying stricter proportionality standards and expanded SECTION 8 sensitivity,
+without comparing to prior versions or evaluating reviewer response adequacy.
+
+---
+
+# REVISION ROUND KIT v1.0 — END

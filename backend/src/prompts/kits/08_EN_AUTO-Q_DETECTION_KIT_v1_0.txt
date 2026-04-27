@@ -1,0 +1,138 @@
+# EN — AUTO-Q DETECTION KIT v1.0
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.0 — Signal-based Q-profile estimation
+
+---
+
+## 0. IDENTITY
+
+This kit estimates the target journal quartile profile
+from manuscript content signals,
+when the user has not specified a Q-variant.
+
+Does not ask the user.
+Displays estimate at the start of SECTION 0.
+User may correct with a single word.
+
+---
+
+## 1. DESIGN PRINCIPLE
+
+```
+User did not specify Q
+        ↓
+Extract signals from manuscript content
+        ↓
+Estimate Q-profile (Q1 / Q2 / Q3)
+        ↓
+Display in SECTION 0 → continue
+        ↓
+If user responds "Q2" or "no, Q3" → adjust
+```
+
+The system does not pause for Q estimation.
+If uncertain → Q2 applied as default.
+
+---
+
+## 2. SIGNAL READING LAYERS
+
+### 2.1 Methodological Sophistication
+
+**Q1 signals (high methodological rigor):**
+- Multiple robustness checks / sensitivity analyses
+- Identification strategy (DiD, RDD, IV, etc.)
+- Pre-registration / analysis plan
+- Cross-validation + out-of-sample testing
+- Bayesian analysis with prior justification
+- Multi-level / hierarchical models
+
+**Q2 signals (moderate methodological rigor):**
+- Single, well-defined method
+- Core statistical tests with control variables
+- Regional / applied scope
+- Standard GIS / spatial analysis
+
+**Q3 signals (applied / descriptive focus):**
+- Descriptive statistics dominant
+- Field-specific, limited methodological depth
+- Case analysis + tables
+
+---
+
+### 2.2 Claim Density Signals
+
+**Q1 → low claim density expected:**
+"suggests", "indicates", "is consistent with"
+Minimal certainty language; limits made explicit
+
+**Q2 → moderate claim density:**
+"findings show", "results suggest that"
+Scale transitions marked but present
+
+**Q3 → high claim tolerance:**
+"demonstrates", "reveals important findings"
+Narrative language; more assertive framing
+
+---
+
+### 2.3 Reference Density Signals
+
+**Q1:** Wide, current literature; methodology discussion present
+**Q2:** Moderate literature; field-specific base
+**Q3:** Limited or locally-anchored references
+
+---
+
+### 2.4 Structural Completeness Signals
+
+**Q1:** Most mandatory sections present; reproducibility block visible
+**Q2:** Core IMRaD complete; some sections absent
+**Q3:** Core sections present; transparency sections absent
+
+---
+
+## 3. ESTIMATE OUTPUT FORMAT
+
+Displayed as the first line of SECTION 0:
+
+```
+[AUTO-Q: Q2 profile estimated —
+ moderate methodological density, regional scope,
+ standard IMRaD structure.
+ If target differs, please specify.]
+```
+
+User does not correct → estimated Q applied.
+User writes "Q1" → Q1-GATE activated.
+
+---
+
+## 4. CONFIDENCE LEVEL
+
+Internally assessed; surfaced only in two cases:
+
+**Low confidence (2+ conflicting signals):**
+```
+[AUTO-Q: Q1–Q2 boundary — conflicting signals.
+ Q2 default applied. If target journal is known,
+ please specify.]
+```
+
+**High confidence (signals consistent):**
+Estimate only; brief explanation.
+
+---
+
+## 5. LIMITS
+
+This kit:
+  Does not modify the Q-GATE KITs;
+  it determines which one activates
+  Does not use journal name or ISSN
+  Cannot override user decision
+  Does not produce categorical journal judgments
+
+---
+
+# AUTO-Q DETECTION KIT v1.0 — END

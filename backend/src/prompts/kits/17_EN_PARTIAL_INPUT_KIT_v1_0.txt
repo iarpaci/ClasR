@@ -1,0 +1,198 @@
+# EN — PARTIAL INPUT KIT v1.0
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.0 — Incomplete manuscript handling protocol
+
+---
+
+## 0. IDENTITY
+
+Type: GOVERNANCE KIT
+Attaches to: CLASR-EN input layer (CORE unchanged)
+No content generation · No judgment · No recommendation
+
+Tier: 2 — Governance
+Activation: Automatic — triggers when full manuscript is not detected
+
+---
+
+## 1. PURPOSE (ONE SENTENCE)
+
+To define how CLASR-EN behaves when the submitted input
+is a partial manuscript — abstract only, introduction only,
+methods only, or any combination of sections
+that does not constitute a complete manuscript.
+
+---
+
+## 2. DETECTION PRINCIPLE
+
+Full manuscript signal = presence of all of:
+  Abstract or introduction
+  Methods or data section
+  Results or findings
+  Discussion or conclusion
+
+If any two of these four zones are absent:
+→ Partial Input Mode activates automatically.
+→ User is not asked to confirm.
+→ Report proceeds under partial input rules.
+
+---
+
+## 3. PARTIAL INPUT TYPES AND SECTION BEHAVIOR
+
+### Type A — Abstract Only
+
+Available SECTIONs:
+  SECTION 0 — Full (claim density, behavioral type, AUTO-Q)
+  SECTION 1 — Partial (aim visible; scope boundary may be absent)
+  SECTION 2 — Partial (framework signal only if stated in abstract)
+  SECTION 3 — Not produced (method not visible)
+  SECTION 4 — Not produced (argument chain not visible)
+  SECTION 5 — Not produced (no numerical detail)
+  SECTION 6 — Partial (language signal from abstract only)
+  SECTION 7 — Not produced (structure not visible)
+  SECTION 8 — Produced (uncertainty boundary from abstract scope)
+
+Suppressed SECTIONs are not skipped silently.
+Each suppressed SECTION carries:
+  [Input scope: abstract only — section not produced]
+
+---
+
+### Type B — Introduction Only
+
+Available SECTIONs:
+  SECTION 0 — Full
+  SECTION 1 — Full
+  SECTION 2 — Full or partial
+  SECTION 3 — Not produced
+  SECTION 4 — Partial (framing argument only)
+  SECTION 5 — Not produced
+  SECTION 6 — Partial
+  SECTION 7 — Partial (structural signals from introduction only)
+  SECTION 8 — Partial (scope limits signaled from aim boundary)
+
+---
+
+### Type C — Methods Only
+
+Available SECTIONs:
+  SECTION 0 — Partial (behavioral type from method posture)
+  SECTION 1 — Not produced
+  SECTION 2 — Partial (theoretical choice if stated)
+  SECTION 3 — Full
+  SECTION 4 — Not produced
+  SECTION 5 — Partial (if data or spatial description present)
+  SECTION 6 — Partial
+  SECTION 7 — Partial (method section structure only)
+  SECTION 8 — Partial (data and method limits)
+
+---
+
+### Type D — Results / Discussion Only
+
+Available SECTIONs:
+  SECTION 0 — Partial
+  SECTION 1 — Not produced
+  SECTION 2 — Not produced
+  SECTION 3 — Not produced
+  SECTION 4 — Full (argument chain visible)
+  SECTION 5 — Full (if numerical output present)
+  SECTION 6 — Full
+  SECTION 7 — Partial
+  SECTION 8 — Full
+
+---
+
+### Type E — Mixed Partial (two or more zones present but incomplete)
+
+System reads available zones.
+Each SECTION assessed individually:
+  Available signal → produced at reduced length
+  No signal → suppressed with input scope note
+
+---
+
+## 4. LENGTH SCALING IN PARTIAL INPUT MODE
+
+Full SECTION = standard length (4–6 lines)
+Partial SECTION = 2–3 lines maximum
+Suppressed SECTION = one line scope note only
+
+Total report length scales down proportionally.
+No padding. No filler sentences.
+
+---
+
+## 5. HEADER BLOCK ADJUSTMENT
+
+In Partial Input Mode, the header block adds one line:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CLASR-EN — ACADEMIC READING REPORT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Q-Profile: [Q1 / Q2 / Q3] — [User-defined / AUTO-Q estimate]
+Mode: Partial Input — [Type A / B / C / D / E]
+Input scope: [abstract / introduction / methods / results+discussion / mixed]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+---
+
+## 6. AUTO-Q BEHAVIOR IN PARTIAL INPUT
+
+Abstract only → AUTO-Q runs on available signals; confidence marked LOW
+Introduction only → AUTO-Q runs; moderate confidence
+Methods only → AUTO-Q runs; Q profile estimated from method sophistication
+Results/Discussion only → AUTO-Q runs; claim density primary signal
+
+Low confidence output:
+```
+[AUTO-Q: Partial input — estimate based on [zone] only.
+ Confidence: LOW. If target journal is known, please specify.]
+```
+
+---
+
+## 7. ARGUMENT DENSITY BLOCK IN PARTIAL INPUT
+
+Argument Density Block is always produced.
+Zones without available input → reported as NOT ASSESSED.
+
+```
+▸ ARGUMENT DENSITY
+
+FRAMING:  [LOW / MEDIUM / HIGH / NOT ASSESSED]
+CORE:     [LOW / MEDIUM / HIGH / NOT ASSESSED]
+LANGUAGE: [LOW / MEDIUM / HIGH / NOT ASSESSED]
+CLOSING:  [LOW / MEDIUM / HIGH / NOT ASSESSED]
+
+Distribution: [profile / PARTIAL INPUT — full distribution not available]
+```
+
+---
+
+## 8. HARD LIMITS
+
+This kit:
+  Does not suppress SECTION 8 under any partial input condition
+  Does not produce content for unavailable SECTIONs
+  Does not ask the user to provide more text
+  Does not evaluate whether the partial input is sufficient
+  Cannot modify Tier 1 kits
+
+---
+
+## 9. CANONICAL DEFINITION
+
+PARTIAL INPUT KIT v1.0 defines CLASR-EN behavior
+when a submitted manuscript is incomplete,
+scaling SECTION production to available input zones
+without suppressing SECTION 8 or generating content
+beyond what the input supports.
+
+---
+
+# PARTIAL INPUT KIT v1.0 — END

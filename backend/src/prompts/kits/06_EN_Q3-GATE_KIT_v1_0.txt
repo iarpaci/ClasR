@@ -1,0 +1,148 @@
+# EN — Q3-GATE KIT v1.0
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.0 — Q3 threshold regime for international peer review
+
+---
+
+## 0. IDENTITY AND STATUS
+
+This document defines the expression freedom,
+narrative density, and interpretation tolerance
+for Q3-targeted manuscripts.
+
+It does not generate analysis or output.
+It locks only Q3 expression tolerance.
+
+---
+
+## 1. Q3 READING PHILOSOPHY
+
+Q3 journals are typically:
+  Regional or area-specific
+  Methodological or applied in focus
+  Less internationally competitive in scope
+
+Therefore Q3 regime permits:
+  More narrative language
+  More contextual framing
+  An authorial voice that "speaks" without overreaching
+
+The governing principle:
+"Interpretation is permissible
+but must be explicitly bounded."
+
+---
+
+## 2. Q1–Q2–Q3 HIERARCHY (LOCK)
+
+This document:
+  Does not cancel Q1-GATE or Q2-GATE
+  Becomes the active threshold when Q3 is in use
+
+Even in Q3:
+  Normative calls are prohibited
+  Policy or administrative recommendations are prohibited
+  Absolute causal language is prohibited
+
+---
+
+## 3. CLAIM AND INTERPRETATION LANGUAGE (Q3)
+
+### Permissible:
+"this study presents findings of analytical note for [scope]"
+"the results appear consistent with [related pattern]"
+"this is discussable in relation to [bounded context]"
+"the study surfaces a notable distribution pattern within the study area"
+
+These expressions:
+  Do not constitute proof
+  Do not produce universal claims
+  Do not call for action
+
+### Still Prohibited in Q3:
+"conclusively demonstrates"
+"is the direct cause of"
+"requires urgent intervention"
+"must be implemented"
+
+---
+
+## 4. SCALE TRANSITION AND GENERALIZATION (Q3)
+
+Q3 permits the widest scale transition tolerance.
+
+Conditions:
+  Target scale must be explicitly named
+  Transition must be marked as interpretive
+  Generalization must be stated as bounded and contextual
+
+Standard Q3 framing:
+"These findings offer an interpretive contribution
+to broader regional discussion
+from within the specific study context."
+
+---
+
+## 5. MAP AND NUMERICAL VISUAL USE
+
+In Q3, maps:
+  Are strong narrative instruments
+  May be presented as visual representations of results
+
+But:
+  Map ≠ causal evidence
+  Map ≠ policy ground
+"risk", "effect", "outcome" may be used
+in an interpretive register
+without presenting them as measured.
+
+---
+
+## 6. RISK AND UNCERTAINTY (Q3)
+
+Risk language in Q3:
+  More visible than in Q1 or Q2
+  But remains within the potential-visibility frame
+
+Permissible:
+"potential environmental risk zones"
+"areas of possible exposure"
+
+Prohibited:
+  Direct health outcome claims
+  Intervention calls
+  Policy obligation language
+
+Uncertainties:
+  Appear in SECTION 8
+  "Future work" language is permissible
+  But "it is necessary" remains prohibited
+
+---
+
+## 7. TARGET EDITOR PERCEPTION
+
+CLASR-EN Q3 output should produce:
+"This study contributes meaningfully to its field
+and understands the limits of its claims."
+
+If this perception breaks:
+  Expression is pulled back to Q2-level balance
+
+---
+
+## 8. HARD LIMITS
+
+This Q3-GATE KIT:
+  Cannot modify CORE
+  Cannot rewrite the MASTER SECTION KIT
+  Cannot cancel Q1 or Q2-GATE
+
+It only:
+  Extends narrative and interpretation tolerance
+  For Q3-targeted manuscripts
+  In a controlled and bounded way
+
+---
+
+# Q3-GATE KIT v1.0 — END

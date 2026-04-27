@@ -1,0 +1,143 @@
+# EN — Q2-GATE KIT v1.0
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.0 — Q2 threshold regime for international peer review
+
+---
+
+## 0. IDENTITY AND STATUS
+
+This document defines the threshold, flexibility,
+and expression tolerance regime for Q2-targeted manuscripts.
+
+This document:
+  Is not CORE
+  Is not the MASTER SECTION KIT
+  Does not generate analysis or output
+  Locks only Q2 expression tolerance
+
+---
+
+## 1. Q2 READING PHILOSOPHY
+
+Q2 journals:
+  Are not as rigorous as Q1
+  Are not as permissive as Q3/Q4
+
+Therefore the Q2 regime is built on:
+  Controlled flexibility
+  Open but bounded interpretation
+  Cautious but not entirely silent language
+
+The governing principle:
+"Claims are not fully suppressed,
+but their scale is explicitly marked."
+
+---
+
+## 2. Q1 ↔ Q2 CORE DIFFERENCE (LOCK)
+
+This document does not override Q1-GATE.
+It becomes the active threshold when Q2 is in use.
+
+When Q2 is active:
+  Some expressions prohibited in Q1
+  become permissible — conditionally and with scope marking
+  Normative calls remain prohibited
+
+---
+
+## 3. CLAIM AND EFFECT LANGUAGE (Q2 REGIME)
+
+### Permissible (conditional use only):
+"the study indicates patterns associated with…"
+"findings exhibit a distribution that is analytically notable within this context"
+"results are discussable in relation to [bounded scope]"
+
+These expressions must:
+  Produce no causal claim
+  Produce no generalization
+  Never become policy recommendation
+
+### Prohibited (also in Q2):
+"demonstrates" (as proof)
+"directly shows"
+"should therefore be applied"
+"requires urgent action"
+
+Q2 output does not generate calls to action.
+
+---
+
+## 4. SCALE TRANSITION AND GENERALIZATION
+
+Q2 permits limited scale transitions.
+
+Three conditions must all be met:
+1. The scale of data used is explicitly stated
+2. The target scale is named in the text
+3. The transition is marked as limited and contextual
+
+Standard Q2 framing:
+"Within the studied scale, these results offer
+a bounded frame for broader spatial discussion."
+
+---
+
+## 5. MAP AND NUMERICAL VISUAL LANGUAGE
+
+In Q2:
+  Map = an instrument for interpretation
+  Map = not a standalone conclusion
+Compared to Q1, Q2 extends tolerance to:
+  "pattern", "distribution", "concentration"
+But:
+  "effect", "outcome", "risk consequence"
+  may not be presented as measured when they are not
+
+---
+
+## 6. RISK AND UNCERTAINTY (Q2 BALANCE)
+
+Risk language in Q2:
+  Not fully suppressed
+  But cannot leave the potential-visibility frame
+
+Risk is:
+  Not a health outcome
+  Not a policy warrant
+  Not a call for intervention
+
+Uncertainties:
+  Appear in SECTION 8
+  May be labeled as "space for future inquiry"
+  But obligation language remains prohibited
+
+---
+
+## 7. TARGET EDITOR PERCEPTION
+
+CLASR-EN Q2 output should produce:
+"This manuscript speaks in a controlled way,
+marks its claim boundaries,
+and keeps its discussion contextually anchored."
+
+If this perception breaks:
+  Expression is automatically pulled back
+  Q1-style restraint is applied
+
+---
+
+## 8. HARD LIMITS
+
+This Q2-GATE KIT:
+  Cannot modify CORE
+  Cannot rewrite the MASTER SECTION KIT
+  Cannot override Q1-GATE
+
+It only:
+  Extends expression tolerance in bounded, defined ways
+  When Q2 is the active threshold
+
+---
+
+# Q2-GATE KIT v1.0 — END

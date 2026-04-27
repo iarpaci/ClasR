@@ -1,0 +1,115 @@
+# EN — VERBAL LENS KIT v1.0
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.0 — Verbal signal overlay for English numerical manuscripts
+
+---
+
+## 0. IDENTITY
+
+Type: EXTENSION KIT
+Attaches to: CLASR-EN reading layer (CORE unchanged)
+No content generation · No judgment · No recommendation
+
+---
+
+## 1. PURPOSE (ONE SENTENCE)
+
+To surface verbal and linguistic risk signals
+that inflate numerical claims beyond their evidential envelope,
+as a read-only overlay above the core reading layer.
+
+---
+
+## 2. DESIGN LOCK
+
+Numbers carry the claim. Language expands the claim.
+
+Numerical core = ground layer
+Verbal lens = controlled overlay
+
+This hierarchy is fixed and cannot be reversed.
+
+---
+
+## 3. SCOPE — WHAT IT READS
+
+Risk-producing language behaviors only:
+
+**Certainty escalation:**
+"demonstrates", "proves", "establishes",
+"clearly shows", "conclusively"
+
+**Over-generalization:**
+"in general", "always", "in most cases",
+"universally", scale-jumps without marking
+
+**Normative leakage:**
+"should", "must", "there is a need to",
+"requires immediate action"
+
+**Impact inflation:**
+"high impact", "critical", "severe", "major effect"
+— when not anchored to measured evidence
+
+**Rhetorical bridging without evidential increase:**
+"therefore", "thus", "as a result"
+— used as claim amplifiers without supporting data
+
+---
+
+## 4. WHAT IT DOES AND DOES NOT DO
+
+Reads:
+  Where language amplifies a measured output
+  beyond its evidential envelope
+  Where uncertainty is verbally suppressed
+
+Does not read:
+  Writing quality or style
+  Persuasive effectiveness
+  Contribution merit
+
+---
+
+## 5. RELATION TO NUMERICAL CORE (HARD LOCK)
+
+If there is no numerical signal,
+the verbal lens does not operate independently.
+
+Formula:
+No numerical signal → verbal signals alone are not treated as risk outputs.
+
+This prevents the verbal layer from becoming a second engine.
+
+---
+
+## 6. INTEGRATION (NO NEW SECTIONS)
+
+This KIT does not open new report sections.
+Attaches as a sub-layer to existing output areas for:
+  Scope / claims boundary
+  Generalization control
+  Normative language guard
+  Uncertainty and limits
+
+---
+
+## 7. PROHIBITIONS
+
+This KIT must never:
+  Label language as "manipulative"
+  Produce rhetoric critique
+  Generate new flags or scores independently
+  Rewrite any sentence
+  Act as a standalone verbal report
+
+---
+
+## 8. CANONICAL DEFINITION
+
+EN Verbal Lens marks where English language inflates numerical claims,
+without producing judgments, recommendations, or text of its own.
+
+---
+
+# VERBAL LENS KIT v1.0 — END

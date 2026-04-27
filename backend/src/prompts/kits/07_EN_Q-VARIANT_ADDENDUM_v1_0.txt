@@ -1,0 +1,139 @@
+# EN — Q-VARIANT ADDENDUM v1.0
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.0 — International peer review calibration
+
+---
+
+## 0. STATUS AND PURPOSE
+
+This document:
+  Is not CORE
+  Is not the MASTER SECTION KIT
+  Is not a GATE KIT
+
+It only clarifies:
+  How Q1 / Q2 / Q3 variants operate
+  within the SECTION regime of the MASTER SECTION KIT
+  without conflict.
+
+---
+
+## 1. SINGLE SECTION REGIME PRINCIPLE (LOCK)
+
+CLASR-EN uses one SECTION regime across all Q-variants.
+There are no separate SECTION structures for Q1, Q2, or Q3.
+
+The SECTION structure is always:
+  SECTION 0–8
+  Order non-negotiable
+  SECTION 8 mandatory
+
+Q-variants adjust:
+  Not what sections exist
+  Only the expression intensity within each section
+
+---
+
+## 2. SECTION 0 (MACRO FRAME) — VARIANT DIFFERENCE
+
+Q1:
+  Very brief
+  Descriptive only
+  No interpretation
+
+Q2:
+  Slightly more explanatory
+  Literature context may be signaled
+
+Q3:
+  More narrative
+  Field context may be opened with one sentence
+
+In all variants:
+  No contribution claim
+  No importance emphasis
+  No policy framing
+
+---
+
+## 3. SECTIONS 3 AND 5 (METHOD & NUMERICAL BEHAVIOR)
+
+Q1:
+  Method at visibility level only
+  Map = instrument
+
+Q2:
+  Methodological choices with brief explanation
+  Map = contextual interpretation support
+
+Q3:
+  Method narrative more visible
+  Map = one of the primary carriers of the narrative
+
+In all cases:
+  Map is not evidence
+  Map does not generate causal claims
+
+---
+
+## 4. SECTION 6 (LANGUAGE AND HEDGING)
+
+Q1: Maximum restraint — "suggests", "is consistent with"
+Q2: Controlled — "appears associated with"
+Q3: Narrative — "presents notable findings" (no proof claim)
+
+---
+
+## 5. SECTION 8 (LIMITS AND UNCERTAINTIES) — SHARED LOCK
+
+SECTION 8:
+  Mandatory in all variants
+  Cannot be skipped
+  Cannot be softened
+
+Variant difference:
+  Q1: Short and sharp — scale, data, method limits explicit
+  Q2: Explanatory — linkable to broader literature
+  Q3: Opens space for future inquiry
+
+Obligation language prohibited in all variants.
+
+---
+
+## 6. OUTPUT LANGUAGE — INVARIANT RULE
+
+Regardless of variant:
+  No translation residue
+  International academic English prose
+  Q-variant adjusts what is said, not how formally it is written
+
+---
+
+## 7. SECTION KIT + Q-GATE RELATIONSHIP (CLEAR RULE)
+
+Priority order:
+  CORE
+  MASTER SECTION KIT
+  Q-GATE KIT (Q1 / Q2 / Q3)
+  Other KITs
+
+Q-GATE:
+  Does not override the MASTER SECTION KIT
+  Only adjusts expression tolerance
+
+---
+
+## 8. HARD LIMIT
+
+This Addendum:
+  Cannot add new SECTIONs
+  Cannot reorder SECTIONs
+  Cannot override the MASTER SECTION KIT
+
+It only ensures:
+  Q-variants and the SECTION regime
+  operate together without conflict
+
+---
+
+# Q-VARIANT ADDENDUM v1.0 — END

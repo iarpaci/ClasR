@@ -1,0 +1,346 @@
+# EN — REPLICATION SIGNAL KIT v1.0
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.0 — Reproducibility and open science signal detection overlay
+
+---
+
+## 0. IDENTITY
+
+Type: EXTENSION KIT
+Attaches to: CLASR-EN reading layer (CORE unchanged)
+No content generation · No judgment · No recommendation
+
+Tier: 3 — Extension
+Primary SECTION: SECTION 3 — Methodological Visibility
+Secondary SECTION: SECTION 7 — Structural Integrity
+
+---
+
+## 1. PURPOSE (ONE SENTENCE)
+
+To surface the presence, absence, and quality of replication-enabling
+signals — pre-registration, data availability, code sharing,
+materials transparency, and analysis reproducibility —
+as structural indicators calibrated to open science norms,
+without producing compliance judgment.
+
+---
+
+## 2. DESIGN PRINCIPLE
+
+Replication is not binary.
+
+A manuscript does not simply "have" or "lack" reproducibility.
+It carries a replication signal profile —
+a set of structural indicators that, together,
+determine how far an independent reader could
+reconstruct, verify, or extend the analysis.
+
+This kit maps that profile.
+
+```
+Five replication dimensions tracked:
+
+PRE-REGISTRATION  → was the study registered before data collection?
+DATA              → is the dataset accessible or described accessibly?
+CODE / ANALYSIS   → is the analytic pipeline reproducible?
+MATERIALS         → are instruments, stimuli, or tools documented?
+REPORTING         → does reporting follow a recognized transparency standard?
+```
+
+Each dimension is read independently.
+The profile is reported as a set of signals, not a score.
+
+---
+
+## 3. SCOPE — SIGNALS READ
+
+### 3.1 Pre-Registration Signal
+
+The manuscript indicates whether the study design,
+hypotheses, and analysis plan were registered
+prior to data collection.
+
+Positive signal indicators:
+- ClinicalTrials.gov, OSF, AEA registry, or equivalent reference
+- Registration number present in manuscript
+- "Pre-registered" stated with accessible link or identifier
+
+Absent signal indicators:
+- No registration reference in any section
+- "Exploratory" framing without pre-registration note
+- Confirmatory language ("we hypothesized") without registration anchor
+
+Label (positive): PRE-REGISTRATION DECLARED
+Label (absent): PRE-REGISTRATION SIGNAL ABSENT
+
+For observational and qualitative studies:
+→ Pre-registration absence is noted without escalation.
+→ Study type context is preserved.
+
+---
+
+### 3.2 Data Availability Signal
+
+The manuscript declares whether and how
+the underlying dataset is accessible.
+
+Positive signal indicators:
+- Data availability statement present
+- Repository link (OSF, Zenodo, Dryad, figshare, etc.) provided
+- Data access conditions clearly described
+  (e.g., restricted access with application process stated)
+
+Partial signal indicators:
+- "Data available upon request" (present but low transparency)
+- Dataset described but no access pathway given
+
+Absent signal indicators:
+- No data availability statement
+- Dataset source named but access not addressed
+
+Labels:
+OPEN DATA DECLARED / DATA ON REQUEST / DATA AVAILABILITY ABSENT
+
+---
+
+### 3.3 Code and Analysis Reproducibility Signal
+
+The manuscript indicates whether the analytic code,
+scripts, or computational pipeline are accessible.
+
+Positive signal indicators:
+- GitHub, OSF, or equivalent repository link for code
+- Software and version numbers specified for all analyses
+- Analysis pipeline described at step-by-step level
+
+Partial signal indicators:
+- Software named but version absent
+- "Code available upon request"
+- Analysis described but not at reproducible detail level
+
+Absent signal indicators:
+- Proprietary software used without version or access note
+- Custom algorithm described in prose without formal specification
+- No code or analysis transparency statement
+
+Labels:
+OPEN CODE DECLARED / CODE ON REQUEST / CODE AVAILABILITY ABSENT
+
+---
+
+### 3.4 Materials and Instruments Signal
+
+For experimental, clinical, or survey-based manuscripts:
+whether the instruments, stimuli, questionnaires,
+or measurement tools are documented and accessible.
+
+Positive signal indicators:
+- Survey instruments or questionnaires appended or linked
+- Validated scale with full citation and item list
+- Experimental stimuli described at replicable detail
+
+Partial signal indicators:
+- Scale named but items not provided
+- "Available from corresponding author"
+
+Absent signal indicators:
+- Custom instrument used without documentation
+- "Standard questionnaire" without identification
+- Measurement tool described only at outcome level
+
+Labels:
+MATERIALS DOCUMENTED / MATERIALS ON REQUEST / MATERIALS SIGNAL ABSENT
+
+Field-sensitivity note:
+For manuscripts where materials are not applicable
+(e.g., secondary data analysis, theoretical work):
+→ Kit runs silently on this dimension; no absent signal produced.
+
+---
+
+### 3.5 Reporting Standard Signal
+
+The manuscript follows or references a recognized
+reporting guideline or transparency checklist.
+
+Positive signal indicators:
+- CONSORT, STROBE, PRISMA, ARRIVE, EQUATOR, or equivalent cited
+- Checklist completion referenced or appended
+- Reporting standard named in methods or ethics section
+
+Absent signal indicators:
+- Clinical or experimental study with no reporting standard reference
+- Systematic review without PRISMA reference
+- Human subjects study without ethics reporting standard noted
+
+Labels:
+REPORTING STANDARD DECLARED / REPORTING STANDARD SIGNAL ABSENT
+
+For manuscripts where no reporting standard applies
+(e.g., theoretical, computational, exploratory):
+→ Kit runs silently on this dimension.
+
+---
+
+## 4. REPLICATION PROFILE OUTPUT
+
+After scanning all five dimensions, a profile is assembled:
+
+```
+REPLICATION SIGNAL PROFILE
+
+Pre-registration:  [DECLARED / ABSENT / NOT APPLICABLE]
+Data:              [OPEN / ON REQUEST / ABSENT / NOT APPLICABLE]
+Code:              [OPEN / ON REQUEST / ABSENT / NOT APPLICABLE]
+Materials:         [DOCUMENTED / ON REQUEST / ABSENT / NOT APPLICABLE]
+Reporting std:     [DECLARED / ABSENT / NOT APPLICABLE]
+```
+
+This profile is reported as a sub-block within SECTION 3.
+It is descriptive only. No score. No compliance rating.
+
+---
+
+## 5. Q-VARIANT CALIBRATION
+
+The replication profile is read identically across Q-variants.
+Expression in the report is Q-variant sensitive:
+
+Q1: Profile reported with full dimension detail.
+    Any ABSENT signal is explicitly noted.
+    Q1 reviewers weight replication signals heavily.
+
+Q2: Profile reported at standard detail.
+    ABSENT signals noted without escalation.
+
+Q3: Profile reported at summary level.
+    "ON REQUEST" signals not treated as gaps.
+    Reporting standard absence noted only if clinically relevant.
+
+---
+
+## 6. WHAT THIS KIT DOES NOT DO
+
+Does not:
+  Verify whether declared links are functional or accessible
+  Evaluate data quality or code correctness
+  Recommend specific repositories or reporting standards
+  Label the manuscript as reproducible or non-reproducible
+  Produce a compliance score or open science rating
+  Override SECTION 3 transparency signals from the base system
+
+Reads only:
+  Whether replication-enabling signals are present, partial, or absent
+  as structural indicators within the manuscript's visible text
+
+---
+
+## 7. INTEGRATION — LENS-BRIDGE CONNECTION
+
+### Primary: SECTION 3 — Methodological Visibility
+Full replication signal profile
+→ reported as replication sub-block within SECTION 3
+→ extends (does not replace) existing transparency signals
+
+### Secondary: SECTION 7 — Structural Integrity
+Where replication-critical structural elements are absent
+(e.g., no data availability statement in a data-heavy manuscript,
+no code reference in a computational study)
+→ flagged as structural gap within SECTION 7
+using the label: REPLICATION STRUCTURE GAP
+
+Replication Signal Kit output never opens a new section.
+Always appears as a sub-signal or sub-block within the relevant SECTION.
+
+---
+
+## 8. ACTIVATION
+
+Automatically active in SECTION 3 for every report.
+All five dimensions scanned passively.
+
+Dimensions assessed as NOT APPLICABLE are excluded silently.
+If all five dimensions are NOT APPLICABLE:
+→ Single note in SECTION 3: [Replication dimensions not applicable to this manuscript type]
+
+---
+
+## 9. COLLISION MANAGEMENT
+
+If a replication signal overlaps with a Calibration-Deep
+transparency detection (1.3 — Uncertainty Suppression):
+→ Calibration-Deep governs expression correction
+→ Replication Kit reports the structural profile separately
+→ Not merged; collision not surfaced to user
+
+If a code availability absence overlaps with
+Numerical Hat Kit DEPENDENCY_BREAK (reproducibility claim
+without code/data availability):
+→ Numerical Hat Kit flag takes precedence in SECTION 7
+→ Replication Kit reports the dimension profile in SECTION 3
+→ Both active; not merged
+
+---
+
+## 10. PARTIAL INPUT BEHAVIOR
+
+Type A (abstract only):
+→ Partial scan — pre-registration and data signals
+  sometimes visible in abstract; others not assessable
+→ Label: [Replication scan — abstract only, reduced coverage]
+
+Type B (introduction only):
+→ Pre-registration signal sometimes visible; others not assessable
+
+Type C (methods only):
+→ Full scan possible — methods section is primary replication carrier
+
+Type D (results/discussion only):
+→ Minimal scan — profile largely not visible
+
+Type E (mixed):
+→ Kit runs on available sections
+
+---
+
+## 11. REVISION ROUND INTERACTION
+
+In Revision Round Mode, replication signals are read
+under Q1-level sensitivity regardless of declared Q-variant.
+
+Rationale: Post-review manuscripts are increasingly expected
+to address replication and open science requirements
+as part of the revision response.
+ABSENT signals in a revised manuscript are weighted
+as residual risk under Revision Round Kit's stricter standard.
+
+No separate flag produced.
+Profile reported as normal; sensitivity applies implicitly.
+
+---
+
+## 12. HARD LOCK
+
+This kit must never:
+  Verify external links or repository access
+  Evaluate the content of shared data or code
+  Recommend specific platforms, repositories, or standards
+  Label a manuscript as open or closed science
+  Generate independent flags outside SECTION 3 and SECTION 7
+  Act as a standalone reproducibility audit
+
+---
+
+## 13. CANONICAL DEFINITION
+
+REPLICATION SIGNAL KIT v1.0 surfaces the presence, partial presence,
+or absence of replication-enabling structural signals —
+pre-registration, data availability, code sharing,
+materials documentation, and reporting standard adherence —
+as a five-dimension profile within SECTION 3,
+without producing compliance judgment, scoring, or recommendation.
+
+---
+
+# REPLICATION SIGNAL KIT v1.0 — END
