@@ -41,7 +41,8 @@ router.post('/checkout', requireAuth, async (req, res, next) => {
     if (!prices[price_key]) return res.status(400).json({
       error: 'Invalid price key',
       key: price_key,
-      configured: Object.fromEntries(Object.entries(prices).map(([k,v]) => [k, v ? v.slice(0,12)+'…' : null]))
+      configured: Object.fromEntries(Object.entries(prices).map(([k,v]) => [k, v ? v.slice(0,12)+'…' : null])),
+      stripe_vars: Object.keys(process.env).filter(k => k.includes('STRIPE')),
     });
 
     const stripe = getStripe(); const session = await stripe.checkout.sessions.create({
