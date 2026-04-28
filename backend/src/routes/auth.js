@@ -2,6 +2,7 @@ const express = require('express');
 const { z } = require('zod');
 const { supabase } = require('../middleware/auth');
 const { requireAuth } = require('../middleware/auth');
+const { sendWelcomeEmail } = require('../services/email');
 
 const router = express.Router();
 
@@ -30,6 +31,7 @@ router.post('/register', async (req, res, next) => {
       email_confirm: true,
     });
     if (error) return res.status(400).json({ error: 'Registration failed. Please try again.' });
+    sendWelcomeEmail(data.user.email).catch(() => {});
     res.status(201).json({ user_id: data.user.id, email: data.user.email });
   } catch (err) { next(err); }
 });
