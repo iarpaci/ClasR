@@ -97,7 +97,7 @@ async function sendLimitReachedEmail(email, plan) {
     await resend.emails.send({
       from: FROM(),
       to: email,
-      subject: 'You've used all your CLASR analyses this month',
+      subject: "You've used all your CLASR analyses this month",
       html: `
 <!DOCTYPE html>
 <html>
