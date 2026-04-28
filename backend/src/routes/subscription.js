@@ -10,12 +10,12 @@ const getStripe = () => {
   return new Stripe(process.env.STRIPE_SECRET_KEY);
 };
 
-const PRICES = {
+const getPrices = () => ({
   basic_monthly: process.env.STRIPE_BASIC_MONTHLY_PRICE_ID,
   basic_yearly:  process.env.STRIPE_BASIC_YEARLY_PRICE_ID,
   pro_monthly:   process.env.STRIPE_PRO_MONTHLY_PRICE_ID,
   pro_yearly:    process.env.STRIPE_PRO_YEARLY_PRICE_ID,
-};
+});
 
 // GET /subscription/status
 router.get('/status', requireAuth, async (req, res, next) => {
@@ -37,12 +37,13 @@ router.get('/status', requireAuth, async (req, res, next) => {
 router.post('/checkout', requireAuth, async (req, res, next) => {
   try {
     const { price_key } = req.body;
-    if (!PRICES[price_key]) return res.status(400).json({ error: 'Invalid price key' });
+    const prices = getPrices();
+    if (!prices[price_key]) return res.status(400).json({ error: 'Invalid price key' });
 
     const stripe = getStripe(); const session = await stripe.checkout.sessions.create({
       mode: 'subscription',
       payment_method_types: ['card'],
-      line_items: [{ price: PRICES[price_key], quantity: 1 }],
+      line_items: [{ price: prices[price_key], quantity: 1 }],
       success_url: `${process.env.WEB_URL}/dashboard?upgraded=1`,
       cancel_url: `${process.env.WEB_URL}/pricing`,
       customer_email: req.user.email,
