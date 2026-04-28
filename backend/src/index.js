@@ -1,14 +1,4 @@
-require('dotenv').config();
-const Sentry = require('@sentry/node');
-
-if (process.env.SENTRY_DSN) {
-  Sentry.init({
-    dsn: process.env.SENTRY_DSN,
-    environment: process.env.NODE_ENV || 'production',
-    tracesSampleRate: 0.1,
-  });
-}
-
+const Sentry = process.env.SENTRY_DSN ? require('@sentry/node') : null;
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -61,7 +51,7 @@ app.get('/health', (req, res) => res.json({ status: 'ok', version: '1.0.0' }));
 
 // Error handler
 app.use((err, req, res, next) => {
-  if (process.env.SENTRY_DSN) Sentry.captureException(err);
+  if (Sentry) Sentry.captureException(err);
   if (process.env.NODE_ENV === 'production') {
     console.error(err.message);
     return res.status(500).json({ error: 'Internal server error' });
