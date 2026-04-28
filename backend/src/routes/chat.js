@@ -32,15 +32,17 @@ function handleUpload(req, res, next) {
 // POST /chat/message
 router.post('/message', requireAuth, handleUpload, requireSubscription, async (req, res, next) => {
   try {
-    const { prompt, conversation_id } = req.body;
-    if (!prompt?.trim() && !req.file) {
-      return res.status(400).json({ error: 'prompt or file is required' });
+    const { prompt, text, conversation_id } = req.body;
+    if (!prompt?.trim() && !text?.trim() && !req.file) {
+      return res.status(400).json({ error: 'prompt, text or file is required' });
     }
 
     // Extract file text if uploaded
     let fileText = '';
     if (req.file) {
       fileText = await extractText(req.file.buffer, req.file.originalname);
+    } else if (text?.trim()) {
+      fileText = text.trim();
     }
 
     // Build user message
