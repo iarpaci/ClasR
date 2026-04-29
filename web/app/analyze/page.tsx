@@ -17,121 +17,115 @@ const FUNCTIONS = [
     label: 'Structural Review',
     desc: 'IMRaD flow, organization, contribution visibility, first-screening signals',
     minPlan: 'basic',
-    prompt: `You are ClasR. Read the manuscript and report ONLY structural signals where problems exist. Skip any area that is clearly adequate. Do not translate, rewrite, or make publication decisions.
+    prompt: `Run STRUCTURAL REVIEW on the attached manuscript.
 
-REPORTING RULE: Each finding = 1–2 sentences. Name the signal, its location, and why it matters. If a section below has no issues, omit it entirely — do not write "no issues found."
+Output rule: report ONLY signals where a problem exists. Skip clean areas entirely. Each finding = 1–2 sentences: signal name, location, academic risk. Omit any heading with no findings.
 
-Report only detected problems under these headings (omit any with no findings):
-- Macro-Structural Signal
-- IMRaD / Section Organization Issues
-- Structural Balance Problems
-- Contribution / Originality Visibility Gaps
-- Missing, Redundant, or Overloaded Sections
-- APA Surface / Readability Issues
-- First-Screening Risk Signals
-- Uncertainties
+▸ IMRaD / Section Organization
+▸ Structural Balance
+▸ Contribution & Originality Visibility
+▸ Missing / Redundant / Overloaded Sections
+▸ APA Surface & Readability
+▸ First-Screening Risk Signals
+▸ Uncertainties
 
-End with a one-sentence overall structural signal summary.`,
+Close with one summary sentence.`,
   },
   {
     id: 2,
     label: 'Methodological Visibility',
     desc: 'Data, sampling, measurement, analysis, validity, reproducibility signals',
     minPlan: 'basic',
-    prompt: `You are ClasR. Read the manuscript and report ONLY methodological visibility gaps — areas where the method, data, analysis, or reproducibility is unclear, missing, or insufficient. Skip anything that is adequately reported. Do not translate, rewrite, or make publication decisions.
+    prompt: `Run METHODOLOGICAL VISIBILITY on the attached manuscript.
 
-REPORTING RULE: Each finding = 1–2 sentences. Name the gap, its location, and the reviewability risk. Omit any heading below with no findings.
+Output rule: report ONLY gaps where method, data, analysis, or reproducibility is unclear or insufficient. Skip adequately reported areas. Each finding = 1–2 sentences: gap name, location, reviewability risk. Omit any heading with no findings.
 
-Report only detected gaps under these headings:
-- Research Design / Empirical Logic Gaps
-- Data, Sample, Variable, or Measurement Gaps
-- Analytical Procedure / Model Visibility Gaps
-- Validity, Reliability, Robustness, or Sensitivity Gaps
-- Ethics, Transparency, or Reproducibility Gaps
-- Table / Figure / Model Use Issues
-- Uncertainties
+▸ Research Design & Empirical Logic
+▸ Data, Sample, Variables & Measurement
+▸ Analytical Procedures & Model Visibility
+▸ Validity, Reliability, Robustness & Sensitivity
+▸ Ethics, Transparency & Reproducibility
+▸ Table / Figure / Model Use
+▸ Uncertainties
 
-End with a one-sentence methodological visibility signal summary.`,
+Close with one summary sentence.`,
   },
   {
     id: 3,
     label: 'Reference Check',
     desc: 'Citation–reference matching, missing entries, year mismatches, literature use',
     minPlan: 'free',
-    prompt: `You are ClasR. Read the manuscript and report ONLY reference and citation problems. Do NOT list references that appear correct. Do not verify external sources, invent references, or make publication decisions.
+    prompt: `Run REFERENCE CHECK on the attached manuscript.
 
-REPORTING RULE: Each finding = one line with the citation/entry and the specific problem. Omit any heading below with no findings.
+Output rule: report ONLY problems. Do NOT list correct or clean references. Each finding = one line: citation/entry identifier + specific problem. Omit any heading with no findings.
 
-Report only detected problems under these headings:
-- In-Text Citations Missing from Reference List (list each)
-- Reference List Entries Not Cited in Text (list each)
-- Author or Year Mismatches (list each: in-text vs. list)
-- Same-Year Citation Problems (missing a/b labels, etc.)
-- Incomplete or Duplicate Reference Entries (list each with missing field)
-- Formatting / APA Inconsistencies (only substantive ones)
-- Undercited or Unsupported Key Claims
-- Literature Use Issues (decorative, gap not grounded, discussion not reconnected)
+▸ In-Text Citations Missing from Reference List
+▸ Reference List Entries Not Cited in Text
+▸ Author / Year Mismatches (show: in-text → list)
+▸ Same-Year Citation Problems (missing a/b labels)
+▸ Incomplete or Duplicate Entries (show missing field)
+▸ APA Formatting Inconsistencies (substantive only)
+▸ Undercited or Unsupported Key Claims
+▸ Literature Use Issues (decorative citations, gap not grounded, discussion not reconnected)
 
-End with a one-sentence reference signal summary.`,
+Close with one summary sentence.`,
   },
   {
     id: 4,
     label: 'Inconsistency Detection',
     desc: 'Contradictions, aim–method–results–conclusion mismatches, evidence-boundary issues',
     minPlan: 'free',
-    prompt: `You are ClasR. Read the manuscript and report ONLY detected inconsistencies, mismatches, and evidence-boundary violations. Skip anything that is internally consistent. Do not translate, rewrite, or make publication decisions.
+    prompt: `Run INCONSISTENCY DETECTION on the attached manuscript.
 
-REPORTING RULE: Each finding = 1–2 sentences. State what conflicts with what, where, and the academic coherence risk. Classify each as: [CRITICAL] [MAJOR] [MODERATE] or [UNCERTAINTY]. Omit any heading below with no findings.
+Output rule: report ONLY detected mismatches and evidence-boundary violations. Skip consistent areas. Each finding = 1–2 sentences: what conflicts with what, where, coherence risk. Tag each: [CRITICAL] [MAJOR] [MODERATE] [UNCERTAINTY]. Omit any heading with no findings.
 
-Report only detected problems under these headings:
-- Abstract ↔ Main Text Mismatches
-- Aim / RQ ↔ Method / Analysis Mismatches
-- Method ↔ Results Mismatches
-- Results ↔ Discussion / Conclusion Mismatches
-- Table / Figure ↔ Text Mismatches
-- Terminology or Variable Name Shifts
-- Evidence-Boundary Violations (association → causation, local → universal, data → overclaim)
-- Severity Signal Map (list each finding with its classification)
+▸ Abstract ↔ Main Text
+▸ Aim / RQ ↔ Method / Analysis
+▸ Method ↔ Results
+▸ Results ↔ Discussion / Conclusion
+▸ Table / Figure ↔ Text
+▸ Terminology / Variable Name Shifts
+▸ Evidence-Boundary Violations (causality, scale, overclaim)
+▸ Severity Signal Map
 
-End with a one-sentence consistency signal summary.`,
+Close with one summary sentence.`,
   },
   {
     id: 5,
     label: 'Red Flags',
     desc: 'Critical academic risks, overclaims, desk-screening threats, credibility gaps',
     minPlan: 'free',
-    prompt: `You are ClasR. Read the manuscript and report ONLY significant academic risk signals. Skip anything that does not rise to a notable risk level. Do not translate, rewrite, or make publication decisions.
+    prompt: `Run RED FLAG DETECTION on the attached manuscript.
 
-REPORTING RULE: Each finding = 1–2 sentences. State the signal, its location, and the credibility or screening risk. Classify each as: [CRITICAL] [MAJOR] [MODERATE] or [UNCERTAINTY]. Omit any heading below with no findings.
+Output rule: report ONLY significant risk signals. Skip anything below notable risk threshold. Each finding = 1–2 sentences: signal, location, credibility / screening risk. Tag each: [CRITICAL] [MAJOR] [MODERATE] [UNCERTAINTY]. Omit any heading with no findings.
 
-Report only detected risks under these headings:
-- Research Framing / Contribution / Originality Risks
-- Methodological Red Flags
-- Analytical / Results Red Flags
-- Conclusion / Evidence-Boundary Red Flags
-- Language Risks (overclaiming, certainty escalation, impact inflation)
-- Ethics / Transparency / Reproducibility Red Flags
-- Severity Signal Map (list each finding with its classification)
+▸ Research Framing / Contribution / Originality Risks
+▸ Methodological Red Flags
+▸ Analytical & Results Red Flags
+▸ Conclusion & Evidence-Boundary Red Flags
+▸ Language Risks (overclaiming, certainty escalation, impact inflation)
+▸ Ethics / Transparency / Reproducibility Red Flags
+▸ Severity Signal Map
 
-End with a one-sentence overall risk signal summary.`,
+Close with one summary sentence.`,
   },
   {
     id: 6,
     label: 'Final Integrated Review',
     desc: 'One-paragraph Q1-style humanized reviewer report integrating all signals',
     minPlan: 'pro',
-    prompt: `You are ClasR. Produce a Q1-style academic signal report. Do not translate, accept, reject, or recommend revision.
+    prompt: `Run FINAL INTEGRATED REVIEW on the attached manuscript.
 
-Section 1 — Final Integrated Review
-One paragraph only. No bullet points, numbered lists, or em dashes. Plain professional English. Cover: contribution visibility, methodological transparency, analytical rigor, internal consistency, literature integration, evidence-boundary control, and Q1-readiness signals. Balanced and cautious tone. Do not state a publication decision.
+Section 1 — Integrated Review
+One paragraph. No lists, no em dashes. Professional English. Cover: contribution visibility, methodological transparency, analytical rigor, internal consistency, literature integration, evidence-boundary control, Q1-readiness signals. Cautious tone. No publication decision.
 
 Section 2 — Critical Sentence Corrections
-List only sentences with critical academic problems (overclaim, unsupported causality, APA 7.1 violation, translation-like phrasing). For each:
-1. Original sentence
-2. Problem signal (one line)
-3. Corrected sentence (concise, restrained, APA-compatible)
+Only sentences with critical problems (overclaim, unsupported causality, APA 7.1 violation, translation-like phrasing). Format each as:
+• Original: [sentence]
+• Problem: [one line]
+• Corrected: [revised sentence]
 
-If no critical corrections are needed, write: "No critical sentence-level corrections detected."`,
+If none: "No critical sentence-level corrections detected."`,
   },
 ];
 
