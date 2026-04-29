@@ -126,7 +126,7 @@ function parseContent(content: string): (Paragraph | Table)[] {
     }
 
     if (line.startsWith('▸') || line.match(/^#{1,3}\s/)) {
-      const text = line.replace(/^▸\s*/, '').replace(/^#{1,3}\s*/, '');
+      const text = line.startsWith('▸') ? line.slice(1).trimStart() : line.replace(/^#{1,3}\s*/, '').trim();
       items.push(sectionHeader(text));
       items.push(sp(20));
       continue;

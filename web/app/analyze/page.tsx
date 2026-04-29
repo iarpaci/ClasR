@@ -40,7 +40,7 @@ function printAsPdf(content: string, index: number) {
     if (line.match(/^[━═─]{3,}/)) { html += '<hr style="border:none;border-top:1px solid #e5e7eb;margin:12px 0">'; continue; }
 
     if (line.startsWith('▸') || line.match(/^#{1,3}\s/)) {
-      const text = line.replace(/^▸\s*/, '').replace(/^#{1,3}\s*/, '');
+      const text = line.startsWith('▸') ? line.slice(1).trimStart() : line.replace(/^#{1,3}\s*/, '').trim();
       html += `<div style="display:flex;align-items:center;gap:10px;margin:24px 0 8px">
         <div style="width:3px;height:18px;background:#3b82f6;border-radius:2px;flex-shrink:0"></div>
         <p style="margin:0;font-size:13px;font-weight:600;color:#93c5fd;letter-spacing:0.02em">${text}</p>
@@ -420,7 +420,7 @@ export default function AnalyzePage() {
 
       // Section heading: ▸ or ## or "1. TITLE"
       if (line.startsWith('▸') || line.match(/^#{1,3}\s/) || line.match(/^\d+\.\s+[A-Z]/)) {
-        const text = line.replace(/^▸\s*/, '').replace(/^#{1,3}\s*/, '');
+        const text = line.startsWith('▸') ? line.slice(1).trimStart() : line.replace(/^#{1,3}\s*/, '').trim();
         nodes.push(
           <div key={i} className="flex items-center gap-2.5 mt-7 mb-2.5">
             <div className="w-[3px] h-5 bg-blue-500 rounded-full shrink-0" />
