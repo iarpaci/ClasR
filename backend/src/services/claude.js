@@ -3,7 +3,7 @@ const { assembleSystemPrompt } = require('./kitAssembler');
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 const MODEL = 'claude-sonnet-4-6';
-const MAX_TOKENS = 2500;
+const MAX_TOKENS = 4000;
 
 async function analyzeManuscript({ manuscriptText, qVariant = null, mode = null }) {
   const systemPrompt = assembleSystemPrompt();
