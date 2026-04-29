@@ -47,6 +47,7 @@ app.use('/analyze', analyzeLimiter, analyzeRoutes);
 app.use('/chat', analyzeLimiter, chatRoutes);
 app.use('/subscription', subscriptionRoutes);
 
+app.get('/', (req, res) => res.json({ name: 'CLASR API', version: '1.0.0', status: 'ok' }));
 app.get('/health', (req, res) => res.json({ status: 'ok', version: '1.0.0' }));
 
 // Error handler
