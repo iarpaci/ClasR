@@ -229,10 +229,15 @@ export default function AnalyzePage() {
   function handleFunctionClick(fn: typeof FUNCTIONS[0]) {
     if (!canAccess(userPlan, fn.minPlan)) { router.push('/pricing'); return; }
     if (armedFn?.id === fn.id) { setArmedFn(null); return; }
-    setArmedFn(fn);
     if (file) {
+      // File attached — send immediately
       sendMessage(fn.prompt, file, fn.label);
+    } else if (convId) {
+      // Already in a conversation — manuscript is in history, no new file needed
+      sendMessage(fn.prompt, null, fn.label);
     } else {
+      // No file, no conversation — arm and open file picker
+      setArmedFn(fn);
       fileRef.current?.click();
     }
   }
