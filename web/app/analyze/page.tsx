@@ -228,7 +228,7 @@ export default function AnalyzePage() {
   const limitReached = sub && sub.used >= sub.limit;
   const userPlan = sub?.plan || 'free';
 
-  async function sendMessage(overridePrompt?: string, overrideFile?: File | null) {
+  async function sendMessage(overridePrompt?: string, overrideFile?: File | null, displayLabel?: string) {
     if (loading || limitReached) return;
     const finalPrompt = overridePrompt ?? prompt;
     const finalFile = overrideFile !== undefined ? overrideFile : file;
@@ -237,7 +237,9 @@ export default function AnalyzePage() {
 
     const userMsg: Message = {
       role: 'user',
-      content: armedFn ? `[${armedFn.label}]${finalPrompt.trim() ? '\n' + finalPrompt.trim() : ''}` : finalPrompt.trim() || `[File: ${finalFile?.name}]`,
+      content: displayLabel
+        ? (prompt.trim() ? `${displayLabel}\n${prompt.trim()}` : displayLabel)
+        : (finalPrompt.trim() || `[File: ${finalFile?.name}]`),
       filename: finalFile?.name,
     };
     setMessages(prev => [...prev, userMsg]);
@@ -268,7 +270,11 @@ export default function AnalyzePage() {
 
   function handleSend(e?: React.FormEvent) {
     e?.preventDefault();
-    sendMessage(armedFn ? armedFn.prompt + (prompt.trim() ? '\n\n' + prompt.trim() : '') : prompt);
+    if (armedFn) {
+      sendMessage(armedFn.prompt + (prompt.trim() ? '\n\n' + prompt.trim() : ''), undefined, armedFn.label);
+    } else {
+      sendMessage(prompt);
+    }
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
@@ -280,7 +286,7 @@ export default function AnalyzePage() {
     if (armedFn?.id === fn.id) { setArmedFn(null); return; }
     setArmedFn(fn);
     if (file) {
-      sendMessage(fn.prompt, file);
+      sendMessage(fn.prompt, file, fn.label);
     } else {
       fileRef.current?.click();
     }
@@ -292,7 +298,7 @@ export default function AnalyzePage() {
       setError('Only .docx, .pdf and .txt files are supported'); return;
     }
     if (armedFn) {
-      sendMessage(armedFn.prompt, f);
+      sendMessage(armedFn.prompt, f, armedFn.label);
     } else {
       setFile(f);
     }
