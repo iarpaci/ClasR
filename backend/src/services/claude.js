@@ -20,6 +20,7 @@ async function analyzeManuscript({ manuscriptText, qVariant = null, mode = null 
   const response = await client.messages.create({
     model: MODEL,
     max_tokens: MAX_TOKENS,
+    temperature: 0.2,
     system: [
       {
         type: 'text',
