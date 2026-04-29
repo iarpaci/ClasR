@@ -4,3 +4,4 @@ node_modules/
 .vercel/
 __MACOSX/
 *.log
+NODE_ENV=production.txt
