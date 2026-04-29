@@ -173,7 +173,7 @@ export default function AnalyzePage() {
   const limitReached = sub && sub.used >= sub.limit;
   const userPlan = sub?.plan || 'free';
 
-  async function sendMessage(overridePrompt?: string, overrideFile?: File | null, displayLabel?: string) {
+  async function sendMessage(overridePrompt?: string, overrideFile?: File | null, displayLabel?: string, isFunctionCall = false) {
     if (loading || limitReached) return;
     const finalPrompt = overridePrompt ?? prompt;
     const finalFile = overrideFile !== undefined ? overrideFile : file;
@@ -196,16 +196,23 @@ export default function AnalyzePage() {
     try {
       const fd = new FormData();
       fd.append('prompt', finalPrompt.trim());
+      fd.append('is_function_call', isFunctionCall ? 'true' : 'false');
       if (finalFile) fd.append('file', finalFile);
       if (convId) fd.append('conversation_id', convId);
 
       const { data } = await chatApi.sendMessage(fd);
       setConvId(data.conversation_id);
       setMessages(prev => [...prev, { role: 'assistant', content: data.message }]);
-      setSub((s: any) => s ? { ...s, used: s.used + 1 } : s);
+      if (isFunctionCall) {
+        setSub((s: any) => s ? { ...s, used: s.used + 1 } : s);
+      } else {
+        setSub((s: any) => s ? { ...s, chat_used: (s.chat_used || 0) + 1 } : s);
+      }
     } catch (err: any) {
       const code = err?.response?.data?.error;
       if (code === 'free_limit_reached' || code === 'monthly_limit_reached') router.push('/pricing');
+      else if (code === 'chat_limit_reached') setError(`Chat limit reached (${sub?.chat_limit}/mo). Upgrade to Pro for more.`);
+      else if (code === 'chat_not_available') setError('Chat is not available on the free plan.');
       else setError(err?.response?.data?.error || 'Something went wrong');
       setMessages(prev => prev.slice(0, -1));
     } finally {
@@ -216,9 +223,9 @@ export default function AnalyzePage() {
   function handleSend(e?: React.FormEvent) {
     e?.preventDefault();
     if (armedFn) {
-      sendMessage(armedFn.prompt + (prompt.trim() ? '\n\n' + prompt.trim() : ''), undefined, armedFn.label);
+      sendMessage(armedFn.prompt + (prompt.trim() ? '\n\n' + prompt.trim() : ''), undefined, armedFn.label, true);
     } else {
-      sendMessage(prompt);
+      sendMessage(prompt, undefined, undefined, false);
     }
   }
 
@@ -230,11 +237,9 @@ export default function AnalyzePage() {
     if (!canAccess(userPlan, fn.minPlan)) { router.push('/pricing'); return; }
     if (armedFn?.id === fn.id) { setArmedFn(null); return; }
     if (file) {
-      // File attached — send immediately
-      sendMessage(fn.prompt, file, fn.label);
+      sendMessage(fn.prompt, file, fn.label, true);
     } else if (convId) {
-      // Already in a conversation — manuscript is in history, no new file needed
-      sendMessage(fn.prompt, null, fn.label);
+      sendMessage(fn.prompt, null, fn.label, true);
     } else {
       // No file, no conversation — arm and open file picker
       setArmedFn(fn);
@@ -248,7 +253,7 @@ export default function AnalyzePage() {
       setError('Only .docx, .pdf and .txt files are supported'); return;
     }
     if (armedFn) {
-      sendMessage(armedFn.prompt, f, armedFn.label);
+      sendMessage(armedFn.prompt, f, armedFn.label, true);
     } else {
       setFile(f);
     }
@@ -581,29 +586,41 @@ export default function AnalyzePage() {
             </div>
           )}
 
-          <form onSubmit={handleSend} className="flex gap-2 items-end">
-            <input ref={fileRef} type="file" accept=".docx,.pdf,.txt"
-              onChange={e => handleFileSelect(e.target.files?.[0] || null)} className="hidden" />
-            <button type="button" onClick={() => fileRef.current?.click()}
-              title="Attach .docx, .pdf or .txt"
-              className="shrink-0 p-3 bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-gray-200 rounded-xl transition-colors text-lg">
-              📎
-            </button>
-            <textarea
-              ref={textareaRef}
-              value={prompt}
-              onChange={e => setPrompt(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder={armedFn ? `Add context for ${armedFn.label} (optional)…` : 'Type a prompt, paste text, or attach a file…'}
-              rows={1}
-              className="flex-1 bg-gray-800 border border-gray-700 focus:border-blue-500 rounded-xl px-4 py-3 text-gray-100 placeholder-gray-600 text-sm resize-none focus:outline-none transition-colors"
-            />
-            <button type="submit"
-              disabled={loading || limitReached || (!prompt.trim() && !file && !armedFn)}
-              className="shrink-0 bg-blue-600 hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed text-white w-12 h-12 rounded-xl transition-colors flex items-center justify-center text-xl font-bold">
-              {loading ? '⏳' : '↑'}
-            </button>
-          </form>
+          {userPlan === 'free' && messages.length > 0 ? (
+            <div className="text-center py-3 text-gray-500 text-xs border border-gray-800 rounded-xl bg-gray-900">
+              Chat is available on Basic and Pro plans.{' '}
+              <Link href="/pricing" className="text-blue-400 hover:underline">Upgrade</Link>
+            </div>
+          ) : (
+            <form onSubmit={handleSend} className="flex gap-2 items-end">
+              <input ref={fileRef} type="file" accept=".docx,.pdf,.txt"
+                onChange={e => handleFileSelect(e.target.files?.[0] || null)} className="hidden" />
+              <button type="button" onClick={() => fileRef.current?.click()}
+                title="Attach .docx, .pdf or .txt"
+                className="shrink-0 p-3 bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-gray-200 rounded-xl transition-colors text-lg">
+                📎
+              </button>
+              <textarea
+                ref={textareaRef}
+                value={prompt}
+                onChange={e => setPrompt(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder={armedFn ? `Add context for ${armedFn.label} (optional)…` : 'Type a prompt, paste text, or attach a file…'}
+                rows={1}
+                className="flex-1 bg-gray-800 border border-gray-700 focus:border-blue-500 rounded-xl px-4 py-3 text-gray-100 placeholder-gray-600 text-sm resize-none focus:outline-none transition-colors"
+              />
+              <button type="submit"
+                disabled={loading || limitReached || (!prompt.trim() && !file && !armedFn)}
+                className="shrink-0 bg-blue-600 hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed text-white w-12 h-12 rounded-xl transition-colors flex items-center justify-center text-xl font-bold">
+                {loading ? '⏳' : '↑'}
+              </button>
+            </form>
+          )}
+          {userPlan === 'basic' && sub?.chat_limit > 0 && (
+            <p className="text-center text-gray-700 text-xs mt-1">
+              Chat: {sub.chat_used ?? 0}/{sub.chat_limit} used this month
+            </p>
+          )}
           <p className="text-center text-gray-700 text-xs mt-2">CLASR-EN · 24 signal kits · SECTION 0–8</p>
         </div>
       </div>

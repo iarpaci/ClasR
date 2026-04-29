@@ -1,7 +1,7 @@
 const express = require('express');
 const Stripe = require('stripe');
 const { requireAuth } = require('../middleware/auth');
-const { getUserPlan } = require('../middleware/subscription');
+const { getUserPlan, PLANS } = require('../middleware/subscription');
 const { supabase } = require('../middleware/auth');
 
 const router = express.Router();
@@ -22,12 +22,14 @@ router.get('/status', requireAuth, async (req, res, next) => {
   try {
     const sub = await getUserPlan(req.user.id);
     const plan = sub.plan;
-    const limits = { free: 3, basic: 5, pro: 100 };
+    const planConfig = PLANS[plan] || PLANS.free;
     const used = plan === 'free' ? sub.lifetime_count : sub.monthly_count;
     res.json({
       plan,
       used,
-      limit: limits[plan] || 3,
+      limit: planConfig.limit,
+      chat_used: sub.chat_count || 0,
+      chat_limit: planConfig.chat_limit,
       stripe_status: sub.stripe_status || null,
     });
   } catch (err) { next(err); }

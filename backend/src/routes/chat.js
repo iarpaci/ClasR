@@ -3,8 +3,7 @@ const multer = require('multer');
 const { extractText } = require('../services/fileParser');
 const { v4: uuidv4 } = require('uuid');
 const { requireAuth } = require('../middleware/auth');
-const { requireSubscription, incrementUsage } = require('../middleware/subscription');
-const { analyzeManuscript } = require('../services/claude');
+const { getUserPlan, PLANS, incrementUsage, incrementChatUsage } = require('../middleware/subscription');
 const { supabase } = require('../middleware/auth');
 const Anthropic = require('@anthropic-ai/sdk');
 const { assembleSystemPrompt } = require('../services/kitAssembler');
@@ -29,12 +28,58 @@ function handleUpload(req, res, next) {
   });
 }
 
+function isNewMonth(periodStart) {
+  const start = new Date(periodStart);
+  const now = new Date();
+  return start.getMonth() !== now.getMonth() || start.getFullYear() !== now.getFullYear();
+}
+
 // POST /chat/message
-router.post('/message', requireAuth, handleUpload, requireSubscription, async (req, res, next) => {
+router.post('/message', requireAuth, handleUpload, async (req, res, next) => {
   try {
-    const { prompt, text, conversation_id } = req.body;
+    const { prompt, text, conversation_id, is_function_call } = req.body;
+    const isFunctionCall = is_function_call === 'true';
+
     if (!prompt?.trim() && !text?.trim() && !req.file) {
       return res.status(400).json({ error: 'prompt, text or file is required' });
+    }
+
+    // Access control: function calls use analyze counter, manual chat uses chat counter
+    const sub = await getUserPlan(req.user.id);
+    const plan = PLANS[sub.plan] || PLANS.free;
+
+    if (isFunctionCall) {
+      if (sub.plan === 'free') {
+        if (sub.lifetime_count >= plan.limit) {
+          return res.status(403).json({ error: 'free_limit_reached', plan: 'free', limit: plan.limit });
+        }
+      } else {
+        if (isNewMonth(sub.period_start)) {
+          await supabase.from('user_subscriptions')
+            .update({ monthly_count: 0, chat_count: 0, period_start: new Date().toISOString() })
+            .eq('user_id', sub.user_id || req.user.id);
+          sub.monthly_count = 0;
+          sub.chat_count = 0;
+        }
+        if (sub.monthly_count >= plan.limit) {
+          return res.status(403).json({ error: 'monthly_limit_reached', plan: sub.plan, limit: plan.limit });
+        }
+      }
+    } else {
+      // Manual chat
+      if (plan.chat_limit === 0) {
+        return res.status(403).json({ error: 'chat_not_available', plan: sub.plan });
+      }
+      if (isNewMonth(sub.period_start)) {
+        await supabase.from('user_subscriptions')
+          .update({ monthly_count: 0, chat_count: 0, period_start: new Date().toISOString() })
+          .eq('user_id', req.user.id);
+        sub.monthly_count = 0;
+        sub.chat_count = 0;
+      }
+      if ((sub.chat_count || 0) >= plan.chat_limit) {
+        return res.status(403).json({ error: 'chat_limit_reached', plan: sub.plan, limit: plan.chat_limit });
+      }
     }
 
     // Extract file text if uploaded
@@ -48,9 +93,7 @@ router.post('/message', requireAuth, handleUpload, requireSubscription, async (r
     // Build user message
     let userMessage = prompt?.trim() || '';
     if (fileText) {
-      userMessage = userMessage
-        ? `${userMessage}\n\n---\n\n${fileText}`
-        : fileText;
+      userMessage = userMessage ? `${userMessage}\n\n---\n\n${fileText}` : fileText;
     }
 
     if (userMessage.length > 150000) {
@@ -69,7 +112,6 @@ router.post('/message', requireAuth, handleUpload, requireSubscription, async (r
         .order('created_at', { ascending: true })
         .limit(20);
       const rows = data || [];
-      // Keep first message (manuscript) + last 6 to limit history bloat
       history = rows.length > 8 ? [rows[0], ...rows.slice(-6)] : rows;
     }
 
@@ -77,7 +119,6 @@ router.post('/message', requireAuth, handleUpload, requireSubscription, async (r
     const systemPrompt = assembleSystemPrompt();
     const messages = [
       ...history.map((m, i) => {
-        // Cache the first user message (contains the manuscript) to avoid re-billing on every call
         if (i === 0 && m.role === 'user') {
           return { role: 'user', content: [{ type: 'text', text: m.content, cache_control: { type: 'ephemeral' } }] };
         }
@@ -96,13 +137,16 @@ router.post('/message', requireAuth, handleUpload, requireSubscription, async (r
 
     const assistantMessage = response.content[0].text;
 
-    // Save messages
     await supabase.from('chat_messages').insert([
       { conversation_id: convId, user_id: req.user.id, role: 'user', content: userMessage, filename: req.file?.originalname || null },
       { conversation_id: convId, user_id: req.user.id, role: 'assistant', content: assistantMessage },
     ]);
 
-    await incrementUsage(req.user.id, req.userSub.plan);
+    if (isFunctionCall) {
+      await incrementUsage(req.user.id, sub.plan);
+    } else {
+      await incrementChatUsage(req.user.id);
+    }
 
     res.json({ conversation_id: convId, message: assistantMessage });
   } catch (err) { next(err); }
