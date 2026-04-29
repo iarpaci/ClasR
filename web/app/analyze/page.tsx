@@ -260,122 +260,117 @@ export default function AnalyzePage() {
   }
 
   function renderAssistant(content: string) {
+    const SEV = {
+      CRITICAL:    { border: 'border-l-red-500',    bg: 'bg-red-950/30',    badge: 'bg-red-600',    text: 'text-red-200'    },
+      MAJOR:       { border: 'border-l-orange-500', bg: 'bg-orange-950/30', badge: 'bg-orange-600', text: 'text-orange-200' },
+      MODERATE:    { border: 'border-l-yellow-500', bg: 'bg-yellow-950/30', badge: 'bg-yellow-600', text: 'text-yellow-200' },
+      UNCERTAINTY: { border: 'border-l-gray-600',   bg: 'bg-gray-800/40',   badge: 'bg-gray-600',   text: 'text-gray-300'  },
+    } as const;
+
+    function inlineBold(text: string) {
+      return text.replace(/\*\*(.*?)\*\*/g, '<strong class="text-white font-semibold">$1</strong>');
+    }
+
     const lines = content.split('\n');
     const nodes: React.ReactNode[] = [];
-    let i = 0;
 
-    while (i < lines.length) {
+    for (let i = 0; i < lines.length; i++) {
       const raw = lines[i];
       const line = raw.trim();
 
-      // Empty line → small gap
-      if (!line) { nodes.push(<div key={i} className="h-2" />); i++; continue; }
+      // Empty line
+      if (!line) { nodes.push(<div key={i} className="h-3" />); continue; }
 
       // Horizontal rule
-      if (line.match(/^[━═─]{3,}/)) { nodes.push(<hr key={i} className="border-gray-800 my-4" />); i++; continue; }
-
-      // Section heading: ▸ ... or numbered heading "1. Title" or "## Title"
-      if (line.startsWith('▸') || line.match(/^#{1,3}\s/) || line.match(/^\d+\.\s+[A-Z]/)) {
-        const text = line.replace(/^▸\s*/, '').replace(/^#{1,3}\s*/, '').replace(/^\d+\.\s+/, match => match);
-        nodes.push(
-          <div key={i} className="flex items-center gap-2 mt-6 mb-2">
-            <div className="w-1 h-4 bg-blue-500 rounded-full shrink-0" />
-            <p className="text-blue-300 font-bold text-sm tracking-wide uppercase">{text}</p>
-          </div>
-        );
-        i++; continue;
+      if (line.match(/^[━═─]{3,}/)) {
+        nodes.push(<hr key={i} className="border-gray-800 my-3" />);
+        continue;
       }
 
-      // Severity tags inline: detect [CRITICAL], [MAJOR], [MODERATE], [UNCERTAINTY] anywhere in line
-      const severityMatch = line.match(/^\[?(CRITICAL|MAJOR|MODERATE|UNCERTAINTY)\]?[:\s]/i);
-      if (severityMatch || line.includes('[CRITICAL]') || line.includes('[MAJOR]') || line.includes('[MODERATE]') || line.includes('[UNCERTAINTY]')) {
-        const sev = line.includes('[CRITICAL]') || line.match(/^CRITICAL/i) ? 'CRITICAL'
-          : line.includes('[MAJOR]') || line.match(/^MAJOR/i) ? 'MAJOR'
-          : line.includes('[MODERATE]') || line.match(/^MODERATE/i) ? 'MODERATE'
-          : 'UNCERTAINTY';
-        const sevStyle = {
-          CRITICAL: 'bg-red-950 border-red-800 text-red-300',
-          MAJOR: 'bg-orange-950 border-orange-800 text-orange-300',
-          MODERATE: 'bg-yellow-950 border-yellow-800 text-yellow-300',
-          UNCERTAINTY: 'bg-gray-800 border-gray-700 text-gray-400',
-        }[sev];
-        const badge = {
-          CRITICAL: { bg: 'bg-red-600', text: 'CRITICAL' },
-          MAJOR: { bg: 'bg-orange-600', text: 'MAJOR' },
-          MODERATE: { bg: 'bg-yellow-600', text: 'MODERATE' },
-          UNCERTAINTY: { bg: 'bg-gray-600', text: 'UNCERTAINTY' },
-        }[sev];
-        const bodyText = line
-          .replace(/\[CRITICAL\]|\[MAJOR\]|\[MODERATE\]|\[UNCERTAINTY\]/gi, '')
+      // Section heading: ▸ or ## or "1. TITLE"
+      if (line.startsWith('▸') || line.match(/^#{1,3}\s/) || line.match(/^\d+\.\s+[A-Z]/)) {
+        const text = line.replace(/^▸\s*/, '').replace(/^#{1,3}\s*/, '');
+        nodes.push(
+          <div key={i} className="flex items-center gap-2.5 mt-7 mb-2.5">
+            <div className="w-[3px] h-5 bg-blue-500 rounded-full shrink-0" />
+            <p className="text-blue-300 font-semibold text-sm">{text}</p>
+          </div>
+        );
+        continue;
+      }
+
+      // Severity finding: [CRITICAL] / [MAJOR] / [MODERATE] / [UNCERTAINTY]
+      const sevKey = line.includes('[CRITICAL]') || /^CRITICAL[:\s]/i.test(line) ? 'CRITICAL'
+        : line.includes('[MAJOR]') || /^MAJOR[:\s]/i.test(line) ? 'MAJOR'
+        : line.includes('[MODERATE]') || /^MODERATE[:\s]/i.test(line) ? 'MODERATE'
+        : line.includes('[UNCERTAINTY]') || /^UNCERTAINTY[:\s]/i.test(line) ? 'UNCERTAINTY'
+        : null;
+
+      if (sevKey) {
+        const s = SEV[sevKey];
+        const body = line
+          .replace(/\[(CRITICAL|MAJOR|MODERATE|UNCERTAINTY)\]/gi, '')
           .replace(/^(CRITICAL|MAJOR|MODERATE|UNCERTAINTY)[:\s]*/i, '')
           .trim();
         nodes.push(
-          <div key={i} className={`flex gap-2 items-start rounded-xl border px-3 py-2 my-1 ${sevStyle}`}>
-            <span className={`${badge.bg} text-white text-xs font-bold px-2 py-0.5 rounded-md shrink-0 mt-0.5`}>{badge.text}</span>
-            <p className="text-sm leading-relaxed">{bodyText}</p>
+          <div key={i} className={`flex gap-3 items-start border-l-4 rounded-r-lg px-3 py-2.5 my-1.5 ${s.border} ${s.bg}`}>
+            <span className={`${s.badge} text-white text-[10px] font-bold px-2 py-0.5 rounded shrink-0 mt-0.5 tracking-wide`}>
+              {sevKey}
+            </span>
+            <p className={`text-sm leading-relaxed ${s.text}`}
+              dangerouslySetInnerHTML={{ __html: inlineBold(body) }} />
           </div>
         );
-        i++; continue;
+        continue;
       }
 
-      // Bullet point: "- " or "• "
+      // Bullet: "- " or "• "
       if (line.match(/^[-•]\s+/)) {
         const text = line.replace(/^[-•]\s+/, '');
-        const html = text.replace(/\*\*(.*?)\*\*/g, '<strong class="text-gray-100">$1</strong>');
         nodes.push(
-          <div key={i} className="flex gap-2 items-start my-0.5 ml-1">
-            <span className="text-blue-500 mt-1.5 shrink-0 text-xs">◆</span>
-            <p className="text-sm text-gray-300 leading-relaxed" dangerouslySetInnerHTML={{ __html: html }} />
+          <div key={i} className="flex gap-2.5 items-start my-1 ml-1">
+            <span className="text-blue-500 mt-[5px] shrink-0 text-[8px]">●</span>
+            <p className="text-sm text-gray-300 leading-relaxed"
+              dangerouslySetInnerHTML={{ __html: inlineBold(text) }} />
           </div>
         );
-        i++; continue;
+        continue;
       }
 
-      // Bold-only line (e.g. "**Summary:**")
-      if (line.match(/^\*\*.*\*\*$/)) {
-        const text = line.replace(/\*\*(.*?)\*\*/g, '$1');
-        nodes.push(<p key={i} className="text-gray-200 font-semibold text-sm mt-3 mb-1">{text}</p>);
-        i++; continue;
-      }
-
-      // Kit signal tags: [AUTO-Q], [CITATION], etc.
-      if (line.startsWith('[') && line.includes(']')) {
+      // Reference finding: → ↔ ⚠ or citation pattern
+      if (line.match(/[→↔⚠]/) || line.match(/^[A-Z][a-z]+.+\(\d{4}\)/)) {
         nodes.push(
-          <p key={i} className="text-amber-400 text-xs bg-amber-950/40 border border-amber-900/50 px-3 py-1.5 rounded-lg my-1.5 font-mono">
-            {line}
-          </p>
+          <div key={i} className="flex gap-2.5 items-start bg-amber-950/20 border border-amber-900/30 rounded-lg px-3 py-2 my-1">
+            <span className="text-amber-500 shrink-0 mt-0.5 text-xs">⚠</span>
+            <p className="text-amber-200/80 text-sm leading-relaxed">{line.replace(/^⚠\s*/, '')}</p>
+          </div>
         );
-        i++; continue;
+        continue;
       }
 
-      // Last line that looks like a summary sentence (ends with period, no leading marker)
-      const isSummary = i === lines.length - 1 || (lines.slice(i + 1).every(l => !l.trim()));
-      if (isSummary && line.endsWith('.') && !line.startsWith('-')) {
+      // Bold-only line ("**Summary:**")
+      if (line.match(/^\*\*[^*]+\*\*[:\s]*$/)) {
+        const text = line.replace(/\*\*/g, '');
+        nodes.push(<p key={i} className="text-gray-200 font-semibold text-sm mt-4 mb-1">{text}</p>);
+        continue;
+      }
+
+      // Summary sentence (last non-empty line, ends with period)
+      const remaining = lines.slice(i + 1).filter(l => l.trim());
+      if (remaining.length === 0 && line.endsWith('.') && !line.startsWith('-')) {
         nodes.push(
-          <div key={i} className="mt-4 pt-3 border-t border-gray-800">
+          <div key={i} className="mt-5 pt-3 border-t border-gray-800">
             <p className="text-gray-400 text-sm italic leading-relaxed">{line}</p>
           </div>
         );
-        i++; continue;
+        continue;
       }
 
-      // Reference check findings: "Author (2020) →" pattern
-      if (line.match(/→|↔|⚠/) || line.match(/^[A-Z][a-z]+.*\(\d{4}\)/)) {
-        nodes.push(
-          <div key={i} className="flex gap-2 items-start bg-gray-800/50 rounded-lg px-3 py-2 my-1 font-mono text-xs">
-            <span className="text-amber-500 shrink-0 mt-0.5">⚠</span>
-            <p className="text-gray-300 leading-relaxed">{line.replace(/^⚠\s*/, '')}</p>
-          </div>
-        );
-        i++; continue;
-      }
-
-      // Default: regular paragraph
-      const html = raw.replace(/\*\*(.*?)\*\*/g, '<strong class="text-gray-100">$1</strong>');
+      // Default paragraph
       nodes.push(
-        <p key={i} className="text-sm text-gray-400 leading-relaxed my-0.5" dangerouslySetInnerHTML={{ __html: html }} />
+        <p key={i} className="text-sm text-gray-400 leading-relaxed my-0.5"
+          dangerouslySetInnerHTML={{ __html: inlineBold(raw) }} />
       );
-      i++;
     }
 
     return nodes;
