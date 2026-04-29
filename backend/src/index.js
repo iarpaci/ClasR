@@ -54,8 +54,8 @@ app.get('/health', (req, res) => res.json({ status: 'ok', version: '1.0.0' }));
 app.use((err, req, res, next) => {
   if (Sentry) Sentry.captureException(err);
   if (process.env.NODE_ENV === 'production') {
-    console.error(err.message);
-    return res.status(500).json({ error: 'Internal server error' });
+    console.error(err.message, err.stack);
+    return res.status(500).json({ error: 'Internal server error', detail: err.message });
   }
   console.error(err);
   res.status(500).json({ error: err.message });
