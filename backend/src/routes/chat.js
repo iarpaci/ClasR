@@ -68,13 +68,21 @@ router.post('/message', requireAuth, handleUpload, requireSubscription, async (r
         .eq('user_id', req.user.id)
         .order('created_at', { ascending: true })
         .limit(20);
-      history = data || [];
+      const rows = data || [];
+      // Keep first message (manuscript) + last 6 to limit history bloat
+      history = rows.length > 8 ? [rows[0], ...rows.slice(-6)] : rows;
     }
 
     // Call Claude with full CLASR-EN system prompt
     const systemPrompt = assembleSystemPrompt();
     const messages = [
-      ...history.map(m => ({ role: m.role, content: m.content })),
+      ...history.map((m, i) => {
+        // Cache the first user message (contains the manuscript) to avoid re-billing on every call
+        if (i === 0 && m.role === 'user') {
+          return { role: 'user', content: [{ type: 'text', text: m.content, cache_control: { type: 'ephemeral' } }] };
+        }
+        return { role: m.role, content: m.content };
+      }),
       { role: 'user', content: userMessage },
     ];
 
