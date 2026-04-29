@@ -115,27 +115,38 @@ router.post('/message', requireAuth, handleUpload, async (req, res, next) => {
       history = rows.length > 8 ? [rows[0], ...rows.slice(-6)] : rows;
     }
 
-    // Call Claude with full CLASR-EN system prompt
-    const systemPrompt = assembleSystemPrompt();
-    const messages = [
-      ...history.map((m, i) => {
-        if (i === 0 && m.role === 'user') {
-          return { role: 'user', content: [{ type: 'text', text: m.content, cache_control: { type: 'ephemeral' } }] };
-        }
-        return { role: m.role, content: m.content };
-      }),
-      { role: 'user', content: userMessage },
-    ];
+    // Test mock mode — avoids real Claude calls during acceptance tests
+    const testKey = process.env.CLASR_TEST_KEY;
+    const isTestMode = testKey && req.headers['x-clasr-test'] === testKey;
 
-    const response = await client.messages.create({
-      model: 'claude-sonnet-4-6',
-      max_tokens: 8192,
-      temperature: 0.2,
-      system: [{ type: 'text', text: systemPrompt, cache_control: { type: 'ephemeral' } }],
-      messages,
-    });
+    let assistantMessage;
+    if (isTestMode) {
+      assistantMessage = '▸ CLASR-EN ANALYSIS\n\n[SECTION: Overview]\n\nNo issues detected in this submission.';
+    } else {
+      // Call Claude with full CLASR-EN system prompt
+      const systemPrompt = assembleSystemPrompt();
+      const messages = [
+        ...history.map((m, i) => {
+          if (i === 0 && m.role === 'user') {
+            return { role: 'user', content: [{ type: 'text', text: m.content, cache_control: { type: 'ephemeral' } }] };
+          }
+          return { role: m.role, content: m.content };
+        }),
+        { role: 'user', content: userMessage },
+      ];
 
-    const assistantMessage = response.content[0].text;
+      const response = await client.messages.create({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 2500,
+        temperature: 0.2,
+        system: [{ type: 'text', text: systemPrompt, cache_control: { type: 'ephemeral' } }],
+        messages,
+      });
+
+      assistantMessage = response.content[0].text;
+      const u = response.usage;
+      console.log(`[clasr] tokens: in=${u.input_tokens} out=${u.output_tokens} cache_write=${u.cache_creation_input_tokens||0} cache_read=${u.cache_read_input_tokens||0}`);
+    }
 
     await supabase.from('chat_messages').insert([
       { conversation_id: convId, user_id: req.user.id, role: 'user', content: userMessage, filename: req.file?.originalname || null },

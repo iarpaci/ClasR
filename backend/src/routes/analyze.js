@@ -61,11 +61,16 @@ router.post('/', requireAuth, handleUpload, requireSubscription, async (req, res
       mode: req.body.mode,
     });
 
-    const result = await analyzeManuscript({
-      manuscriptText,
-      qVariant: parsed.success ? parsed.data.q_variant : null,
-      mode: parsed.success ? parsed.data.mode : null,
-    });
+    const testKey = process.env.CLASR_TEST_KEY;
+    const isTestMode = testKey && req.headers['x-clasr-test'] === testKey;
+
+    const result = isTestMode
+      ? { report: '▸ CLASR-EN ANALYSIS\n\n[SECTION: Mock]\n\nTest mode - no API call made.', usage: {} }
+      : await analyzeManuscript({
+          manuscriptText,
+          qVariant: parsed.success ? parsed.data.q_variant : null,
+          mode: parsed.success ? parsed.data.mode : null,
+        });
 
     // Save to DB
     const analysisId = uuidv4();
