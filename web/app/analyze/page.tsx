@@ -394,7 +394,7 @@ export default function AnalyzePage() {
       CRITICAL:    { border: 'border-l-red-500',    bg: 'bg-red-950/30',    badge: 'bg-red-600',    text: 'text-red-200'    },
       MAJOR:       { border: 'border-l-orange-500', bg: 'bg-orange-950/30', badge: 'bg-orange-600', text: 'text-orange-200' },
       MODERATE:    { border: 'border-l-yellow-500', bg: 'bg-yellow-950/30', badge: 'bg-yellow-600', text: 'text-yellow-200' },
-      UNCERTAINTY: { border: 'border-l-gray-600',   bg: 'bg-gray-800/40',   badge: 'bg-gray-600',   text: 'text-gray-300'  },
+      UNCERTAINTY: { border: 'border-l-gray-500',   bg: 'bg-gray-800/60',   badge: 'bg-gray-500',   text: 'text-gray-200'  },
     } as const;
 
     function inlineBold(text: string) {
@@ -411,8 +411,8 @@ export default function AnalyzePage() {
       // Empty line
       if (!line) { nodes.push(<div key={i} className="h-3" />); continue; }
 
-      // Horizontal rule
-      if (line.match(/^[━═─]{3,}/)) {
+      // Horizontal rule (Unicode box chars or ASCII ---)
+      if (line.match(/^[━═─\-]{3,}$/) && !line.match(/[a-zA-Z]/)) {
         nodes.push(<hr key={i} className="border-gray-800 my-3" />);
         continue;
       }
@@ -504,7 +504,8 @@ export default function AnalyzePage() {
       if (remaining.length === 0 && line.endsWith('.') && !line.startsWith('-')) {
         nodes.push(
           <div key={i} className="mt-5 pt-3 border-t border-gray-800">
-            <p className="text-gray-400 text-sm italic leading-relaxed">{line}</p>
+            <p className="text-gray-400 text-sm italic leading-relaxed"
+          dangerouslySetInnerHTML={{ __html: inlineBold(line) }} />
           </div>
         );
         continue;
