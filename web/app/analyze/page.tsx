@@ -345,13 +345,27 @@ export default function AnalyzePage() {
 
       if (sevKey) {
         const s = SEV[sevKey];
-        const body = line
+        let body = line
           .replace(/\[(CRITICAL|MAJOR|MODERATE|UNCERTAINTY)\]/gi, '')
           .replace(/^(CRITICAL|MAJOR|MODERATE|UNCERTAINTY)[:\s]*/i, '')
           .trim();
+
+        // Absorb continuation lines (AI sometimes wraps a single finding across 2 lines)
+        const isSevMarker = (l: string) =>
+          !l || l.startsWith('▸') || /^#{1,3}\s/.test(l) || /^\d+\.\s+[A-Z]/.test(l) ||
+          /^[-•]\s+/.test(l) || /\[(CRITICAL|MAJOR|MODERATE|UNCERTAINTY)\]/i.test(l) ||
+          /^(CRITICAL|MAJOR|MODERATE|UNCERTAINTY)[:\s]/i.test(l);
+
+        let j = i + 1;
+        while (j < lines.length && !lines[j].trim()) j++;
+        if (j < lines.length && !isSevMarker(lines[j].trim())) {
+          body = body + ' ' + lines[j].trim();
+          i = j;
+        }
+
         nodes.push(
           <div key={i} className={`flex gap-3 items-start border-l-4 rounded-r-lg px-3 py-2.5 my-1.5 ${s.border} ${s.bg}`}>
-            <span className={`${s.badge} text-white text-[10px] font-bold px-2 py-0.5 rounded shrink-0 mt-0.5 tracking-wide`}>
+            <span className={`${s.badge} text-white text-xs font-bold px-2 py-0.5 rounded shrink-0 mt-0.5 tracking-wide whitespace-nowrap`}>
               {sevKey}
             </span>
             <p className={`text-sm leading-relaxed ${s.text}`}
@@ -374,8 +388,8 @@ export default function AnalyzePage() {
         continue;
       }
 
-      // Reference finding: → ↔ ⚠ or citation pattern
-      if (line.match(/[→↔⚠]/) || line.match(/^[A-Z][a-z]+.+\(\d{4}\)/)) {
+      // Reference finding: citation pattern only (Author Year → problem), not generic arrows
+      if (line.match(/^⚠/) || line.match(/[A-Z][a-zA-Z\s&,]+\(\d{4}\).*[→↔]/) || line.match(/^[A-Z][a-z]+.+\(\d{4}\)/) && line.match(/[→↔]/)) {
         nodes.push(
           <div key={i} className="flex gap-2.5 items-start bg-amber-950/20 border border-amber-900/30 rounded-lg px-3 py-2 my-1">
             <span className="text-amber-500 shrink-0 mt-0.5 text-xs">⚠</span>
