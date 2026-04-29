@@ -22,7 +22,26 @@ function CopyButton({ text }: { text: string }) {
   );
 }
 
+function preprocessContent(raw: string): string {
+  let s = raw.replace(/\n{3,}/g, '\n\n').replace(/^[ \t]+$/gm, '');
+  s = s.replace(/▸\s*Severity Signal Map[^\n]*\n([\s\S]*?)(?=\n▸|\n#{1,3} |$)/gi, '');
+  const lines = s.split('\n');
+  const out: string[] = [];
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (line.startsWith('▸') || /^#{1,3}\s/.test(line)) {
+      let j = i + 1;
+      while (j < lines.length && !lines[j].trim()) j++;
+      const next = lines[j]?.trim() ?? '';
+      if (!next || next.startsWith('▸') || /^#{1,3}\s/.test(next)) continue;
+    }
+    out.push(lines[i]);
+  }
+  return out.join('\n');
+}
+
 function printAsPdf(content: string, index: number) {
+  content = preprocessContent(content);
   const SEV_COLORS: Record<string, { border: string; bg: string; badge: string; text: string }> = {
     CRITICAL:    { border: '#ef4444', bg: '#450a0a', badge: '#dc2626', text: '#fecaca' },
     MAJOR:       { border: '#f97316', bg: '#431407', badge: '#ea580c', text: '#fed7aa' },
@@ -190,7 +209,6 @@ Output rule: report ONLY detected mismatches and evidence-boundary violations. S
 ▸ Table / Figure ↔ Text
 ▸ Terminology / Variable Name Shifts
 ▸ Evidence-Boundary Violations (causality, scale, overclaim)
-▸ Severity Signal Map
 
 Close with one summary sentence.`,
   },
@@ -209,7 +227,6 @@ Output rule: report ONLY significant risk signals. Skip anything below notable r
 ▸ Conclusion & Evidence-Boundary Red Flags
 ▸ Language Risks (overclaiming, certainty escalation, impact inflation)
 ▸ Ethics / Transparency / Reproducibility Red Flags
-▸ Severity Signal Map
 
 Close with one summary sentence.`,
   },
@@ -391,6 +408,7 @@ export default function AnalyzePage() {
   }
 
   function renderAssistant(content: string) {
+    content = preprocessContent(content);
     const SEV = {
       CRITICAL:    { border: 'border-l-red-500',    bg: 'bg-red-950/30',    badge: 'bg-red-600',    text: 'text-red-200'    },
       MAJOR:       { border: 'border-l-orange-500', bg: 'bg-orange-950/30', badge: 'bg-orange-600', text: 'text-orange-200' },

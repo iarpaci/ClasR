@@ -108,8 +108,28 @@ function hrPara() {
   });
 }
 
+// ── Content preprocessor ─────────────────────────────────────────
+function preprocessContent(raw: string): string {
+  let s = raw.replace(/\n{3,}/g, '\n\n').replace(/^[ \t]+$/gm, '');
+  s = s.replace(/▸\s*Severity Signal Map[^\n]*\n([\s\S]*?)(?=\n▸|\n#{1,3} |$)/gi, '');
+  const lines = s.split('\n');
+  const out: string[] = [];
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (line.startsWith('▸') || /^#{1,3}\s/.test(line)) {
+      let j = i + 1;
+      while (j < lines.length && !lines[j].trim()) j++;
+      const next = lines[j]?.trim() ?? '';
+      if (!next || next.startsWith('▸') || /^#{1,3}\s/.test(next)) continue;
+    }
+    out.push(lines[i]);
+  }
+  return out.join('\n');
+}
+
 // ── Content parser ────────────────────────────────────────────────
 function parseContent(content: string): (Paragraph | Table)[] {
+  content = preprocessContent(content);
   const lines = content.split('\n');
   const items: (Paragraph | Table)[] = [];
   const isSevMarker = (l: string) =>
