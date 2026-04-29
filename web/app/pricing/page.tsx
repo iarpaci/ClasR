@@ -175,6 +175,11 @@ export default function PricingPage() {
         <p className="text-center text-gray-600 text-xs mt-10">
           Prices in USD · Secure payment via Stripe · Cancel anytime
         </p>
+        <p className="text-center text-gray-700 text-xs mt-3">
+          <Link href="/terms" className="hover:text-gray-500 underline">Terms of Service</Link>
+          {' · '}
+          <Link href="/privacy" className="hover:text-gray-500 underline">Privacy Policy</Link>
+        </p>
       </main>
     </div>
   );

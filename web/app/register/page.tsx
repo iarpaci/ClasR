@@ -55,6 +55,12 @@ export default function RegisterPage() {
           <p className="text-center text-sm text-gray-500">
             Already have an account? <Link href="/login" className="text-blue-400 hover:underline">Sign in</Link>
           </p>
+          <p className="text-center text-xs text-gray-600">
+            By creating an account you agree to our{' '}
+            <Link href="/terms" className="text-gray-500 hover:text-gray-300 underline">Terms</Link>
+            {' '}and{' '}
+            <Link href="/privacy" className="text-gray-500 hover:text-gray-300 underline">Privacy Policy</Link>
+          </p>
         </form>
       </div>
     </div>
