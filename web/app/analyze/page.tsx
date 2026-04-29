@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { chatApi, subscriptionApi } from '@/lib/api';
 import { isLoggedIn } from '@/lib/auth';
+import { generateDocx } from '@/lib/generateDocx';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -698,6 +699,16 @@ export default function AnalyzePage() {
                     <button onClick={() => printAsPdf(msg.content, i + 1)}
                       className="text-xs text-gray-600 hover:text-gray-400 transition-colors">
                       PDF
+                    </button>
+                    <button onClick={async () => {
+                      const blob = await generateDocx(msg.content, i + 1);
+                      const a = document.createElement('a');
+                      a.href = URL.createObjectURL(blob);
+                      a.download = `clasr-report-${i + 1}.docx`;
+                      a.click();
+                      URL.revokeObjectURL(a.href);
+                    }} className="text-xs text-gray-600 hover:text-gray-400 transition-colors">
+                      .docx
                     </button>
                   </div>
                 </div>
