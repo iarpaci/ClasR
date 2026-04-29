@@ -42,28 +42,35 @@ function preprocessContent(raw: string): string {
 
 function printAsPdf(content: string, index: number) {
   content = preprocessContent(content);
-  const SEV_COLORS: Record<string, { border: string; bg: string; badge: string; text: string }> = {
-    CRITICAL:    { border: '#ef4444', bg: '#450a0a', badge: '#dc2626', text: '#fecaca' },
-    MAJOR:       { border: '#f97316', bg: '#431407', badge: '#ea580c', text: '#fed7aa' },
-    MODERATE:    { border: '#eab308', bg: '#422006', badge: '#ca8a04', text: '#fef08a' },
-    UNCERTAINTY: { border: '#6b7280', bg: '#1f2937', badge: '#4b5563', text: '#d1d5db' },
+
+  const SEV: Record<string, { badge: string; bg: string; text: string }> = {
+    CRITICAL:    { badge: '#DC2626', bg: '#FEF2F2', text: '#991B1B' },
+    MAJOR:       { badge: '#EA580C', bg: '#FFF7ED', text: '#9A3412' },
+    MODERATE:    { badge: '#CA8A04', bg: '#FEFCE8', text: '#854D0E' },
+    UNCERTAINTY: { badge: '#6B7280', bg: '#F8FAFC', text: '#374151' },
   };
+
+  const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const bold = (s: string) => esc(s).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  const isSevMarker = (l: string) =>
+    /\[(CRITICAL|MAJOR|MODERATE|UNCERTAINTY)\]/i.test(l) ||
+    /^(CRITICAL|MAJOR|MODERATE|UNCERTAINTY)[:\s]/i.test(l);
 
   const lines = content.split('\n');
   let html = '';
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim();
-    if (!line) { html += '<div style="height:8px"></div>'; continue; }
+    if (!line) { html += '<div style="height:5px"></div>'; continue; }
 
-    if (line.match(/^[━═─]{3,}/)) { html += '<hr style="border:none;border-top:1px solid #e5e7eb;margin:12px 0">'; continue; }
+    if (line.match(/^[━═─\-]{3,}$/) && !line.match(/[a-zA-Z]/)) {
+      html += '<hr style="border:none;border-top:1px solid #E2E8F0;margin:10px 0">';
+      continue;
+    }
 
     if (line.startsWith('▸') || line.match(/^#{1,3}\s/)) {
       const text = line.startsWith('▸') ? line.slice(1).trimStart() : line.replace(/^#{1,3}\s*/, '').trim();
-      html += `<div style="display:flex;align-items:center;gap:10px;margin:24px 0 8px">
-        <div style="width:3px;height:18px;background:#3b82f6;border-radius:2px;flex-shrink:0"></div>
-        <p style="margin:0;font-size:13px;font-weight:600;color:#93c5fd;letter-spacing:0.02em">${text}</p>
-      </div>`;
+      html += `<div style="background:#0F172A;color:#fff;padding:9px 16px;font-size:11.5px;font-weight:700;letter-spacing:0.06em;margin:22px 0 10px;-webkit-print-color-adjust:exact;print-color-adjust:exact">▸ ${esc(text)}</div>`;
       continue;
     }
 
@@ -74,62 +81,71 @@ function printAsPdf(content: string, index: number) {
       : null;
 
     if (sevKey) {
-      const c = SEV_COLORS[sevKey];
-      let body = line.replace(/\[(CRITICAL|MAJOR|MODERATE|UNCERTAINTY)\]/gi, '').replace(/^(CRITICAL|MAJOR|MODERATE|UNCERTAINTY)[:\s]*/i, '').trim();
-      // absorb continuation
+      const c = SEV[sevKey];
+      let body = line
+        .replace(/\[(CRITICAL|MAJOR|MODERATE|UNCERTAINTY)\]/gi, '')
+        .replace(/^(CRITICAL|MAJOR|MODERATE|UNCERTAINTY)[:\s]*/i, '')
+        .trim();
       let j = i + 1;
       while (j < lines.length && !lines[j].trim()) j++;
       const next = lines[j]?.trim() || '';
-      if (next && !/\[(CRITICAL|MAJOR|MODERATE|UNCERTAINTY)\]/i.test(next) && !/^(CRITICAL|MAJOR|MODERATE|UNCERTAINTY)[:\s]/i.test(next) && !next.startsWith('▸') && !next.match(/^#{1,3}\s/)) {
+      if (next && !isSevMarker(next) && !next.startsWith('▸') && !next.match(/^#{1,3}\s/)) {
         body += ' ' + next; i = j;
       }
-      body = body.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-      html += `<div style="display:flex;gap:10px;align-items:flex-start;border-left:4px solid ${c.border};background:${c.bg};border-radius:0 6px 6px 0;padding:10px 12px;margin:6px 0">
-        <span style="background:${c.badge};color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;flex-shrink:0;margin-top:2px;letter-spacing:0.05em">${sevKey}</span>
-        <p style="margin:0;font-size:13px;color:${c.text};line-height:1.5">${body}</p>
+      html += `<div style="display:flex;margin:6px 0;-webkit-print-color-adjust:exact;print-color-adjust:exact">
+        <div style="min-width:110px;background:${c.badge};color:#fff;font-size:10px;font-weight:700;text-align:center;padding:9px 10px;display:flex;align-items:center;justify-content:center;letter-spacing:0.07em;line-height:1.3;flex-shrink:0">${sevKey}</div>
+        <div style="flex:1;background:${c.bg};padding:9px 14px;font-size:12px;color:${c.text};line-height:1.55">${bold(body)}</div>
       </div>`;
       continue;
     }
 
     if (line.match(/^[-•]\s+/)) {
-      const text = line.replace(/^[-•]\s+/, '').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      const text = line.replace(/^[-•]\s+/, '');
       html += `<div style="display:flex;gap:8px;align-items:flex-start;margin:4px 0 4px 8px">
-        <span style="color:#3b82f6;font-size:7px;margin-top:5px;flex-shrink:0">●</span>
-        <p style="margin:0;font-size:13px;color:#d1d5db;line-height:1.5">${text}</p>
+        <span style="color:#3B82F6;font-size:7px;margin-top:5px;flex-shrink:0">●</span>
+        <span style="font-size:12px;color:#374151;line-height:1.55">${bold(text)}</span>
       </div>`;
       continue;
     }
 
     const remaining = lines.slice(i + 1).filter(l => l.trim());
-    if (remaining.length === 0 && line.endsWith('.')) {
-      html += `<div style="margin-top:16px;padding-top:12px;border-top:1px solid #374151">
-        <p style="margin:0;font-size:13px;color:#9ca3af;font-style:italic;line-height:1.5">${line}</p>
+    if (remaining.length === 0 && line.endsWith('.') && !line.startsWith('-')) {
+      html += `<div style="margin-top:14px;padding-top:10px;border-top:1px solid #E2E8F0">
+        <p style="margin:0;font-size:12px;color:#64748B;font-style:italic;line-height:1.55">${bold(line)}</p>
       </div>`;
       continue;
     }
 
-    html += `<p style="margin:2px 0;font-size:13px;color:#9ca3af;line-height:1.5">${line.replace(/\*\*(.*?)\*\*/g, '<strong style="color:#f3f4f6">$1</strong>')}</p>`;
+    html += `<p style="margin:3px 0;font-size:12px;color:#374151;line-height:1.6">${bold(line)}</p>`;
   }
 
+  const today = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
   const win = window.open('', '_blank');
   if (!win) return;
   win.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8">
-    <title>CLASR Report ${index}</title>
+    <title>CLASR-EN Report ${index}</title>
     <style>
       * { box-sizing: border-box; }
-      body { background: #030712; color: #e5e7eb; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; margin: 0; padding: 40px; }
-      .page { max-width: 760px; margin: 0 auto; }
-      .header { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #374151; padding-bottom: 16px; margin-bottom: 24px; }
-      .logo { font-size: 20px; font-weight: 900; letter-spacing: 0.15em; color: #fff; }
-      .meta { font-size: 11px; color: #6b7280; }
-      @media print { body { padding: 20px; } @page { margin: 1cm; size: A4; } }
+      body { background:#fff; color:#1E293B; font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,sans-serif; margin:0; padding:36px 44px 72px; }
+      .page { max-width:720px; margin:0 auto; }
+      @media print {
+        body { padding:0; }
+        @page { margin:1.5cm; size:A4; }
+        * { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; color-adjust:exact !important; }
+      }
     </style>
   </head><body><div class="page">
-    <div class="header">
-      <span class="logo">CLASR</span>
-      <span class="meta">Report ${index} · ${new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
+    <div style="display:flex;justify-content:space-between;align-items:baseline;padding-bottom:10px;border-bottom:2.5px solid #0F172A;margin-bottom:22px">
+      <div>
+        <span style="font-size:15px;font-weight:900;color:#0F172A;letter-spacing:0.12em">CLASR-EN</span>
+        <span style="font-size:11px;color:#64748B;margin-left:10px;letter-spacing:0.04em">ACADEMIC READING SIGNAL REPORT</span>
+      </div>
+      <span style="font-size:11px;color:#64748B">Report ${index} · ${today}</span>
     </div>
     ${html}
+    <div style="margin-top:36px;padding-top:8px;border-top:1px solid #CBD5E1;text-align:center;font-size:10px;color:#94A3B8;font-style:italic">
+      This report is an academic reading signal. Decisions, evaluation, and publication responsibility rest with the user.
+    </div>
   </div><script>window.onload=()=>{window.print()}<\/script></body></html>`);
   win.document.close();
 }
