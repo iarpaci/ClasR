@@ -57,7 +57,7 @@ Close with one summary sentence.`,
     minPlan: 'free',
     prompt: `Run REFERENCE CHECK on the attached manuscript.
 
-Output rule: report ONLY problems. Do NOT list correct or clean references. Each finding = one line: citation/entry identifier + specific problem. Omit any heading with no findings.
+STRICT OUTPUT RULE: Report ONLY confirmed problems. If a citation or entry is present and correct — do NOT write about it at all. No "present; no problem", no "checked — OK", no verification notes. Silence = correct. Only broken items appear in output. Each problem = one line: identifier + specific problem. Omit any heading with zero findings.
 
 ▸ In-Text Citations Missing from Reference List
 ▸ Reference List Entries Not Cited in Text
