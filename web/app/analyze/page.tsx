@@ -223,6 +223,7 @@ export default function AnalyzePage() {
   function handleSend(e?: React.FormEvent) {
     e?.preventDefault();
     if (armedFn) {
+      if (!file && !convId) { fileRef.current?.click(); return; }
       sendMessage(armedFn.prompt + (prompt.trim() ? '\n\n' + prompt.trim() : ''), undefined, armedFn.label, true);
     } else {
       sendMessage(prompt, undefined, undefined, false);
