@@ -155,11 +155,33 @@ export default function AnalyzePage() {
   const [convId, setConvId] = useState<string | null>(null);
   const [sub, setSub] = useState<any>(null);
   const [armedFn, setArmedFn] = useState<typeof FUNCTIONS[0] | null>(null);
+  const [lastSession, setLastSession] = useState<{ id: string; preview: string } | null>(null);
+  const [resumeLoading, setResumeLoading] = useState(false);
 
   useEffect(() => {
     if (!isLoggedIn()) { router.replace('/login'); return; }
     subscriptionApi.status().then(r => setSub(r.data)).catch(() => {});
+    chatApi.conversations().then(r => {
+      const last = r.data?.[0];
+      if (last) setLastSession({ id: last.id, preview: last.preview });
+    }).catch(() => {});
   }, [router]);
+
+  async function handleResume() {
+    if (!lastSession) return;
+    setResumeLoading(true);
+    try {
+      const { data } = await chatApi.getConversation(lastSession.id);
+      const msgs: Message[] = (data || []).map((m: any) => ({
+        role: m.role,
+        content: m.content,
+        filename: m.filename,
+      }));
+      setMessages(msgs);
+      setConvId(lastSession.id);
+      setLastSession(null);
+    } catch { } finally { setResumeLoading(false); }
+  }
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -432,6 +454,22 @@ export default function AnalyzePage() {
           {/* Empty state */}
           {messages.length === 0 && (
             <div className="flex flex-col items-center py-6 gap-6">
+              {lastSession && (
+                <div className="w-full max-w-3xl flex items-center justify-between bg-gray-900 border border-gray-700 rounded-xl px-4 py-3">
+                  <div className="min-w-0">
+                    <p className="text-xs text-gray-500 mb-0.5">Last session</p>
+                    <p className="text-sm text-gray-300 truncate">{lastSession.preview}</p>
+                  </div>
+                  <div className="flex gap-2 ml-4 shrink-0">
+                    <button onClick={handleResume} disabled={resumeLoading}
+                      className="text-xs bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white px-3 py-1.5 rounded-lg transition-colors">
+                      {resumeLoading ? 'Loading…' : 'Continue'}
+                    </button>
+                    <button onClick={() => setLastSession(null)}
+                      className="text-xs text-gray-500 hover:text-gray-300 px-2 py-1.5">✕</button>
+                  </div>
+                </div>
+              )}
               <div className="text-center">
                 <p className="text-gray-500 text-sm">Select a review function, then drop your manuscript</p>
               </div>
