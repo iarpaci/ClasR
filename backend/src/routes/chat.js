@@ -53,8 +53,8 @@ router.post('/message', requireAuth, handleUpload, requireSubscription, async (r
         : fileText;
     }
 
-    if (userMessage.length > 80000) {
-      return res.status(400).json({ error: 'Input too long (max 80,000 characters)' });
+    if (userMessage.length > 150000) {
+      return res.status(400).json({ error: 'Input too long (max 150,000 characters)' });
     }
 
     // Load conversation history
