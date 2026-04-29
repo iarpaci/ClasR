@@ -3,19 +3,17 @@ import {
   AlignmentType, BorderStyle, WidthType, ShadingType, VerticalAlign, Header, Footer,
 } from 'docx';
 
-// ── Colour palette (ClasR dark-professional) ──────────────────────
 const C = {
-  navy:    '0F172A',   // header / section bars  (slate-900)
-  steel:   '3B82F6',  // section accent (blue-500)
-  silver:  'F1F5F9',  // light row shading (slate-100)
+  navy:    '0F172A',
+  steel:   '3B82F6',
   white:   'FFFFFF',
-  red:     'DC2626',  // CRITICAL (red-600)
-  orange:  'EA580C',  // MAJOR (orange-600)
-  yellow:  'CA8A04',  // MODERATE (yellow-600)
-  gray:    '6B7280',  // UNCERTAINTY (gray-500)
-  charcoal:'1E293B',  // body text (slate-800)
-  mid:     '64748B',  // muted (slate-500)
-  border:  'CBD5E1',  // slate-300
+  red:     'DC2626',
+  orange:  'EA580C',
+  yellow:  'CA8A04',
+  gray:    '6B7280',
+  charcoal:'1E293B',
+  mid:     '64748B',
+  border:  'CBD5E1',
 };
 
 const SEV: Record<string, { badge: string; bg: string; text: string }> = {
@@ -25,16 +23,32 @@ const SEV: Record<string, { badge: string; bg: string; text: string }> = {
   UNCERTAINTY: { badge: C.gray,   bg: 'F8FAFC', text: '374151' },
 };
 
-// ── Helpers ───────────────────────────────────────────────────────
-const border   = { style: BorderStyle.SINGLE, size: 1, color: C.border };
-const borders  = { top: border, bottom: border, left: border, right: border };
-const noBorder = { top:{style:BorderStyle.NONE,size:0,color:C.white}, bottom:{style:BorderStyle.NONE,size:0,color:C.white}, left:{style:BorderStyle.NONE,size:0,color:C.white}, right:{style:BorderStyle.NONE,size:0,color:C.white} };
+const noBorder = {
+  top:    { style: BorderStyle.NONE, size: 0, color: C.white },
+  bottom: { style: BorderStyle.NONE, size: 0, color: C.white },
+  left:   { style: BorderStyle.NONE, size: 0, color: C.white },
+  right:  { style: BorderStyle.NONE, size: 0, color: C.white },
+};
+const thinBorder = { style: BorderStyle.SINGLE, size: 1, color: C.border };
+
+// Split text at **bold** markers and return mixed TextRun array
+function richRun(text: string, opts: Record<string, unknown> = {}): TextRun[] {
+  return text.split(/(\*\*.*?\*\*)/).reduce<TextRun[]>((acc, part) => {
+    if (!part) return acc;
+    if (part.startsWith('**') && part.endsWith('**')) {
+      acc.push(new TextRun({ text: part.slice(2, -2), font: 'Calibri', bold: true, ...opts }));
+    } else {
+      acc.push(new TextRun({ text: part, font: 'Calibri', ...opts }));
+    }
+    return acc;
+  }, []);
+}
 
 function run(text: string, opts: Record<string, unknown> = {}) {
   return new TextRun({ text, font: 'Calibri', ...opts });
 }
 
-function sp(pts = 80) {
+function sp(pts = 25) {
   return new Paragraph({ spacing: { before: pts, after: 0 }, children: [] });
 }
 
@@ -45,9 +59,11 @@ function sectionHeader(label: string) {
     rows: [new TableRow({ children: [new TableCell({
       borders: noBorder,
       shading: { fill: C.navy, type: ShadingType.CLEAR },
-      margins: { top: 100, bottom: 100, left: 160, right: 160 },
-      children: [new Paragraph({ children: [run(label, { bold: true, color: C.white, size: 22 })] })]
-    })]})]
+      margins: { top: 90, bottom: 90, left: 160, right: 160 },
+      children: [new Paragraph({
+        children: [run('▸  ' + label, { bold: true, color: C.white, size: 22 })],
+      })],
+    })] })]
   });
 }
 
@@ -55,20 +71,26 @@ function severityRow(sevKey: string, body: string) {
   const s = SEV[sevKey] || SEV.UNCERTAINTY;
   return new Table({
     width: { size: 9360, type: WidthType.DXA },
-    columnWidths: [1600, 7760],
+    columnWidths: [1500, 7860],
     rows: [new TableRow({ children: [
       new TableCell({
         borders: noBorder,
         shading: { fill: s.badge, type: ShadingType.CLEAR },
-        margins: { top: 80, bottom: 80, left: 120, right: 120 },
+        margins: { top: 70, bottom: 70, left: 100, right: 100 },
         verticalAlign: VerticalAlign.CENTER,
-        children: [new Paragraph({ alignment: AlignmentType.CENTER, children: [run(sevKey, { bold: true, color: C.white, size: 16 })] })]
+        children: [new Paragraph({
+          alignment: AlignmentType.CENTER,
+          children: [run(sevKey, { bold: true, color: C.white, size: 16 })],
+        })],
       }),
       new TableCell({
-        borders: { top: border, bottom: border, right: border, left: { style: BorderStyle.NONE, size: 0, color: C.white } },
+        borders: {
+          top: thinBorder, bottom: thinBorder, right: thinBorder,
+          left: { style: BorderStyle.NONE, size: 0, color: C.white },
+        },
         shading: { fill: s.bg, type: ShadingType.CLEAR },
-        margins: { top: 80, bottom: 80, left: 160, right: 120 },
-        children: [new Paragraph({ children: [run(body, { color: s.text, size: 20 })] })]
+        margins: { top: 70, bottom: 70, left: 140, right: 100 },
+        children: [new Paragraph({ children: richRun(body, { color: s.text, size: 20 }) })],
       }),
     ]})]
   });
@@ -76,34 +98,35 @@ function severityRow(sevKey: string, body: string) {
 
 function bodyPara(text: string) {
   return new Paragraph({
-    spacing: { before: 40, after: 60 },
-    children: [run(text, { color: C.charcoal, size: 20 })],
+    spacing: { before: 15, after: 15 },
+    children: richRun(text, { color: C.charcoal, size: 20 }),
   });
 }
 
 function bulletPara(text: string) {
   return new Paragraph({
-    spacing: { before: 30, after: 30 },
+    spacing: { before: 20, after: 20 },
     indent: { left: 240, hanging: 200 },
     children: [
-      run('● ', { color: C.steel, size: 18 }),
-      run(text, { color: C.charcoal, size: 20 }),
+      run('●  ', { color: C.steel, size: 18 }),
+      ...richRun(text, { color: C.charcoal, size: 20 }),
     ],
   });
 }
 
 function summaryPara(text: string) {
+  const clean = text.replace(/^\*\*[^*]+\*\*\s*/, '');
   return new Paragraph({
-    spacing: { before: 120, after: 60 },
+    spacing: { before: 100, after: 40 },
     border: { top: { style: BorderStyle.SINGLE, size: 2, color: C.border, space: 6 } },
-    children: [run(text.replace(/^\*\*[^*]+\*\*\s*/, ''), { color: C.mid, size: 20, italics: true })],
+    children: richRun(clean, { color: C.mid, size: 20, italics: true }),
   });
 }
 
 function hrPara() {
   return new Paragraph({
     border: { bottom: { style: BorderStyle.SINGLE, size: 4, color: C.border, space: 1 } },
-    spacing: { before: 40, after: 40 },
+    spacing: { before: 30, after: 30 },
     children: [],
   });
 }
@@ -139,7 +162,7 @@ function parseContent(content: string): (Paragraph | Table)[] {
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim();
 
-    if (!line) { items.push(sp(40)); continue; }
+    if (!line) { items.push(sp(25)); continue; }
 
     if (line.match(/^[━═─\-]{3,}$/) && !line.match(/[a-zA-Z]/)) {
       items.push(hrPara()); continue;
@@ -148,13 +171,12 @@ function parseContent(content: string): (Paragraph | Table)[] {
     if (line.startsWith('▸') || line.match(/^#{1,3}\s/)) {
       const text = line.startsWith('▸') ? line.slice(1).trimStart() : line.replace(/^#{1,3}\s*/, '').trim();
       items.push(sectionHeader(text));
-      items.push(sp(20));
       continue;
     }
 
-    const sevKey = line.includes('[CRITICAL]') || /^CRITICAL[:\s]/i.test(line) ? 'CRITICAL'
-      : line.includes('[MAJOR]')    || /^MAJOR[:\s]/i.test(line)    ? 'MAJOR'
-      : line.includes('[MODERATE]') || /^MODERATE[:\s]/i.test(line) ? 'MODERATE'
+    const sevKey = line.includes('[CRITICAL]')    || /^CRITICAL[:\s]/i.test(line)    ? 'CRITICAL'
+      : line.includes('[MAJOR]')       || /^MAJOR[:\s]/i.test(line)       ? 'MAJOR'
+      : line.includes('[MODERATE]')    || /^MODERATE[:\s]/i.test(line)    ? 'MODERATE'
       : line.includes('[UNCERTAINTY]') || /^UNCERTAINTY[:\s]/i.test(line) ? 'UNCERTAINTY'
       : null;
 
@@ -163,20 +185,18 @@ function parseContent(content: string): (Paragraph | Table)[] {
         .replace(/\[(CRITICAL|MAJOR|MODERATE|UNCERTAINTY)\]/gi, '')
         .replace(/^(CRITICAL|MAJOR|MODERATE|UNCERTAINTY)[:\s]*/i, '')
         .trim();
-      // absorb continuation
       let j = i + 1;
       while (j < lines.length && !lines[j].trim()) j++;
       const next = lines[j]?.trim() || '';
       if (next && !isSevMarker(next) && !next.startsWith('▸') && !next.match(/^#{1,3}\s/)) {
         body += ' ' + next; i = j;
       }
-      items.push(severityRow(sevKey, body.replace(/\*\*(.*?)\*\*/g, '$1')));
-      items.push(sp(20));
+      items.push(severityRow(sevKey, body));
       continue;
     }
 
     if (line.match(/^[-•]\s+/)) {
-      items.push(bulletPara(line.replace(/^[-•]\s+/, '').replace(/\*\*(.*?)\*\*/g, '$1')));
+      items.push(bulletPara(line.replace(/^[-•]\s+/, '')));
       continue;
     }
 
@@ -185,7 +205,7 @@ function parseContent(content: string): (Paragraph | Table)[] {
       items.push(summaryPara(line)); continue;
     }
 
-    items.push(bodyPara(line.replace(/\*\*(.*?)\*\*/g, '$1')));
+    items.push(bodyPara(line));
   }
 
   return items;
@@ -211,28 +231,44 @@ export async function generateDocx(content: string, reportIndex: number): Promis
           children: [
             new Table({
               width: { size: 9638, type: WidthType.DXA },
-              columnWidths: [5000, 4638],
+              columnWidths: [5500, 4138],
               rows: [new TableRow({ children: [
-                new TableCell({ borders: noBorder, children: [new Paragraph({ children: [run('CLASR  ·  Academic Signal Report', { bold: true, color: C.navy, size: 18 })] })] }),
-                new TableCell({ borders: noBorder, children: [new Paragraph({ alignment: AlignmentType.RIGHT, children: [run(`Report ${reportIndex}  ·  ${today}`, { color: C.mid, size: 16 })] })] }),
-              ]})]
+                new TableCell({ borders: noBorder, children: [new Paragraph({ children: [
+                  run('CLASR-EN', { bold: true, color: C.navy, size: 20 }),
+                  run('  ·  ACADEMIC READING SIGNAL REPORT', { color: C.mid, size: 16 }),
+                ] })] }),
+                new TableCell({ borders: noBorder, children: [new Paragraph({ alignment: AlignmentType.RIGHT, children: [
+                  run(`Report ${reportIndex}  ·  ${today}`, { color: C.mid, size: 16 }),
+                ] })] }),
+              ]})],
             }),
-            new Paragraph({ border: { bottom: { style: BorderStyle.SINGLE, size: 6, color: C.navy, space: 1 } }, spacing: { before: 40, after: 0 }, children: [] }),
-          ]
+            new Paragraph({
+              border: { bottom: { style: BorderStyle.SINGLE, size: 6, color: C.navy, space: 1 } },
+              spacing: { before: 40, after: 0 },
+              children: [],
+            }),
+          ],
         }),
       },
       footers: {
         default: new Footer({
           children: [
-            new Paragraph({ border: { top: { style: BorderStyle.SINGLE, size: 2, color: C.border, space: 4 } }, spacing: { before: 40, after: 0 }, children: [] }),
-            new Paragraph({ alignment: AlignmentType.CENTER, children: [run('This report is an academic reading signal. Decisions and publication responsibility rest with the user.', { color: C.mid, size: 15 })] }),
-          ]
+            new Paragraph({
+              border: { top: { style: BorderStyle.SINGLE, size: 2, color: C.border, space: 4 } },
+              spacing: { before: 40, after: 0 },
+              children: [],
+            }),
+            new Paragraph({
+              alignment: AlignmentType.CENTER,
+              children: [run('This report is an academic reading signal. Decisions, evaluation, and publication responsibility rest with the user.', { color: C.mid, size: 15 })],
+            }),
+          ],
         }),
       },
       children: [
-        sp(40),
+        sp(30),
         ...parseContent(content),
-        sp(80),
+        sp(60),
       ],
     }],
   });
