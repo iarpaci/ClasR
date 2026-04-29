@@ -98,4 +98,15 @@ router.get('/me', requireAuth, async (req, res) => {
   res.json({ id: req.user.id, email: req.user.email, plan: sub.plan });
 });
 
+router.delete('/account', requireAuth, async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    await supabase.from('chat_messages').delete().eq('user_id', userId);
+    await supabase.from('analyses').delete().eq('user_id', userId);
+    await supabase.from('user_subscriptions').delete().eq('user_id', userId);
+    await supabase.auth.admin.deleteUser(userId);
+    res.json({ message: 'Account deleted' });
+  } catch (err) { next(err); }
+});
+
 module.exports = router;

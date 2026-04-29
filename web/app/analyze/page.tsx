@@ -11,6 +11,16 @@ interface Message {
   filename?: string;
 }
 
+function CopyButton({ text }: { text: string }) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <button onClick={() => { navigator.clipboard.writeText(text); setCopied(true); setTimeout(() => setCopied(false), 1500); }}
+      className="text-xs text-gray-600 hover:text-gray-400 transition-colors">
+      {copied ? 'Copied!' : 'Copy'}
+    </button>
+  );
+}
+
 const FUNCTIONS = [
   {
     id: 1,
@@ -157,6 +167,7 @@ export default function AnalyzePage() {
   const [armedFn, setArmedFn] = useState<typeof FUNCTIONS[0] | null>(null);
   const [lastSession, setLastSession] = useState<{ id: string; preview: string } | null>(null);
   const [resumeLoading, setResumeLoading] = useState(false);
+  const [showOnboarding, setShowOnboarding] = useState(false);
 
   useEffect(() => {
     if (!isLoggedIn()) { router.replace('/login'); return; }
@@ -164,7 +175,10 @@ export default function AnalyzePage() {
     chatApi.conversations().then(r => {
       const last = r.data?.[0];
       if (last) setLastSession({ id: last.id, preview: last.preview });
-    }).catch(() => {});
+      else if (!localStorage.getItem('clasr_onboarded')) setShowOnboarding(true);
+    }).catch(() => {
+      if (!localStorage.getItem('clasr_onboarded')) setShowOnboarding(true);
+    });
   }, [router]);
 
   async function handleResume() {
@@ -454,6 +468,22 @@ export default function AnalyzePage() {
           {/* Empty state */}
           {messages.length === 0 && (
             <div className="flex flex-col items-center py-6 gap-6">
+              {showOnboarding && (
+                <div className="w-full max-w-3xl bg-blue-950/60 border border-blue-700/50 rounded-2xl px-6 py-5">
+                  <p className="text-blue-300 font-semibold text-sm mb-3">Welcome to CLASR</p>
+                  <ol className="space-y-2 text-sm text-gray-300 list-decimal list-inside">
+                    <li>Click a <span className="text-white font-medium">review function</span> below</li>
+                    <li>Drop or attach your manuscript <span className="text-gray-500">(.docx · .pdf · .txt)</span></li>
+                    <li>Read the report — <span className="text-white font-medium">only real problems</span> are shown</li>
+                    <li>Click another function to run more analyses on the <span className="text-white font-medium">same document</span></li>
+                  </ol>
+                  <button onClick={() => { setShowOnboarding(false); localStorage.setItem('clasr_onboarded', '1'); }}
+                    className="mt-4 text-xs bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-lg transition-colors">
+                    Got it
+                  </button>
+                </div>
+              )}
+
               {lastSession && (
                 <div className="w-full max-w-3xl flex items-center justify-between bg-gray-900 border border-gray-700 rounded-xl px-4 py-3">
                   <div className="min-w-0">
@@ -545,10 +575,17 @@ export default function AnalyzePage() {
               ) : (
                 <div className="max-w-2xl w-full bg-gray-900 border border-gray-800 rounded-2xl rounded-bl-sm px-5 py-4">
                   {renderAssistant(msg.content)}
-                  <div className="mt-3 pt-3 border-t border-gray-800 flex gap-2">
-                    <button onClick={() => navigator.clipboard.writeText(msg.content)}
-                      className="text-xs text-gray-600 hover:text-gray-400 transition-colors">
-                      Copy
+                  <div className="mt-3 pt-3 border-t border-gray-800 flex gap-3">
+                    <CopyButton text={msg.content} />
+                    <button onClick={() => {
+                      const blob = new Blob([msg.content], { type: 'text/plain' });
+                      const a = document.createElement('a');
+                      a.href = URL.createObjectURL(blob);
+                      a.download = `clasr-report-${i + 1}.txt`;
+                      a.click();
+                      URL.revokeObjectURL(a.href);
+                    }} className="text-xs text-gray-600 hover:text-gray-400 transition-colors">
+                      Download .txt
                     </button>
                   </div>
                 </div>
