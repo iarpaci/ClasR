@@ -161,10 +161,10 @@ const FUNCTIONS = [
 Output rule: report ONLY signals where a problem exists. Skip clean areas entirely. Each finding = 1–2 sentences: signal name, location, academic risk. Omit any heading with no findings.
 
 ▸ IMRaD / Section Organization
-▸ Structural Balance
+▸ Structural Balance & Section Proportions
 ▸ Contribution & Originality Visibility
 ▸ Missing / Redundant / Overloaded Sections
-▸ APA Surface & Readability
+▸ Writing Surface & Readability
 ▸ First-Screening Risk Signals
 ▸ Uncertainties
 
@@ -196,14 +196,19 @@ Close with one summary sentence.`,
     minPlan: 'free',
     prompt: `Run REFERENCE CHECK on the attached manuscript.
 
-STRICT OUTPUT RULE: Report ONLY confirmed problems. If a citation or entry is present and correct — do NOT write about it at all. No "present; no problem", no "checked — OK", no verification notes. Silence = correct. Only broken items appear in output. Each problem = one line: identifier + specific problem. Omit any heading with zero findings.
+EVIDENCE RULE: Every finding MUST include a direct quote from the text as proof. Format:
+- Missing from list: exact in-text citation → "not found in reference list"
+- Not cited in text: full reference entry → "no in-text citation found"
+- Year/author mismatch: in-text version → reference list version (quote both)
+If you cannot quote both sides with certainty — do NOT report it. Uncertain = skip.
+No "present; OK", no verification notes. Silence = correct. Omit any heading with zero findings.
 
 ▸ In-Text Citations Missing from Reference List
 ▸ Reference List Entries Not Cited in Text
-▸ Author / Year Mismatches (show: in-text → list)
+▸ Author / Year Mismatches (in-text → list)
 ▸ Same-Year Citation Problems (missing a/b labels)
-▸ Incomplete or Duplicate Entries (show missing field)
-▸ APA Formatting Inconsistencies (substantive only)
+▸ Incomplete or Duplicate Entries (quote the entry, state missing field)
+▸ APA Formatting Inconsistencies (substantive only — quote the problem)
 ▸ Undercited or Unsupported Key Claims
 ▸ Literature Use Issues (decorative citations, gap not grounded, discussion not reconnected)
 
@@ -253,16 +258,16 @@ Close with one summary sentence.`,
     minPlan: 'pro',
     prompt: `Run FINAL INTEGRATED REVIEW on the attached manuscript.
 
-Section 1 — Integrated Review
+▸ Integrated Review
 One paragraph. No lists, no em dashes. Professional English. Cover: contribution visibility, methodological transparency, analytical rigor, internal consistency, literature integration, evidence-boundary control, Q1-readiness signals. Cautious tone. No publication decision.
 
-Section 2 — Critical Sentence Corrections
-Only sentences with critical problems (overclaim, unsupported causality, APA 7.1 violation, translation-like phrasing). Format each as:
-• Original: [sentence]
-• Problem: [one line]
-• Corrected: [revised sentence]
+▸ Critical Sentence Corrections
+Only sentences with critical problems (overclaim, unsupported causality, APA violation, translation-like phrasing). Format each as:
+- Original: [sentence]
+- Problem: [one line]
+- Corrected: [revised sentence]
 
-If none: "No critical sentence-level corrections detected."`,
+If none: write "No critical sentence-level corrections detected."`,
   },
 ];
 

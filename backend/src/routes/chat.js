@@ -96,6 +96,12 @@ router.post('/message', requireAuth, handleUpload, async (req, res, next) => {
       userMessage = userMessage ? `${userMessage}\n\n---\n\n${fileText}` : fileText;
     }
 
+    // For function calls: override kit system's SECTION 0-8 format so Claude follows
+    // the function prompt's output format exactly (severity tags, named sections, concise findings)
+    if (isFunctionCall && userMessage) {
+      userMessage = `[DIAGNOSTIC MODE] Override output format: follow the instructions below exactly. Do NOT produce SECTION 0–8 structure, flowing prose paragraphs, Argument Density block, or closing block. Apply your full reading depth, but output only what the format below specifies. Omit headings with no findings.\n\nSEVERITY TAG DEFINITIONS (use where instructed):\n[CRITICAL] = desk-rejection risk or fundamental validity problem\n[MAJOR] = significant weakness requiring attention\n[MODERATE] = notable concern, lower severity\n[UNCERTAINTY] = unclear, insufficient information to assess\n\n${userMessage}`;
+    }
+
     if (userMessage.length > 150000) {
       return res.status(400).json({ error: 'Input too long (max 150,000 characters)' });
     }
