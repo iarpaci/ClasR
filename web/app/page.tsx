@@ -47,7 +47,7 @@ export default function LandingPage() {
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <Link href="/register"
             className="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-8 py-3.5 rounded-xl transition-colors text-base">
-            Start free — 3 analyses included
+            Start free — 5 analyses included
           </Link>
           <Link href="/pricing"
             className="bg-gray-800 hover:bg-gray-700 text-gray-200 font-semibold px-8 py-3.5 rounded-xl transition-colors text-base">
