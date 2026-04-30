@@ -1,7 +1,7 @@
 const { supabase } = require('./auth');
 
 const PLANS = {
-  free:  { limit: 3,   type: 'lifetime', chat_limit: 0  },
+  free:  { limit: 5,   type: 'lifetime', chat_limit: 0  },
   basic: { limit: 40,  type: 'monthly',  chat_limit: 5  },
   pro:   { limit: 150, type: 'monthly',  chat_limit: 50 },
 };
