@@ -299,13 +299,25 @@ export default function AnalyzePage() {
   useEffect(() => {
     if (!isLoggedIn()) { router.replace('/login'); return; }
     subscriptionApi.status().then(r => setSub(r.data)).catch(() => {});
-    chatApi.conversations().then(r => {
-      const last = r.data?.[0];
-      if (last) setLastSession({ id: last.id, preview: last.preview });
-      else if (!localStorage.getItem('clasr_onboarded')) setShowOnboarding(true);
-    }).catch(() => {
-      if (!localStorage.getItem('clasr_onboarded')) setShowOnboarding(true);
-    });
+
+    const convParam = new URLSearchParams(window.location.search).get('conv');
+    if (convParam) {
+      chatApi.getConversation(convParam).then(({ data }) => {
+        const msgs: Message[] = (data || []).map((m: any) => ({
+          role: m.role, content: m.content, filename: m.filename,
+        }));
+        setMessages(msgs);
+        setConvId(convParam);
+      }).catch(() => {});
+    } else {
+      chatApi.conversations().then(r => {
+        const last = r.data?.[0];
+        if (last) setLastSession({ id: last.id, preview: last.preview });
+        else if (!localStorage.getItem('clasr_onboarded')) setShowOnboarding(true);
+      }).catch(() => {
+        if (!localStorage.getItem('clasr_onboarded')) setShowOnboarding(true);
+      });
+    }
   }, [router]);
 
   async function handleResume() {

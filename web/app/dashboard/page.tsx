@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { authApi, analyzeApi, subscriptionApi } from '@/lib/api';
+import { authApi, chatApi, subscriptionApi } from '@/lib/api';
 import { isLoggedIn, logout } from '@/lib/auth';
 
 const PLAN_LABELS: Record<string, string> = { free: 'Free', basic: 'Basic', pro: 'Pro' };
@@ -17,8 +17,8 @@ export default function DashboardPage() {
 
   useEffect(() => {
     if (!isLoggedIn()) { router.replace('/login'); return; }
-    Promise.all([authApi.me(), subscriptionApi.status(), analyzeApi.history()])
-      .then(([u, s, h]) => { setUser(u.data); setSub(s.data); setHistory(h.data); })
+    Promise.all([authApi.me(), subscriptionApi.status(), chatApi.conversations()])
+      .then(([u, s, h]) => { setUser(u.data); setSub(s.data); setHistory(h.data || []); })
       .catch(() => router.replace('/login'))
       .finally(() => setLoading(false));
   }, [router]);
@@ -48,7 +48,7 @@ export default function DashboardPage() {
             <div>
               <p className="text-gray-400 text-sm">{user?.email}</p>
               <p className="text-white font-semibold mt-0.5">
-                {sub?.used ?? 0} / {sub?.limit ?? 3} analyses used
+                {sub?.used ?? 0} / {sub?.limit ?? 5} analyses used
                 <span className="text-gray-500 text-sm ml-2">
                   {sub?.plan === 'free' ? '(lifetime)' : '(this month)'}
                 </span>
@@ -79,15 +79,15 @@ export default function DashboardPage() {
             <h2 className="text-gray-400 text-sm font-semibold uppercase tracking-wider mb-3">Recent Analyses</h2>
             <div className="space-y-2">
               {history.map((a: any) => (
-                <Link key={a.id} href={`/report/${a.id}`}
+                <Link key={a.id} href={`/analyze?conv=${a.id}`}
                   className="flex items-center justify-between bg-gray-900 hover:bg-gray-800 border border-gray-800 rounded-xl px-4 py-3 transition-colors">
-                  <div>
-                    <p className="text-white text-sm font-medium">{a.filename || 'Pasted text'}</p>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-white text-sm font-medium truncate">{a.preview || 'Conversation'}</p>
                     <p className="text-gray-500 text-xs mt-0.5">
-                      {a.q_variant || 'AUTO-Q'} · {new Date(a.created_at).toLocaleDateString()}
+                      {new Date(a.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
                     </p>
                   </div>
-                  <span className="text-gray-600 text-sm">→</span>
+                  <span className="text-gray-600 text-sm ml-3 shrink-0">→</span>
                 </Link>
               ))}
             </div>
