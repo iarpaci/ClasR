@@ -286,16 +286,36 @@ Close with one summary sentence.`,
     minPlan: 'pro',
     prompt: `Run FINAL INTEGRATED REVIEW on the attached manuscript.
 
-▸ Integrated Review
-One paragraph. No lists, no em dashes. Professional English. Cover: contribution visibility and framing quality, methodological transparency, replication readiness, analytical rigor, argument chain continuity, internal consistency, evidence-boundary control, claim-limit symmetry, literature integration, reader–evidence alignment, Q1-readiness signals. Cautious tone. No publication decision.
+Apply full reading depth across all signal dimensions. Write in professional academic English — findings are explained in prose, not label lists. Use severity tags [CRITICAL] [MAJOR] [MODERATE] only where academic risk is clear; contextualise each tagged finding in one to two sentences. Omit any section where no findings exist.
 
-▸ Desk-Reject Risk Summary
-For each of the five risk zones, state RISK DETECTED or NOT DETECTED with one supporting observation. Omit zones with no active risk signals.
-Scope–Journal Fit · Abstract Posture · Structural Completeness · Language Posture · Integrity & Transparency
-Close the block with: Co-occurrence pattern: LOW (1 zone) / MODERATE (2 zones) / HIGH (3+ zones).
+▸ Structural Quality
+Assess: IMRaD flow and section organization, section proportions and balance, contribution and originality framing (primacy claims, gap anchoring, CONTRIBUTION SCOPE INFLATION if present), reader profile implied by the framing (EXPERT / INTERDISCIPLINARY / POLICY_ADJACENT / GENERAL_ACADEMIC) vs. the evidence threshold the body actually delivers, writing surface and first-screening signals.
+
+▸ Methodological Transparency
+Assess: research design and empirical logic, data, sampling, and measurement visibility, analytical procedures and model transparency, validity, reliability, and robustness coverage. Replication profile — flag only ABSENT dimensions (pre-registration, data/code/materials availability, reporting standard). Negative result handling (NULL_VISIBLE / NULL_DEFLECTED / NULL_ABSENT — if NULL_DEFLECTED identify subtype: SURPRISE_FRAMING / FUTURE_DEFLECTION / PIVOT_SUPPRESSION / SUPPLEMENTARY_ONLY). Disciplinary tradition conflicts (TENSION_SUPPRESSED / ASSUMPTION_INVISIBILITY if detected). Ethics and reproducibility signals.
+
+▸ Citation & Literature Integration
+Assess: in-text citation to reference list consistency (quote any mismatch), literature use quality (engaged vs. decorative), gap claim grounding in the literature, citation pattern signals if present (CONFIRMATORY CITATION PATTERN / ELEVATED SELF-CITATION DENSITY / REFERENCE AGE SIGNAL / FIELD CONCENTRATION SIGNAL).
+
+▸ Internal Consistency
+Assess: abstract–body alignment (CLAIM ESCALATION / CLAIM DEFLATION / SCOPE BOUNDARY GAP / LIMIT SIGNAL GAP), aim–method–results coherence, results–discussion–conclusion integrity (CAUSAL DRIFT / SCALE DRIFT / MECHANISM INTRODUCTION), table–figure–text alignment, terminology and variable name stability across sections.
+
+▸ Argument Chain
+State the manuscript's central claim in one sentence. Assess T1–T4 continuity (Framing → Methods → Results → Discussion → Conclusion) — report only drifting or broken transitions. State chain profile: INTACT / PARTIALLY INTACT / DRIFTED / BROKEN / UNRESOLVED. Flag CLAIM_SUBSTITUTION, CLAIM_FRAGMENTATION, or CLAIM_ABANDONMENT if detected. Assess FRAMING / CORE / CLOSING zone argument–limit symmetry — flag only ASYMMETRIC or INVERTED zones.
+
+▸ Risk & Integrity Signals
+Assess: language register risks (certainty escalation, impact inflation, normative leakage), analytical and framing overclaims (STRUCTURAL_NULL_ABSENCE, SELECTIVE_PRESENTATION_SIGNAL, unbounded primacy claims), integrity and transparency signals (self-citation density, competing interest intersections, pre-registration absence in confirmatory designs).
+
+▸ Editorial Risk Profile
+For each of the five zones, state RISK DETECTED or NOT DETECTED and provide one supporting sentence. Omit zones with no active signals.
+Scope–Journal Fit Risk · Abstract Posture Risk · Structural Completeness Risk · Language Posture Risk · Integrity & Transparency Risk
+Co-occurrence pattern: LOW (1 zone) / MODERATE (2 zones) / HIGH (3+ zones).
+
+▸ Integrated Assessment
+One paragraph, no lists, no em dashes. Synthesize across all sections: what the manuscript achieves, where its principal vulnerabilities lie, and what a rigorous reviewer would identify as the most consequential risks to address before submission. Professional and cautious tone. No publication decision.
 
 ▸ Critical Sentence Corrections
-Only sentences with critical problems (overclaim, unsupported causality, APA violation, translation-like phrasing). Format:
+Only sentences with critical problems: overclaim, unsupported causality, APA violation, translation-like phrasing. Format:
 - Original: [sentence]
 - Problem: [one line]
 - Corrected: [revised sentence]
