@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { authApi, subscriptionApi } from '@/lib/api';
+import { authApi, subscriptionApi, chatApi } from '@/lib/api';
 import { isLoggedIn, logout } from '@/lib/auth';
 import api from '@/lib/api';
 
@@ -14,6 +14,9 @@ export default function SettingsPage() {
   const [portalError, setPortalError] = useState('');
   const [deleteConfirm, setDeleteConfirm] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
+  const [clearHistoryConfirm, setClearHistoryConfirm] = useState(false);
+  const [clearHistoryLoading, setClearHistoryLoading] = useState(false);
+  const [clearHistoryDone, setClearHistoryDone] = useState(false);
 
   useEffect(() => {
     if (!isLoggedIn()) { router.replace('/login'); return; }
@@ -75,6 +78,38 @@ export default function SettingsPage() {
           className="w-full bg-red-950 hover:bg-red-900 border border-red-900 text-red-400 font-semibold py-3 rounded-xl transition-colors text-sm">
           Sign Out
         </button>
+
+        {/* Clear history */}
+        <div className="bg-gray-900 border border-gray-800 rounded-xl p-5">
+          <p className="text-xs text-gray-500 uppercase tracking-wider mb-3">Analysis History</p>
+          {clearHistoryDone ? (
+            <p className="text-sm text-emerald-400">History cleared.</p>
+          ) : !clearHistoryConfirm ? (
+            <button onClick={() => setClearHistoryConfirm(true)}
+              className="text-sm text-gray-400 hover:text-red-400 hover:underline transition-colors">
+              Delete all analysis history
+            </button>
+          ) : (
+            <div className="space-y-3">
+              <p className="text-sm text-red-400">All conversation history will be permanently deleted.</p>
+              <div className="flex gap-3">
+                <button onClick={async () => {
+                  setClearHistoryLoading(true);
+                  try { await chatApi.clearHistory(); setClearHistoryDone(true); } catch {}
+                  setClearHistoryLoading(false);
+                  setClearHistoryConfirm(false);
+                }} disabled={clearHistoryLoading}
+                  className="text-sm bg-red-700 hover:bg-red-600 disabled:opacity-50 text-white px-4 py-2 rounded-lg transition-colors">
+                  {clearHistoryLoading ? 'Deleting…' : 'Yes, delete history'}
+                </button>
+                <button onClick={() => setClearHistoryConfirm(false)}
+                  className="text-sm text-gray-400 hover:text-gray-200 px-4 py-2">
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
 
         {/* Delete account */}
         <div className="bg-gray-900 border border-gray-800 rounded-xl p-5">

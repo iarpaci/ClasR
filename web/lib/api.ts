@@ -49,6 +49,8 @@ export const chatApi = {
   sendMessage: (formData: FormData) => api.post('/chat/message', formData, { headers: { 'Content-Type': 'multipart/form-data' } }),
   conversations: () => api.get('/chat/conversations'),
   getConversation: (id: string) => api.get(`/chat/conversations/${id}`),
+  deleteConversation: (id: string) => api.delete(`/chat/conversations/${id}`),
+  clearHistory: () => api.delete('/chat/conversations'),
 };
 
 export const subscriptionApi = {

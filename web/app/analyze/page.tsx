@@ -167,6 +167,7 @@ Output rule: report ONLY signals where a problem exists. Skip clean areas entire
 ▸ Missing / Redundant / Overloaded Sections
 ▸ Reader–Evidence Alignment
   What reader profile does the manuscript's framing imply (EXPERT / INTERDISCIPLINARY / POLICY_ADJACENT / GENERAL_ACADEMIC)? Does the actual evidence threshold match? Report TENSION or MISMATCH only — skip ALIGNED.
+  EXPLANATION_DEPTH_OVER: explanation depth exceeds what the implied reader profile requires. EXPLANATION_DEPTH_UNDER: explanation depth is insufficient for the implied reader. AUDIENCE_SHIFT_DETECTED: the manuscript shifts its assumed audience mid-text without acknowledgment.
 ▸ Writing Surface & Readability
 ▸ First-Screening Risk Signals
 ▸ Uncertainties
@@ -245,12 +246,15 @@ Output rule: report ONLY detected mismatches and evidence-boundary violations. S
   CLAIM DEFLATION: body makes stronger claims than the abstract represents.
   SCOPE BOUNDARY GAP: abstract declares a scope boundary the body does not respect.
   LIMIT SIGNAL GAP: limitations acknowledged in abstract absent from the body, or vice versa.
+  METHOD_SIGNAL_GAP: a methodological element declared in the abstract (data type, analytical approach, sample scope) is absent or contradicted in the body.
 ▸ Aim / RQ ↔ Method / Analysis
 ▸ Method ↔ Results
 ▸ Results ↔ Discussion / Conclusion
   CAUSAL DRIFT: are correlational or associational findings reframed as causal in the Discussion?
   SCALE DRIFT: are findings generalized beyond the sample, region, or time period without flagging the transition?
   MECHANISM INTRODUCTION: does the Discussion introduce an explanatory mechanism not present in Results and not cited from prior literature?
+  IMPLICATION_EXTENSION: implications stated in the Discussion extend beyond what the results support without acknowledgment.
+  CONCLUSION_INTRODUCTION_NEW_CLAIM: the Conclusion introduces a claim not present in either Results or Discussion.
 ▸ Table / Figure ↔ Text
 ▸ Terminology / Variable Name Shifts
 ▸ Evidence-Boundary Violations (causality, scale, overclaim)
@@ -268,14 +272,20 @@ Output rule: report ONLY significant risk signals. Skip anything below notable r
 
 ▸ Research Framing / Contribution / Originality Risks
   Unbounded primacy claims ("first study to...") without scope boundary. Unanchored novelty assertions. CONTRIBUTION SCOPE INFLATION: stated contribution exceeds what the study design can deliver.
-▸ Methodological Red Flags
 ▸ Analytical & Results Red Flags
   STRUCTURAL_NULL_ABSENCE: does a comparative, multi-variable, or longitudinal design report zero non-significant results — where some would be structurally expected?
   SELECTIVE_PRESENTATION_SIGNAL: are results filtered, ordered by significance level, or displaced to supplementary materials without explanation?
-▸ Conclusion & Evidence-Boundary Red Flags
 ▸ Language Risks
   Certainty escalation ("demonstrates," "proves," "conclusively shows"). Impact inflation ("high impact," "critical," "severe" — when unmeasured). Normative leakage ("should," "must," "requires action").
-▸ Ethics / Transparency / Reproducibility Red Flags
+  INEVITABILITY_LANGUAGE: findings or conclusions presented as pre-determined or boundary-free. THRESHOLD_LOCK: thresholds or cut-offs applied without justification or alternative consideration.
+▸ Framing & Orientation Risks
+  FRAMEWORK_MONOPOLY: manuscript operates within a single theoretical or methodological framework without acknowledging alternatives or justifying the choice.
+  ALTERNATIVELESS_SCOPE: the research scope or design is framed as the only viable approach. ONLY_OPTION_FRAMING: the analytical or interpretive path is presented as inevitable rather than selected.
+  SUPPRESSED_SCOPE_LIMIT: active generalizability limits are present in the data but not acknowledged in the text. SILENCED_UNCERTAINTY: uncertainty present in the results is not carried through to the discussion or conclusion.
+▸ Competing Interest Intersections
+  OUTCOME_INSTRUMENT_INTERSECTION: the primary outcome variable and the measurement instrument share the same source (developer, funder, or institution).
+  ANALYTIC_TOOL_INTERSECTION: the analytic tool or software was developed by the same entity funding the study or by an author.
+  INTERPRETIVE_FRAMING_INTERSECTION: the interpretive framework used to contextualize results is also authored or advocated by the manuscript's authors.
 
 Close with one summary sentence.`,
   },
@@ -413,6 +423,7 @@ export default function AnalyzePage() {
   const [lastSession, setLastSession] = useState<{ id: string; preview: string } | null>(null);
   const [resumeLoading, setResumeLoading] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   useEffect(() => {
     if (!isLoggedIn()) { router.replace('/login'); return; }
@@ -725,6 +736,20 @@ export default function AnalyzePage() {
           )}
           {sub?.plan !== 'pro' && (
             <Link href="/pricing" className="text-xs text-blue-400 hover:underline">Upgrade</Link>
+          )}
+          {convId && (
+            <button
+              onClick={async () => {
+                if (deleteLoading) return;
+                setDeleteLoading(true);
+                try { await chatApi.deleteConversation(convId); } catch {}
+                setDeleteLoading(false);
+                setMessages([]); setConvId(null); setPrompt(''); setFile(null); setArmedFn(null);
+              }}
+              title="Delete this session"
+              className="text-xs text-gray-600 hover:text-red-400 px-2 py-1.5 hover:bg-gray-800 rounded-lg transition-colors">
+              {deleteLoading ? '…' : '🗑'}
+            </button>
           )}
           <button onClick={() => { setMessages([]); setConvId(null); setPrompt(''); setFile(null); setArmedFn(null); }}
             className="text-xs text-gray-500 hover:text-gray-300 px-3 py-1.5 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors">
