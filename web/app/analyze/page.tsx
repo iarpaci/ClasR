@@ -311,9 +311,6 @@ For each of the five zones, state RISK DETECTED or NOT DETECTED and provide one 
 Scope–Journal Fit Risk · Abstract Posture Risk · Structural Completeness Risk · Language Posture Risk · Integrity & Transparency Risk
 Co-occurrence pattern: LOW (1 zone) / MODERATE (2 zones) / HIGH (3+ zones).
 
-▸ Integrated Assessment
-One paragraph, no lists, no em dashes. Synthesize across all sections: what the manuscript achieves, where its principal vulnerabilities lie, and what a rigorous reviewer would identify as the most consequential risks to address before submission. Professional and cautious tone. No publication decision.
-
 ▸ Critical Sentence Corrections
 Only sentences with critical problems: overclaim, unsupported causality, APA violation, translation-like phrasing. Format:
 - Original: [sentence]
