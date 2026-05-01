@@ -1,0 +1,302 @@
+# EN — INTERDISCIPLINARY TENSION KIT v1.0
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.0 — Cross-disciplinary methodological conflict signal detection overlay
+
+---
+
+## 0. IDENTITY
+
+Type: EXTENSION KIT
+Attaches to: CLASR-EN reading layer (CORE unchanged)
+No content generation · No judgment · No recommendation
+
+Tier: 3 — Extension
+Primary SECTION: SECTION 2 — Conceptual / Theoretical Framework
+Secondary SECTION: SECTION 3 — Methodological Visibility
+
+---
+
+## 1. PURPOSE (ONE SENTENCE)
+
+To surface the presence of conflicting methodological or theoretical
+traditions drawn from different disciplines within a single manuscript —
+mapping whether such cross-disciplinary tensions are acknowledged,
+suppressed, or absent — as structural conflict signals,
+without producing judgment on the choice of traditions.
+
+---
+
+## 2. DESIGN PRINCIPLE
+
+Citation Behavior Kit reads field concentration:
+  whether citations draw from a single discipline.
+
+This kit reads field tension:
+  whether two or more disciplines contribute
+  methodological or theoretical traditions
+  that operate under incompatible assumptions —
+  and whether that incompatibility is opened or closed.
+
+```
+Disciplinary tradition signals extracted per zone
+         →
+Traditions mapped: single / multiple / conflicting
+         →
+Conflict acknowledgment behavior read
+         →
+Tension profile reported — no verdict
+```
+
+The signal is not that disciplines are combined.
+Interdisciplinary work is structurally expected and appropriate.
+The signal is that incompatible assumptions from different traditions
+are used simultaneously without the incompatibility being opened.
+
+---
+
+## 3. SCOPE — SIGNALS READ
+
+### 3.1 Disciplinary Tradition Detection
+
+The manuscript draws methodological or theoretical elements
+from identifiable disciplinary traditions.
+
+Tradition signals:
+- Vocabulary: field-specific terms used without translation
+- Citations: clustered around one or more disciplinary literatures
+- Method naming: named methods associated with specific fields
+  (e.g., grounded theory → qualitative sociology;
+   DiD → econometrics; discourse analysis → linguistics)
+- Theoretical framing: named frameworks tied to specific traditions
+
+Output:
+```
+SINGLE_TRADITION    — one discipline's framework dominates
+MULTIPLE_TRADITIONS — two or more traditions present
+HYBRID              — traditions explicitly integrated
+```
+
+---
+
+### 3.2 Conflict Detection
+
+When multiple traditions are present,
+this kit reads whether their foundational assumptions
+are compatible or in tension.
+
+Conflict indicators (examples, not exhaustive):
+- Positivist quantitative method + interpretivist theoretical frame
+  without epistemological bridge
+- Ecological-level data + individual-level causal claim
+  without level-of-analysis acknowledgment
+- Cross-sectional design + longitudinal theoretical model
+  without temporal mismatch acknowledgment
+- Deductive hypothesis testing + inductive grounded approach
+  applied to the same dataset without resolution
+
+Label: TRADITION_CONFLICT_DETECTED
+
+Absence of conflict (compatible traditions):
+→ Kit runs silently. No signal produced.
+
+---
+
+### 3.3 Conflict Acknowledgment Behavior
+
+When a tradition conflict is detected,
+this kit reads whether it is acknowledged or suppressed.
+
+Acknowledged:
+- Epistemological differences named
+- Methodological tension stated and rationale given
+- Hybrid approach explicitly justified
+- "This study bridges X and Y traditions by..."
+
+Label: TENSION_ACKNOWLEDGED
+
+Suppressed:
+- Two traditions used without any bridge statement
+- Methods from one tradition, theory from another,
+  no integration discussion
+- Field-specific vocabulary mixed without explanation
+
+Label: TENSION_SUPPRESSED
+
+---
+
+### 3.4 Assumption Invisibility Signal
+
+A disciplinary assumption is treated as universal
+when it is in fact tradition-specific.
+
+Signal indicators:
+- Statistical significance threshold presented as universal standard
+  in a field where effect sizes or Bayesian standards dominate
+- Objectivist data model assumed in a constructivist theoretical context
+- Causal language used in a correlational tradition
+  without epistemological marking
+
+Label: ASSUMPTION_INVISIBILITY
+
+This signal may fire independently of tradition conflict —
+even in single-tradition manuscripts.
+
+---
+
+## 4. WHAT THIS KIT DOES NOT DO
+
+Does not:
+  Evaluate whether the chosen traditions are appropriate
+  Judge whether interdisciplinary combinations are valid
+  Recommend specific epistemological bridges
+  Label the manuscript as methodologically incoherent
+  Determine which tradition should take precedence
+  Evaluate the quality of the integration
+
+Reads only:
+  Whether disciplinary traditions in tension
+  are acknowledged or suppressed — as structural signals
+
+---
+
+## 5. OUTPUT BEHAVIOR
+
+Tension signals are reported as:
+
+```
+INTERDISCIPLINARY TENSION SIGNAL
+
+Tradition profile:      [SINGLE / MULTIPLE / HYBRID]
+Conflict detected:      [TRADITION_CONFLICT_DETECTED / NOT DETECTED]
+Acknowledgment:         [TENSION_ACKNOWLEDGED / TENSION_SUPPRESSED /
+                         NOT APPLICABLE]
+Assumption visibility:  [ASSUMPTION_INVISIBILITY / NOT DETECTED]
+```
+
+No judgment. No recommendation.
+Tradition profile + conflict map only.
+
+If no tension signals are detected:
+→ No note produced. Kit runs silently.
+
+---
+
+## 6. Q-VARIANT CALIBRATION
+
+Q1:
+  TENSION_SUPPRESSED and ASSUMPTION_INVISIBILITY explicitly surfaced.
+  TRADITION_CONFLICT_DETECTED without acknowledgment noted
+  as potential reviewer concern.
+  Q1 reviewers in high-rigor journals weight epistemological
+  coherence heavily.
+
+Q2:
+  All signals reported at standard detail.
+  TENSION_SUPPRESSED noted without escalation.
+
+Q3:
+  TRADITION_CONFLICT_DETECTED reported.
+  ASSUMPTION_INVISIBILITY reported.
+  TENSION_SUPPRESSED suppressed silently
+  unless conflict is structurally major.
+
+---
+
+## 7. INTEGRATION — LENS-BRIDGE CONNECTION
+
+### Primary: SECTION 2 — Conceptual / Theoretical Framework
+Tradition profile and conflict detection
+where they shape the theoretical and conceptual framing
+→ reported as tension sub-signal within SECTION 2
+
+### Secondary: SECTION 3 — Methodological Visibility
+Where disciplinary tension enters the method layer —
+specifically where methods from one tradition
+are applied under assumptions from another
+→ flagged as assumption-visibility note within SECTION 3
+
+Interdisciplinary Tension Kit output never opens a new section.
+Always appears as a sub-signal within the relevant SECTION.
+
+---
+
+## 8. ACTIVATION
+
+Automatically active in SECTION 2 for every report.
+Passive scan in SECTION 3.
+
+Activates in SECTION 3 only when tradition conflict
+enters the methodological layer.
+
+If no multiple traditions detected:
+→ SINGLE_TRADITION noted; kit runs silently on remaining signals.
+
+---
+
+## 9. COLLISION MANAGEMENT
+
+If TENSION_SUPPRESSED overlaps with
+Citation Behavior Kit FIELD_CONCENTRATION_SIGNAL:
+→ Citation Kit takes precedence on bibliographic pattern;
+  Interdisciplinary Tension Kit reports theoretical tradition conflict
+→ Reported in their respective SECTIONs; not merged
+
+If ASSUMPTION_INVISIBILITY overlaps with
+Orientation Lens THRESHOLD_LOCK:
+→ Orientation Lens takes precedence on scope-closure behavior;
+  Interdisciplinary Tension Kit reports tradition-specific
+  assumption invisibility
+→ Both may fire; reported in their respective SECTIONs separately
+
+If TENSION_SUPPRESSED overlaps with
+Silence Lens FRAMEWORK_MONOPOLY:
+→ Silence Lens takes precedence on argumentative silence;
+  Interdisciplinary Tension Kit reports cross-disciplinary
+  conflict suppression specifically
+→ Combined note if same SECTION; otherwise separate
+
+If TRADITION_CONFLICT_DETECTED overlaps with
+Abstract→Body Coherence Kit METHOD_SIGNAL_GAP:
+→ Coherence Kit takes precedence on abstract→body distance;
+  Interdisciplinary Tension Kit reports tradition-level conflict
+→ Both active; reported in their respective SECTIONs
+
+---
+
+## 10. REVISION ROUND INTERACTION
+
+In Revision Round Mode, tension suppression signals
+carry additional weight under Q1-level sensitivity.
+
+TENSION_SUPPRESSED in revised manuscripts is read as residual risk —
+epistemological coherence is frequently raised in R1 comments
+for interdisciplinary submissions to high-rigor journals.
+
+No separate flag produced.
+Signal reported as normal; sensitivity applies implicitly.
+
+---
+
+## 11. HARD LIMITS
+
+This kit must never:
+  Evaluate whether the interdisciplinary combination is valid
+  Judge which tradition is more appropriate for the research question
+  Recommend specific epistemological bridges or integrations
+  Label the manuscript as incoherent or methodologically confused
+  Generate independent flags outside SECTION 2 and SECTION 3
+  Act as a standalone epistemological audit
+
+---
+
+## 12. CANONICAL DEFINITION
+
+INTERDISCIPLINARY TENSION KIT v1.0 surfaces the presence
+of conflicting methodological or theoretical traditions
+drawn from different disciplines — mapping whether such tensions
+are acknowledged, suppressed, or absent — as structural conflict signals,
+without producing judgment, evaluation, or recommendation.
+
+---
+
+# INTERDISCIPLINARY TENSION KIT v1.0 — END

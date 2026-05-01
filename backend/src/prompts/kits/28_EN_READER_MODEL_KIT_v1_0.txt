@@ -1,0 +1,333 @@
+# EN — READER MODEL KIT v1.0
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.0 — Implied reader profile and evidence threshold alignment signal overlay
+
+---
+
+## 0. IDENTITY
+
+Type: EXTENSION KIT
+Attaches to: CLASR-EN reading layer (CORE unchanged)
+No content generation · No judgment · No recommendation
+
+Tier: 3 — Extension
+Primary SECTION: SECTION 1 — Aim & Scope
+Secondary SECTION: SECTION 6 — Academic Language & Hedging
+
+---
+
+## 1. PURPOSE (ONE SENTENCE)
+
+To surface the implied reader profile embedded in the manuscript's
+framing, language, and evidence presentation —
+mapping whether the assumed reader's expertise level and expectations
+are aligned with the manuscript's actual evidence threshold —
+as a positioning signal, without producing evaluation.
+
+---
+
+## 2. DESIGN PRINCIPLE
+
+Every manuscript implies a reader.
+
+The implied reader is not named —
+it is embedded in vocabulary choices, explanation depth,
+assumption of prior knowledge, and evidence presentation style.
+
+When the implied reader profile diverges from
+the evidence threshold the manuscript actually operates at,
+a positioning gap exists.
+
+```
+Implied reader signals extracted from framing and language
+         →
+Reader profile mapped: expert / interdisciplinary /
+                        policy-adjacent / general academic
+         →
+Evidence threshold extracted from method and claim behavior
+         →
+Alignment between implied reader and evidence threshold mapped
+         →
+Positioning signal reported — no verdict
+```
+
+This kit does not ask whether the manuscript is well-written.
+It reads whether the manuscript is positioned
+for the reader it implies.
+
+---
+
+## 3. SCOPE — SIGNALS READ
+
+### 3.1 Implied Reader Profile Detection
+
+The manuscript's framing, vocabulary, and explanation depth
+imply a specific type of reader.
+
+Reader profile signals:
+
+EXPERT:
+- Field-specific terminology used without definition
+- Prior literature assumed known
+- Methods described at specialist level
+- No conceptual scaffolding for non-specialists
+
+INTERDISCIPLINARY:
+- Key terms defined or translated across fields
+- Multiple literature bases engaged
+- Methods explained with non-specialist accessibility
+- Cross-field assumptions made explicit
+
+POLICY_ADJACENT:
+- Findings framed in terms of implications or applications
+- Technical detail reduced; outcome emphasis increased
+- "Stakeholders," "practitioners," "decision-makers" referenced
+- Evidence simplified for actionability
+
+GENERAL_ACADEMIC:
+- Broad framing without field-specific depth
+- Conceptual rather than technical emphasis
+- Findings presented narratively
+
+Label: READER_PROFILE_[type]
+
+---
+
+### 3.2 Evidence Threshold Extraction
+
+The manuscript's actual evidence threshold is read from:
+- Methodological rigor (as mapped in SECTION 3)
+- Claim intensity (as mapped in SECTION 4)
+- Numerical precision (as mapped in SECTION 5)
+- Hedging level (as mapped in SECTION 6)
+
+Evidence threshold levels:
+```
+HIGH    — rigorous, multi-method, well-bounded claims
+MEDIUM  — standard, single-method, conditionally bounded claims
+LOW     — descriptive, exploratory, weakly bounded claims
+```
+
+---
+
+### 3.3 Alignment Mapping
+
+Alignment between implied reader and evidence threshold:
+
+```
+ALIGNED   — reader profile and evidence threshold are congruent
+            (e.g., EXPERT reader + HIGH evidence threshold)
+
+TENSION   — reader profile and evidence threshold diverge
+            in ways that create positioning ambiguity
+            (e.g., POLICY_ADJACENT framing + LOW evidence threshold —
+             implications implied for an audience
+             the evidence cannot fully serve)
+
+MISMATCH  — reader profile and evidence threshold
+             are structurally incompatible
+             (e.g., EXPERT reader assumed, but
+              methods described at introductory level;
+              or GENERAL_ACADEMIC framing
+              with highly specialized claims)
+```
+
+---
+
+### 3.4 Explanation Depth Signal
+
+The level of explanation provided for key concepts
+relative to the assumed reader's prior knowledge.
+
+Signal indicators — over-explanation:
+- Basic concepts defined that the implied expert reader would know
+- Foundational literature reviewed at introductory level
+  in a specialist journal submission
+
+Signal indicators — under-explanation:
+- Specialist assumptions made without definition
+  in a cross-disciplinary framing context
+- Methods described at expert level
+  when policy-adjacent framing implies broader audience
+
+Label: EXPLANATION_DEPTH_OVER / EXPLANATION_DEPTH_UNDER / CALIBRATED
+
+---
+
+### 3.5 Audience Shift Signal
+
+The manuscript's implied reader shifts across zones —
+expert in methods, policy-adjacent in discussion,
+general in conclusion.
+
+Signal indicators:
+- Vocabulary register changes between sections
+- Technical depth inconsistent across manuscript zones
+- Conclusion introduces terms or framing absent from methods
+
+Label: AUDIENCE_SHIFT_DETECTED
+
+---
+
+## 4. WHAT THIS KIT DOES NOT DO
+
+Does not:
+  Evaluate whether the manuscript is appropriate for a specific journal
+  Judge whether the implied reader is the correct target
+  Recommend changes to framing or language register
+  Assess writing quality or clarity
+  Determine whether the manuscript will be understood
+
+Reads only:
+  The structural relationship between
+  the implied reader embedded in the manuscript's language
+  and the evidence threshold the manuscript actually operates at
+
+---
+
+## 5. OUTPUT BEHAVIOR
+
+Reader model signals are reported as:
+
+```
+READER MODEL SIGNAL
+
+Implied reader profile:   [EXPERT / INTERDISCIPLINARY /
+                           POLICY_ADJACENT / GENERAL_ACADEMIC]
+Evidence threshold:       [HIGH / MEDIUM / LOW]
+Alignment:                [ALIGNED / TENSION / MISMATCH]
+Explanation depth:        [CALIBRATED / OVER / UNDER]
+Audience shift:           [DETECTED / NOT DETECTED]
+```
+
+No judgment. No recommendation.
+Positioning map only.
+
+If alignment is ALIGNED and no other signals detected:
+→ Kit runs silently. No note produced.
+
+---
+
+## 6. Q-VARIANT CALIBRATION
+
+Q1:
+  TENSION and MISMATCH signals explicitly surfaced.
+  POLICY_ADJACENT framing with LOW or MEDIUM evidence threshold
+  noted as potential desk-reject signal for specialist journals.
+  Q1 reviewers are most sensitive to reader-evidence misalignment.
+
+Q2:
+  All signals reported at standard detail.
+  TENSION noted without escalation.
+
+Q3:
+  MISMATCH reported.
+  TENSION suppressed silently unless AUDIENCE_SHIFT also detected.
+  POLICY_ADJACENT framing treated as contextually appropriate.
+
+---
+
+## 7. INTEGRATION — LENS-BRIDGE CONNECTION
+
+### Primary: SECTION 1 — Aim & Scope
+Implied reader profile and alignment signals
+that shape how the manuscript positions its aim and scope
+→ reported as reader model sub-signal within SECTION 1
+
+### Secondary: SECTION 6 — Academic Language & Hedging
+Where explanation depth and audience shift signals
+appear in the language register
+→ flagged as positioning note within SECTION 6
+
+Reader Model Kit output never opens a new section.
+Always appears as a sub-signal within the relevant SECTION.
+
+---
+
+## 8. ACTIVATION
+
+Automatically active in SECTION 1 for every report.
+Passive scan in SECTION 6.
+
+Activates in SECTION 6 only when explanation depth
+or audience shift signals are detected in language behavior.
+
+If alignment is ALIGNED and no subsidiary signals fire:
+→ Kit runs silently.
+
+---
+
+## 9. COLLISION MANAGEMENT
+
+If READER_PROFILE_POLICY_ADJACENT overlaps with
+Discussion Scope Drift Kit IMPLICATION_EXTENSION:
+→ Scope Drift Kit takes precedence on structural drift behavior;
+  Reader Model Kit reports positioning signal
+→ Both active; reported in their respective SECTIONs
+
+If MISMATCH overlaps with
+Orientation Lens ALTERNATIVELESS_SCOPE:
+→ Orientation Lens takes precedence on scope-closure behavior;
+  Reader Model Kit reports reader-evidence misalignment
+→ Reported in their respective SECTIONs; not merged
+
+If AUDIENCE_SHIFT_DETECTED overlaps with
+Abstract→Body Coherence Kit CLAIM_ESCALATION or CLAIM_DEFLATION:
+→ Coherence Kit takes precedence on abstract→body distance;
+  Reader Model Kit reports register-level shift signal
+→ Both active; reported in their respective SECTIONs
+
+If EXPLANATION_DEPTH_UNDER overlaps with
+Interdisciplinary Tension Kit TENSION_SUPPRESSED:
+→ Interdisciplinary Tension Kit takes precedence on
+  tradition-level conflict suppression;
+  Reader Model Kit reports explanation positioning signal
+→ Not merged; reported in their respective SECTIONs
+
+If READER_PROFILE detection overlaps with
+Contribution Framing Kit CONTRIBUTION_SCOPE_INFLATION:
+→ Contribution Kit takes precedence on novelty claim behavior;
+  Reader Model Kit reports positioning alignment
+→ Both may fire in SECTION 1; reported as separate sub-signals
+
+---
+
+## 10. REVISION ROUND INTERACTION
+
+In Revision Round Mode, alignment and audience shift signals
+carry additional weight under Q1-level sensitivity.
+
+MISMATCH and TENSION signals in revised manuscripts
+are read as residual risk — reader-evidence misalignment
+is frequently identified in R1 editorial feedback
+as a framing or positioning concern.
+
+No separate flag produced.
+Signal reported as normal; sensitivity applies implicitly.
+
+---
+
+## 11. HARD LIMITS
+
+This kit must never:
+  Evaluate whether the manuscript is appropriate for a specific journal
+  Judge the writing quality or clarity of explanation
+  Recommend changes to the manuscript's register or audience
+  Label the manuscript as inaccessible or over-simplified
+  Generate independent flags outside SECTION 1 and SECTION 6
+  Act as a standalone readability or accessibility audit
+
+---
+
+## 12. CANONICAL DEFINITION
+
+READER MODEL KIT v1.0 surfaces the implied reader profile
+embedded in the manuscript's framing and language —
+mapping whether the assumed reader's expertise level
+is aligned with the manuscript's actual evidence threshold —
+as a structural positioning signal,
+without producing judgment, evaluation, or recommendation.
+
+---
+
+# READER MODEL KIT v1.0 — END

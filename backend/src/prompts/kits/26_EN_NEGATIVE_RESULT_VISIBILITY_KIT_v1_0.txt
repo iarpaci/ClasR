@@ -1,0 +1,313 @@
+# EN — NEGATIVE RESULT VISIBILITY KIT v1.0
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.0 — Null finding and hypothesis rejection signal detection overlay
+
+---
+
+## 0. IDENTITY
+
+Type: EXTENSION KIT
+Attaches to: CLASR-EN reading layer (CORE unchanged)
+No content generation · No judgment · No recommendation
+
+Tier: 3 — Extension
+Primary SECTION: SECTION 5 — Numerical / Spatial Behavior
+Secondary SECTION: SECTION 8 — Limits & Uncertainties
+
+---
+
+## 1. PURPOSE (ONE SENTENCE)
+
+To surface how null findings, non-significant results,
+and hypothesis rejections are handled within the manuscript —
+mapping whether they are made visible, deflected, or absent —
+as structural visibility signals, without producing evaluation.
+
+---
+
+## 2. DESIGN PRINCIPLE
+
+A null result is not an absence of finding.
+It is a finding with a specific visibility profile.
+
+This kit does not ask whether null results exist in the data.
+It reads how the manuscript handles results
+that do not confirm the primary hypothesis or expected direction.
+
+```
+Results zone scanned for non-confirmation signals
+         →
+Handling behavior mapped:
+  visible / deflected / absent
+         →
+Framing language extracted
+         →
+Visibility profile reported — no verdict
+```
+
+Three primary visibility states:
+
+NULL_VISIBLE    — null or non-significant result explicitly reported
+                  and integrated into the argument
+NULL_DEFLECTED  — null result present but framed away
+                  ("unexpected," "interesting," "warrants future study")
+NULL_ABSENT     — no non-significant result visible
+                  in a study design where some would be expected
+
+---
+
+## 3. SCOPE — SIGNALS READ
+
+### 3.1 Explicit Null Reporting
+
+The manuscript reports non-significant, null,
+or contrary-to-hypothesis results directly.
+
+Positive signal indicators:
+- "No significant association was found between..."
+- "The hypothesis that X affects Y was not supported"
+- "Results were non-significant (p = ...)"
+- Null result integrated into Discussion without deflection
+
+Label: NULL_VISIBLE — INTEGRATED
+
+---
+
+### 3.2 Deflection Language
+
+The manuscript acknowledges a null or unexpected result
+but frames it in a way that minimizes its structural weight.
+
+Signal indicators:
+- "Interestingly, no significant effect was found..."
+  (surprise framing without structural integration)
+- "This unexpected finding warrants future investigation"
+  (deflection to future work)
+- "While X was not significant, Y demonstrated..."
+  (pivot away from null without explanation)
+- Non-significant results reported in supplementary materials only
+
+Label: NULL_DEFLECTED
+
+Deflection subtypes:
+```
+SURPRISE_FRAMING    — null labeled as unexpected without elaboration
+FUTURE_DEFLECTION   — null redirected to future work
+PIVOT_SUPPRESSION   — null acknowledged then immediately abandoned
+SUPPLEMENTARY_ONLY  — null results displaced from main text
+```
+
+---
+
+### 3.3 Hypothesis Rejection Handling
+
+When the study tests a specific hypothesis
+and the hypothesis is rejected or not supported,
+how the rejection is framed is read.
+
+Signal indicators — visible handling:
+- Rejection explicitly stated
+- Alternative explanation offered
+- Theoretical implication of rejection discussed
+
+Signal indicators — suppressed handling:
+- Hypothesis stated in introduction
+- Results section contains no clear rejection statement
+- Discussion proceeds as if hypothesis was partially confirmed
+
+Label: HYPOTHESIS_REJECTION_VISIBLE / HYPOTHESIS_REJECTION_SUPPRESSED
+
+---
+
+### 3.4 Structural Null Absence
+
+In a study design where null results would be structurally expected
+— comparative studies, multi-variable models, longitudinal designs —
+no null or non-significant results appear anywhere in the manuscript.
+
+This is not an accusation of selective reporting.
+It is a structural visibility signal.
+
+Signal indicators:
+- Multi-variable model with all variables significant
+- Comparative study where all comparisons favor primary hypothesis
+- Longitudinal study with consistent directional findings
+  and no contrary time points acknowledged
+
+Label: STRUCTURAL_NULL_ABSENCE
+
+Field-sensitivity note:
+Some study designs genuinely produce uniformly significant results.
+This kit reads the signal — it does not evaluate plausibility.
+
+---
+
+### 3.5 Selective Reporting Language
+
+Language patterns that structurally suggest
+results have been filtered before presentation.
+
+Signal indicators:
+- "Selected results are presented below..."
+- "Key findings include..." (without scope of non-key findings)
+- "The most relevant results are..."
+- Results section organized by significance level
+  with non-significant results grouped at the end
+  without structural explanation
+
+Label: SELECTIVE_PRESENTATION_SIGNAL
+
+---
+
+## 4. WHAT THIS KIT DOES NOT DO
+
+Does not:
+  Determine whether selective reporting actually occurred
+  Evaluate the statistical validity of reported results
+  Judge whether null results are meaningful or trivial
+  Recommend that null results be added or expanded
+  Label the manuscript as biased or incomplete
+  Access or infer unpublished results
+
+Reads only:
+  How the manuscript's visible text handles
+  non-confirmatory results — as behavioral framing signals
+
+---
+
+## 5. OUTPUT BEHAVIOR
+
+Visibility signals are reported as:
+
+```
+NEGATIVE RESULT VISIBILITY SIGNAL
+
+Null handling:        [NULL_VISIBLE / NULL_DEFLECTED / NULL_ABSENT]
+Deflection subtype:   [if deflected: SURPRISE_FRAMING /
+                       FUTURE_DEFLECTION / PIVOT_SUPPRESSION /
+                       SUPPLEMENTARY_ONLY]
+Hypothesis rejection: [VISIBLE / SUPPRESSED / NOT APPLICABLE]
+Structural absence:   [STRUCTURAL_NULL_ABSENCE / NOT DETECTED]
+Selective signal:     [SELECTIVE_PRESENTATION_SIGNAL / NOT DETECTED]
+```
+
+No judgment. No recommendation.
+Visibility profile only.
+
+---
+
+## 6. Q-VARIANT CALIBRATION
+
+Q1:
+  NULL_DEFLECTED and STRUCTURAL_NULL_ABSENCE explicitly surfaced.
+  SELECTIVE_PRESENTATION_SIGNAL noted as potential reviewer concern.
+  Q1 reviewers and editors weigh null result transparency heavily.
+
+Q2:
+  All signals reported at standard detail.
+  NULL_DEFLECTED noted without escalation.
+
+Q3:
+  STRUCTURAL_NULL_ABSENCE and HYPOTHESIS_REJECTION_SUPPRESSED reported.
+  NULL_DEFLECTED subtypes suppressed silently unless SUPPLEMENTARY_ONLY.
+
+---
+
+## 7. INTEGRATION — LENS-BRIDGE CONNECTION
+
+### Primary: SECTION 5 — Numerical / Spatial Behavior
+Null result visibility and selective presentation signals
+that affect how numerical outputs are represented
+→ reported as visibility sub-signal within SECTION 5
+
+### Secondary: SECTION 8 — Limits & Uncertainties
+Where null result absence or deflection constitutes
+an unmapped knowledge boundary —
+specifically where non-confirmation signals
+are redirected to "future work" rather than bounded
+→ reported as limit-visibility note within SECTION 8
+
+Negative Result Visibility Kit output never opens a new section.
+Always appears as a sub-signal within the relevant SECTION.
+
+---
+
+## 8. ACTIVATION
+
+Automatically active in SECTION 5 for every report
+where numerical results are present.
+
+Passive scan in SECTION 8 for deflection-to-future-work patterns.
+
+If no numerical results are present (theoretical manuscripts):
+→ Kit runs silently on SECTION 5
+→ Hypothesis rejection handling still scanned in Discussion zone
+
+---
+
+## 9. COLLISION MANAGEMENT
+
+If NULL_DEFLECTED overlaps with
+Silence Lens SILENCED_UNCERTAINTY in SECTION 8:
+→ Silence Lens takes precedence on argumentative silence;
+  Negative Result Visibility Kit reports framing behavior
+→ Both active; reported as separate sub-signals
+
+If STRUCTURAL_NULL_ABSENCE overlaps with
+Discussion Scope Drift Kit MECHANISM_INTRODUCTION:
+→ Scope Drift Kit takes precedence on interpretive expansion;
+  Negative Result Visibility Kit reports structural absence signal
+→ Reported in their respective SECTIONs; not merged
+
+If SELECTIVE_PRESENTATION_SIGNAL overlaps with
+Calibration-Deep over-claim detection (§1.1):
+→ Calibration-Deep governs expression correction;
+  Negative Result Visibility Kit reports structural framing signal
+→ Not merged; collision not surfaced to user
+
+If HYPOTHESIS_REJECTION_SUPPRESSED overlaps with
+Argument Symmetry Kit ASYMMETRIC CORE zone:
+→ Both active; reported in their respective SECTIONs
+→ Symmetry Kit reports zone-level ratio;
+  Negative Result Visibility Kit reports hypothesis handling behavior
+→ Not merged
+
+---
+
+## 10. REVISION ROUND INTERACTION
+
+In Revision Round Mode, null result visibility signals
+carry additional weight under Q1-level sensitivity.
+
+NULL_DEFLECTED and STRUCTURAL_NULL_ABSENCE in revised manuscripts
+are read as residual risk — transparency of non-significant results
+is increasingly weighted by post-review editorial standards.
+
+No separate flag produced.
+Signal reported as normal; sensitivity applies implicitly.
+
+---
+
+## 11. HARD LIMITS
+
+This kit must never:
+  Infer or assert that selective reporting occurred
+  Evaluate the statistical validity of results
+  Recommend that specific null results be reported
+  Label the manuscript as biased, incomplete, or manipulated
+  Generate independent flags outside SECTION 5 and SECTION 8
+  Act as a standalone research integrity audit
+
+---
+
+## 12. CANONICAL DEFINITION
+
+NEGATIVE RESULT VISIBILITY KIT v1.0 surfaces how null findings,
+non-significant results, and hypothesis rejections are handled
+within the manuscript — mapping visibility, deflection, and absence
+as structural framing signals — without producing judgment,
+evaluation, or recommendation.
+
+---
+
+# NEGATIVE RESULT VISIBILITY KIT v1.0 — END

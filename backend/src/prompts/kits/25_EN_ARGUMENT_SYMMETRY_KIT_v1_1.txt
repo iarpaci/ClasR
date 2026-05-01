@@ -1,0 +1,290 @@
+# EN — ARGUMENT SYMMETRY KIT v1.1
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.1 — Collision management extended for Desk-Reject Signal Kit (29)
+#          and Argument Chain Kit (30)
+# Previous: v1.0
+
+---
+
+## 0. IDENTITY
+
+Type: EXTENSION KIT
+Attaches to: CLASR-EN reading layer (CORE unchanged)
+No content generation · No judgment · No recommendation
+
+Tier: 3 — Extension
+Primary SECTION: SECTION 4 — Argumentation
+Secondary SECTION: SECTION 8 — Limits & Uncertainties
+
+---
+
+## 1. PURPOSE (ONE SENTENCE)
+
+To surface the proportionality relationship between
+claim intensity and limit acknowledgment across the manuscript —
+mapping whether the weight of what is asserted
+is matched by the weight of what is bounded —
+as a structural symmetry signal, without producing evaluation.
+
+---
+
+## 2. DESIGN PRINCIPLE
+
+Silence Lens reads absence.
+This kit reads proportion.
+
+A manuscript may acknowledge limits — and still be asymmetric.
+The question is not whether limits appear,
+but whether their weight matches the weight of the claims they bound.
+
+```
+Claim intensity extracted (per SECTION)
+         →
+Limit acknowledgment weight extracted (SECTION 8 + in-text hedges)
+         →
+Ratio mapped across manuscript zones
+         →
+Symmetry profile reported — no verdict
+```
+
+Three symmetry states:
+
+SYMMETRIC   — claim weight and limit weight are proportionate
+ASYMMETRIC  — claim weight exceeds limit acknowledgment weight
+INVERTED    — limit acknowledgment exceeds claim weight
+             (self-suppression pattern; rare but structurally significant)
+
+---
+
+## 3. SCOPE — SIGNALS READ
+
+### 3.1 Claim Weight Extraction
+
+Claim intensity is read from:
+- Verb choice: demonstrates / suggests / indicates / explores
+- Scope markers: all / most / some / within this context
+- Certainty language: clearly / likely / possibly / tentatively
+- Generalization reach: universal / regional / sample-bound
+
+Internal scale:
+```
+HIGH   — strong verbs, wide scope, high certainty
+MEDIUM — conditional verbs, bounded scope, moderate certainty
+LOW    — hedged verbs, narrow scope, explicit uncertainty
+```
+
+---
+
+### 3.2 Limit Acknowledgment Weight Extraction
+
+Limit weight is read from:
+- SECTION 8 substantiveness: length, specificity, named constraints
+- In-text hedges proximate to claims: immediate scope markers
+- Data constraint acknowledgment: sample size, temporal window, geography
+- Generalizability boundary: explicitly stated or absent
+
+Internal scale:
+```
+HIGH   — specific, named, proximate limit acknowledgment
+MEDIUM — general limitation section present, limited specificity
+LOW    — minimal or absent limit acknowledgment
+```
+
+---
+
+### 3.3 Symmetry Ratio Mapping
+
+Zones assessed independently:
+
+```
+FRAMING zone  (SECTION 0 + 1 + 2): claim weight vs. scope boundary
+CORE zone     (SECTION 3 + 4 + 5): claim weight vs. method limits
+CLOSING zone  (SECTION 7 + 8):     limit weight vs. conclusion claims
+```
+
+Per-zone ratio:
+
+```
+SYMMETRIC   — claim and limit within one level of each other
+ASYMMETRIC  — claim HIGH / limit LOW or MEDIUM
+              claim MEDIUM / limit LOW
+INVERTED    — limit HIGH / claim LOW
+```
+
+---
+
+### 3.4 Manuscript-Level Profile
+
+After zone mapping, a manuscript-level symmetry profile is assembled:
+
+```
+FULLY SYMMETRIC         — all zones proportionate
+PARTIALLY ASYMMETRIC    — one zone asymmetric
+STRUCTURALLY ASYMMETRIC — two or more zones asymmetric
+INVERTED                — limit acknowledgment pattern suppresses claims
+```
+
+---
+
+## 4. WHAT THIS KIT DOES NOT DO
+
+Does not:
+  Evaluate whether claims are correct
+  Judge whether limits are adequate
+  Recommend how to rebalance claims or limits
+  Label the manuscript as over-claiming or under-claiming
+  Produce a score or rating
+
+Reads only:
+  The proportionality relationship between
+  claim intensity and limit acknowledgment weight
+  as a structural pattern signal
+
+---
+
+## 5. OUTPUT BEHAVIOR
+
+Symmetry signals are reported as:
+
+```
+ARGUMENT SYMMETRY SIGNAL
+
+FRAMING zone:  [SYMMETRIC / ASYMMETRIC / INVERTED]
+CORE zone:     [SYMMETRIC / ASYMMETRIC / INVERTED]
+CLOSING zone:  [SYMMETRIC / ASYMMETRIC / INVERTED]
+
+Manuscript profile: [FULLY SYMMETRIC / PARTIALLY ASYMMETRIC /
+                     STRUCTURALLY ASYMMETRIC / INVERTED]
+```
+
+No judgment. No recommendation.
+Zone map + manuscript profile only.
+
+---
+
+## 6. Q-VARIANT CALIBRATION
+
+Q1:
+  ASYMMETRIC signals in CORE zone explicitly surfaced.
+  STRUCTURALLY ASYMMETRIC profile noted as potential reviewer concern.
+  Q1 reviewers are most sensitive to claim-limit imbalance.
+
+Q2:
+  All zone signals reported at standard detail.
+  PARTIALLY ASYMMETRIC profile noted without escalation.
+
+Q3:
+  STRUCTURALLY ASYMMETRIC profile reported.
+  PARTIALLY ASYMMETRIC suppressed silently.
+  INVERTED pattern retained at all Q-variants.
+
+---
+
+## 7. INTEGRATION — LENS-BRIDGE CONNECTION
+
+### Primary: SECTION 4 — Argumentation
+Asymmetry signals detected in the CORE zone
+— where claim chains outrun limit acknowledgment —
+→ reported as symmetry sub-signal within SECTION 4
+
+### Secondary: SECTION 8 — Limits & Uncertainties
+Where CLOSING zone asymmetry reveals that conclusion-level claims
+exceed what the Limitations section bounds
+→ reported as proportionality note within SECTION 8
+
+Argument Symmetry Kit output never opens a new section.
+Always appears as a sub-signal within the relevant SECTION.
+
+---
+
+## 8. ACTIVATION
+
+Automatically active in SECTION 4 for every report.
+Passive scan across all zones.
+Activates in SECTION 8 only when CLOSING zone asymmetry
+qualifies as a claim-limit boundary gap.
+
+If manuscript is partial input:
+→ Zone assessment scaled to available sections
+→ Unavailable zones reported as NOT ASSESSED
+→ Label: [Symmetry scan — partial input, reduced coverage]
+
+---
+
+## 9. COLLISION MANAGEMENT
+
+If an ASYMMETRIC signal overlaps with Silence Lens
+in the same SECTION:
+→ Silence Lens takes precedence on argumentative absence;
+  Argument Symmetry Kit reports proportionality pattern
+→ Reported separately; not merged
+
+If an ASYMMETRIC signal overlaps with
+Discussion Scope Drift Kit causal or scale drift:
+→ Scope Drift Kit takes precedence on directional drift behavior;
+  Argument Symmetry Kit reports zone-level ratio
+→ Both active; reported in their respective SECTIONs
+
+If an INVERTED signal overlaps with
+Calibration-Deep uncertainty suppression detection (§1.3):
+→ Calibration-Deep governs expression correction;
+  Argument Symmetry Kit reports structural inversion pattern
+→ Not merged; collision not surfaced to user
+
+If ASYMMETRIC CLOSING zone overlaps with
+Abstract→Body Coherence Kit limit signal gap:
+→ Coherence Kit takes precedence on abstract→body distance;
+  Argument Symmetry Kit reports manuscript-level ratio
+→ Both active; reported in their respective SECTIONs
+
+If an ASYMMETRIC CORE zone overlaps with
+Argument Chain Kit CLAIM_FRAGMENTATION in SECTION 4:
+→ Argument Chain Kit reports structural fragmentation;
+  Argument Symmetry Kit reports zone-level ratio
+→ Both active in SECTION 4 as separate sub-signals
+
+If a STRUCTURALLY ASYMMETRIC profile overlaps with
+Desk-Reject Signal Kit LANGUAGE_POSTURE_RISK or SCOPE_FIT_RISK:
+→ Desk-Reject Kit aggregates asymmetry signal into zone synthesis;
+  Argument Symmetry Kit reports full zone map independently
+→ Not merged
+
+---
+
+## 10. REVISION ROUND INTERACTION
+
+In Revision Round Mode, asymmetry signals carry
+additional weight under Q1-level sensitivity.
+
+STRUCTURALLY ASYMMETRIC profiles in revised manuscripts
+are read as residual risk — claim-limit imbalance is among
+the most common R1 reviewer targets.
+
+No separate flag produced.
+Signal reported as normal; sensitivity applies implicitly.
+
+---
+
+## 11. HARD LIMITS
+
+This kit must never:
+  Evaluate whether claims are scientifically valid
+  Judge whether the limit section is sufficient
+  Recommend additions to the Limitations section
+  Label the manuscript as over-claiming or self-suppressing
+  Generate independent flags outside SECTION 4 and SECTION 8
+  Act as a standalone claim audit
+
+---
+
+## 12. CANONICAL DEFINITION
+
+ARGUMENT SYMMETRY KIT v1.1 surfaces the proportionality relationship
+between claim intensity and limit acknowledgment weight —
+mapping whether the weight of what is asserted is matched
+by the weight of what is bounded — as a zone-level symmetry profile,
+without producing judgment, evaluation, or recommendation.
+
+---
+
+# ARGUMENT SYMMETRY KIT v1.1 — END

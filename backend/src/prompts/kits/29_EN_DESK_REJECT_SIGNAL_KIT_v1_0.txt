@@ -1,0 +1,373 @@
+# EN — DESK-REJECT SIGNAL KIT v1.0
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.0 — Multi-signal desk-reject risk synthesis overlay
+
+---
+
+## 0. IDENTITY
+
+Type: SYNTHESIS KIT
+Attaches to: CLASR-EN reading layer (CORE unchanged)
+No content generation · No judgment · No recommendation
+
+Tier: 3 — Extension
+Primary SECTION: SECTION 0 — Macro Frame
+Secondary SECTION: SECTION 1 — Aim & Scope
+
+---
+
+## 1. PURPOSE (ONE SENTENCE)
+
+To synthesize signals from across the CLASR-EN system
+into a structured desk-reject risk profile —
+mapping the combination of behavioral patterns
+most likely to trigger early editorial rejection —
+without producing a verdict or recommendation.
+
+---
+
+## 2. DESIGN PRINCIPLE
+
+No single signal causes a desk rejection.
+Desk rejection is a pattern event.
+
+The Academic Structure Meta-System produces
+DESK_REJECT_RISK_HIGH / MEDIUM flags from heading structure alone.
+This kit operates differently:
+
+It reads the co-occurrence and combination
+of behavioral signals across the full manuscript —
+claim behavior, structural completeness, scope-journal fit,
+language posture, and limit acknowledgment —
+and maps whether that combination produces
+a recognizable desk-reject risk profile.
+
+```
+Signals aggregated from active kits
+         →
+Co-occurrence patterns mapped
+         →
+Risk profile assembled per trigger zone
+         →
+Synthesis reported — no verdict
+```
+
+This kit does not replace DESK_REJECT_RISK flags
+from the Structural QA system.
+It extends them with behavioral and rhetorical dimensions.
+
+---
+
+## 3. TRIGGER ZONES
+
+Five trigger zones are mapped independently.
+
+### 3.1 Scope–Journal Fit Signal
+
+The manuscript's claimed scope exceeds or mismatches
+what its evidence base can support for the target journal tier.
+
+Signal co-occurrence indicators:
+- PRIMACY CLAIM — UNBOUNDED (Contribution Framing Kit)
+  + LOW evidence threshold (Reader Model Kit)
+- SCALE DRIFT (Discussion Scope Drift Kit)
+  + Q1 profile (AUTO-Q or user-declared)
+- READER_PROFILE_POLICY_ADJACENT
+  + specialist journal implied by Q1 target
+
+Label: SCOPE_FIT_RISK
+
+---
+
+### 3.2 Abstract Posture Signal
+
+The abstract creates expectations
+the body cannot meet — or misrepresents the manuscript's
+actual behavioral profile to an editor reading in 90 seconds.
+
+Signal co-occurrence indicators:
+- CLAIM ESCALATION — ABSTRACT EXCEEDS BODY
+  (Abstract→Body Coherence Kit)
+- CONTRIBUTION SCOPE INFLATION
+  (Contribution Framing Kit)
+- AUTO-Q estimate significantly higher than body supports
+
+Label: ABSTRACT_POSTURE_RISK
+
+---
+
+### 3.3 Structural Completeness Signal
+
+The manuscript is missing elements
+that editors verify before sending to review.
+
+Signal co-occurrence indicators:
+- MANDATORY_MISSING (Structural QA Kit)
+- SECTION 8 absent or under 3 lines
+  (Calibration-Deep §1.3)
+- REPLICATION STRUCTURE GAP in data-heavy manuscript
+  (Replication Signal Kit)
+- DEPENDENCY_BREAK in methods chain
+  (Structural QA Kit)
+
+Label: STRUCTURAL_COMPLETENESS_RISK
+
+---
+
+### 3.4 Language Posture Signal
+
+The manuscript's language register signals
+either over-claim or misalignment
+with the target journal's editorial expectations.
+
+Signal co-occurrence indicators:
+- HIGH frequency claim words + HIGH intensity
+  AMPLIFICATION CLUSTER (Calibration-Deep + LENSSA-DEPTH)
+- NORMATIVE LANGUAGE detected (Calibration-Deep §1.4)
+  + Q1 target
+- TENSION or MISMATCH (Reader Model Kit)
+  + specialist journal framing
+
+Label: LANGUAGE_POSTURE_RISK
+
+---
+
+### 3.5 Integrity and Transparency Signal
+
+The manuscript carries signals that trigger
+editorial due-diligence concerns before peer review.
+
+Signal co-occurrence indicators:
+- ELEVATED SELF-CITATION DENSITY
+  (Citation Behavior Kit)
+- OUTCOME INSTRUMENT INTERSECTION
+  (Integrity Signal Kit)
+- STRUCTURAL_NULL_ABSENCE in confirmatory design
+  (Negative Result Visibility Kit)
+- PRE-REGISTRATION SIGNAL ABSENT
+  in clinical or experimental design (Replication Signal Kit)
+
+Label: INTEGRITY_TRANSPARENCY_RISK
+
+---
+
+## 4. RISK PROFILE ASSEMBLY
+
+After zone mapping, a desk-reject risk profile is assembled:
+
+```
+DESK-REJECT RISK PROFILE
+
+Scope–Journal Fit:          [RISK DETECTED / NOT DETECTED]
+Abstract Posture:           [RISK DETECTED / NOT DETECTED]
+Structural Completeness:    [RISK DETECTED / NOT DETECTED]
+Language Posture:           [RISK DETECTED / NOT DETECTED]
+Integrity & Transparency:   [RISK DETECTED / NOT DETECTED]
+
+Active trigger zones: [N of 5]
+```
+
+No score. No ranking. No recommendation.
+Zone map only.
+
+Single zone active — LOW co-occurrence pattern
+Two zones active — MODERATE co-occurrence pattern
+Three or more zones active — HIGH co-occurrence pattern
+
+These labels describe signal density, not editorial outcome.
+
+---
+
+## 5. OUTPUT BEHAVIOR
+
+Reported as a synthesis block within SECTION 0,
+immediately after the AUTO-Q estimate:
+
+```
+▸ DESK-REJECT RISK PROFILE
+
+Scope–Journal Fit:          [RISK DETECTED / NOT DETECTED]
+Abstract Posture:           [RISK DETECTED / NOT DETECTED]
+Structural Completeness:    [RISK DETECTED / NOT DETECTED]
+Language Posture:           [RISK DETECTED / NOT DETECTED]
+Integrity & Transparency:   [RISK DETECTED / NOT DETECTED]
+
+Co-occurrence pattern: [LOW / MODERATE / HIGH]
+```
+
+If no trigger zones are active:
+→ Single line in SECTION 0:
+  [Desk-reject risk profile: no active trigger zones detected]
+
+---
+
+## 6. Q-VARIANT CALIBRATION
+
+Q1:
+  All five zones scanned at full sensitivity.
+  Any MODERATE or HIGH co-occurrence pattern explicitly surfaced.
+  Q1 editorial gatekeeping is most stringent.
+
+Q2:
+  All zones scanned at standard sensitivity.
+  HIGH co-occurrence pattern explicitly surfaced.
+  MODERATE noted without escalation.
+
+Q3:
+  Structural Completeness and Abstract Posture zones only
+  scanned at full sensitivity.
+  Language Posture and Scope–Journal Fit at reduced sensitivity.
+  Integrity & Transparency at standard sensitivity.
+
+---
+
+## 7. WHAT THIS KIT DOES NOT DO
+
+Does not:
+  Predict editorial decisions
+  Evaluate journal fit for a specific named journal
+  Recommend revisions to reduce rejection risk
+  Label the manuscript as publishable or unpublishable
+  Override or replace DESK_REJECT_RISK flags
+  from the Academic Structure Meta-System
+  Produce a probability or score
+
+Reads only:
+  The co-occurrence pattern of behavioral signals
+  that, in combination, constitute recognizable
+  desk-reject risk profiles — as a synthesis signal
+
+---
+
+## 8. RELATIONSHIP TO STRUCTURAL QA KIT
+
+Academic Structure Meta-System (Kit 13):
+  Reads headings only
+  Produces DESK_REJECT_RISK_HIGH / MEDIUM from structure
+
+This kit:
+  Reads behavioral signals from full manuscript
+  Produces desk-reject risk profile from signal co-occurrence
+
+They are complementary, not redundant.
+Both may fire. Both are reported.
+They are never merged into a single flag.
+
+---
+
+## 9. INTEGRATION — LENS-BRIDGE CONNECTION
+
+### Primary: SECTION 0 — Macro Frame
+Full desk-reject risk profile
+→ reported as synthesis sub-block within SECTION 0
+→ positioned after AUTO-Q estimate, before macro frame prose
+
+### Secondary: SECTION 1 — Aim & Scope
+Where Scope–Journal Fit and Abstract Posture zones
+connect to aim and scope behavior
+→ flagged as scope-fit note within SECTION 1
+if SCOPE_FIT_RISK is active
+
+Desk-Reject Signal Kit output never opens a new section.
+Always appears as a sub-block within SECTION 0
+and optionally as a sub-signal within SECTION 1.
+
+---
+
+## 10. ACTIVATION
+
+Automatically active for every report.
+Requires at minimum two kit signals to be present
+for co-occurrence mapping to run.
+
+If fewer than two kit signals are present in the full report:
+→ Profile not produced
+→ Single note: [Desk-reject synthesis: insufficient signal density]
+
+---
+
+## 11. COLLISION MANAGEMENT
+
+This kit aggregates from other kits — it does not generate
+independent signals. Collision management therefore operates
+in the opposite direction:
+
+If a source kit signal is already reported in its primary SECTION,
+this kit may reference it in the synthesis block
+without repeating the full signal description.
+
+If the Academic Structure Meta-System DESK_REJECT_RISK flag
+is already present in SECTION 7:
+→ This kit's profile is reported in SECTION 0 separately
+→ The two outputs are never merged
+→ User sees both: structural flag (Kit 13) + behavioral profile (this kit)
+
+---
+
+## 12. PARTIAL INPUT BEHAVIOR
+
+Partial input reduces co-occurrence mapping coverage.
+
+Abstract only (Type A):
+→ Abstract Posture zone: full scan
+→ All other zones: not assessable
+→ Label: [Desk-reject synthesis — abstract only, single zone coverage]
+
+Introduction only (Type B):
+→ Scope–Journal Fit and Abstract Posture: partial scan
+→ Label: [Desk-reject synthesis — reduced coverage]
+
+Methods only (Type C):
+→ Structural Completeness and Integrity zones: partial scan
+
+Results / Discussion only (Type D):
+→ Language Posture zone: full scan
+→ Others: reduced
+
+Mixed (Type E):
+→ Kit runs on available signal set
+→ Coverage noted
+
+---
+
+## 13. REVISION ROUND INTERACTION
+
+In Revision Round Mode, all five zones are scanned
+at Q1-level sensitivity regardless of declared Q-variant.
+
+HIGH co-occurrence pattern in a revised manuscript
+is read as a residual risk signal of particular weight —
+manuscripts reaching R1 revision with persistent
+desk-reject trigger combinations carry elevated
+editorial re-evaluation risk.
+
+No separate flag produced.
+Profile reported as normal; sensitivity applies implicitly.
+
+---
+
+## 14. HARD LIMITS
+
+This kit must never:
+  Predict or simulate editorial decisions
+  Name or imply a specific journal's rejection criteria
+  Recommend changes to reduce desk-reject risk
+  Label the manuscript as unpublishable or unsuitable
+  Generate signals independently of source kits
+  Act as a standalone editorial screening tool
+  Merge with or replace Academic Structure Meta-System flags
+
+---
+
+## 15. CANONICAL DEFINITION
+
+DESK-REJECT SIGNAL KIT v1.0 synthesizes behavioral signals
+from across the CLASR-EN system into a five-zone desk-reject
+risk profile — mapping scope-journal fit, abstract posture,
+structural completeness, language posture, and integrity
+transparency as co-occurrence patterns —
+without producing verdict, prediction, or recommendation.
+
+---
+
+# DESK-REJECT SIGNAL KIT v1.0 — END

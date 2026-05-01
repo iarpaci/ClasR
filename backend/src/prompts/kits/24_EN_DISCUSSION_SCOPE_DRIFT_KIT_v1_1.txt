@@ -1,6 +1,8 @@
-# EN — DISCUSSION SCOPE DRIFT KIT v1.0
+# EN — DISCUSSION SCOPE DRIFT KIT v1.1
 # Added to Project Files. Does not modify CORE.
-# STATUS: v1.0 — Results-to-Discussion interpretive expansion detection overlay
+# STATUS: v1.1 — Collision management extended for Desk-Reject Signal Kit (29)
+#          and Argument Chain Kit (30)
+# Previous: v1.0
 
 ---
 
@@ -45,11 +47,11 @@ This kit reads the drift, not the interpretation.
 
 ```
 Results zone signals extracted
-         ↓
+         →
 Discussion zone signals extracted
-         ↓
+         →
 Directional distance between them mapped
-         ↓
+         →
 Drift type and magnitude reported — no verdict
 ```
 
@@ -91,7 +93,7 @@ Signal indicators:
 Label: SCALE DRIFT
 
 This signal overlaps with LENSSA-DEPTH scale-shift detection.
-Where both fire in SECTION 4 → combined note, one appearance.
+Where both fire in SECTION 4 — combined note, one appearance.
 
 ---
 
@@ -131,7 +133,7 @@ Label: IMPLICATION EXTENSION
 
 Note: This signal overlaps with Normative Language Detection
 in CALIBRATION-DEEP KIT (§1.4).
-Where both fire → Calibration-Deep governs expression correction;
+Where both fire — Calibration-Deep governs expression correction;
 Discussion Scope Drift Kit reports the structural drift signal separately.
 
 ---
@@ -156,10 +158,10 @@ Label: CONCLUSION INTRODUCTION — NEW CLAIM
 Each detected drift signal is internally assessed for magnitude:
 
 ```
-MINOR   → small interpretive step; boundary is labeled or hedged
-MODERATE → interpretive expansion present; boundary unmarked
-MAJOR   → significant departure from Results scope;
-           no boundary acknowledgment
+MINOR    — small interpretive step; boundary is labeled or hedged
+MODERATE — interpretive expansion present; boundary unmarked
+MAJOR    — significant departure from Results scope;
+            no boundary acknowledgment
 ```
 
 Magnitude is reported alongside the label.
@@ -211,7 +213,7 @@ If no scope drift signals are detected:
 Q1:
   MODERATE and MAJOR drift signals explicitly surfaced.
   MAJOR signals noted as potential reviewer concern.
-  Q1 reviewers are most sensitive to Results–Discussion boundary violations.
+  Q1 reviewers are most sensitive to Results→Discussion boundary violations.
 
 Q2:
   MAJOR drift signals reported at standard detail.
@@ -279,10 +281,22 @@ Calibration-Deep normative language detection (§1.4):
 → Not merged; collision not surfaced to user
 
 If a CONCLUSION INTRODUCTION signal overlaps with
-Abstract–Body Coherence Kit claim deflation or escalation:
-→ Coherence Kit takes precedence on abstract–body distance;
-  Discussion Scope Drift Kit reports Results–Discussion–Conclusion chain
+Abstract→Body Coherence Kit claim deflation or escalation:
+→ Coherence Kit takes precedence on abstract→body distance;
+  Discussion Scope Drift Kit reports Results→Discussion→Conclusion chain
 → Both active; reported in their respective SECTIONs
+
+If a CAUSAL DRIFT or SCALE DRIFT signal overlaps with
+Argument Chain Kit DRIFTED/BROKEN chain in SECTION 4:
+→ Scope Drift Kit takes precedence on directional drift behavior;
+  Argument Chain Kit reports longitudinal chain profile
+→ Both active in SECTION 4 as separate sub-signals
+
+If an IMPLICATION EXTENSION signal overlaps with
+Desk-Reject Signal Kit SCOPE_FIT_RISK zone (SECTION 0):
+→ Desk-Reject Kit aggregates the implication signal into zone synthesis;
+  Discussion Scope Drift Kit reports structural drift in SECTION 4
+→ Not merged
 
 ---
 
@@ -316,7 +330,7 @@ Mixed (Type E):
 In Revision Round Mode, scope drift signals are read
 under Q1-level sensitivity regardless of declared Q-variant.
 
-Rationale: Results–Discussion boundary violations are
+Rationale: Results→Discussion boundary violations are
 among the most common R1 reviewer comments.
 Unresolved MODERATE or MAJOR drift signals in a revised manuscript
 are read as residual risk under the Revision Round Kit's
@@ -341,7 +355,7 @@ This kit must never:
 
 ## 14. CANONICAL DEFINITION
 
-DISCUSSION SCOPE DRIFT KIT v1.0 surfaces the directional distance
+DISCUSSION SCOPE DRIFT KIT v1.1 surfaces the directional distance
 between Results-zone measurements and Discussion-zone interpretations —
 mapping causal drift, scale drift, unsupported mechanism introduction,
 implication extension, and conclusion-level new claims —
@@ -350,4 +364,4 @@ without producing judgment, evaluation, or recommendation.
 
 ---
 
-# DISCUSSION SCOPE DRIFT KIT v1.0 — END
+# DISCUSSION SCOPE DRIFT KIT v1.1 — END

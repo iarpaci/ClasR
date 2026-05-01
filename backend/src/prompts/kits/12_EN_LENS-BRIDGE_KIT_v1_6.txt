@@ -1,0 +1,609 @@
+# EN — ARGUMENT-DENSITY KIT v1.0
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.0 — Cross-section claim load mapping layer
+# NOTE: This kit is embedded within LENS-BRIDGE KIT file. Not a standalone file.
+
+---
+
+## 0. IDENTITY
+
+Type: EXTENSION KIT
+Attaches to: UNIFIED-OUTPUT KIT v1.1 (before closing block)
+No judgment · No recommendation · No rewriting
+
+This kit maps the distribution of claim load
+across manuscript sections as a cross-section signal layer.
+
+---
+
+## 1. DESIGN PRINCIPLE
+
+Existing lenses read each signal tied to one SECTION.
+This kit operates differently:
+
+```
+After all SECTION outputs are produced
+         →
+Signal count per SECTION is aggregated
+         →
+Load distribution is mapped
+         →
+Single block displayed before the closing block
+```
+
+Does not touch SECTION order.
+Does not open new SECTIONs.
+Re-reads lens outputs; does not re-produce them.
+
+---
+
+## 2. MEASURED ZONES
+
+The manuscript is evaluated across four functional zones:
+
+```
+FRAMING   — SECTION 0 + SECTION 1 + SECTION 2
+CORE      — SECTION 3 + SECTION 4 + SECTION 5
+LANGUAGE  — SECTION 6
+CLOSING   — SECTION 7 + SECTION 8
+```
+
+---
+
+## 3. DENSITY MEASUREMENT
+
+For each zone, active signal counts from relevant SECTIONs are aggregated:
+- Verbal Lens signals
+- LENSSA-DEPTH patterns
+- FREQUENCY SIGNAL outputs
+- Temporality / Silence / Orientation / Integrity signal detections
+- Citation Behavior signals
+- Abstract→Body Coherence signals
+- Replication Signal profile gaps
+- Contribution Framing signals
+- Discussion Scope Drift signals
+- Argument Symmetry signals
+- Negative Result Visibility signals
+- Interdisciplinary Tension signals
+- Reader Model signals
+- Desk-Reject Signal Kit trigger zones (FRAMING zone)
+- Argument Chain Kit signals (CORE zone)
+
+Signal count → zone load:
+```
+0–1 signals  — LOW
+2–3 signals  — MEDIUM
+4+  signals  — HIGH
+```
+
+---
+
+## 4. DISTRIBUTION PROFILES
+
+Four primary distribution patterns recognized:
+
+**FRONT-LOADED:**
+FRAMING zone HIGH, CLOSING zone LOW
+→ Strong promise; quiet closing
+
+**BACK-LOADED:**
+FRAMING zone LOW, CLOSING zone HIGH
+→ Modest opening; overstated conclusion
+
+**CORE-CONCENTRATED:**
+CORE zone HIGH, others LOW or MEDIUM
+→ Load concentrated in method and argumentation
+
+**DISTRIBUTED:**
+All zones MEDIUM or balanced
+→ Load spread evenly across the manuscript
+
+Multiple profiles may be detected simultaneously.
+
+---
+
+## 5. OUTPUT FORMAT
+
+Displayed immediately before the closing block:
+
+```
+▸ ARGUMENT DENSITY
+
+FRAMING:  [LOW / MEDIUM / HIGH]
+CORE:     [LOW / MEDIUM / HIGH]
+LANGUAGE: [LOW / MEDIUM / HIGH]
+CLOSING:  [LOW / MEDIUM / HIGH]
+
+Distribution: [FRONT-LOADED / BACK-LOADED /
+               CORE-CONCENTRATED / DISTRIBUTED]
+```
+
+Maximum 6 lines.
+No interpretation. No recommendation.
+Distribution only.
+
+---
+
+## 6. ACTIVATION
+
+Active in every report automatically.
+If signal count is zero — all zones reported as LOW.
+User is not separately notified.
+
+---
+
+## 7. HARD LOCK
+
+This kit:
+  Does not alter SECTION content
+  Does not generate new signals
+  Does not produce "weak/strong" judgments
+  Only maps distribution
+  Does not break UNIFIED-OUTPUT format
+
+---
+
+## 8. CANONICAL DEFINITION
+
+ARGUMENT-DENSITY v1.0 aggregates signal load from all SECTION outputs
+by functional zone and maps how claim weight is distributed
+across the manuscript, without producing interpretation or judgment.
+
+---
+
+# ARGUMENT-DENSITY KIT v1.0 — END
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+# EN — LENS-BRIDGE KIT v1.6
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.6 — Two new kits registered:
+#          Desk-Reject Signal Kit v1.0
+#          Argument Chain Kit v1.0
+#          Label Enforcement Lock reference added
+# Previous: v1.5
+
+---
+
+## 0. IDENTITY
+
+This kit locks which overlay lens connects to which SECTION
+and how each lens integrates within the CLASR-EN output.
+
+---
+
+## 1. DESIGN PRINCIPLE
+
+Lens overlays do not operate independently.
+Every lens is bound to a specific SECTION's sub-layer.
+
+```
+SECTION production
+        →
+Is a lens bound to this SECTION?
+    Yes → Lens runs signal scan
+           Signal found → label appears + integrated into SECTION output
+           No signal    → lens runs silently
+    No  → Lens inactive for this SECTION
+```
+
+Lens output never opens a new section.
+Always appears within the relevant SECTION as a sub-signal.
+
+**Label enforcement:** Every detected signal produces a visible label.
+Q-variant and context length do not suppress labels.
+See UNIFIED-OUTPUT KIT v1.1 § 6 for full label enforcement rules.
+
+---
+
+## 2. LENS — SECTION CONNECTION MAP
+
+### Verbal Lens (VERBAL_LENS_KIT)
+**Primary:** SECTION 6 — Academic Language & Hedging
+**Secondary:** SECTION 4 — Argumentation
+
+### Temporality Lens (TEMPORALITY_LENS_KIT)
+**Primary:** SECTION 0 — Macro Frame
+**Secondary:** SECTION 8 — Limits & Uncertainties
+**Tertiary:** SECTION 4 — Argumentation
+
+### Silence Lens (SILENCE_LENS_KIT)
+**Primary:** SECTION 7 — Structural Integrity
+**Secondary:** SECTION 8 — Limits & Uncertainties
+**Activation:** Automatically active in SECTION 7 for every report.
+
+### Orientation Lens (ORIENTATION_LENS_KIT)
+**Primary:** SECTION 1 — Aim & Scope
+**Secondary:** SECTION 4 — Argumentation
+**Activation:** Automatically active in SECTION 1 for every report.
+**Label enforcement note:** ALTERNATIVELESS SCOPE and all Orientation
+labels are mandatory regardless of Q-variant.
+
+### Integrity Signal (INTEGRITY_SIGNAL_KIT)
+**Primary:** SECTION 0 — Macro Frame
+**Secondary:** SECTION 3 — Methodological Visibility
+**Activation:** Passive scan of competing interests declaration block.
+
+### LENSSA-DEPTH v1.1
+**Primary:** SECTION 5 — Numerical / Spatial Behavior
+**Secondary:** SECTION 4 — Argumentation
+**Activation:** Active when numerical signals are present.
+
+### FREQUENCY SIGNAL v1.0
+**Primary:** SECTION 6 — Academic Language & Hedging
+**Secondary:** SECTION 4 — Argumentation
+**Activation:** Runs in parallel with Verbal Lens.
+
+### Model Fit Threshold Detection (CALIBRATION-DEEP KIT v1.1 §1.5)
+**Primary:** SECTION 3 — Methodological Visibility
+**Activation:** Active when structural model fit indices are reported.
+
+### Citation Behavior Kit (CITATION_BEHAVIOR_KIT v1.0)
+**Primary:** SECTION 2 — Conceptual / Theoretical Framework
+  Confirmatory citation pattern, field concentration, reference age signal
+  → citation sub-signal in SECTION 2
+**Secondary:** SECTION 4 — Argumentation
+  Unsupported claim zones, self-citation chains as argumentative bridges
+  → citation-gap signal in SECTION 4
+**Activation:** Automatically active in SECTION 2 for every report.
+**Label enforcement note:** CONFIRMATORY CITATION PATTERN,
+REFERENCE AGE SIGNAL, FIELD CONCENTRATION SIGNAL labels
+are mandatory when detected. Prose-only embedding is a format violation.
+
+### Abstract→Body Coherence Kit (ABSTRACT_BODY_COHERENCE_KIT v1.0)
+**Primary:** SECTION 0 — Macro Frame
+  Claim escalation gap, scope boundary gap → coherence sub-signal
+**Secondary:** SECTION 8 — Limits & Uncertainties
+  Limit signal gap, method signal gap → coherence note
+**Activation:** Requires both abstract and body to be present.
+
+### Replication Signal Kit (REPLICATION_SIGNAL_KIT v1.0)
+**Primary:** SECTION 3 — Methodological Visibility
+  Five-dimension replication profile → REPLICATION SIGNAL PROFILE block
+**Secondary:** SECTION 7 — Structural Integrity
+  Replication-critical elements absent → REPLICATION STRUCTURE GAP
+**Activation:** Automatically active in SECTION 3 for every report.
+**Structured block enforcement:** REPLICATION SIGNAL PROFILE must appear
+as a structured block, not as a prose paragraph.
+
+### Contribution Framing Kit (CONTRIBUTION_FRAMING_KIT v1.0)
+**Primary:** SECTION 1 — Aim & Scope
+  Primacy claims, novelty assertions, gap assertions, scope inflation
+  → contribution sub-signal; intensity label (LOW / MEDIUM / HIGH)
+**Secondary:** SECTION 4 — Argumentation
+  Contribution claims as unsupported argumentative anchors
+  → contribution-gap signal
+**Activation:** Automatically active in SECTION 1 for every report.
+
+### Discussion Scope Drift Kit (DISCUSSION_SCOPE_DRIFT_KIT v1.1)
+**Primary:** SECTION 4 — Argumentation
+  Causal drift, scale drift, mechanism introduction, implication extension
+  → scope drift sub-signal; magnitude label (MINOR / MODERATE / MAJOR)
+**Secondary:** SECTION 8 — Limits & Uncertainties
+  Drift signals revealing unacknowledged scope boundaries
+  → SCOPE-LIMIT GAP label in SECTION 8
+**Activation:** Automatically active in SECTION 4
+when both Results and Discussion zones are present.
+**Label enforcement note:** SCOPE-LIMIT GAP label in SECTION 8
+is mandatory when Discussion Scope Drift secondary fires.
+
+### Argument Symmetry Kit (ARGUMENT_SYMMETRY_KIT v1.1)
+**Primary:** SECTION 4 — Argumentation
+  Zone symmetry map: FRAMING / CORE / CLOSING
+  × SYMMETRIC / ASYMMETRIC / INVERTED
+  → symmetry sub-signal in SECTION 4
+**Secondary:** SECTION 8 — Limits & Uncertainties
+  CLOSING zone asymmetry: conclusion claims exceed Limitations bounds
+  → proportionality note in SECTION 8
+**Activation:** Automatically active in SECTION 4 for every report.
+Passive scan across all zones.
+If partial input → unavailable zones reported as NOT ASSESSED.
+
+### Negative Result Visibility Kit (NEGATIVE_RESULT_VISIBILITY_KIT v1.0)
+**Primary:** SECTION 5 — Numerical / Spatial Behavior
+  Null handling: NULL_VISIBLE / NULL_DEFLECTED / NULL_ABSENT
+  Selective presentation signals
+  → visibility sub-signal in SECTION 5
+**Secondary:** SECTION 8 — Limits & Uncertainties
+  Deflection-to-future-work patterns as unmapped knowledge boundaries
+  → limit-visibility note in SECTION 8
+**Activation:** Automatically active in SECTION 5 when numerical results present.
+If no numerical results → kit runs silently on SECTION 5;
+hypothesis rejection handling still scanned in Discussion zone.
+
+### Interdisciplinary Tension Kit (INTERDISCIPLINARY_TENSION_KIT v1.0)
+**Primary:** SECTION 2 — Conceptual / Theoretical Framework
+  Tradition profile: SINGLE / MULTIPLE / HYBRID
+  Conflict: TRADITION_CONFLICT_DETECTED / NOT DETECTED
+  Acknowledgment: TENSION_ACKNOWLEDGED / TENSION_SUPPRESSED
+  → tension sub-signal in SECTION 2
+**Secondary:** SECTION 3 — Methodological Visibility
+  Tradition conflict in method layer: assumption-visibility note
+  → ASSUMPTION_INVISIBILITY label in SECTION 3
+**Activation:** Automatically active in SECTION 2 for every report.
+Passive scan in SECTION 3.
+If SINGLE_TRADITION → noted; remaining signals run silently.
+
+### Reader Model Kit (READER_MODEL_KIT v1.0)
+**Primary:** SECTION 1 — Aim & Scope
+  Implied reader: EXPERT / INTERDISCIPLINARY / POLICY_ADJACENT / GENERAL_ACADEMIC
+  Alignment: ALIGNED / TENSION / MISMATCH
+  → reader model sub-signal in SECTION 1
+  If ALIGNED and no subsidiary signals → runs silently
+**Secondary:** SECTION 6 — Academic Language & Hedging
+  Explanation depth and audience shift in language register
+  → positioning note in SECTION 6
+**Activation:** Automatically active in SECTION 1 for every report.
+Passive scan in SECTION 6.
+If ALIGNED and no subsidiary signals fire → kit runs silently.
+
+### Desk-Reject Signal Kit (DESK_REJECT_SIGNAL_KIT v1.0)
+**Primary:** SECTION 0 — Macro Frame
+  Five-zone desk-reject risk profile → DESK-REJECT RISK PROFILE block
+  Positioned after AUTO-Q estimate, before macro frame prose
+**Secondary:** SECTION 1 — Aim & Scope
+  SCOPE_FIT_RISK zone: scope-fit note in SECTION 1
+  when SCOPE_FIT_RISK is active
+**Activation:** Automatically active for every report.
+Requires minimum two kit signals present for co-occurrence mapping.
+If insufficient signal density → single note in SECTION 0.
+**Structured block enforcement:** DESK-REJECT RISK PROFILE must appear
+as a structured block, not as prose.
+**Relationship to Structural QA Kit:** DESK_REJECT_RISK flags from
+Kit 13 (heading-based) and this kit (behavioral) are complementary.
+Both reported. Never merged.
+
+### Argument Chain Kit (ARGUMENT_CHAIN_KIT v1.0)
+**Primary:** SECTION 4 — Argumentation
+  Central claim continuity: transition map T1–T4
+  Chain profile: INTACT / PARTIALLY INTACT / DRIFTED / BROKEN / UNRESOLVED
+  Additional signals: CLAIM_SUBSTITUTION / CLAIM_FRAGMENTATION /
+  CLAIM_ABANDONMENT
+  → ARGUMENT CHAIN SIGNAL block in SECTION 4
+**Secondary:** SECTION 0 — Macro Frame
+  BROKEN or UNRESOLVED profile: framing-chain gap note in SECTION 0
+**Tertiary:** SECTION 8 — Limits & Uncertainties
+  CLAIM_ABANDONMENT or UNRESOLVED: chain-limit gap in SECTION 8
+**Activation:** Automatically active in SECTION 4
+when framing zone and at least one body section are present.
+If INTACT and no additional signals → single-line output only.
+If central claim not extractable → CLAIM_NOT_ANCHORED in SECTION 0.
+**Structured block enforcement:** ARGUMENT CHAIN SIGNAL must appear
+as a structured block when chain profile is not INTACT.
+
+---
+
+## 3. COLLISION MANAGEMENT
+
+When the same signal is detected by multiple lenses,
+it is reported once, in the most relevant SECTION.
+Rule: More specifically bound lens takes precedence.
+Collision is not surfaced to the user.
+
+```
+Verbal Lens + FREQUENCY SIGNAL: same sentence, same SECTION
+→ Combined note, one appearance
+
+LENSSA-DEPTH (SECTION 5) + FREQUENCY SIGNAL (SECTION 6): different SECTIONs
+→ Each reported separately
+
+Temporality Lens (SECTION 0) + Orientation Lens (SECTION 1): inevitability
+→ Both fire; reported in respective SECTIONs; not merged
+
+Integrity Signal + Temporality Lens: both in SECTION 0
+→ Reported as separate sub-signals; not merged
+
+Citation Behavior (SECTION 2) + Silence Lens (SECTION 7)
+→ Each reported separately; respective precedence
+
+Abstract→Body Coherence + Calibration-Deep: over-claim
+→ Calibration-Deep governs correction; Coherence Kit reports gap separately
+
+Replication Signal (SECTION 3) + Numerical Hat DEPENDENCY_BREAK (SECTION 7)
+→ Numerical Hat takes precedence in SECTION 7;
+  Replication Kit reports profile in SECTION 3
+
+Contribution Framing + Orientation Lens: both in SECTION 1
+→ Both fire as separate sub-signals;
+  Orientation Lens: scope-closure; Contribution Kit: novelty claim
+
+Contribution Framing (SECTION 1) + Citation Behavior (SECTION 2 or 4)
+→ Citation Kit: bibliographic absence; Contribution Kit: gap claim framing
+→ Combined note if same SECTION; otherwise separate
+
+Discussion Scope Drift + Verbal Lens: causal drift, same sentence SECTION 4
+→ Verbal Lens: language-level; Scope Drift Kit: structural drift
+→ Combined note if same sentence; otherwise separate
+
+Discussion Scope Drift (SECTION 4) + LENSSA-DEPTH (SECTION 5): scale
+→ LENSSA-DEPTH takes precedence in SECTION 5;
+  Scope Drift Kit reports in SECTION 4
+
+Discussion Scope Drift + Calibration-Deep: implication extension
+→ Calibration-Deep governs correction;
+  Scope Drift Kit reports structural pattern; not merged
+
+Discussion Scope Drift (SECTION 4) + Abstract→Body Coherence (SECTION 0)
+→ Coherence Kit: abstract→body distance;
+  Scope Drift Kit: Results→Discussion→Conclusion chain
+→ Both active; respective SECTIONs
+
+Argument Symmetry (SECTION 4) + Silence Lens (SECTION 7)
+→ Silence Lens: argumentative absence;
+  Argument Symmetry: proportionality pattern
+→ Reported separately; not merged
+
+Argument Symmetry + Discussion Scope Drift: both SECTION 4
+→ Scope Drift Kit: directional drift;
+  Argument Symmetry: zone-level ratio
+→ Both active; respective SECTIONs
+
+Argument Symmetry INVERTED + Calibration-Deep §1.3
+→ Calibration-Deep governs correction;
+  Argument Symmetry reports inversion; not merged
+
+Argument Symmetry CLOSING (SECTION 8) + Abstract→Body Coherence (SECTION 8)
+→ Coherence Kit: abstract→body distance;
+  Argument Symmetry: manuscript-level ratio
+→ Both active; respective SECTIONs
+
+Negative Result Visibility NULL_DEFLECTED (SECTION 8) + Silence Lens (SECTION 8)
+→ Silence Lens: argumentative silence;
+  Negative Result Visibility: framing behavior
+→ Both active; separate sub-signals
+
+Negative Result Visibility STRUCTURAL_NULL_ABSENCE (SECTION 5)
++ Discussion Scope Drift MECHANISM_INTRODUCTION (SECTION 4)
+→ Scope Drift Kit: interpretive expansion;
+  Negative Result Visibility: structural absence
+→ Respective SECTIONs; not merged
+
+Negative Result Visibility HYPOTHESIS_REJECTION_SUPPRESSED (SECTION 5)
++ Argument Symmetry ASYMMETRIC CORE (SECTION 4)
+→ Both active; respective SECTIONs; not merged
+
+Interdisciplinary Tension TENSION_SUPPRESSED (SECTION 2)
++ Citation Behavior FIELD_CONCENTRATION (SECTION 2)
+→ Citation Kit: bibliographic pattern;
+  Interdisciplinary Tension: theoretical tradition conflict
+→ Respective SECTIONs; not merged
+
+Interdisciplinary Tension ASSUMPTION_INVISIBILITY
++ Orientation Lens THRESHOLD_LOCK (SECTION 1)
+→ Orientation Lens: scope-closure;
+  Interdisciplinary Tension: tradition-specific assumption
+→ Both fire; respective SECTIONs
+
+Interdisciplinary Tension TENSION_SUPPRESSED (SECTION 2)
++ Silence Lens FRAMEWORK_MONOPOLY (SECTION 7)
+→ Silence Lens: argumentative silence;
+  Interdisciplinary Tension: cross-disciplinary conflict suppression
+→ Combined note if same SECTION; otherwise separate
+
+Interdisciplinary Tension TRADITION_CONFLICT (SECTION 2)
++ Abstract→Body Coherence METHOD_SIGNAL_GAP (SECTION 0 or 8)
+→ Coherence Kit: abstract→body distance;
+  Interdisciplinary Tension: tradition-level conflict
+→ Both active; respective SECTIONs
+
+Reader Model POLICY_ADJACENT (SECTION 1)
++ Discussion Scope Drift IMPLICATION_EXTENSION (SECTION 4)
+→ Scope Drift Kit: structural drift;
+  Reader Model: positioning signal
+→ Both active; respective SECTIONs
+
+Reader Model MISMATCH (SECTION 1)
++ Orientation Lens ALTERNATIVELESS_SCOPE (SECTION 1)
+→ Orientation Lens: scope-closure;
+  Reader Model: reader-evidence misalignment
+→ Respective SECTIONs; not merged
+
+Reader Model AUDIENCE_SHIFT (SECTION 1 or 6)
++ Abstract→Body Coherence CLAIM_ESCALATION/DEFLATION (SECTION 0)
+→ Coherence Kit: abstract→body distance;
+  Reader Model: register-level shift
+→ Both active; respective SECTIONs
+
+Reader Model EXPLANATION_DEPTH_UNDER (SECTION 6)
++ Interdisciplinary Tension TENSION_SUPPRESSED (SECTION 2)
+→ Interdisciplinary Tension: tradition conflict suppression;
+  Reader Model: explanation positioning
+→ Not merged; respective SECTIONs
+
+Reader Model (SECTION 1) + Contribution Framing SCOPE_INFLATION (SECTION 1)
+→ Contribution Kit: novelty claim;
+  Reader Model: positioning alignment
+→ Both fire in SECTION 1 as separate sub-signals
+
+Desk-Reject Signal Kit (SECTION 0) + Structural QA DESK_REJECT_RISK (SECTION 7)
+→ Structural QA: heading-based structural flag in SECTION 7;
+  Desk-Reject Kit: behavioral co-occurrence profile in SECTION 0
+→ Both active; never merged; user sees both outputs
+
+Desk-Reject Signal Kit SCOPE_FIT_RISK (SECTION 0 + SECTION 1)
++ Contribution Framing CONTRIBUTION_SCOPE_INFLATION (SECTION 1)
+→ Contribution Kit: novelty claim behavior;
+  Desk-Reject Kit: aggregated risk zone
+→ Contribution Kit reports in SECTION 1;
+  Desk-Reject Kit aggregates signal in SECTION 0 profile
+→ Not merged
+
+Desk-Reject Signal Kit ABSTRACT_POSTURE_RISK (SECTION 0)
++ Abstract→Body Coherence CLAIM_ESCALATION (SECTION 0)
+→ Coherence Kit: directional gap signal;
+  Desk-Reject Kit: aggregates coherence signal into risk profile
+→ Both reported in SECTION 0 as separate sub-blocks
+
+Argument Chain Kit BROKEN/UNRESOLVED (SECTION 4)
++ Discussion Scope Drift CAUSAL_DRIFT/SCALE_DRIFT (SECTION 4)
+→ Scope Drift Kit: directional drift behavior;
+  Argument Chain Kit: longitudinal chain profile
+→ Both active in SECTION 4 as separate sub-signals; not merged
+
+Argument Chain Kit CLAIM_SUBSTITUTION (SECTION 4)
++ Abstract→Body Coherence CLAIM_ESCALATION (SECTION 0)
+→ Coherence Kit: abstract→body distance;
+  Argument Chain Kit: intra-body substitution
+→ Both active; respective SECTIONs; not merged
+
+Argument Chain Kit CLAIM_ABANDONMENT (SECTION 4)
++ Negative Result Visibility HYPOTHESIS_REJECTION_SUPPRESSED (SECTION 5)
+→ Negative Result Visibility: takes precedence in SECTION 5;
+  Argument Chain Kit: reports in SECTION 4
+→ Not merged
+
+Argument Chain Kit CLAIM_FRAGMENTATION (SECTION 4)
++ Argument Symmetry ASYMMETRIC CORE (SECTION 4)
+→ Symmetry Kit: proportionality pattern;
+  Argument Chain Kit: structural fragmentation
+→ Both active in SECTION 4 as separate sub-signals
+
+Argument Chain Kit BROKEN/UNRESOLVED (SECTION 4)
++ Desk-Reject Signal Kit (SECTION 0)
+→ Desk-Reject Kit aggregates chain signal into LANGUAGE_POSTURE_RISK zone;
+  Argument Chain Kit reports full transition map in SECTION 4 independently
+→ Not merged
+```
+
+---
+
+## 4. ACTIVATION CONDITIONS (FULL LIST)
+
+| Lens | Activation |
+|------|-----------|
+| Verbal Lens | Active when numerical signals are present |
+| Temporality Lens | Passive scan in SECTION 0; activates on detection |
+| Silence Lens | Automatically active in SECTION 7 |
+| Orientation Lens | Automatically active in SECTION 1 |
+| Integrity Signal | Passive scan of competing interests block |
+| LENSSA-DEPTH | Active when numerical signals are present |
+| FREQUENCY SIGNAL | Parallel to Verbal Lens |
+| Model Fit Detection | Active when structural model fit indices are reported |
+| Citation Behavior | Automatically active in SECTION 2 |
+| Abstract→Body Coherence | Active when both abstract and body present |
+| Replication Signal | Automatically active in SECTION 3 |
+| Contribution Framing | Automatically active in SECTION 1 |
+| Discussion Scope Drift | Automatically active in SECTION 4 when Results + Discussion present |
+| Argument Symmetry | Automatically active in SECTION 4 |
+| Negative Result Visibility | Automatically active in SECTION 5 when numerical results present |
+| Interdisciplinary Tension | Automatically active in SECTION 2 |
+| Reader Model | Automatically active in SECTION 1 |
+| Desk-Reject Signal Kit | Automatically active; requires 2+ kit signals for profile |
+| Argument Chain Kit | Automatically active in SECTION 4 when framing + body present |
+
+---
+
+## 5. LIMITS
+
+This kit:
+  Cannot add new SECTIONs
+  Cannot reorder SECTIONs
+  Cannot modify internal rules of individual lens kits
+  Only defines the connection map, integration logic,
+  and label enforcement reference
+
+---
+
+# LENS-BRIDGE KIT v1.6 — END

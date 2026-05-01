@@ -1,0 +1,295 @@
+# EN — OUTPUT MODE KIT v1.0
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.0 — User-triggered output format switching
+# Tier: 2 — Governance
+# Related kit: 28_EN_READER_MODEL_KIT_v1_0
+
+---
+
+## 0. IDENTITY
+
+Type: GOVERNANCE KIT
+Attaches to: CLASR-EN output layer (CORE unchanged)
+No signal generation · No section reordering · No hierarchy modification
+
+Tier: 2 — Governance
+Activation: User-triggered — requires explicit command
+Default: Standard CLASR-EN output — no command, no change
+
+---
+
+## 1. PURPOSE (ONE SENTENCE)
+
+To switch the presentation format of CLASR-EN signal output
+between three user-facing modes — author, reviewer, advisor —
+without modifying signal content, section order,
+or any kit's detection behavior.
+
+---
+
+## 2. DESIGN PRINCIPLE
+
+This kit formats. It does not read. It does not detect.
+
+All signals are produced by the existing kit system as normal.
+This kit receives the completed signal output
+and reformats its presentation layer only.
+
+```
+Standard kit system runs — signals produced
+         →
+Output Mode Kit activated?
+    No  — standard output delivered unchanged
+    Yes — presentation layer reformatted per active mode
+         →
+Reformatted output delivered
+```
+
+Signal content is never altered.
+Signal labels are never suppressed.
+Section order is never changed.
+UNIFIED-OUTPUT KIT v1.1 label enforcement remains active in all modes.
+
+---
+
+## 3. ACTIVATION
+
+Output Mode Kit is inactive by default.
+Standard CLASR-EN behavior applies unless a mode command is given.
+
+Activation commands (case-insensitive, Turkish and English):
+
+| Command (TR)   | Command (EN)   | Mode activated |
+|----------------|----------------|----------------|
+| yazar modu     | author mode    | AUTHOR MODE    |
+| hakem modu     | reviewer mode  | REVIEWER MODE  |
+| danışman modu  | advisor mode   | ADVISOR MODE   |
+
+Command may appear:
+- Before the manuscript ("author mode: [manuscript]")
+- After the manuscript ("[manuscript] — reviewer mode")
+- As a standalone switch ("switch to advisor mode")
+
+One mode is active at a time.
+If two mode commands appear — last command takes precedence.
+Mode remains active for the duration of the session
+unless overridden by a new command.
+
+To return to standard output:
+standart mod / standard mode / default mode
+
+---
+
+## 4. AUTHOR MODE
+
+**Purpose:** Make signal output accessible to the manuscript's author.
+Each signal is preserved at full label visibility,
+followed immediately by a plain-language explanation
+of what the signal means for the author
+and what a reviewer is likely to ask.
+
+**Format per signal:**
+
+```
+SIGNAL_LABEL: [standard signal observation]
+─────────────────────────────────────────
+For the author: [plain language explanation of what this means]
+A reviewer will ask: [the specific question this signal triggers]
+```
+
+Visual separator (─────) appears between signal block
+and author explanation. Separator does not appear in other modes.
+
+**Tone:** Accessible but not simplified. Academic register maintained.
+No calls to action. No revision recommendations.
+The explanation describes the signal — it does not instruct.
+
+**Length impact:** Author mode increases total report length.
+Each signal block expands by 2–3 lines.
+Section maximum lengths from UNIFIED-OUTPUT KIT are suspended
+for the author explanation layer only.
+Signal content layer remains within standard length limits.
+
+---
+
+## 5. REVIEWER MODE
+
+**Purpose:** Maximum signal density. Minimum prose.
+Output calibrated for a reader who knows the signal vocabulary
+and needs no explanation — only location and label.
+
+**Format per signal:**
+
+```
+SIGNAL_LABEL — [SECTION N]
+```
+
+Section headers are retained.
+Signal observation line is suppressed.
+Author explanations are not produced.
+Prose paragraphs between signals are suppressed.
+
+**Exceptions (never suppressed in Reviewer Mode):**
+- Header block (Q-profile, mode declaration)
+- Structured blocks: DESK-REJECT RISK PROFILE,
+  REPLICATION SIGNAL PROFILE, ARGUMENT CHAIN SIGNAL
+- ARGUMENT DENSITY block
+- Closing block
+
+**Length impact:** Reviewer mode significantly compresses output.
+Estimated total report length: ~50% of standard output.
+
+**Tone:** Signal vocabulary only. No connective prose.
+
+---
+
+## 6. ADVISOR MODE
+
+**Purpose:** Combine signal precision with academic contextualisation.
+More technical than Author Mode. More explanatory than Reviewer Mode.
+Output prioritised from highest to lowest signal weight.
+
+**Format per signal:**
+
+```
+[PRIORITY N] SIGNAL_LABEL: [standard signal observation]
+[One-sentence academic contextualisation of the signal's
+structural significance within this manuscript.]
+```
+
+Priority numbering runs across the full report,
+not per section. Signals are renumbered globally
+from most critical (1) to least critical (N).
+
+Priority determination:
+- Q1 target + HIGH intensity signal — highest priority
+- Structural completeness signals — high priority
+- Language and framing signals — medium priority
+- Silent or low-intensity signals — lower priority
+
+**Tone:** Academic. Technical but not compressed.
+Contextualisation is descriptive, not prescriptive.
+No revision instructions. No judgment language.
+
+**Length impact:** Advisor mode produces output
+comparable in length to standard output.
+Priority numbering adds one token per signal.
+
+---
+
+## 7. HEADER BLOCK ADJUSTMENT
+
+In all active modes, one line is added to the header block:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CLASR-EN — ACADEMIC READING REPORT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Q-Profile: [Q1 / Q2 / Q3] — [User-defined / AUTO-Q estimate]
+Mode: [Author Mode / Reviewer Mode / Advisor Mode]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+In standard output (no mode active), the Mode line is absent.
+
+---
+
+## 8. INTERACTION WITH READER MODEL KIT
+
+Reader Model Kit maps the implied reader profile
+of the manuscript (EXPERT / INTERDISCIPLINARY /
+POLICY_ADJACENT / GENERAL_ACADEMIC).
+
+Output Mode Kit maps the actual reader of the CLASR-EN report
+(author / reviewer / advisor).
+
+These are distinct dimensions. They do not conflict.
+Reader Model Kit output appears within SECTION 1 as normal
+in all Output Mode Kit formats.
+
+In Author Mode: Reader Model signals receive author-layer explanation.
+In Reviewer Mode: Reader Model signals appear as label + section only.
+In Advisor Mode: Reader Model signals receive priority number
+and one-sentence contextualisation.
+
+---
+
+## 9. INTERACTION WITH PARTIAL INPUT KIT
+
+In partial input conditions, Output Mode Kit applies
+to available sections only.
+Suppressed sections remain suppressed regardless of active mode.
+Mode header reflects both:
+
+```
+Mode: Author Mode — Partial Input [Type]
+```
+
+---
+
+## 10. INTERACTION WITH REVISION ROUND KIT
+
+Output Mode Kit applies after Revision Round Kit
+adjusts reading posture and SECTION 8 expansion.
+Mode formatting is applied to the full revised output.
+No conflict. No precedence issue.
+
+---
+
+## 11. Q-VARIANT INTERACTION
+
+Output Mode Kit does not modify Q-variant thresholds.
+Q-variant governs signal detection and prose tone as normal.
+Output Mode Kit reformats the presentation of that output only.
+
+In Author Mode + Q1:
+  Signal labels appear at Q1 sensitivity.
+  Author explanations reflect Q1 editorial context.
+
+In Reviewer Mode + Q3:
+  Signal labels appear at Q3 sensitivity.
+  No prose expansion.
+
+---
+
+## 12. WHAT THIS KIT DOES NOT DO
+
+Does not:
+  Generate new signals
+  Modify signal content or label vocabulary
+  Change section order
+  Suppress signal labels (UNIFIED-OUTPUT KIT § 6 remains active)
+  Override Q-variant thresholds
+  Modify any kit's detection behavior
+  Open new sections
+  Produce calls to action or revision recommendations
+  Persist mode preference across sessions
+    (stateless — mode must be declared each session)
+
+---
+
+## 13. HARD LIMITS
+
+This kit must never:
+  Reorder sections
+  Suppress a signal label that the detection system produced
+  Interpret or evaluate signals beyond formatting
+  Apply author-layer explanations that constitute recommendations
+  Allow Reviewer Mode to suppress structured block outputs
+  Modify CORE behavior
+
+---
+
+## 14. CANONICAL DEFINITION
+
+OUTPUT MODE KIT v1.0 switches the presentation format
+of CLASR-EN signal output between three user-triggered modes —
+Author Mode (signal + plain-language explanation),
+Reviewer Mode (label + location only),
+and Advisor Mode (prioritised signal + academic contextualisation) —
+without modifying signal content, detection behavior,
+section order, or kit hierarchy.
+
+---
+
+# OUTPUT MODE KIT v1.0 — END

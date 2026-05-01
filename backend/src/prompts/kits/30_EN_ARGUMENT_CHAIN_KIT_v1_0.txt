@@ -1,0 +1,401 @@
+# EN — ARGUMENT CHAIN KIT v1.0
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.0 — Longitudinal argument continuity signal detection overlay
+
+---
+
+## 0. IDENTITY
+
+Type: EXTENSION KIT
+Attaches to: CLASR-EN reading layer (CORE unchanged)
+No content generation · No judgment · No recommendation
+
+Tier: 3 — Extension
+Primary SECTION: SECTION 4 — Argumentation
+Secondary SECTION: SECTION 0 — Macro Frame
+           SECTION 8 — Limits & Uncertainties
+
+---
+
+## 1. PURPOSE (ONE SENTENCE)
+
+To surface whether the manuscript's central claim,
+introduced in the framing zone, is sustained, transformed,
+or lost across the full length of the argument —
+mapping longitudinal continuity as a structural chain signal,
+without producing judgment on the claim's validity.
+
+---
+
+## 2. DESIGN PRINCIPLE
+
+The existing CLASR-EN system reads each SECTION independently.
+Argument Symmetry Kit reads proportionality per zone.
+Discussion Scope Drift Kit reads Results→Discussion distance.
+
+None of these reads the full longitudinal arc:
+
+Does the claim the manuscript opens with
+arrive — intact, transformed, or broken —
+at the conclusion?
+
+```
+Central claim extracted from framing zone
+         →
+Claim tracked across SECTION 1 → 2 → 3 → 4 → 5 → 8
+         →
+Continuity state mapped at each transition
+         →
+Chain profile assembled
+         →
+Drift points and recovery behavior reported
+```
+
+This is not a summary.
+It is a structural continuity map of a single thread
+— the manuscript's primary claim — across its full length.
+
+---
+
+## 3. CLAIM EXTRACTION
+
+The central claim is extracted from the framing zone:
+- Title
+- Abstract claim statement
+- Introduction's explicit research aim or hypothesis
+
+If multiple claims are present:
+→ The primary claim is identified as the one
+  most directly tied to the stated research aim
+→ Secondary claims are not tracked independently
+
+If no explicit central claim is identifiable:
+→ Label: CLAIM_NOT_ANCHORED
+→ Chain tracking cannot proceed
+→ Single note in SECTION 0:
+  [Argument chain scan: central claim not extractable from framing zone]
+
+---
+
+## 4. CONTINUITY STATES
+
+At each SECTION transition, the claim is assessed:
+
+```
+SUSTAINED    — claim present, consistent with framing zone version
+NARROWED     — claim scope reduced; boundary explicitly drawn
+EXPANDED     — claim scope widened beyond framing zone
+TRANSFORMED  — claim modified in substance, not just scope
+LOST         — claim no longer traceable in this zone
+RECOVERED    — claim re-emerges after a LOST or TRANSFORMED state
+```
+
+NARROWED and RECOVERED are structurally neutral signals.
+EXPANDED and TRANSFORMED are moderate signals.
+LOST is a high signal.
+
+---
+
+## 5. TRANSITION MAP
+
+Transitions tracked:
+
+```
+T1: Framing → Methods       (SECTION 1+2 → SECTION 3)
+T2: Methods → Results       (SECTION 3 → SECTION 5)
+T3: Results → Discussion    (SECTION 5 → SECTION 4)
+T4: Discussion → Conclusion (SECTION 4 → SECTION 7+8)
+```
+
+Each transition receives a continuity state label.
+Drift points are noted with the transition label.
+
+---
+
+## 6. CHAIN PROFILES
+
+After all transitions are mapped,
+a manuscript-level chain profile is assembled:
+
+```
+INTACT           — claim sustained or appropriately narrowed
+                   across all transitions
+PARTIALLY INTACT — one transition shows EXPANDED, TRANSFORMED,
+                   or brief LOST with recovery
+DRIFTED          — two or more transitions show EXPANDED
+                   or TRANSFORMED without recovery
+BROKEN           — LOST state at one or more transitions
+                   without recovery
+UNRESOLVED       — claim reaches conclusion in TRANSFORMED
+                   or EXPANDED state without acknowledgment
+```
+
+---
+
+## 7. SCOPE — ADDITIONAL SIGNALS
+
+### 7.1 Claim Substitution
+
+A new claim, not present in the framing zone,
+emerges in the Discussion or Conclusion
+and displaces the original claim.
+
+Signal indicators:
+- Conclusion centers on a finding
+  not mentioned in the abstract or introduction
+- "Unexpectedly, we found..." followed by
+  a claim that becomes the manuscript's de facto conclusion
+- The abstract's primary claim is absent from the Conclusion
+
+Label: CLAIM_SUBSTITUTION
+
+---
+
+### 7.2 Claim Fragmentation
+
+The central claim, stated as unified in the framing zone,
+is operationalized as multiple disconnected sub-claims
+that are never reintegrated.
+
+Signal indicators:
+- Introduction states one research question
+- Results section addresses 3+ separate sub-questions
+- No synthesis section reintegrates them
+- Discussion treats each sub-finding independently
+
+Label: CLAIM_FRAGMENTATION
+
+---
+
+### 7.3 Claim Abandonment
+
+The central claim is introduced,
+developed through Methods,
+and then silently not addressed in Results or Discussion.
+
+Signal indicators:
+- Explicit hypothesis in introduction
+- No results section entry for that hypothesis
+- Discussion proceeds without acknowledging the gap
+
+Label: CLAIM_ABANDONMENT
+
+Overlap note: CLAIM_ABANDONMENT may overlap with
+Negative Result Visibility Kit HYPOTHESIS_REJECTION_SUPPRESSED.
+Where both fire — both reported;
+Negative Result Visibility Kit takes precedence in SECTION 5,
+Argument Chain Kit reports in SECTION 4.
+
+---
+
+## 8. OUTPUT BEHAVIOR
+
+Reported as a sub-block within SECTION 4:
+
+```
+▸ ARGUMENT CHAIN SIGNAL
+
+Central claim:    [extracted from framing zone — one line]
+Chain profile:    [INTACT / PARTIALLY INTACT / DRIFTED /
+                   BROKEN / UNRESOLVED]
+
+Transition map:
+  T1 (Framing → Methods):      [continuity state]
+  T2 (Methods → Results):      [continuity state]
+  T3 (Results → Discussion):   [continuity state]
+  T4 (Discussion → Conclusion):[continuity state]
+
+Additional signals: [CLAIM_SUBSTITUTION / CLAIM_FRAGMENTATION /
+                     CLAIM_ABANDONMENT / none detected]
+```
+
+No judgment. No recommendation.
+Chain map only.
+
+If chain profile is INTACT and no additional signals:
+→ Single line: [Argument chain: INTACT across all transitions]
+
+---
+
+## 9. Q-VARIANT CALIBRATION
+
+Q1:
+  DRIFTED, BROKEN, and UNRESOLVED profiles explicitly surfaced.
+  CLAIM_SUBSTITUTION noted as potential reviewer concern.
+  Q1 reviewers track claim continuity rigorously.
+
+Q2:
+  All profiles reported at standard detail.
+  PARTIALLY INTACT noted without escalation.
+
+Q3:
+  BROKEN and UNRESOLVED profiles reported.
+  DRIFTED noted at summary level.
+  CLAIM_FRAGMENTATION suppressed silently
+  unless also producing SCOPE_FIT_RISK (Desk-Reject Kit).
+
+---
+
+## 10. WHAT THIS KIT DOES NOT DO
+
+Does not:
+  Evaluate whether the central claim is correct or important
+  Judge whether the claim transformation is appropriate
+  Recommend how to strengthen or repair the argument chain
+  Label the manuscript as logically incoherent
+  Read sub-claims or secondary argument threads
+  Act as a standalone argument analysis tool
+
+Reads only:
+  Whether the manuscript's single primary claim
+  is structurally traceable across its full length —
+  as a longitudinal continuity signal
+
+---
+
+## 11. INTEGRATION — LENS-BRIDGE CONNECTION
+
+### Primary: SECTION 4 — Argumentation
+Full argument chain signal and transition map
+→ reported as chain sub-block within SECTION 4
+→ extends (does not replace) existing argumentation signals
+
+### Secondary: SECTION 0 — Macro Frame
+Where chain profile is BROKEN or UNRESOLVED,
+the macro behavioral type of the manuscript
+may be misrepresented in the framing zone
+→ noted as framing-chain gap within SECTION 0
+
+### Secondary: SECTION 8 — Limits & Uncertainties
+Where CLAIM_ABANDONMENT or UNRESOLVED chain profile
+constitutes an unmapped knowledge boundary
+→ flagged as chain-limit gap within SECTION 8
+
+Argument Chain Kit output never opens a new section.
+Always appears as a sub-block within SECTION 4
+and optionally as sub-signals within SECTION 0 and SECTION 8.
+
+---
+
+## 12. ACTIVATION
+
+Automatically active in SECTION 4 for every report
+where framing zone and at least one body section are present.
+
+If chain profile is INTACT and no additional signals detected:
+→ Single-line output only.
+
+If central claim is not extractable:
+→ CLAIM_NOT_ANCHORED noted in SECTION 0.
+→ Kit runs silently on remaining signals.
+
+---
+
+## 13. COLLISION MANAGEMENT
+
+If DRIFTED or BROKEN chain overlaps with
+Discussion Scope Drift Kit CAUSAL DRIFT or SCALE DRIFT:
+→ Scope Drift Kit takes precedence on directional drift behavior
+  in the Results→Discussion zone;
+  Argument Chain Kit reports the longitudinal chain profile
+→ Both active; reported in SECTION 4 as separate sub-signals
+
+If CLAIM_SUBSTITUTION overlaps with
+Abstract→Body Coherence Kit CLAIM_ESCALATION:
+→ Coherence Kit takes precedence on abstract→body distance;
+  Argument Chain Kit reports the intra-body substitution signal
+→ Reported in their respective SECTIONs; not merged
+
+If CLAIM_ABANDONMENT overlaps with
+Negative Result Visibility Kit HYPOTHESIS_REJECTION_SUPPRESSED:
+→ Both active
+→ Negative Result Visibility Kit takes precedence in SECTION 5
+→ Argument Chain Kit reports in SECTION 4
+→ Not merged
+
+If CLAIM_FRAGMENTATION overlaps with
+Argument Symmetry Kit ASYMMETRIC CORE zone:
+→ Symmetry Kit takes precedence on proportionality pattern;
+  Argument Chain Kit reports structural fragmentation
+→ Reported in SECTION 4 as separate sub-signals
+
+If BROKEN or UNRESOLVED chain overlaps with
+Desk-Reject Signal Kit SCOPE_FIT_RISK:
+→ Both active
+→ Desk-Reject Kit aggregates the chain signal into its profile;
+  Argument Chain Kit reports the full transition map independently
+→ Not merged
+
+---
+
+## 14. PARTIAL INPUT BEHAVIOR
+
+Abstract only (Type A):
+→ Central claim extractable; chain tracking not possible
+→ Label: CLAIM_NOT_ANCHORED (chain not traceable — body absent)
+
+Introduction only (Type B):
+→ T1 partially assessable; T2–T4 not possible
+→ Label: [Chain scan — introduction only, T1 partial]
+
+Methods only (Type C):
+→ T1 assessable if framing zone available
+→ Label: [Chain scan — reduced coverage]
+
+Results / Discussion only (Type D):
+→ T3 and T4 assessable; T1 and T2 not possible
+→ Partial chain map; framing zone not available for anchor
+→ Label: [Chain scan — framing zone absent, partial map]
+
+Mixed (Type E):
+→ Kit runs on available zone pairs
+→ Coverage noted per transition
+
+---
+
+## 15. REVISION ROUND INTERACTION
+
+In Revision Round Mode, chain profile signals
+carry additional weight under Q1-level sensitivity.
+
+BROKEN and UNRESOLVED profiles in revised manuscripts
+are read as residual risk — argument continuity is
+among the structural concerns most frequently raised
+in substantive R1 reviewer comments.
+
+CLAIM_SUBSTITUTION in a revised manuscript is particularly weighted:
+it may indicate that the revision changed the manuscript's
+central claim in response to reviewers
+without updating the framing zone accordingly.
+
+No separate flag produced.
+Profile reported as normal; sensitivity applies implicitly.
+
+---
+
+## 16. HARD LIMITS
+
+This kit must never:
+  Evaluate the validity or importance of the central claim
+  Judge whether claim transformation is scientifically appropriate
+  Recommend how to repair the argument chain
+  Label the manuscript as logically flawed or incoherent
+  Track secondary or sub-claims
+  Generate independent flags outside SECTION 4, SECTION 0, SECTION 8
+  Act as a standalone logical analysis or rhetoric review tool
+
+---
+
+## 17. CANONICAL DEFINITION
+
+ARGUMENT CHAIN KIT v1.0 surfaces whether the manuscript's
+central claim is sustained, narrowed, expanded, transformed,
+or lost across its full longitudinal structure —
+mapping continuity states at four argument transitions
+and assembling a chain profile with additional signals
+for substitution, fragmentation, and abandonment —
+without producing judgment, evaluation, or recommendation.
+
+---
+
+# ARGUMENT CHAIN KIT v1.0 — END

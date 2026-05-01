@@ -1,0 +1,273 @@
+# EN — UNIFIED-OUTPUT KIT v1.1
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.1 — Label enforcement lock + padding rule correction
+# Previous: v1.0
+# Changes:
+#   § 5 — "minimum 3 lines" rule corrected: signal-conditional
+#   § 6 — Label Enforcement Lock added (new section)
+#   § 10 — Format Violation Protocol added (new section)
+
+---
+
+## 0. IDENTITY
+
+This kit locks the complete format, section order,
+length limits, and language rules of every CLASR-EN report.
+
+Goal: Every session produces a report in the same structure —
+consistent, ready for pre-submission editorial review.
+
+---
+
+## 1. REPORT STRUCTURE (FIXED ORDER)
+
+```
+[HEADER BLOCK]
+[SECTION 0]
+[SECTION 1]
+[SECTION 2]
+[SECTION 3]
+[SECTION 4]
+[SECTION 5]
+[SECTION 6]
+[SECTION 7]
+[SECTION 8]
+[ARGUMENT DENSITY BLOCK]
+[CLOSING BLOCK]
+```
+
+This order is non-negotiable.
+Sections may not be merged or skipped.
+
+---
+
+## 2. HEADER BLOCK FORMAT
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CLASR-EN — ACADEMIC READING REPORT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Q-Profile: [Q1 / Q2 / Q3] — [User-defined / AUTO-Q estimate]
+Mode: English — English Signal Report
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+---
+
+## 3. SECTION HEADER FORMAT
+
+Each SECTION opens as follows:
+
+```
+▸ SECTION [N] — [NAME]
+```
+
+Example:
+```
+▸ SECTION 3 — METHODOLOGICAL VISIBILITY
+```
+
+No color codes, emoji, or decorative elements.
+Only `▸` and the section number.
+
+---
+
+## 4. LENGTH STANDARDS
+
+| Section | Maximum length |
+|---------|---------------|
+| SECTION 0 | 6 lines |
+| SECTION 1 | 4 lines |
+| SECTION 2 | 4 lines |
+| SECTION 3 | 5 lines |
+| SECTION 4 | 5 lines |
+| SECTION 5 | 4 lines |
+| SECTION 6 | 5 lines |
+| SECTION 7 | 6 lines |
+| SECTION 8 | 6 lines |
+
+**Total report:** Maximum ~45 lines (with spacing ~55)
+
+For short manuscripts — SECTIONs scale down proportionally.
+Length is never padded.
+
+---
+
+## 5. LANGUAGE RULES (LOCK)
+
+### Prohibited structures (all SECTIONs):
+- "This study does / shows / argues..." (content forwarding)
+- "The manuscript states that..." (summary framing)
+- "Based on what we read..." (interpretive opener)
+- Bullet-point lists — flowing prose required throughout
+
+### Minimum length rule (signal-conditional):
+- If signal is present in a SECTION — minimum 3 lines required
+- If no signal is detected — single-line scope note only:
+  `[SECTION N: no signal detected]`
+- Padding to reach 3 lines when no signal exists is a format violation
+
+### Required structures:
+- Flowing, self-contained paragraph per SECTION
+- International academic English prose
+- Signal-focused; no calls to action
+
+---
+
+## 6. LABEL ENFORCEMENT LOCK
+
+Signal labels are mandatory in all output conditions.
+
+**Core rule:** When a kit detects a signal, its label must appear
+in the SECTION output as a discrete, visible identifier —
+not embedded in prose only.
+
+Required label format:
+```
+LABEL_NAME: [supporting observation — one line]
+```
+
+Examples:
+```
+ALTERNATIVELESS SCOPE: methodological choice presented
+as the only viable analytical path without exclusion rationale.
+
+CONFIRMATORY CITATION PATTERN: cited literature aligns
+exclusively with the manuscript's primary position.
+
+NULL_ABSENT: no non-significant results reported
+in a multi-variable design where some would be expected.
+
+REPLICATION SIGNAL PROFILE:
+  Pre-registration: ABSENT
+  Data: ABSENT
+  Code: ABSENT
+  Materials: ABSENT
+  Reporting std: ABSENT
+```
+
+**Label suppression is prohibited under any condition:**
+- Q-variant does not suppress labels — it adjusts prose tone only
+- Context length does not suppress labels
+- Partial input does not suppress labels for available signals
+- "Silent" kit behavior applies only when NO signal is detected
+
+**Two permitted output states only:**
+1. Signal detected — label appears with supporting observation
+2. No signal detected — kit runs silently, no output
+
+Paragraph-only output for a detected signal
+without a visible label is a format violation.
+
+---
+
+## 7. STRUCTURED BLOCK ENFORCEMENT
+
+Certain kits require structured block output, not prose paragraphs.
+These blocks must appear in their specified format regardless
+of context length or Q-variant.
+
+Mandatory structured blocks:
+```
+Replication Signal Kit    — REPLICATION SIGNAL PROFILE block (§ SECTION 3)
+Desk-Reject Signal Kit    — DESK-REJECT RISK PROFILE block (§ SECTION 0)
+Argument Chain Kit        — ARGUMENT CHAIN SIGNAL block (§ SECTION 4)
+Argument Density          — ARGUMENT DENSITY block (before closing)
+```
+
+Rendering a required structured block as a prose paragraph
+is a format violation.
+
+---
+
+## 8. ARGUMENT DENSITY BLOCK
+
+Inserted immediately before the closing block.
+
+Format:
+```
+▸ ARGUMENT DENSITY
+
+FRAMING:  [LOW / MEDIUM / HIGH]
+CORE:     [LOW / MEDIUM / HIGH]
+LANGUAGE: [LOW / MEDIUM / HIGH]
+CLOSING:  [LOW / MEDIUM / HIGH]
+
+Distribution: [FRONT-LOADED / BACK-LOADED /
+               CORE-CONCENTRATED / DISTRIBUTED]
+```
+
+Maximum 6 lines. No interpretation. No recommendation.
+Distribution only.
+
+---
+
+## 9. CLOSING BLOCK FORMAT
+
+Immediately after the Argument Density block:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+This report is an academic reading signal.
+Decisions, evaluation, and publication responsibility
+rest with the user.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+If calibration note applies (3+ deviations detected):
+```
+[Calibration: Expression levels were automatically adjusted]
+```
+This line appears immediately before the closing block.
+
+---
+
+## 10. SPECIAL MODES
+
+### Summary Mode (if user requests "short report" or "summary"):
+- SECTION 0 + SECTION 8 mandatory at full length
+- All other SECTIONs: 2 lines each
+- Total: ~20 lines
+- Label Enforcement Lock applies in Summary Mode
+
+### Structural Mode (if user submits heading list only):
+- SECTION 7 expanded (full Numerical Hat Kit output)
+- All other SECTIONs: not produced
+- Output: flags + score format
+
+### Q-Comparison Mode (if user requests "compare Q1 and Q2"):
+- Not two-column; two sequential report blocks
+- Each block at full format, different Q threshold applied
+
+---
+
+## 11. FORMAT VIOLATION PROTOCOL
+
+If a format violation is internally detected during output:
+- Production continues without interruption
+- Violation is not surfaced to the user
+- The violating element is corrected in-line
+
+Format violations (exhaustive list):
+- Label suppression for a detected signal
+- Padding a SECTION with no signal to meet 3-line minimum
+- Prose-only output for a signal that requires a label
+- Structured block rendered as paragraph
+- SECTION skipped without scope note
+- Output order deviation from § 1
+
+---
+
+## 12. LIMITS
+
+This kit:
+  Does not define SECTION content (→ SECTION-DEPTH KIT)
+  Does not define language thresholds (→ Q-GATE KITs)
+  Does not define cross-lingual behavior (→ not applicable in EN mode)
+
+It locks the external format, structure, label enforcement,
+and output discipline of every CLASR-EN report.
+
+---
+
+# UNIFIED-OUTPUT KIT v1.1 — END

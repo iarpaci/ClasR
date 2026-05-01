@@ -1,0 +1,195 @@
+# EN — OPERATIONAL TIERING v1.8
+# (Kit Layer Classification)
+# STATUS: v1.8 · One new Tier 2 kit added:
+#          Output Mode Kit v1.0
+# Previous: v1.7
+
+---
+
+## 0. IDENTITY
+
+This document classifies all CLASR-EN kits
+into three tiers by functional importance and maintenance priority.
+
+This document:
+  Does not modify kit content
+  Does not modify operational order
+  Is a classification and maintenance guide only
+
+---
+
+## 1. TIER 1 — CORE (UNTOUCHABLE)
+
+```
+00_CLASR-EN_CORE_v1_1
+01_EN_MASTER_SECTION_KIT_v1_0
+02_EN_SECTION-DEPTH_KIT_v1_0
+03_EN_UNIFIED-OUTPUT_KIT_v1_1
+04_EN_Q1-GATE_KIT_v1_0
+05_EN_Q2-GATE_KIT_v1_0
+06_EN_Q3-GATE_KIT_v1_0
+```
+
+Changes require → new version (v2.0 → v3.0).
+
+---
+
+## 2. TIER 2 — GOVERNANCE
+
+```
+07_EN_Q-VARIANT_ADDENDUM_v1_0
+08_EN_AUTO-Q_DETECTION_KIT_v1_0
+09_EN_CALIBRATION-DEEP_KIT_v1_1
+12_EN_LENS-BRIDGE_KIT_v1_6
+14_EN_VERSION_FREEZE_v1_8              — this document
+17_EN_PARTIAL_INPUT_KIT_v1_0
+18_EN_REVISION_ROUND_KIT_v1_0
+31_EN_OUTPUT_MODE_KIT_v1_0             — NEW v1.8
+```
+
+---
+
+## 3. TIER 3 — OPTIONAL / EXTENSION
+
+```
+10_EN_VERBAL_LENS_KIT_v1_0
+11_EN_LENS-EXT_KITS_v1_0
+13_EN_STRUCTURAL_QA_KITS_v1_0
+15_EN_SILENCE_LENS_KIT_v1_0
+16_EN_ORIENTATION_LENS_KIT_v1_0
+19_EN_INTEGRITY_SIGNAL_KIT_v1_0
+20_EN_CITATION_BEHAVIOR_KIT_v1_0
+21_EN_ABSTRACT_BODY_COHERENCE_KIT_v1_0
+22_EN_REPLICATION_SIGNAL_KIT_v1_0
+23_EN_CONTRIBUTION_FRAMING_KIT_v1_0
+24_EN_DISCUSSION_SCOPE_DRIFT_KIT_v1_1
+25_EN_ARGUMENT_SYMMETRY_KIT_v1_1
+26_EN_NEGATIVE_RESULT_VISIBILITY_KIT_v1_0
+27_EN_INTERDISCIPLINARY_TENSION_KIT_v1_0
+28_EN_READER_MODEL_KIT_v1_0
+29_EN_DESK_REJECT_SIGNAL_KIT_v1_0
+30_EN_ARGUMENT_CHAIN_KIT_v1_0
+```
+
+---
+
+## 4. CANONICAL SOURCE RULE
+
+| Principle | Canonical Source |
+|-----------|-----------------|
+| SECTION order | MASTER_SECTION_KIT_v1_0 |
+| SECTION content depth | SECTION-DEPTH_KIT_v1_0 |
+| Q-variant thresholds | Q1/Q2/Q3-GATE KITs |
+| Lens-SECTION connections | LENS-BRIDGE_KIT_v1_6 |
+| Output format | UNIFIED-OUTPUT_KIT_v1_1 |
+| Label enforcement | UNIFIED-OUTPUT_KIT_v1_1 § 6 |
+| Structured block enforcement | UNIFIED-OUTPUT_KIT_v1_1 § 7 |
+| Output mode switching | OUTPUT_MODE_KIT_v1_0 |
+| Deviation detection | CALIBRATION-DEEP_KIT_v1_1 |
+| Model fit threshold violation | CALIBRATION-DEEP_KIT_v1_1 (§1.5) |
+| Version record | VERSION_FREEZE_v1_8 |
+| "Map is not evidence" | MASTER_SECTION_KIT_v1_0 (Section 5) |
+| "No decisions produced" | CLASR-EN_CORE_v1_1 |
+| Silence detection | SILENCE_LENS_KIT_v1_0 |
+| Orientation signals | ORIENTATION_LENS_KIT_v1_0 |
+| Partial input behavior | PARTIAL_INPUT_KIT_v1_0 |
+| Revision round behavior | REVISION_ROUND_KIT_v1_0 |
+| Competing interests signals | INTEGRITY_SIGNAL_KIT_v1_0 |
+| Citation pattern signals | CITATION_BEHAVIOR_KIT_v1_0 |
+| Abstract→body coherence gaps | ABSTRACT_BODY_COHERENCE_KIT_v1_0 |
+| Replication signal profile | REPLICATION_SIGNAL_KIT_v1_0 |
+| Contribution framing signals | CONTRIBUTION_FRAMING_KIT_v1_0 |
+| Discussion scope drift signals | DISCUSSION_SCOPE_DRIFT_KIT_v1_1 |
+| Claim-limit symmetry signals | ARGUMENT_SYMMETRY_KIT_v1_1 |
+| Null result visibility signals | NEGATIVE_RESULT_VISIBILITY_KIT_v1_0 |
+| Interdisciplinary tension signals | INTERDISCIPLINARY_TENSION_KIT_v1_0 |
+| Reader model positioning signals | READER_MODEL_KIT_v1_0 |
+| Desk-reject risk profile | DESK_REJECT_SIGNAL_KIT_v1_0 |
+| Argument chain continuity | ARGUMENT_CHAIN_KIT_v1_0 |
+
+---
+
+## 5. NEW KIT ADDITION PROTOCOL
+
+Before adding a new kit, answer:
+1. Which tier? (typically Tier 3; governance kits → Tier 2)
+2. Which SECTION connection? (update LENS-BRIDGE if needed)
+3. New row in canonical source table?
+4. VERSION FREEZE update needed?
+
+---
+
+## 6. VERSION FREEZE DOCUMENT v1.8
+
+### CHANGE LOG — v1.7 → v1.8
+
+Added:
+
+31_EN_OUTPUT_MODE_KIT_v1_0
+  User-triggered output format switching across three modes:
+  AUTHOR MODE — signal label + plain-language explanation
+    + "A reviewer will ask:" layer. Visual separator between layers.
+  REVIEWER MODE — label + section location only.
+    Maximum compression. Structured blocks retained.
+  ADVISOR MODE — prioritised signal + one-sentence academic
+    contextualisation. Global priority numbering across full report.
+  Activation: Turkish and English commands accepted.
+    yazar modu / author mode
+    hakem modu / reviewer mode
+    danışman modu / advisor mode
+  Default: inactive — standard output unchanged.
+  Tier 2. Related kit: READER_MODEL_KIT_v1_0.
+  Does not generate signals. Does not modify detection behavior.
+  Does not suppress labels. Does not reorder sections.
+  UNIFIED-OUTPUT KIT v1.1 label enforcement active in all modes.
+
+### RATIONALE
+
+Gap 7 — Output audience mismatch:
+  CLASR-EN produces a single output format regardless of
+  who is reading the report. An author reading their own manuscript
+  needs different presentation than a reviewer or advisor.
+  Reader Model Kit maps the manuscript's implied reader.
+  No kit mapped the report's actual reader.
+  → Output Mode Kit v1.0.
+
+### COMPLETE KIT LIST (v1.8)
+
+Total kits: 31 (excluding CORE and Installation Guide)
+
+TIER 1 (7): CORE + 6 foundational kits
+TIER 2 (8): governance kits (Output Mode Kit added)
+TIER 3 (16): extension kits
+
+### ACTIVE LENS MAP (v1.8)
+
+Unchanged from v1.7. Output Mode Kit does not attach to SECTIONs —
+it operates at the presentation layer above SECTION output.
+
+### VERSION NUMBERING (FORWARD)
+
+Minor expression adjustment — v1.x
+New lens or new SECTION — v2.0
+New language direction (non-EN input) — separate product
+v1.0 core label cannot be revoked
+
+### OPEN ITEMS (POST-v1.8)
+
+LENS-BRIDGE token size monitoring (carried from v1.7):
+  At next major addition, consider splitting into
+  LENS-BRIDGE-CORE and LENS-BRIDGE-EXT.
+
+API routing logic:
+  Output Mode Kit activation command detection
+  should be handled at routing layer in API implementation.
+  Mode flag passed to kit assembly function.
+
+Next version trigger:
+  New lens kit addition — v1.9
+  LENS-BRIDGE split — v1.9
+  New SECTION or CORE modification — v2.0
+
+---
+
+# OPERATIONAL TIERING v1.8 — END
+# VERSION FREEZE DOCUMENT v1.8 — END
