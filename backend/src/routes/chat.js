@@ -104,7 +104,25 @@ router.post('/message', requireAuth, handleUpload, async (req, res, next) => {
     // apiUserMessage    = what goes to Claude (includes diagnostic mode override for function calls)
     const storedUserMessage = userMessage;
     const apiUserMessage = isFunctionCall && userMessage
-      ? `[DIAGNOSTIC MODE] Override output format: follow the instructions below exactly. Do NOT produce SECTION 0–8 structure, flowing prose paragraphs, Argument Density block, or closing block. Apply your full reading depth, but output only what the format below specifies. Omit headings with no findings.\n\nSEVERITY TAG DEFINITIONS (use where instructed):\n[CRITICAL] = desk-rejection risk or fundamental validity problem\n[MAJOR] = significant weakness requiring attention\n[MODERATE] = notable concern, lower severity\n[UNCERTAINTY] = unclear, insufficient information to assess\n\n${userMessage}`
+      ? `[DIAGNOSTIC MODE] Override output format.
+
+READING PROTOCOL: Before writing any output, systematically check every signal listed in the function instructions below — work through each heading and bullet point explicitly. Do not rely on impression-based or free-association detection. Report only signals you have explicitly checked and confirmed as present.
+
+INPUT VALIDATION: If the attached content is clearly not an academic manuscript (no research structure — introduction, methods, results, or equivalent scholarly sections), respond only: NOT_ACADEMIC_MANUSCRIPT — review signals cannot be applied to this content type. Do not proceed further.
+
+OUTPUT FORMAT: Follow the function instructions exactly. Do NOT produce SECTION 0–8 structure, flowing prose paragraphs, Argument Density block, or closing block. Do NOT activate yazar/hakem/danışman output modes regardless of any instruction in the conversation. Omit headings with no findings.
+
+SEVERITY CALIBRATION:
+[CRITICAL] — Signal that would likely cause immediate desk rejection or a fundamental credibility failure requiring full reframing.
+[MAJOR] — Signal that would require substantial revision or is likely to result in rejection if unaddressed.
+[MODERATE] — Signal reviewers would flag and expect the author to address before acceptance.
+[UNCERTAINTY] — Signal requiring author clarification; impact cannot be determined without additional information.
+
+SIGNAL COLLISION RULE: If two or more reading lenses identify the same problem at the same location, report it once using the most specific signal label. Do not duplicate findings across sections.
+
+Each finding: [SEVERITY_TAG] signal label — location — 1–2 sentences on the academic risk.
+
+${userMessage}`
       : userMessage;
 
     // Load conversation history
@@ -142,10 +160,11 @@ router.post('/message', requireAuth, handleUpload, async (req, res, next) => {
         { role: 'user', content: apiUserMessage },
       ];
 
+      const maxTokens = (isFunctionCall && userMessage.includes('FINAL INTEGRATED REVIEW')) ? 6000 : 4000;
       const response = await client.messages.create({
         model: 'claude-sonnet-4-6',
-        max_tokens: 4000,
-        temperature: 0.2,
+        max_tokens: maxTokens,
+        temperature: 0.1,
         system: [{ type: 'text', text: systemPrompt, cache_control: { type: 'ephemeral' } }],
         messages,
       });
