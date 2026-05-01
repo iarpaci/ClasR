@@ -207,4 +207,29 @@ router.get('/conversations/:id', requireAuth, async (req, res, next) => {
   } catch (err) { next(err); }
 });
 
+// DELETE /chat/conversations/:id
+router.delete('/conversations/:id', requireAuth, async (req, res, next) => {
+  try {
+    const { error } = await supabase
+      .from('chat_messages')
+      .delete()
+      .eq('conversation_id', req.params.id)
+      .eq('user_id', req.user.id);
+    if (error) throw error;
+    res.json({ success: true });
+  } catch (err) { next(err); }
+});
+
+// DELETE /chat/conversations (all)
+router.delete('/conversations', requireAuth, async (req, res, next) => {
+  try {
+    const { error } = await supabase
+      .from('chat_messages')
+      .delete()
+      .eq('user_id', req.user.id);
+    if (error) throw error;
+    res.json({ success: true });
+  } catch (err) { next(err); }
+});
+
 module.exports = router;
