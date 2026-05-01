@@ -5,12 +5,14 @@ import Link from 'next/link';
 import { isLoggedIn } from '@/lib/auth';
 
 const FUNCTIONS = [
-  { id: '01', label: 'Structural Review', desc: 'IMRaD flow, section organization, contribution visibility, first-screening signals', plan: 'Basic' },
-  { id: '02', label: 'Methodological Visibility', desc: 'Data, sampling, measurement, validity, reproducibility gaps', plan: 'Basic' },
-  { id: '03', label: 'Reference Check', desc: 'Citation–reference matching, missing entries, year mismatches, literature use', plan: 'Free' },
-  { id: '04', label: 'Inconsistency Detection', desc: 'Aim–method–results–conclusion mismatches, evidence-boundary violations', plan: 'Free' },
-  { id: '05', label: 'Red Flags', desc: 'Critical academic risks, overclaims, desk-screening threats', plan: 'Free' },
-  { id: '06', label: 'Final Integrated Review', desc: 'One-paragraph Q1-style humanized reviewer report', plan: 'Pro' },
+  { id: '01', label: 'Structural Review', desc: 'IMRaD flow, section organization, contribution framing, argument-limit symmetry, reader–evidence alignment', plan: 'Basic' },
+  { id: '02', label: 'Methodological Visibility', desc: 'Data, sampling, analysis, replication profile, null results, disciplinary tradition conflicts', plan: 'Basic' },
+  { id: '03', label: 'Reference Check', desc: 'Citation–reference matching, missing entries, year mismatches, citation pattern signals', plan: 'Free' },
+  { id: '04', label: 'Inconsistency Detection', desc: 'Abstract–body gaps, aim–method–results mismatches, argument chain continuity, drift signals', plan: 'Free' },
+  { id: '05', label: 'Red Flags', desc: 'Critical risks, overclaims, null result suppression, desk-reject zones, integrity signals', plan: 'Free' },
+  { id: '06', label: 'Final Integrated Review', desc: 'One-paragraph Q1 synthesis, desk-reject risk summary, critical sentence corrections', plan: 'Pro' },
+  { id: '07', label: 'Argument Chain Analysis', desc: 'Central claim continuity T1–T4, chain profile, claim substitution / fragmentation / abandonment', plan: 'Basic' },
+  { id: '08', label: 'Desk-Reject Risk Profile', desc: '5-zone editorial risk synthesis: scope fit, abstract posture, completeness, language, integrity', plan: 'Basic' },
 ];
 
 export default function LandingPage() {
@@ -35,7 +37,7 @@ export default function LandingPage() {
       <section className="max-w-4xl mx-auto px-6 pt-20 pb-16 text-center">
         <div className="inline-flex items-center gap-2 bg-blue-950 border border-blue-800 text-blue-300 text-xs px-3 py-1.5 rounded-full mb-6">
           <span className="w-1.5 h-1.5 bg-blue-400 rounded-full"></span>
-          AI-powered · 24 signal kits · SECTION 0–8
+          AI-powered · 31 signal kits · 8 review functions
         </div>
         <h1 className="text-4xl sm:text-5xl font-black text-white leading-tight mb-6">
           Read your manuscript<br />
@@ -57,11 +59,11 @@ export default function LandingPage() {
         <p className="text-gray-600 text-xs mt-4">No credit card required · PDF · DOCX · TXT</p>
       </section>
 
-      {/* 6 Functions */}
+      {/* 8 Functions */}
       <section className="max-w-5xl mx-auto px-6 py-16 border-t border-gray-900">
-        <h2 className="text-center text-2xl font-bold text-white mb-2">Six review functions</h2>
-        <p className="text-center text-gray-500 text-sm mb-10">One manuscript. Six signal layers. Complete academic pre-review.</p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <h2 className="text-center text-2xl font-bold text-white mb-2">Eight review functions</h2>
+        <p className="text-center text-gray-500 text-sm mb-10">One manuscript. Eight signal layers. Complete academic pre-review.</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {FUNCTIONS.map(fn => (
             <div key={fn.id} className="bg-gray-900 border border-gray-800 rounded-2xl p-5">
               <div className="flex items-center justify-between mb-3">
@@ -86,7 +88,7 @@ export default function LandingPage() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
           {[
             { step: '01', title: 'Upload your manuscript', desc: 'Drop a PDF, DOCX, or TXT file — or paste your text directly.' },
-            { step: '02', title: 'Select a review function', desc: 'Choose from 6 functions based on what signals you need to see.' },
+            { step: '02', title: 'Select a review function', desc: 'Choose from 8 functions based on what signals you need to see.' },
             { step: '03', title: 'Get your signal report', desc: 'CLASR returns a structured, signal-based academic report in seconds.' },
           ].map(s => (
             <div key={s.step} className="text-center">
