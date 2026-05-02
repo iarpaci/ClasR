@@ -34,7 +34,7 @@ export default function TermsPage() {
 
           <section>
             <h3 className="text-white font-semibold mb-2">5. Free Plan Limits</h3>
-            <p>The Free plan provides 3 lifetime analyses. These analyses do not reset. Upgrading to a paid plan provides a monthly analysis allowance as described on the pricing page.</p>
+            <p>The Free plan provides 5 lifetime analyses. These analyses do not reset. Upgrading to a paid plan provides a monthly analysis allowance as described on the pricing page.</p>
           </section>
 
           <section>

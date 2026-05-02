@@ -118,6 +118,7 @@ export default function LandingPage() {
             <Link href="/pricing" className="hover:text-gray-400 transition-colors">Pricing</Link>
             <Link href="/terms" className="hover:text-gray-400 transition-colors">Terms</Link>
             <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy</Link>
+            <Link href="/mesafeli-satis" className="hover:text-gray-400 transition-colors">Mesafeli Satış</Link>
           </div>
         </div>
       </footer>

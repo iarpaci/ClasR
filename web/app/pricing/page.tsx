@@ -186,6 +186,8 @@ export default function PricingPage() {
           <Link href="/terms" className="hover:text-gray-500 underline">Terms of Service</Link>
           {' · '}
           <Link href="/privacy" className="hover:text-gray-500 underline">Privacy Policy</Link>
+          {' · '}
+          <Link href="/mesafeli-satis" className="hover:text-gray-500 underline">Mesafeli Satış Sözleşmesi</Link>
         </p>
       </main>
     </div>
