@@ -1,0 +1,413 @@
+# EN — LENS-BRIDGE-COLLISION v2.0
+# Added to Project Files. Does not modify CORE.
+# STATUS: v2.0 — Split from LENS-BRIDGE KIT v1.7
+#          Collision management rules only
+#          Journal-Sensitivity Kit collision rules added
+#          Companion file: 12a_EN_LENS-BRIDGE-CORE_v2_0.txt
+# Previous: 12_EN_LENS-BRIDGE_KIT_v1_7 (monolithic)
+
+---
+
+## 0. IDENTITY
+
+This file defines collision management rules for CLASR-EN —
+when the same signal is detected by multiple lenses,
+how precedence is determined and how output is structured.
+
+Companion file 12a_EN_LENS-BRIDGE-CORE_v2_0.txt
+defines the section connection map and activation conditions.
+
+Both files must be present for full Lens-Bridge operation.
+
+---
+
+## 1. COLLISION PRINCIPLE
+
+When the same signal is detected by multiple lenses,
+it is reported once, in the most relevant SECTION.
+Rule: More specifically bound lens takes precedence.
+Collision is not surfaced to the user.
+
+---
+
+## 2. COLLISION RULES
+
+```
+Verbal Lens + FREQUENCY SIGNAL: same sentence, same SECTION
+→ Combined note, one appearance
+
+LENSSA-DEPTH (SECTION 5) + FREQUENCY SIGNAL (SECTION 6): different SECTIONs
+→ Each reported separately
+
+Temporality Lens (SECTION 0) + Orientation Lens (SECTION 1): inevitability
+→ Both fire; reported in respective SECTIONs; not merged
+
+Integrity Signal + Temporality Lens: both in SECTION 0
+→ Reported as separate sub-signals; not merged
+
+Citation Behavior (SECTION 2) + Silence Lens (SECTION 7)
+→ Each reported separately; respective precedence
+
+Abstract–Body Coherence + Calibration-Deep: over-claim
+→ Calibration-Deep governs correction; Coherence Kit reports gap separately
+
+Replication Signal (SECTION 3) + Numerical Hat DEPENDENCY_BREAK (SECTION 7)
+→ Numerical Hat takes precedence in SECTION 7;
+  Replication Kit reports profile in SECTION 3
+
+Contribution Framing + Orientation Lens: both in SECTION 1
+→ Both fire as separate sub-signals;
+  Orientation Lens: scope-closure; Contribution Kit: novelty claim
+
+Contribution Framing (SECTION 1) + Citation Behavior (SECTION 2 or 4)
+→ Citation Kit: bibliographic absence; Contribution Kit: gap claim framing
+→ Combined note if same SECTION; otherwise separate
+
+Discussion Scope Drift + Verbal Lens: causal drift, same sentence SECTION 4
+→ Verbal Lens: language-level; Scope Drift Kit: structural drift
+→ Combined note if same sentence; otherwise separate
+
+Discussion Scope Drift (SECTION 4) + LENSSA-DEPTH (SECTION 5): scale
+→ LENSSA-DEPTH takes precedence in SECTION 5;
+  Scope Drift Kit reports in SECTION 4
+
+Discussion Scope Drift + Calibration-Deep: implication extension
+→ Calibration-Deep governs correction;
+  Scope Drift Kit reports structural pattern; not merged
+
+Discussion Scope Drift (SECTION 4) + Abstract–Body Coherence (SECTION 0)
+→ Coherence Kit: abstract–body distance;
+  Scope Drift Kit: Results–Discussion–Conclusion chain
+→ Both active; respective SECTIONs
+
+Argument Symmetry (SECTION 4) + Silence Lens (SECTION 7)
+→ Silence Lens: argumentative absence;
+  Argument Symmetry: proportionality pattern
+→ Reported separately; not merged
+
+Argument Symmetry + Discussion Scope Drift: both SECTION 4
+→ Scope Drift Kit: directional drift;
+  Argument Symmetry: zone-level ratio
+→ Both active; respective SECTIONs
+
+Argument Symmetry INVERTED + Calibration-Deep §1.3
+→ Calibration-Deep governs correction;
+  Argument Symmetry reports inversion; not merged
+
+Argument Symmetry CLOSING (SECTION 8) + Abstract–Body Coherence (SECTION 8)
+→ Coherence Kit: abstract–body distance;
+  Argument Symmetry: manuscript-level ratio
+→ Both active; respective SECTIONs
+
+Negative Result Visibility NULL_DEFLECTED (SECTION 8) + Silence Lens (SECTION 8)
+→ Silence Lens: argumentative silence;
+  Negative Result Visibility: framing behavior
+→ Both active; separate sub-signals
+
+Negative Result Visibility STRUCTURAL_NULL_ABSENCE (SECTION 5)
++ Discussion Scope Drift MECHANISM_INTRODUCTION (SECTION 4)
+→ Scope Drift Kit: interpretive expansion;
+  Negative Result Visibility: structural absence
+→ Respective SECTIONs; not merged
+
+Negative Result Visibility HYPOTHESIS_REJECTION_SUPPRESSED (SECTION 5)
++ Argument Symmetry ASYMMETRIC CORE (SECTION 4)
+→ Both active; respective SECTIONs; not merged
+
+Interdisciplinary Tension TENSION_SUPPRESSED (SECTION 2)
++ Citation Behavior FIELD_CONCENTRATION (SECTION 2)
+→ Citation Kit: bibliographic pattern;
+  Interdisciplinary Tension: theoretical tradition conflict
+→ Respective SECTIONs; not merged
+
+Interdisciplinary Tension ASSUMPTION_INVISIBILITY
++ Orientation Lens THRESHOLD_LOCK (SECTION 1)
+→ Orientation Lens: scope-closure;
+  Interdisciplinary Tension: tradition-specific assumption
+→ Both fire; respective SECTIONs
+
+Interdisciplinary Tension TENSION_SUPPRESSED (SECTION 2)
++ Silence Lens FRAMEWORK_MONOPOLY (SECTION 7)
+→ Silence Lens: argumentative silence;
+  Interdisciplinary Tension: cross-disciplinary conflict suppression
+→ Combined note if same SECTION; otherwise separate
+
+Interdisciplinary Tension TRADITION_CONFLICT (SECTION 2)
++ Abstract–Body Coherence METHOD_SIGNAL_GAP (SECTION 0 or 8)
+→ Coherence Kit: abstract–body distance;
+  Interdisciplinary Tension: tradition-level conflict
+→ Both active; respective SECTIONs
+
+Reader Model POLICY_ADJACENT (SECTION 1)
++ Discussion Scope Drift IMPLICATION_EXTENSION (SECTION 4)
+→ Scope Drift Kit: structural drift;
+  Reader Model: positioning signal
+→ Both active; respective SECTIONs
+
+Reader Model MISMATCH (SECTION 1)
++ Orientation Lens ALTERNATIVELESS_SCOPE (SECTION 1)
+→ Orientation Lens: scope-closure;
+  Reader Model: reader-evidence misalignment
+→ Respective SECTIONs; not merged
+
+Reader Model AUDIENCE_SHIFT (SECTION 1 or 6)
++ Abstract–Body Coherence CLAIM_ESCALATION/DEFLATION (SECTION 0)
+→ Coherence Kit: abstract–body distance;
+  Reader Model: register-level shift
+→ Both active; respective SECTIONs
+
+Reader Model EXPLANATION_DEPTH_UNDER (SECTION 6)
++ Interdisciplinary Tension TENSION_SUPPRESSED (SECTION 2)
+→ Interdisciplinary Tension: tradition conflict suppression;
+  Reader Model: explanation positioning
+→ Not merged; respective SECTIONs
+
+Reader Model (SECTION 1) + Contribution Framing SCOPE_INFLATION (SECTION 1)
+→ Contribution Kit: novelty claim;
+  Reader Model: positioning alignment
+→ Both fire in SECTION 1 as separate sub-signals
+
+Desk-Reject Signal Kit (SECTION 0) + Structural QA DESK_REJECT_RISK (SECTION 7)
+→ Structural QA: heading-based structural flag in SECTION 7;
+  Desk-Reject Kit: behavioral co-occurrence profile in SECTION 0
+→ Both active; never merged; user sees both outputs
+
+Desk-Reject Signal Kit SCOPE_FIT_RISK (SECTION 0 + SECTION 1)
++ Contribution Framing CONTRIBUTION_SCOPE_INFLATION (SECTION 1)
+→ Contribution Kit: novelty claim behavior;
+  Desk-Reject Kit: aggregated risk zone
+→ Contribution Kit reports in SECTION 1;
+  Desk-Reject Kit aggregates signal in SECTION 0 profile
+→ Not merged
+
+Desk-Reject Signal Kit ABSTRACT_POSTURE_RISK (SECTION 0)
++ Abstract–Body Coherence CLAIM_ESCALATION (SECTION 0)
+→ Coherence Kit: directional gap signal;
+  Desk-Reject Kit: aggregates coherence signal into risk profile
+→ Both reported in SECTION 0 as separate sub-blocks
+
+Argument Chain Kit BROKEN/UNRESOLVED (SECTION 4)
++ Discussion Scope Drift CAUSAL_DRIFT/SCALE_DRIFT (SECTION 4)
+→ Scope Drift Kit: directional drift behavior;
+  Argument Chain Kit: longitudinal chain profile
+→ Both active in SECTION 4 as separate sub-signals; not merged
+
+Argument Chain Kit CLAIM_SUBSTITUTION (SECTION 4)
++ Abstract–Body Coherence CLAIM_ESCALATION (SECTION 0)
+→ Coherence Kit: abstract–body distance;
+  Argument Chain Kit: intra-body substitution
+→ Both active; respective SECTIONs; not merged
+
+Argument Chain Kit CLAIM_ABANDONMENT (SECTION 4)
++ Negative Result Visibility HYPOTHESIS_REJECTION_SUPPRESSED (SECTION 5)
+→ Negative Result Visibility: takes precedence in SECTION 5;
+  Argument Chain Kit: reports in SECTION 4
+→ Not merged
+
+Argument Chain Kit CLAIM_FRAGMENTATION (SECTION 4)
++ Argument Symmetry ASYMMETRIC CORE (SECTION 4)
+→ Symmetry Kit: proportionality pattern;
+  Argument Chain Kit: structural fragmentation
+→ Both active in SECTION 4 as separate sub-signals
+
+Argument Chain Kit BROKEN/UNRESOLVED (SECTION 4)
++ Desk-Reject Signal Kit (SECTION 0)
+→ Desk-Reject Kit aggregates chain signal into LANGUAGE_POSTURE_RISK zone;
+  Argument Chain Kit reports full transition map in SECTION 4 independently
+→ Not merged
+
+Argument Load Kit LOAD_SHIFT (SECTION 4)
++ Discussion Scope Drift CAUSAL_DRIFT/SCALE_DRIFT (SECTION 4)
+→ Scope Drift Kit: directional drift between zones;
+  Argument Load Kit: claim density shift between zones
+→ Both active in SECTION 4 as separate sub-signals; not merged
+
+Argument Load Kit METHODS_HEAVY (SECTION 4)
++ Interdisciplinary Tension ASSUMPTION_INVISIBILITY (SECTION 3)
+→ Interdisciplinary Tension: tradition-specific assumption;
+  Argument Load Kit: unusual claim density in methods zone
+→ Respective SECTIONs; not merged
+
+Concept-Evidence Bridge FLOATING (SECTION 2)
++ Citation Behavior UNSUPPORTED_CLAIM_ZONE (SECTION 4)
+→ Citation Kit: bibliographic absence;
+  Concept-Evidence Bridge: conceptual grounding status
+→ Combined note if same SECTION; otherwise separate
+
+Concept-Evidence Bridge FLOATING (SECTION 2)
++ Silence Lens UNADDRESSED_ALTERNATIVE (SECTION 7)
+→ Silence Lens: argumentative silence;
+  Concept-Evidence Bridge: evidential grounding
+→ Silence Lens takes precedence on argumentative absence;
+  Concept-Evidence Bridge reports grounding profile
+→ Not merged
+
+Concept-Evidence Bridge OPERATIONALIZATION_GAP (SECTION 5)
++ LENSSA-DEPTH DRIFT_PATTERN (SECTION 5)
+→ LENSSA-DEPTH takes precedence on numerical signal drift;
+  Concept-Evidence Bridge reports conceptual grounding gap
+→ Both active in SECTION 5 as separate sub-signals
+
+Conclusion Integrity CONCLUSION_NEW_CLAIM (SECTION 4)
++ Argument Chain CLAIM_SUBSTITUTION (SECTION 4)
+→ Argument Chain Kit: intra-body substitution;
+  Conclusion Integrity Kit: conclusion-zone new introduction
+→ Both active in SECTION 4 as separate sub-signals
+
+Conclusion Integrity CONTRIBUTION_INFLATION (SECTION 4)
++ Contribution Framing CONTRIBUTION_SCOPE_INFLATION (SECTION 1)
+→ Contribution Framing: framing zone inflation;
+  Conclusion Integrity: conclusion zone inflation
+→ Both active; respective SECTIONs
+
+Conclusion Integrity LIMITATION_REVERSAL (SECTION 8)
++ Argument Symmetry ASYMMETRIC CLOSING (SECTION 8)
+→ Symmetry Kit: zone-level ratio;
+  Conclusion Integrity: specific reversal instance
+→ Both active in SECTION 8 as separate sub-signals
+
+Conclusion Integrity SUBSTITUTED abstract-conclusion (SECTION 0)
++ Abstract–Body Coherence CLAIM_ESCALATION (SECTION 0)
+→ Coherence Kit: abstract–body distance;
+  Conclusion Integrity: conclusion-zone profile
+→ Coherence Kit takes precedence on abstract–body distance;
+  Conclusion Integrity reports conclusion-zone signal
+→ Not merged
+
+Overreach-Signal CAUSAL_OVERREACH (SECTION 4)
++ Discussion Scope Drift CAUSAL_DRIFT (SECTION 4)
+→ Scope Drift Kit: directional drift behavior;
+  Overreach-Signal Kit: severity classification
+→ Both active in SECTION 4; Scope Drift governs direction;
+  Overreach-Signal governs severity label
+→ Not merged; unified profile integrates
+
+Overreach-Signal GENERALIZATION_OVERREACH (SECTION 5)
++ LENSSA-DEPTH SCALE_SHIFT (SECTION 5)
+→ LENSSA-DEPTH takes precedence on scale-shift detection;
+  Overreach-Signal Kit reports severity in unified profile
+→ Both active in SECTION 5; not merged
+
+Overreach-Signal NOVELTY_OVERREACH (SECTION 1)
++ Contribution Framing PRIMACY_CLAIM (SECTION 1)
+→ Contribution Framing: label;
+  Overreach-Signal: escalates severity if co-occurring overreach present
+→ Both active in SECTION 1 as separate sub-signals
+
+Overreach-Signal CONTRIBUTION_OVERREACH (SECTION 1)
++ Desk-Reject Signal SCOPE_FIT_RISK (SECTION 0)
+→ Desk-Reject Kit: aggregates into zone synthesis;
+  Overreach-Signal Kit: reports type classification independently
+→ Not merged
+
+Overreach-Signal TRANSLATIONAL_OVERREACH (SECTION 6)
++ Calibration-Deep SCALE_OVERFLOW (SECTION 4)
+→ Calibration-Deep governs expression correction;
+  Overreach-Signal Kit reports translational severity classification
+→ Both active; not merged
+
+Overreach-Signal COMPOUND/SYSTEMATIC (SECTION 0)
++ Desk-Reject Signal LANGUAGE_POSTURE_RISK (SECTION 0)
+→ Desk-Reject Kit: aggregates overreach signal into risk profile;
+  Overreach-Signal Kit: reports aggregate pattern independently
+→ Not merged
+
+Uncertainty-Visibility CONTRADICTED (SECTION 8)
++ Conclusion Integrity LIMITATION_REVERSAL (SECTION 8)
+→ Conclusion Integrity takes precedence on specific reversal event;
+  Uncertainty-Visibility reports CONTRADICTED as visibility signal
+→ Both active in SECTION 8 as separate sub-signals
+
+Uncertainty-Visibility DEFLECTED (SECTION 8)
++ Negative Result Visibility NULL_DEFLECTED (SECTION 8)
+→ Negative Result Visibility: null result framing;
+  Uncertainty-Visibility: general uncertainty positioning
+→ Both active; reported as separate sub-signals
+
+Uncertainty-Visibility OVERCONFIDENT (SECTION 6)
++ Verbal Lens certainty escalation (SECTION 6)
+→ Verbal Lens: language-level inflation;
+  Uncertainty-Visibility: confidence calibration
+→ Combined note if same sentence; otherwise separate
+
+Uncertainty-Visibility SUPPRESSED (SECTION 8)
++ Calibration-Deep §1.3 uncertainty suppression (SECTION 8)
+→ Calibration-Deep governs expression correction;
+  Uncertainty-Visibility reports visibility profile
+→ Both active; not merged
+
+Hedging-Calibration SELECTIVE_HEDGING (SECTION 4)
++ Verbal Lens certainty escalation (SECTION 6)
+→ Verbal Lens: language inflation at specific claim;
+  Hedging-Calibration: cross-claim inconsistency pattern
+→ Verbal Lens takes precedence on specific inflation instance;
+  Hedging-Calibration reports consistency pattern
+→ Not merged
+
+Hedging-Calibration PERFORMATIVE (SECTION 8)
++ Uncertainty-Visibility PERFORMATIVE rhetorical function (SECTION 8)
+→ Both detect performative hedging; reported as combined note
+→ Uncertainty-Visibility takes precedence on positioning signals;
+  Hedging-Calibration takes precedence on consistency signals
+→ Combined note in SECTION 8
+
+Hedging-Calibration PROXIMITY_DRIFT (SECTION 4)
++ Argument Symmetry ASYMMETRIC CORE (SECTION 4)
+→ Symmetry Kit: claim-limit ratio;
+  Hedging-Calibration: hedging proximity
+→ Both active in SECTION 4 as separate sub-signals
+
+Journal-Sensitivity FIELD_SIGNAL (any SECTION)
++ Calibration-Deep correction (§1.1–1.4)
+→ Calibration-Deep governs expression correction independently;
+  Journal-Sensitivity Kit reports field-specific signal label
+→ Both active; field signal does not suppress correction behavior
+→ Not merged
+
+Journal-Sensitivity FIELD calibration (threshold adjustment)
++ Q-Gate threshold
+→ Q-Gate minimum always preserved; field calibration cannot
+  suppress below Q-Gate minimum
+→ Field calibration cannot amplify above MAJOR severity
+→ Where both apply: Q-Gate floor is the absolute minimum
+
+Journal-Sensitivity FIELD-MED TRANSLATIONAL_OVERREACH amplification
++ Overreach-Signal TRANSLATIONAL_OVERREACH (SECTION 6)
+→ Journal-Sensitivity amplifies field-critical signal to MAJOR;
+  Overreach-Signal Kit reports severity classification
+→ Field amplification noted in SECTION 0 field profile;
+  Overreach-Signal Kit reports in SECTION 6
+→ Not merged; user sees both field context and overreach label
+
+Journal-Sensitivity FIELD_TERM SUPPRESS effect
++ any kit signal on suppressed term
+→ Signal threshold raised by field calibration;
+  if threshold not crossed → signal not produced
+→ No note to user (threshold was never crossed)
+→ Field suppression is a pre-production threshold adjustment,
+  not a post-production suppression
+
+Journal-Sensitivity FIELD-HUM detection
++ Interdisciplinary Tension SINGLE_TRADITION (SECTION 2)
+→ Humanities field norm: single theoretical tradition expected
+→ Interdisciplinary Tension Kit SINGLE_TRADITION noted silently
+  (field calibration suppresses at FIELD-HUM profile)
+→ Journal-Sensitivity field detection note in SECTION 0 explains
+→ Not merged
+```
+
+---
+
+## 3. LIMITS
+
+This file:
+  Cannot add new SECTIONs
+  Cannot reorder SECTIONs
+  Cannot modify internal rules of individual lens kits
+  Only defines collision management rules
+
+Section connection map and activation — see 12a_EN_LENS-BRIDGE-CORE_v2_0.txt
+
+---
+
+# LENS-BRIDGE-COLLISION v2.0 — END

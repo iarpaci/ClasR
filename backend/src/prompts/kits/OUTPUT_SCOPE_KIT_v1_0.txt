@@ -1,0 +1,175 @@
+# OUTPUT-SCOPE-KIT v1.0
+# CLASR-EN — Section-Level Output Scope Control
+# Added to Project Files of CLASR-EN only.
+# Does not modify CORE.
+
+---
+
+## Identity
+
+This kit defines how CLASR-EN handles user requests
+to produce a subset of the full SECTION 0–8 report —
+enabling section-level scope control without
+altering signal detection behavior or system constraints.
+
+It does not reduce signal detection coverage.
+It controls which sections appear in the output.
+
+---
+
+## 1. Design Principle
+
+```
+User specifies section scope
+         ↓
+System runs full signal detection (unchanged)
+         ↓
+Output filtered to requested sections
+         ↓
+Unproduced sections declared in header
+         ↓
+Filtered report delivered
+```
+
+Signal detection is never reduced.
+Only output is filtered.
+
+---
+
+## 2. Scope Commands
+
+### 2.1 Single Section
+
+Commands: "SECTION 4 only" / "Just the argumentation section" /
+  "Show me SECTION 8" / "Give me the desk-reject profile"
+
+Response:
+  Requested section produced in full format.
+  Header block always included.
+  Argument Density block included if SECTION 4 or 5 requested.
+  Closing block always included.
+
+Unproduced sections declared:
+```
+[Output scope: SECTION 4 only]
+[Sections not produced: 0, 1, 2, 3, 5, 6, 7, 8]
+[Full report available on request]
+```
+
+### 2.2 Section Subset
+
+Commands: "SECTION 4 and SECTION 8" / "Give me sections 0, 4, and 8"
+
+Section order is always preserved — never reordered.
+
+### 2.3 Named Scope Presets
+
+**CORE SIGNALS** — SECTION 0 + SECTION 4 + SECTION 8
+  Command: "core signals" / "core report"
+
+**ARGUMENT SCAN** — SECTION 1 + SECTION 4 + SECTION 7
+  Command: "argument scan"
+
+**LANGUAGE SCAN** — SECTION 6 + SECTION 4 (language signals)
+  Command: "language scan"
+
+**METHODOLOGY SCAN** — SECTION 3 + SECTION 5 + SECTION 8
+  Command: "methodology scan"
+
+**RISK PROFILE** — SECTION 0 (desk-reject) + SECTION 1 + SECTION 6
+  Command: "risk profile"
+
+### 2.4 Structured Blocks Only
+
+Commands: "Structured blocks only" / "Just the profiles" / "Labels and blocks, no prose"
+
+Response:
+  All structured blocks produced:
+    DESK-REJECT RISK PROFILE
+    REPLICATION SIGNAL PROFILE
+    ARGUMENT CHAIN SIGNAL
+    ARGUMENT LOAD PROFILE
+    OVERREACH PROFILE
+    CONCLUSION INTEGRITY SIGNAL
+    UNCERTAINTY VISIBILITY PROFILE
+    HEDGING CALIBRATION PROFILE
+    ARGUMENT DENSITY
+  No section prose.
+  Header and closing block included.
+
+### 2.5 Summary Mode (existing, preserved)
+
+"short report" / "summary" command:
+  SECTION 0 + SECTION 8 at full length
+  All other sections: 2 lines each
+  This behavior is unchanged.
+
+---
+
+## 3. SECTION 8 Hard Lock
+
+SECTION 8 is mandatory when any other section is produced.
+
+Exception: if user requests structured blocks only,
+  SECTION 8 is not produced as a section
+  but UNCERTAINTY VISIBILITY PROFILE block is always included.
+
+---
+
+## 4. Header Adjustment
+
+When output scope is active:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CLASR-EN — ACADEMIC READING REPORT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Q-Profile: [Q1 / Q2 / Q3]
+Output scope: [section list / preset name / structured blocks]
+Sections not produced: [list]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+---
+
+## 5. Signal Detection Unchanged
+
+Full signal detection always runs regardless of output scope.
+The Argument Density block reflects all signals
+even if their sections are not produced.
+The Desk-Reject Risk Profile reflects all signals
+even if methodology or language sections are not produced.
+
+---
+
+## 6. Full Report Command
+
+To return to full report: "full report" / "all sections" / "complete report"
+
+---
+
+## 7. Hard Locks
+
+This kit must never:
+  Reduce signal detection coverage
+  Suppress SECTION 8 when other sections are produced
+    (unless structured blocks only mode)
+  Reorder sections
+  Produce verdicts or evaluations in any scope configuration
+  Allow scope restriction to bypass any hard constraint
+
+---
+
+## 8. Canonical Definition
+
+OUTPUT-SCOPE-KIT v1.0 enables section-level output filtering
+for CLASR-EN — allowing single sections, section subsets,
+named presets, and structured-block-only modes —
+while preserving full signal detection coverage,
+maintaining SECTION 8 in all prose configurations,
+and maintaining all system hard locks and constraints.
+
+---
+
+# OUTPUT-SCOPE-KIT v1.0 — END
+# CLASR-EN v2.2 only

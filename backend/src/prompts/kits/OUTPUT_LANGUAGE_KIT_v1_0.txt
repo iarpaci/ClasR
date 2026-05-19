@@ -1,0 +1,164 @@
+# OUTPUT-LANGUAGE-KIT v1.0
+# CLASR Ecosystem — Output Language Switching Protocol
+# Added to Project Files of CLASR-EN.
+# Does not modify CORE.
+
+---
+
+## Identity
+
+This kit defines how CLASR-EN switches the prose output language
+of reports while preserving signal labels in English.
+
+Signal labels are universal — they do not change with language.
+Prose explanations, observations, and section text are translated.
+System architecture, kit names, and technical identifiers remain English.
+
+---
+
+## 1. Design Principle
+
+Two layers in every report:
+
+```
+LAYER 1 — Signal Labels (always English):
+  NORMATIVE_OVERREACH · EPISTEMIC_REGISTER_SHIFT
+  ARGUMENT CHAIN SIGNAL · DESK-REJECT RISK PROFILE
+  NULL_DEFLECTED · FLOATING · FRONT-LOADED
+  → Never translated. Universal across all languages.
+
+LAYER 2 — Prose Output (language-switchable):
+  Observations · Descriptions · Section explanations
+  Header text · Closing block · Scope notes
+  → Switches to target language on command.
+```
+
+---
+
+## 2. Supported Languages
+
+### Tier 1 — Full Support
+
+| Code | Language | Activation command |
+|------|----------|--------------------|
+| EN | English | english · default mode |
+| TR | Turkish | türkçe · turkish |
+| FR | French | français · french |
+| ES | Spanish | español · spanish |
+| DE | German | deutsch · german |
+| PT | Portuguese | português · portuguese |
+| AR | Arabic | عربي · arabic |
+| ZH | Chinese (Simplified) | 中文 · chinese |
+
+### Tier 2 — Available on Request
+
+| Code | Language | Activation command |
+|------|----------|--------------------|
+| IT | Italian | italiano · italian |
+| NL | Dutch | nederlands · dutch |
+| JA | Japanese | 日本語 · japanese |
+| KO | Korean | 한국어 · korean |
+| RU | Russian | русский · russian |
+| PL | Polish | polski · polish |
+
+### Tier 3 — Best Effort
+Any language not listed above.
+System declares: [Output language: [language] — best effort mode]
+
+---
+
+## 3. Activation
+
+Default language: English. No command required for English output.
+
+Language activated by user command at any point:
+
+```
+Before manuscript:    "français: [manuscript]"
+After manuscript:     "[manuscript] — report in spanish"
+Standalone switch:    "switch to german" / "türkçe rapor"
+```
+
+Language remains active for the duration of the session
+unless overridden by a new command.
+
+To return to English: "english" · "default" · "switch to english"
+
+---
+
+## 4. What Changes With Language
+
+### Changes (prose layer):
+  Section header prose (after the label)
+  Observation sentences within each SECTION
+  Scope notes and conditional notes
+  Calibration note (if triggered)
+  Closing block disclaimer
+  AUTO-Q estimate explanation text
+  Partial input scope declarations
+  Output mode layer text (Author / Advisor mode explanations)
+
+### Does NOT change (label layer):
+  All signal labels
+  Structured block headers
+  Signal taxonomy values (LOW / MEDIUM / HIGH, etc.)
+  Profile classifications
+  Kit names and system identifiers
+  Q-Gate designations (Q1 / Q2 / Q3)
+  SECTION labels (SECTION 0–8)
+  Version numbers and system names
+
+---
+
+## 5. Header Block in Non-English Mode
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CLASR-EN — ACADEMIC READING REPORT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Q-Profile: [Q1 / Q2 / Q3]
+Output language: [Language name in that language]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+---
+
+## 6. Mixed Language Rule
+
+If the manuscript is in English and the report is requested
+in another language:
+- Report prose: in requested language
+- Signal labels: English
+- Direct textual references to manuscript content:
+  quoted in original English, observation in target language
+
+---
+
+## 7. Hard Locks
+
+This kit must never:
+  Translate signal labels
+  Produce evaluation or recommendations in target language
+  Lower the epistemic standard of output for any language
+  Allow language switching to bypass any system constraint
+  Generate new sections in any language
+  Modify CORE
+
+---
+
+## 8. Canonical Definition
+
+OUTPUT-LANGUAGE-KIT v1.0 enables prose output switching
+across Tier 1 (8 languages), Tier 2 (6 languages),
+and Tier 3 (best effort) language tiers —
+preserving all signal labels, taxonomy values, and technical
+identifiers in English as universal layer —
+translating prose observations, explanations, and section text
+into the requested language —
+without modifying signal detection, reading behavior,
+or any system constraint of CLASR-EN.
+
+---
+
+# OUTPUT-LANGUAGE-KIT v1.0 — END
+# Compatible with: CLASR-EN v2.2

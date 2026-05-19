@@ -1,0 +1,235 @@
+# EN — JOURNAL-SENSITIVITY KIT v1.0
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.0 — Field-specific signal calibration and terminology overlay
+
+---
+
+## 0. IDENTITY
+
+Type: EXTENSION KIT
+Attaches to: CLASR-EN reading layer (CORE unchanged)
+No content generation · No judgment · No recommendation
+
+Tier: 3 — Extension
+Primary SECTION: SECTION 0 — Macro Frame
+Secondary SECTION: SECTION 2 — Conceptual / Theoretical Framework
+           SECTION 6 — Academic Language & Hedging
+
+---
+
+## 1. PURPOSE (ONE SENTENCE)
+
+To calibrate CLASR-EN signal sensitivity to field-specific
+publication norms, terminology conventions, and methodological
+expectations — mapping where the same signal carries different
+weight in different academic fields — without modifying
+core signal taxonomy or Q-Gate thresholds.
+
+---
+
+## 2. DESIGN PRINCIPLE
+
+Q-Gate calibrates reading sensitivity to journal tier:
+Q1 / Q2 / Q3 — how rigorous is the target journal.
+
+This kit calibrates reading sensitivity to journal field:
+what does rigorous mean in this specific domain.
+
+Q-Gate governs tier sensitivity.
+This kit governs field sensitivity.
+Both active simultaneously. Not merged.
+
+---
+
+## 3. FIELD TAXONOMY
+
+Eight broad field categories:
+
+```
+FIELD-NAT   → Natural Sciences
+              (biology, chemistry, physics, earth sciences)
+
+FIELD-MED   → Medical and Health Sciences
+              (clinical, epidemiology, public health, pharmacology)
+
+FIELD-SOC   → Social Sciences
+              (sociology, political science, economics, psychology)
+
+FIELD-HUM   → Humanities
+              (history, literature, philosophy, cultural studies)
+
+FIELD-LAW   → Legal and Regulatory
+              (law, compliance, policy analysis)
+
+FIELD-ENG   → Engineering and Applied Sciences
+              (computer science, materials, environmental engineering)
+
+FIELD-EDU   → Education Sciences
+              (pedagogy, curriculum, learning sciences)
+
+FIELD-INT   → Interdisciplinary
+              (mixed field signals; no single field dominant)
+```
+
+Field is detected from manuscript vocabulary, citation patterns,
+method names, and statistical approaches.
+
+If field cannot be determined:
+→ FIELD-INT applied as default
+→ Noted in SECTION 0
+
+---
+
+## 4. FIELD-SPECIFIC SIGNAL CALIBRATION
+
+### 4.1 FIELD-NAT — Natural Sciences
+
+Replication Signal Kit: pre-registration LOW concern (not field norm);
+  code availability HIGH concern for computational studies.
+Uncertainty-Visibility: no dedicated limitations section LOW concern
+  (limitations typically embedded in discussion).
+Contribution framing: incremental contribution is field norm — LOW signal.
+
+### 4.2 FIELD-MED — Medical and Health Sciences
+
+Replication Signal Kit: pre-registration HIGH concern (clinical norm);
+  ethics declaration MANDATORY — absence is HIGH signal;
+  reporting standard (CONSORT/STROBE) HIGH concern.
+Overreach-Signal Kit: TRANSLATIONAL_OVERREACH maximum sensitivity
+  (in vitro → clinical claim: always MAJOR).
+POLICY_OVERREACH: HIGH sensitivity.
+Field-specific signals:
+  RISK_FRAMING_SIGNAL — relative risk only, no absolute figures.
+  NNT_ABSENT_SIGNAL — number needed to treat absent from clinical claims.
+  CI_ABSENT_SIGNAL — p-value only, no confidence intervals.
+
+### 4.3 FIELD-SOC — Social Sciences
+
+Replication Signal Kit: pre-registration MEDIUM concern (growing norm).
+Overreach-Signal Kit: GENERALIZATION_OVERREACH HIGH sensitivity
+  (single-country study → universal claim: MAJOR).
+Field-specific signals:
+  RESPONSE_RATE_ABSENT — survey response rate not reported.
+  SAMPLING_FRAME_ABSENT — sampling frame not described.
+
+### 4.4 FIELD-HUM — Humanities
+
+Replication Signal Kit: all dimensions NOT APPLICABLE (field norm).
+Uncertainty-Visibility: no formal limitations section LOW concern.
+Frequency Signal: "demonstrates" in argument context — lower threshold.
+Normative language: MEDIUM concern (humanities has normative tradition).
+Field-specific signals:
+  PRIMARY_SOURCE_ABSENT — primary source citation absent for historical claims.
+  ARCHIVAL_BASIS_ABSENT — archival basis not described for historical argument.
+
+### 4.5 FIELD-LAW — Legal and Regulatory
+
+Replication Signal Kit: all dimensions NOT APPLICABLE (field norm).
+POLICY_OVERREACH: LOW sensitivity (policy prescription is field norm).
+"should" / "must" in legal analysis: LOW concern (field norm).
+Field-specific signals:
+  JURISDICTION_UNSPECIFIED — jurisdiction not specified for legal claims.
+  LEGAL_TEMPORAL_SCOPE_ABSENT — temporal scope of legal analysis not declared.
+
+### 4.6 FIELD-ENG — Engineering and Applied Sciences
+
+Replication Signal Kit: code availability HIGH concern.
+Uncertainty-Visibility: no error analysis HIGH concern.
+TRANSLATIONAL_OVERREACH: HIGH sensitivity (lab result → deployment claim).
+Field-specific signals:
+  COMPLEXITY_ABSENT — computational complexity not reported for algorithms.
+  BENCHMARK_ABSENT — benchmark comparison absent.
+  DATASET_CHARACTERIZATION_ABSENT — dataset size and characteristics not reported.
+
+### 4.7 FIELD-EDU — Education Sciences
+
+GENERALIZATION_OVERREACH: HIGH sensitivity
+  (single-school findings → general claim: HIGH).
+Field-specific signals:
+  INTERVENTION_FIDELITY_ABSENT — intervention fidelity not reported.
+  INSTRUCTOR_EFFECT_ABSENT — teacher/instructor effect not addressed.
+
+### 4.8 FIELD-INT — Interdisciplinary
+
+Default profile: standard CLASR-EN thresholds.
+No field-specific suppression or amplification.
+Interdisciplinary Tension Kit: MAXIMUM sensitivity.
+
+---
+
+## 5. FIELD DETECTION OUTPUT
+
+Displayed in SECTION 0, after AUTO-Q estimate:
+
+```
+[FIELD: FIELD-MED — Medical and Health Sciences]
+[Field detection: manuscript vocabulary + method signals]
+[Field calibration: active — thresholds adjusted per field profile]
+```
+
+If field uncertain:
+```
+[FIELD: FIELD-INT — Interdisciplinary (default)]
+[Field detection: conflicting signals — specify field for calibration]
+```
+
+User may override field detection with a single word or phrase.
+
+---
+
+## 6. FIELD-SPECIFIC SIGNAL OUTPUT
+
+Field-specific signals reported within their primary SECTION:
+
+```
+FIELD SIGNAL: [label]
+Location: [section or zone]
+Field: [field code]
+Observation: [one-line structural description]
+```
+
+---
+
+## 7. Q-VARIANT INTERACTION
+
+Field calibration applies within Q-Gate thresholds.
+Q-Gate takes precedence on tier-level sensitivity.
+This kit takes precedence on field-level expectation.
+
+Field calibration never suppresses a signal below Q1 minimum.
+Field calibration never amplifies a signal above MAJOR severity.
+
+---
+
+## 8. ACTIVATION
+
+Automatically attempts field detection for every report.
+User override accepted at any point.
+
+---
+
+## 9. HARD LIMITS
+
+This kit must never:
+  Suppress a signal below Q1 minimum sensitivity
+  Amplify a signal above MAJOR severity
+  Override Calibration-Deep expression correction
+  Produce field quality verdicts
+  Label any manuscript as field-appropriate or field-inappropriate
+  Generate independent sections
+
+---
+
+## 10. CANONICAL DEFINITION
+
+JOURNAL-SENSITIVITY KIT v1.0 calibrates CLASR-EN signal sensitivity
+to field-specific publication norms across eight field categories —
+adjusting signal thresholds for replication expectations,
+uncertainty conventions, overreach sensitivity, and terminology —
+adding field-specific signals where relevant —
+without modifying core signal taxonomy, Q-Gate thresholds,
+or producing field quality verdicts.
+
+---
+
+# JOURNAL-SENSITIVITY KIT v1.0 — END

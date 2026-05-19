@@ -1,0 +1,301 @@
+# EN — ARGUMENT LOAD KIT v1.0
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.0 — Argument weight distribution signal detection overlay
+
+---
+
+## 0. IDENTITY
+
+Type: EXTENSION KIT
+Attaches to: CLASR-EN reading layer (CORE unchanged)
+No content generation · No judgment · No recommendation
+
+Tier: 3 — Extension
+Primary SECTION: SECTION 4 — Argumentation
+Secondary SECTION: SECTION 0 — Macro Frame
+
+---
+
+## 1. PURPOSE (ONE SENTENCE)
+
+To surface how argumentative weight is distributed across
+the manuscript's structural zones — mapping whether claims
+are front-loaded, back-loaded, core-concentrated, or distributed —
+as a load profile signal, without producing evaluation.
+
+---
+
+## 2. DESIGN PRINCIPLE
+
+Argument Symmetry Kit reads the ratio of claim weight to limit weight.
+Argument Chain Kit reads the longitudinal continuity of the central claim.
+This kit reads neither ratio nor continuity.
+
+It reads load: where in the manuscript the argumentative
+weight is concentrated, and whether that concentration
+matches the structural expectations of the manuscript's type.
+
+```
+Claim density extracted per structural zone
+         ↓
+Zone weights mapped and compared
+         ↓
+Load profile assembled
+         ↓
+Shift points identified where density changes abruptly
+         ↓
+Profile reported — no verdict
+```
+
+---
+
+## 3. STRUCTURAL ZONES
+
+The manuscript is divided into four zones for load assessment:
+
+```
+FRAMING ZONE    → Abstract + Introduction + Aim & Scope
+METHODS ZONE    → Methodology + Data + Design
+CORE ZONE       → Results + Findings + Analysis
+CLOSING ZONE    → Discussion + Conclusion + Implications
+```
+
+Each zone is assessed for argumentative weight independently.
+
+---
+
+## 4. LOAD SIGNALS READ
+
+### 4.1 Claim Density Per Zone
+
+Claim density is read from:
+- Verb strength: demonstrates / suggests / indicates / explores
+- Scope markers: universal / regional / sample-bound
+- Certainty language: clearly / likely / possibly
+- Generalization reach: all / most / some / within this context
+
+Internal scale per zone:
+```
+HIGH   → strong verbs, wide scope, high certainty
+MEDIUM → conditional verbs, bounded scope
+LOW    → hedged verbs, narrow scope, explicit uncertainty
+SILENT → minimal claim presence
+```
+
+---
+
+### 4.2 Load Profile Assembly
+
+After zone-level density mapping, a manuscript-level
+load profile is assembled:
+
+```
+FRONT-LOADED      → FRAMING zone density significantly exceeds
+                    CORE and CLOSING zones
+BACK-LOADED       → CLOSING zone density significantly exceeds
+                    FRAMING and CORE zones
+CORE-CONCENTRATED → CORE zone carries the dominant
+                    argumentative weight
+DISTRIBUTED       → claim density roughly even across zones
+METHODS-HEAVY     → METHODS zone carries unusual claim density
+                    (signals methodological over-claiming)
+```
+
+---
+
+### 4.3 Load Shift Signal
+
+A load shift occurs when claim density changes abruptly
+between adjacent zones without structural explanation.
+
+Signal indicators:
+- FRAMING zone HIGH → METHODS zone SILENT → CORE zone HIGH
+  (methods zone disappears from the argument)
+- CORE zone LOW → CLOSING zone HIGH
+  (discussion introduces claims not present in results)
+- FRAMING zone HIGH → all other zones LOW
+  (argument collapses after introduction)
+
+Label: LOAD_SHIFT_DETECTED
+Location: [transition point between zones]
+Magnitude: [MINOR / MODERATE / MAJOR]
+
+---
+
+### 4.4 Methods Zone Claim Signal
+
+When the METHODS zone carries HIGH claim density,
+this is structurally notable — methods sections
+are conventionally low-claim zones.
+
+Signal indicators:
+- Methodological choices framed as contributions
+- Procedural descriptions carrying superiority language
+- "Unlike previous approaches, this study uses..."
+  in the methods section
+
+Label: METHODS_CLAIM_DENSITY
+
+---
+
+## 5. LOAD PROFILE OUTPUT
+
+Reported as a sub-block within SECTION 4:
+
+```
+▸ ARGUMENT LOAD PROFILE
+
+FRAMING zone:  [HIGH / MEDIUM / LOW / SILENT]
+METHODS zone:  [HIGH / MEDIUM / LOW / SILENT]
+CORE zone:     [HIGH / MEDIUM / LOW / SILENT]
+CLOSING zone:  [HIGH / MEDIUM / LOW / SILENT]
+
+Load profile: [FRONT-LOADED / BACK-LOADED /
+               CORE-CONCENTRATED / DISTRIBUTED /
+               METHODS-HEAVY]
+
+Load shift:   [DETECTED — location + magnitude / NOT DETECTED]
+```
+
+No judgment. No recommendation.
+Load map only.
+
+---
+
+## 6. RELATIONSHIP TO EXISTING KITS
+
+### Argument Density Block (UNIFIED-OUTPUT KIT § 8)
+The existing ARGUMENT DENSITY block maps:
+FRAMING / CORE / LANGUAGE / CLOSING at LOW/MEDIUM/HIGH.
+
+This kit extends that block with:
+- METHODS zone (not in existing block)
+- Load shift detection (not in existing block)
+- Load profile label (not in existing block)
+
+The existing ARGUMENT DENSITY block is retained unchanged.
+This kit's output appears as a separate sub-block within SECTION 4,
+after the existing argumentation signals.
+
+### Argument Symmetry Kit
+Symmetry Kit reads claim-to-limit ratio per zone.
+This kit reads claim density distribution across zones.
+Both active simultaneously — reported as separate sub-signals.
+Not merged.
+
+### Argument Chain Kit
+Chain Kit reads longitudinal continuity of the central claim.
+This kit reads weight distribution regardless of claim identity.
+Both active simultaneously — reported as separate sub-signals.
+Not merged.
+
+---
+
+## 7. Q-VARIANT CALIBRATION
+
+Q1:
+  FRONT-LOADED and BACK-LOADED profiles explicitly surfaced.
+  LOAD_SHIFT_DETECTED at MODERATE or MAJOR magnitude noted
+  as potential reviewer concern.
+  METHODS_CLAIM_DENSITY noted at HIGH sensitivity.
+
+Q2:
+  All profiles reported at standard detail.
+  LOAD_SHIFT_DETECTED at MAJOR magnitude noted.
+  METHODS_CLAIM_DENSITY noted without escalation.
+
+Q3:
+  BACK-LOADED profile reported (common reviewer concern).
+  FRONT-LOADED noted at summary level.
+  LOAD_SHIFT_DETECTED only at MAJOR magnitude.
+
+---
+
+## 8. PARTIAL INPUT BEHAVIOR
+
+Abstract only (Type A):
+→ FRAMING zone assessable; others not
+→ Label: [Load scan — framing zone only]
+
+Introduction only (Type B):
+→ FRAMING zone full; others not assessable
+
+Methods only (Type C):
+→ METHODS zone full; METHODS_CLAIM_DENSITY fully readable
+
+Results / Discussion only (Type D):
+→ CORE and CLOSING zones assessable
+→ Partial profile only
+
+Mixed (Type E):
+→ Kit runs on available zones
+→ Unavailable zones marked NOT ASSESSED
+
+---
+
+## 9. REVISION ROUND INTERACTION
+
+In Revision Round Mode, load shift signals carry
+additional weight under Q1-level sensitivity.
+
+BACK-LOADED profiles in revised manuscripts are read
+as residual risk — conclusions that introduce new claims
+not supported by results are a frequent R1 reviewer target.
+
+No separate flag produced.
+Profile reported as normal; sensitivity applies implicitly.
+
+---
+
+## 10. INTEGRATION — LENS-BRIDGE CONNECTION
+
+### Primary: SECTION 4 — Argumentation
+Full argument load profile and shift signals
+→ reported as load sub-block within SECTION 4
+→ positioned after existing argumentation signals
+
+### Secondary: SECTION 0 — Macro Frame
+Where load profile reveals a structural behavioral type
+inconsistent with the manuscript's declared type
+(e.g., METHODS-HEAVY in a theoretical manuscript)
+→ noted as framing-load gap within SECTION 0
+
+Argument Load Kit output never opens a new section.
+
+---
+
+## 11. WHAT THIS KIT DOES NOT DO
+
+Does not:
+  Evaluate whether the load distribution is appropriate
+  Judge which zone should carry more weight
+  Recommend redistribution of argumentative content
+  Label any load profile as correct or incorrect
+  Track secondary argument threads
+  Generate independent flags outside SECTION 4 and SECTION 0
+
+---
+
+## 12. HARD LIMITS
+
+This kit must never:
+  Produce load quality judgments
+  Recommend structural revisions
+  Label a load profile as weak or strong
+  Override Argument Density Block output
+  Generate independent sections
+
+---
+
+## 13. CANONICAL DEFINITION
+
+ARGUMENT LOAD KIT v1.0 surfaces how argumentative weight
+is distributed across a manuscript's four structural zones —
+mapping front-loaded, back-loaded, core-concentrated,
+distributed, and methods-heavy profiles — and detecting
+abrupt load shifts between zones, as structural distribution
+signals, without producing judgment, evaluation, or recommendation.
+
+---
+
+# ARGUMENT LOAD KIT v1.0 — END

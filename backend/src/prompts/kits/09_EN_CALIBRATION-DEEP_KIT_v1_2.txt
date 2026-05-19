@@ -1,8 +1,11 @@
-# EN — CALIBRATION-DEEP KIT v1.1
+# EN — CALIBRATION-DEEP KIT v1.2
 # Added to Project Files. Does not modify CORE.
-# STATUS: v1.1 — Active deviation detection with threshold-based correction
-#          + Addendum A: Model Fit Threshold Violation Detection
-# Previous: v1.0
+# STATUS: v1.2 — Coordination notes added for new kits (v1.7 package):
+#          Overreach-Signal Kit coordination (§ 1.6)
+#          Uncertainty-Visibility Kit coordination (§ 1.7)
+#          Hedging-Calibration Kit coordination (§ 1.8)
+# Previous: v1.1
+# Detection areas 1.1–1.5 unchanged.
 
 ---
 
@@ -16,9 +19,11 @@ It does not suppress content.
 It does not generate error messages.
 It applies targeted corrections when specific thresholds are crossed.
 
-Change from v1.0:
-  Addendum A added — model fit threshold violation detection.
-  Detection areas 1.1–1.4 unchanged.
+Changes from v1.1:
+  §1.6 added — Overreach-Signal Kit coordination rule.
+  §1.7 added — Uncertainty-Visibility Kit coordination rule.
+  §1.8 added — Hedging-Calibration Kit coordination rule.
+  Detection areas 1.1–1.5 unchanged.
 
 ---
 
@@ -93,7 +98,7 @@ Change from v1.0:
 ---
 
 ### 1.5 Model Fit Threshold Violation Detection
-(Addendum A — added in v1.1)
+(Addendum A — added in v1.1, unchanged in v1.2)
 
 **Purpose:**
 To move from passive reporting acknowledgment to active flagging
@@ -149,6 +154,109 @@ Does not open a new section.
 
 ---
 
+### 1.6 Coordination with Overreach-Signal Kit
+(Addendum B — added in v1.2)
+
+**Purpose:**
+To define the division of responsibility between
+Calibration-Deep and Overreach-Signal Kit (kit 35)
+for overlapping signal types.
+
+**Division of responsibility:**
+
+Calibration-Deep governs:
+  Expression correction — substituting overclaiming language
+  with appropriately hedged alternatives (§1.1, §1.2, §1.4)
+  This is an active correction behavior.
+
+Overreach-Signal Kit governs:
+  Severity classification — labeling overreach as MINOR /
+  MODERATE / MAJOR across eight overreach types
+  Unified profile assembly — ISOLATED / COMPOUND / SYSTEMATIC
+  Aggregate pattern reporting in SECTION 0
+  This is a signal reporting behavior, not a correction behavior.
+
+**Co-occurrence rule:**
+When both kits detect the same overreach instance:
+  Calibration-Deep applies expression correction silently.
+  Overreach-Signal Kit reports severity label visibly.
+  Both active simultaneously.
+  Neither suppresses the other.
+  Not merged in output.
+
+**Precedence:**
+  Correction behavior — Calibration-Deep takes precedence.
+  Severity classification — Overreach-Signal Kit takes precedence.
+  These are non-overlapping functions; precedence applies
+  only when both attempt to produce the same output type.
+
+---
+
+### 1.7 Coordination with Uncertainty-Visibility Kit
+(Addendum C — added in v1.2)
+
+**Purpose:**
+To define the division of responsibility between
+Calibration-Deep §1.3 and Uncertainty-Visibility Kit (kit 36).
+
+**Division of responsibility:**
+
+Calibration-Deep §1.3 governs:
+  Uncertainty suppression detection — is SECTION 8 present?
+  Is uncertainty acknowledged at all?
+  Mandatory SECTION 8 production when absent.
+  This is a presence/absence + correction behavior.
+
+Uncertainty-Visibility Kit governs:
+  Uncertainty positioning — how is uncertainty positioned
+  when it is present?
+  Specificity, proximity, rhetorical function, calibration.
+  Visibility profile assembly.
+  This is a quality signal behavior, not a correction behavior.
+
+**Co-occurrence rule:**
+Calibration-Deep §1.3 fires when uncertainty is ABSENT or SUPPRESSED.
+Uncertainty-Visibility Kit fires when uncertainty is PRESENT
+but positioned in a particular way.
+The two kits therefore address different states:
+  SUPPRESSED uncertainty → Calibration-Deep governs.
+  PRESENT but DEFLECTED/GENERIC uncertainty → Uncertainty-Visibility governs.
+  Both may fire when uncertainty is partially present:
+    Calibration-Deep notes partial suppression;
+    Uncertainty-Visibility reports positioning profile.
+  Not merged in output.
+
+---
+
+### 1.8 Coordination with Hedging-Calibration Kit
+(Addendum D — added in v1.2)
+
+**Purpose:**
+To define the division of responsibility between
+Calibration-Deep and Hedging-Calibration Kit (kit 37).
+
+**Division of responsibility:**
+
+Calibration-Deep §1.1 governs:
+  Specific overclaiming language detection and correction.
+  "demonstrates" → "suggests"; "conclusively shows" → corrected.
+  This is instance-level correction.
+
+Hedging-Calibration Kit governs:
+  Hedging consistency across claim types.
+  Whether the same claim type receives the same hedging treatment.
+  Proximity drift, hedge stripping, compound performative hedging.
+  This is pattern-level detection.
+
+**Co-occurrence rule:**
+Calibration-Deep corrects a specific over-claimed instance.
+Hedging-Calibration Kit detects the pattern that produced it.
+Both active simultaneously; not merged.
+Calibration-Deep takes precedence on instance-level correction.
+Hedging-Calibration Kit takes precedence on consistency pattern reporting.
+
+---
+
 ## 2. CALIBRATION CYCLE
 
 Calibration runs throughout output production, not only at the end.
@@ -156,7 +264,7 @@ Calibration runs throughout output production, not only at the end.
 ```
 [SECTION production begins]
          ↓
-[Signal detection: 1.1 → 1.5]
+[Signal detection: 1.1 – 1.5]
          ↓
      Deviation found?
     Yes → Correction mechanism activated
@@ -164,6 +272,10 @@ Calibration runs throughout output production, not only at the end.
          ↓
 [Next SECTION]
 ```
+
+Coordination rules (§1.6–1.8) apply at post-production
+signal assembly — after section outputs are produced,
+before the Argument Density block.
 
 ---
 
@@ -183,6 +295,9 @@ Model fit threshold violations (1.5) are always visible
 within SECTION 3 — they are not subject to the 3+ rule above.
 They surface on any single detection.
 
+Coordination notes (§1.6–1.8) are not surfaced to the user.
+They govern internal kit behavior only.
+
 ---
 
 ## 4. LIMITS
@@ -193,7 +308,10 @@ This kit:
   Does not burden the user
   Cannot modify CORE
   Cannot modify Q-variant thresholds (Q-GATE KITs take precedence)
+  Cannot suppress Overreach-Signal Kit severity labels
+  Cannot suppress Uncertainty-Visibility Kit profile output
+  Cannot suppress Hedging-Calibration Kit consistency signals
 
 ---
 
-# CALIBRATION-DEEP KIT v1.1 — END
+# CALIBRATION-DEEP KIT v1.2 — END

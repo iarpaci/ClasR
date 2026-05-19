@@ -1,0 +1,470 @@
+# EN — ARGUMENT-DENSITY KIT v1.0
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.0 — Cross-section claim load mapping layer
+# NOTE: This kit is embedded within LENS-BRIDGE-CORE file. Not a standalone file.
+
+---
+
+## 0. IDENTITY
+
+Type: EXTENSION KIT
+Attaches to: UNIFIED-OUTPUT KIT v1.1 (before closing block)
+No judgment · No recommendation · No rewriting
+
+This kit maps the distribution of claim load
+across manuscript sections as a cross-section signal layer.
+
+---
+
+## 1. DESIGN PRINCIPLE
+
+Existing lenses read each signal tied to one SECTION.
+This kit operates differently:
+
+```
+After all SECTION outputs are produced
+         ↓
+Signal count per SECTION is aggregated
+         ↓
+Load distribution is mapped
+         ↓
+Single block displayed before the closing block
+```
+
+Does not touch SECTION order.
+Does not open new SECTIONs.
+Re-reads lens outputs; does not re-produce them.
+
+---
+
+## 2. MEASURED ZONES
+
+The manuscript is evaluated across four functional zones:
+
+```
+FRAMING   → SECTION 0 + SECTION 1 + SECTION 2
+CORE      → SECTION 3 + SECTION 4 + SECTION 5
+LANGUAGE  → SECTION 6
+CLOSING   → SECTION 7 + SECTION 8
+```
+
+---
+
+## 3. DENSITY MEASUREMENT
+
+For each zone, active signal counts from relevant SECTIONs are aggregated:
+- Verbal Lens signals
+- LENSSA-DEPTH patterns
+- FREQUENCY SIGNAL outputs
+- Temporality / Silence / Orientation / Integrity signal detections
+- Citation Behavior signals
+- Abstract–Body Coherence signals
+- Replication Signal profile gaps
+- Contribution Framing signals
+- Discussion Scope Drift signals
+- Argument Symmetry signals
+- Negative Result Visibility signals
+- Interdisciplinary Tension signals
+- Reader Model signals
+- Desk-Reject Signal Kit trigger zones (FRAMING zone)
+- Argument Chain Kit signals (CORE zone)
+- Argument Load Kit signals (CORE zone)
+- Concept-Evidence Bridge Kit signals (FRAMING + CORE zones)
+- Conclusion Integrity Kit signals (CLOSING zone)
+- Overreach-Signal Kit signals (all zones, per routing table)
+- Uncertainty-Visibility Kit signals (CLOSING zone)
+- Hedging-Calibration Kit signals (LANGUAGE zone)
+- Journal-Sensitivity Kit signals (FRAMING + LANGUAGE zones)
+
+Signal count → zone load:
+```
+0–1 signals  → LOW
+2–3 signals  → MEDIUM
+4+  signals  → HIGH
+```
+
+---
+
+## 4. DISTRIBUTION PROFILES
+
+Four primary distribution patterns recognized:
+
+**FRONT-LOADED:**
+FRAMING zone HIGH, CLOSING zone LOW
+→ Strong promise; quiet closing
+
+**BACK-LOADED:**
+FRAMING zone LOW, CLOSING zone HIGH
+→ Modest opening; overstated conclusion
+
+**CORE-CONCENTRATED:**
+CORE zone HIGH, others LOW or MEDIUM
+→ Load concentrated in method and argumentation
+
+**DISTRIBUTED:**
+All zones MEDIUM or balanced
+→ Load spread evenly across the manuscript
+
+Multiple profiles may be detected simultaneously.
+
+---
+
+## 5. OUTPUT FORMAT
+
+Displayed immediately before the closing block:
+
+```
+▸ ARGUMENT DENSITY
+
+FRAMING:  [LOW / MEDIUM / HIGH]
+CORE:     [LOW / MEDIUM / HIGH]
+LANGUAGE: [LOW / MEDIUM / HIGH]
+CLOSING:  [LOW / MEDIUM / HIGH]
+
+Distribution: [FRONT-LOADED / BACK-LOADED /
+               CORE-CONCENTRATED / DISTRIBUTED]
+```
+
+Maximum 6 lines.
+No interpretation. No recommendation.
+Distribution only.
+
+---
+
+## 6. ACTIVATION
+
+Active in every report automatically.
+If signal count is zero — all zones reported as LOW.
+User is not separately notified.
+
+---
+
+## 7. HARD LOCK
+
+This kit:
+  Does not alter SECTION content
+  Does not generate new signals
+  Does not produce "weak/strong" judgments
+  Only maps distribution
+  Does not break UNIFIED-OUTPUT format
+
+---
+
+## 8. CANONICAL DEFINITION
+
+ARGUMENT-DENSITY v1.0 aggregates signal load from all SECTION outputs
+by functional zone and maps how claim weight is distributed
+across the manuscript, without producing interpretation or judgment.
+
+---
+
+# ARGUMENT-DENSITY KIT v1.0 — END
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+# EN — LENS-BRIDGE-CORE v2.0
+# Added to Project Files. Does not modify CORE.
+# STATUS: v2.0 — Split from LENS-BRIDGE KIT v1.7
+#          Section connection map + activation conditions
+#          Journal-Sensitivity Kit v1.0 (38) registered
+#          Companion file: 12b_EN_LENS-BRIDGE-COLLISION_v2_0.txt
+# Previous: 12_EN_LENS-BRIDGE_KIT_v1_7 (monolithic)
+
+---
+
+## 0. IDENTITY
+
+This file defines which overlay lens connects to which SECTION
+and how each lens integrates within the CLASR-EN output.
+
+Companion file 12b_EN_LENS-BRIDGE-COLLISION_v2_0.txt
+defines collision management rules when multiple lenses
+detect the same signal.
+
+Both files must be present for full Lens-Bridge operation.
+
+---
+
+## 1. DESIGN PRINCIPLE
+
+Lens overlays do not operate independently.
+Every lens is bound to a specific SECTION's sub-layer.
+
+```
+SECTION production
+        ↓
+Is a lens bound to this SECTION?
+    Yes → Lens runs signal scan
+           Signal found → label appears + integrated into SECTION output
+           No signal    → lens runs silently
+    No  → Lens inactive for this SECTION
+```
+
+Lens output never opens a new section.
+Always appears within the relevant SECTION as a sub-signal.
+
+**Label enforcement:** Every detected signal produces a visible label.
+Q-variant and context length do not suppress labels.
+See UNIFIED-OUTPUT KIT v1.1 § 6 for full label enforcement rules.
+
+---
+
+## 2. LENS — SECTION CONNECTION MAP
+
+### Verbal Lens (VERBAL_LENS_KIT)
+**Primary:** SECTION 6 — Academic Language & Hedging
+**Secondary:** SECTION 4 — Argumentation
+
+### Temporality Lens (TEMPORALITY_LENS_KIT)
+**Primary:** SECTION 0 — Macro Frame
+**Secondary:** SECTION 8 — Limits & Uncertainties
+**Tertiary:** SECTION 4 — Argumentation
+
+### Silence Lens (SILENCE_LENS_KIT)
+**Primary:** SECTION 7 — Structural Integrity
+**Secondary:** SECTION 8 — Limits & Uncertainties
+**Activation:** Automatically active in SECTION 7 for every report.
+
+### Orientation Lens (ORIENTATION_LENS_KIT)
+**Primary:** SECTION 1 — Aim & Scope
+**Secondary:** SECTION 4 — Argumentation
+**Activation:** Automatically active in SECTION 1 for every report.
+**Label enforcement note:** ALTERNATIVELESS SCOPE and all Orientation
+labels are mandatory regardless of Q-variant.
+
+### Integrity Signal (INTEGRITY_SIGNAL_KIT)
+**Primary:** SECTION 0 — Macro Frame
+**Secondary:** SECTION 3 — Methodological Visibility
+**Activation:** Passive scan of competing interests declaration block.
+
+### LENSSA-DEPTH v1.1
+**Primary:** SECTION 5 — Numerical / Spatial Behavior
+**Secondary:** SECTION 4 — Argumentation
+**Activation:** Active when numerical signals are present.
+
+### FREQUENCY SIGNAL v1.0
+**Primary:** SECTION 6 — Academic Language & Hedging
+**Secondary:** SECTION 4 — Argumentation
+**Activation:** Runs in parallel with Verbal Lens.
+
+### Model Fit Threshold Detection (CALIBRATION-DEEP KIT v1.2 §1.5)
+**Primary:** SECTION 3 — Methodological Visibility
+**Activation:** Active when structural model fit indices are reported.
+
+### Citation Behavior Kit (CITATION_BEHAVIOR_KIT v1.0)
+**Primary:** SECTION 2 — Conceptual / Theoretical Framework
+**Secondary:** SECTION 4 — Argumentation
+**Activation:** Automatically active in SECTION 2 for every report.
+**Label enforcement note:** CONFIRMATORY CITATION PATTERN,
+REFERENCE AGE SIGNAL, FIELD CONCENTRATION SIGNAL labels
+are mandatory when detected.
+
+### Abstract–Body Coherence Kit (ABSTRACT_BODY_COHERENCE_KIT v1.0)
+**Primary:** SECTION 0 — Macro Frame
+**Secondary:** SECTION 8 — Limits & Uncertainties
+**Activation:** Requires both abstract and body to be present.
+
+### Replication Signal Kit (REPLICATION_SIGNAL_KIT v1.0)
+**Primary:** SECTION 3 — Methodological Visibility
+**Secondary:** SECTION 7 — Structural Integrity
+**Activation:** Automatically active in SECTION 3 for every report.
+**Structured block enforcement:** REPLICATION SIGNAL PROFILE must appear
+as a structured block, not as a prose paragraph.
+
+### Contribution Framing Kit (CONTRIBUTION_FRAMING_KIT v1.0)
+**Primary:** SECTION 1 — Aim & Scope
+**Secondary:** SECTION 4 — Argumentation
+**Activation:** Automatically active in SECTION 1 for every report.
+
+### Discussion Scope Drift Kit (DISCUSSION_SCOPE_DRIFT_KIT v1.1)
+**Primary:** SECTION 4 — Argumentation
+**Secondary:** SECTION 8 — Limits & Uncertainties
+**Activation:** Automatically active in SECTION 4
+when both Results and Discussion zones are present.
+**Label enforcement note:** SCOPE-LIMIT GAP label in SECTION 8
+is mandatory when Discussion Scope Drift secondary fires.
+
+### Argument Symmetry Kit (ARGUMENT_SYMMETRY_KIT v1.1)
+**Primary:** SECTION 4 — Argumentation
+**Secondary:** SECTION 8 — Limits & Uncertainties
+**Activation:** Automatically active in SECTION 4 for every report.
+
+### Negative Result Visibility Kit (NEGATIVE_RESULT_VISIBILITY_KIT v1.0)
+**Primary:** SECTION 5 — Numerical / Spatial Behavior
+**Secondary:** SECTION 8 — Limits & Uncertainties
+**Activation:** Automatically active in SECTION 5 when numerical results present.
+
+### Interdisciplinary Tension Kit (INTERDISCIPLINARY_TENSION_KIT v1.0)
+**Primary:** SECTION 2 — Conceptual / Theoretical Framework
+**Secondary:** SECTION 3 — Methodological Visibility
+**Activation:** Automatically active in SECTION 2 for every report.
+
+### Reader Model Kit (READER_MODEL_KIT v1.0)
+**Primary:** SECTION 1 — Aim & Scope
+**Secondary:** SECTION 6 — Academic Language & Hedging
+**Activation:** Automatically active in SECTION 1 for every report.
+If ALIGNED and no subsidiary signals fire — kit runs silently.
+
+### Desk-Reject Signal Kit (DESK_REJECT_SIGNAL_KIT v1.0)
+**Primary:** SECTION 0 — Macro Frame
+**Secondary:** SECTION 1 — Aim & Scope
+**Activation:** Automatically active for every report.
+Requires minimum two kit signals present for co-occurrence mapping.
+**Structured block enforcement:** DESK-REJECT RISK PROFILE must appear
+as a structured block, not as prose.
+
+### Argument Chain Kit (ARGUMENT_CHAIN_KIT v1.0)
+**Primary:** SECTION 4 — Argumentation
+**Secondary:** SECTION 0 — Macro Frame
+**Tertiary:** SECTION 8 — Limits & Uncertainties
+**Activation:** Automatically active in SECTION 4
+when framing zone and at least one body section are present.
+**Structured block enforcement:** ARGUMENT CHAIN SIGNAL must appear
+as a structured block when chain profile is not INTACT.
+
+### Argument Load Kit (ARGUMENT_LOAD_KIT v1.0)
+**Primary:** SECTION 4 — Argumentation
+**Secondary:** SECTION 0 — Macro Frame
+**Activation:** Automatically active in SECTION 4 for every report.
+**Structured block enforcement:** ARGUMENT LOAD PROFILE must appear
+as a structured block, not as prose.
+**Relationship to Argument Density block:** Argument Load Kit reads
+per-zone claim density before signal aggregation. Argument Density block
+reads post-production signal counts. Both active; not merged.
+
+### Concept-Evidence Bridge Kit (CONCEPT_EVIDENCE_BRIDGE_KIT v1.0)
+**Primary:** SECTION 2 — Conceptual / Theoretical Framework
+**Secondary:** SECTION 4 — Argumentation
+**Tertiary:** SECTION 5 — Numerical / Spatial Behavior
+**Activation:** Automatically active in SECTION 2 for every report.
+If all key concepts are GROUNDED — kit runs silently.
+
+### Conclusion Integrity Kit (CONCLUSION_INTEGRITY_KIT v1.0)
+**Primary:** SECTION 4 — Argumentation
+**Secondary:** SECTION 8 — Limits & Uncertainties
+**Tertiary:** SECTION 0 — Macro Frame
+**Activation:** Automatically active in SECTION 4
+when conclusion zone is present.
+If all signals NOT DETECTED and abstract-conclusion CONSISTENT
+— single line only.
+**Structured block enforcement:** CONCLUSION INTEGRITY SIGNAL must appear
+as a structured block when any signal is detected.
+
+### Overreach-Signal Kit (OVERREACH_SIGNAL_KIT v1.0)
+**Primary:** SECTION 4 — Argumentation
+**Routing by type:**
+  Causal → SECTION 4 primary / SECTION 6 secondary
+  Policy → SECTION 6 primary / SECTION 8 secondary
+  Novelty → SECTION 1 primary / SECTION 4 secondary
+  Generalization → SECTION 5 primary / SECTION 4 secondary
+  Contribution → SECTION 1 primary / SECTION 0 secondary
+  Temporal → SECTION 5 primary / SECTION 4 secondary
+  Translational → SECTION 6 primary / SECTION 8 secondary
+  Disciplinary → SECTION 2 primary / SECTION 4 secondary
+  Aggregate pattern → SECTION 0
+**Activation:** Automatically active for every report.
+If no overreach signals detected — single line in SECTION 4.
+**Coordination with Calibration-Deep:**
+  Calibration-Deep governs expression correction.
+  Overreach-Signal Kit governs severity classification and unified profile.
+  Both active simultaneously; not merged.
+
+### Uncertainty-Visibility Kit (UNCERTAINTY_VISIBILITY_KIT v1.0)
+**Primary:** SECTION 8 — Limits & Uncertainties
+**Secondary:** SECTION 4 — Argumentation
+**Tertiary:** SECTION 6 — Academic Language & Hedging
+**Activation:** Automatically active in SECTION 8 for every report.
+If visibility profile is TRANSPARENT — single line only.
+**Relationship to SECTION 8 mandatory requirement:**
+  Uncertainty-Visibility Kit extends SECTION 8; it does not replace it.
+**Relationship to Calibration-Deep §1.3:**
+  Calibration-Deep reads: is uncertainty present?
+  Uncertainty-Visibility Kit reads: how is uncertainty positioned?
+  Both active simultaneously; not merged.
+
+### Hedging-Calibration Kit (HEDGING_CALIBRATION_KIT v1.0)
+**Primary:** SECTION 6 — Academic Language & Hedging
+**Secondary:** SECTION 4 — Argumentation
+**Tertiary:** SECTION 8 — Limits & Uncertainties
+**Activation:** Automatically active in SECTION 6 for every report.
+If hedging is CONSISTENT and CALIBRATED — single line only.
+**Relationship to Verbal Lens:**
+  Verbal Lens reads where language inflates numerical claims.
+  Hedging-Calibration Kit reads hedging consistency across claim types.
+  Both active; reported as separate sub-signals in SECTION 6.
+
+### Journal-Sensitivity Kit (JOURNAL_SENSITIVITY_KIT v1.0) — NEW v2.0
+**Primary:** SECTION 0 — Macro Frame
+  Field detection result and calibration status
+  → field profile sub-signal in SECTION 0
+  → positioned after AUTO-Q estimate
+**Secondary:** SECTION 2 — Conceptual / Theoretical Framework
+  Field-specific terminology signals
+  → field term sub-signal in SECTION 2
+**Tertiary:** SECTION 6 — Academic Language & Hedging
+  Field-specific frequency and hedging calibration adjustments
+  → field calibration note in SECTION 6
+**Activation:** Automatically active for every report.
+  Field detection attempted from manuscript signals.
+  User override accepted at any point.
+  If field cannot be determined — FIELD-INT (default) applied.
+**Threshold behavior:**
+  Field calibration applies before kit signal production.
+  Q-Gate minimum always preserved; MAJOR ceiling never exceeded.
+  Field calibration cannot suppress a signal below Q-Gate minimum.
+  Field calibration cannot amplify above MAJOR severity.
+**Relationship to Q-Gate:**
+  Q-Gate governs tier sensitivity.
+  Journal-Sensitivity Kit governs field sensitivity.
+  Both active simultaneously; not merged.
+
+---
+
+## 3. ACTIVATION CONDITIONS (FULL LIST)
+
+| Lens / Kit | Activation |
+|------------|-----------|
+| Verbal Lens | Active when numerical signals are present |
+| Temporality Lens | Passive scan in SECTION 0; activates on detection |
+| Silence Lens | Automatically active in SECTION 7 |
+| Orientation Lens | Automatically active in SECTION 1 |
+| Integrity Signal | Passive scan of competing interests block |
+| LENSSA-DEPTH | Active when numerical signals are present |
+| FREQUENCY SIGNAL | Parallel to Verbal Lens |
+| Model Fit Detection | Active when structural model fit indices are reported |
+| Citation Behavior | Automatically active in SECTION 2 |
+| Abstract–Body Coherence | Active when both abstract and body present |
+| Replication Signal | Automatically active in SECTION 3 |
+| Contribution Framing | Automatically active in SECTION 1 |
+| Discussion Scope Drift | Automatically active in SECTION 4 when Results + Discussion present |
+| Argument Symmetry | Automatically active in SECTION 4 |
+| Negative Result Visibility | Automatically active in SECTION 5 when numerical results present |
+| Interdisciplinary Tension | Automatically active in SECTION 2 |
+| Reader Model | Automatically active in SECTION 1 |
+| Desk-Reject Signal Kit | Automatically active; requires 2+ kit signals for profile |
+| Argument Chain Kit | Automatically active in SECTION 4 when framing + body present |
+| Argument Load Kit | Automatically active in SECTION 4 |
+| Concept-Evidence Bridge Kit | Automatically active in SECTION 2 |
+| Conclusion Integrity Kit | Automatically active in SECTION 4 when conclusion zone present |
+| Overreach-Signal Kit | Automatically active for every report |
+| Uncertainty-Visibility Kit | Automatically active in SECTION 8 |
+| Hedging-Calibration Kit | Automatically active in SECTION 6 |
+| Journal-Sensitivity Kit | Automatically active for every report |
+
+---
+
+## 4. LIMITS
+
+This file:
+  Cannot add new SECTIONs
+  Cannot reorder SECTIONs
+  Cannot modify internal rules of individual lens kits
+  Only defines the connection map and activation conditions
+
+Collision management rules — see 12b_EN_LENS-BRIDGE-COLLISION_v2_0.txt
+
+---
+
+# LENS-BRIDGE-CORE v2.0 — END

@@ -1,0 +1,263 @@
+# EN — OPERATIONAL TIERING v2.2
+# (Kit Layer Classification)
+# STATUS: v2.2 · One new Tier 3 kit added:
+#          Methodological Rhetoric Kit v1.0 (Kit 39)
+# Previous: v2.1
+
+---
+
+## 0. IDENTITY
+
+This document classifies all CLASR-EN kits
+into three tiers by functional importance and maintenance priority.
+
+This document:
+  Does not modify kit content
+  Does not modify operational order
+  Is a classification and maintenance guide only
+
+---
+
+## 1. TIER 1 — CORE (UNTOUCHABLE)
+
+```
+00_CLASR-EN_CORE_v1_1
+01_EN_MASTER_SECTION_KIT_v1_0
+02_EN_SECTION-DEPTH_KIT_v1_0
+03_EN_UNIFIED-OUTPUT_KIT_v1_1
+04_EN_Q1-GATE_KIT_v1_0
+05_EN_Q2-GATE_KIT_v1_0
+06_EN_Q3-GATE_KIT_v1_0
+```
+
+Changes require → new version (v3.0).
+
+---
+
+## 2. TIER 2 — GOVERNANCE (MANDATORY)
+
+```
+07_EN_Q-VARIANT_ADDENDUM_v1_0
+08_EN_AUTO-Q_DETECTION_KIT_v1_0
+09_EN_CALIBRATION-DEEP_KIT_v1_2
+12a_EN_LENS-BRIDGE-CORE_v2_0
+12b_EN_LENS-BRIDGE-COLLISION_v2_0
+14_EN_VERSION_FREEZE_v2_2              → this document
+17_EN_PARTIAL_INPUT_KIT_v1_0
+18_EN_REVISION_ROUND_KIT_v1_0
+31_EN_OUTPUT_MODE_KIT_v1_0
+INPUT_VALIDATION_KIT_v1_0
+OUTPUT_LANGUAGE_KIT_v1_0
+OUTPUT_SCOPE_KIT_v1_0
+SESSION_CONTINUITY_KIT_v1_0
+```
+
+---
+
+## 3. TIER 3 — EXTENSION (REMOVABLE)
+
+```
+10_EN_VERBAL_LENS_KIT_v1_0
+11_EN_LENS-EXT_KITS_v1_0
+13_EN_STRUCTURAL_QA_KITS_v1_0
+15_EN_SILENCE_LENS_KIT_v1_0
+16_EN_ORIENTATION_LENS_KIT_v1_0
+19_EN_INTEGRITY_SIGNAL_KIT_v1_0
+20_EN_CITATION_BEHAVIOR_KIT_v1_0
+21_EN_ABSTRACT_BODY_COHERENCE_KIT_v1_0
+22_EN_REPLICATION_SIGNAL_KIT_v1_0
+23_EN_CONTRIBUTION_FRAMING_KIT_v1_0
+24_EN_DISCUSSION_SCOPE_DRIFT_KIT_v1_1
+25_EN_ARGUMENT_SYMMETRY_KIT_v1_1
+26_EN_NEGATIVE_RESULT_VISIBILITY_KIT_v1_0
+27_EN_INTERDISCIPLINARY_TENSION_KIT_v1_0
+28_EN_READER_MODEL_KIT_v1_0
+29_EN_DESK_REJECT_SIGNAL_KIT_v1_0
+30_EN_ARGUMENT_CHAIN_KIT_v1_0
+32_EN_ARGUMENT_LOAD_KIT_v1_0
+33_EN_CONCEPT_EVIDENCE_BRIDGE_KIT_v1_0
+34_EN_CONCLUSION_INTEGRITY_KIT_v1_0
+35_EN_OVERREACH_SIGNAL_KIT_v1_0
+36_EN_UNCERTAINTY_VISIBILITY_KIT_v1_0
+37_EN_HEDGING_CALIBRATION_KIT_v1_0
+38_EN_JOURNAL_SENSITIVITY_KIT_v1_0
+39_EN_METHODOLOGICAL_RHETORIC_KIT_v1_0  → NEW v2.2
+```
+
+---
+
+## 4. CANONICAL SOURCE RULE
+
+| Principle | Canonical Source |
+|-----------|-----------------|
+| SECTION order | MASTER_SECTION_KIT_v1_0 |
+| SECTION content depth | SECTION-DEPTH_KIT_v1_0 |
+| Q-variant thresholds | Q1/Q2/Q3-GATE KITs |
+| Lens-SECTION connections (core) | LENS-BRIDGE-CORE_v2_0 |
+| Collision management | LENS-BRIDGE-COLLISION_v2_0 |
+| Output format | UNIFIED-OUTPUT_KIT_v1_1 |
+| Label enforcement | UNIFIED-OUTPUT_KIT_v1_1 § 6 |
+| Structured block enforcement | UNIFIED-OUTPUT_KIT_v1_1 § 7 |
+| Output mode switching | OUTPUT_MODE_KIT_v1_0 |
+| Output scope filtering | OUTPUT_SCOPE_KIT_v1_0 |
+| Output language switching | OUTPUT_LANGUAGE_KIT_v1_0 |
+| Input validation | INPUT_VALIDATION_KIT_v1_0 |
+| Session continuity | SESSION_CONTINUITY_KIT_v1_0 |
+| Deviation detection | CALIBRATION-DEEP_KIT_v1_2 |
+| Model fit threshold violation | CALIBRATION-DEEP_KIT_v1_2 (§1.5) |
+| Version record | VERSION_FREEZE_v2_2 |
+| "Map is not evidence" | MASTER_SECTION_KIT_v1_0 (Section 5) |
+| "No decisions produced" | CLASR-EN_CORE_v1_1 |
+| Silence detection | SILENCE_LENS_KIT_v1_0 |
+| Orientation signals | ORIENTATION_LENS_KIT_v1_0 |
+| Partial input behavior | PARTIAL_INPUT_KIT_v1_0 |
+| Revision round behavior | REVISION_ROUND_KIT_v1_0 |
+| Competing interests signals | INTEGRITY_SIGNAL_KIT_v1_0 |
+| Citation pattern signals | CITATION_BEHAVIOR_KIT_v1_0 |
+| Abstract–body coherence gaps | ABSTRACT_BODY_COHERENCE_KIT_v1_0 |
+| Replication signal profile | REPLICATION_SIGNAL_KIT_v1_0 |
+| Contribution framing signals | CONTRIBUTION_FRAMING_KIT_v1_0 |
+| Discussion scope drift signals | DISCUSSION_SCOPE_DRIFT_KIT_v1_1 |
+| Claim-limit symmetry signals | ARGUMENT_SYMMETRY_KIT_v1_1 |
+| Null result visibility signals | NEGATIVE_RESULT_VISIBILITY_KIT_v1_0 |
+| Interdisciplinary tension signals | INTERDISCIPLINARY_TENSION_KIT_v1_0 |
+| Reader model positioning signals | READER_MODEL_KIT_v1_0 |
+| Desk-reject risk profile | DESK_REJECT_SIGNAL_KIT_v1_0 |
+| Argument chain continuity | ARGUMENT_CHAIN_KIT_v1_0 |
+| Argument load distribution | ARGUMENT_LOAD_KIT_v1_0 |
+| Concept-evidence grounding | CONCEPT_EVIDENCE_BRIDGE_KIT_v1_0 |
+| Conclusion integrity signals | CONCLUSION_INTEGRITY_KIT_v1_0 |
+| Overreach classification | OVERREACH_SIGNAL_KIT_v1_0 |
+| Uncertainty visibility profile | UNCERTAINTY_VISIBILITY_KIT_v1_0 |
+| Hedging calibration profile | HEDGING_CALIBRATION_KIT_v1_0 |
+| Journal field sensitivity | JOURNAL_SENSITIVITY_KIT_v1_0 |
+| Methodological rhetoric patterns | METHODOLOGICAL_RHETORIC_KIT_v1_0 |
+
+---
+
+## 5. NEW KIT ADDITION PROTOCOL
+
+Before adding a new kit, answer:
+1. Which tier? (typically Tier 3; governance kits → Tier 2)
+2. Which SECTION connection? (update LENS-BRIDGE if needed)
+3. New row in canonical source table?
+4. VERSION FREEZE update needed?
+5. Factory test before production? (recommended)
+
+---
+
+## 6. VERSION FREEZE DOCUMENT v2.2
+
+### CHANGE LOG — v2.1 → v2.2
+
+Added:
+
+39_EN_METHODOLOGICAL_RHETORIC_KIT_v1_0
+  Surfaces four field-independent methodological rhetoric patterns:
+  REPRESENTATIVENESS_TRANSFER — assumption that a measured subset
+    fully represents a broader domain, treated as established
+    rather than argued; operates as a silent method-layer premise.
+  VISUAL_CHECK_AS_VALIDATION — a figure used as evidence
+    of methodological validity in place of a formal
+    validation procedure.
+  DISTRIBUTIONAL_CONFIRMATION_BIAS — a distributional output
+    interpreted with hedged language that nonetheless performs
+    a confirmatory function the evidence cannot sustain.
+  COMPLEMENTARITY_REFRAMING — inter-method disagreement
+    dissolved through "complementarity" framing without
+    quantitative or theoretical justification.
+  Tier 3. Primary: SECTION 3. Secondary: SECTION 4.
+  Pattern density: SINGLE / COMPOUND / SYSTEMATIC.
+  SYSTEMATIC feeds into Desk-Reject STRUCTURAL_COMPLETENESS_RISK.
+  Coordinates with: Calibration-Deep §1.3, Overreach Signal Kit (35),
+  Concept-Evidence Bridge Kit (33), Hedging Calibration Kit (37),
+  Discussion Scope Drift Kit (24), Argument Symmetry Kit (25),
+  Desk-Reject Signal Kit (29), Journal-Sensitivity Kit (38).
+
+### RATIONALE
+
+Gap 8 — Methodological rhetoric layer:
+  Existing kits read what claims are made and how they are bounded.
+  No kit read the specific rhetorical moves by which
+  methodological choices are presented as self-validating,
+  visually confirmed, or mutually complementary in ways
+  that suppress legitimate methodological uncertainty.
+  These patterns are field-independent — they appear across
+  quantitative disciplines wherever methods carry argumentative
+  weight beyond what they structurally deliver.
+  They were first identified through live manuscript scanning
+  (CLASR-EN Term Scanner candidate set, May 2026).
+  → Methodological Rhetoric Kit v1.0.
+
+### COMPLETE KIT LIST (v2.2)
+
+Total kits: 43 (excluding CORE and Installation Guide)
+
+TIER 1 (7): CORE + 6 foundational kits
+TIER 2 (13): governance kits
+TIER 3 (23): extension kits
+  → 22 from v2.1
+  → 1 new addition in v2.2
+
+### ACTIVE LENS MAP (v2.2)
+
+| Lens / Kit | Primary SECTION | Secondary SECTION |
+|-----------|----------------|-------------------|
+| Verbal Lens | SECTION 6 | SECTION 4 |
+| Temporality Lens | SECTION 0 | SECTION 4, 8 |
+| Silence Lens | SECTION 7 | SECTION 8 |
+| Orientation Lens | SECTION 1 | SECTION 4 |
+| LENSSA-DEPTH | SECTION 5 | SECTION 4 |
+| FREQUENCY SIGNAL | SECTION 6 | SECTION 4 |
+| ARGUMENT-DENSITY | Closing block | — |
+| Integrity Signal | SECTION 0 | SECTION 3 |
+| Citation Behavior | SECTION 2 | SECTION 4 |
+| Abstract–Body Coherence | SECTION 0 | SECTION 8 |
+| Replication Signal | SECTION 3 | SECTION 7 |
+| Contribution Framing | SECTION 1 | SECTION 4 |
+| Discussion Scope Drift | SECTION 4 | SECTION 8 |
+| Argument Symmetry | SECTION 4 | SECTION 8 |
+| Negative Result Visibility | SECTION 5 | SECTION 8 |
+| Interdisciplinary Tension | SECTION 2 | SECTION 3 |
+| Reader Model | SECTION 1 | SECTION 6 |
+| Desk-Reject Signal Kit | SECTION 0 | SECTION 1 |
+| Argument Chain Kit | SECTION 4 | SECTION 0, 8 |
+| Argument Load Kit | SECTION 4 | SECTION 0 |
+| Concept-Evidence Bridge | SECTION 2 | SECTION 4, 5 |
+| Conclusion Integrity | SECTION 4 | SECTION 8, 0 |
+| Overreach Signal Kit | SECTION 0 | per type |
+| Uncertainty Visibility | SECTION 8 | SECTION 4, 6 |
+| Hedging Calibration | SECTION 6 | SECTION 4, 8 |
+| Journal Sensitivity | SECTION 0 | SECTION 3, 6 |
+| Methodological Rhetoric | SECTION 3 | SECTION 4 |
+
+### VERSION NUMBERING (FORWARD)
+
+Minor expression adjustment → v2.x
+New extension kit → v2.x
+New Tier 2 governance kit → v2.x
+New SECTION or CORE modification → v3.0
+v1.0 core label cannot be revoked
+
+### OPEN ITEMS (POST-v2.2)
+
+OUTPUT_REGISTER_KIT (beta pending):
+  Output prose register monitoring kit deferred to beta.
+  Pattern data collection in progress.
+  Expected: v2.3 after sufficient beta manuscript sample.
+
+LENS-BRIDGE-COLLISION update:
+  Kit 39 collision rules need registration in
+  12b_EN_LENS-BRIDGE-COLLISION_v2_0.
+  Current collision management documented in Kit 39 §10.
+  Formal registration in Collision kit: next maintenance cycle.
+
+Next version trigger:
+  New extension kit → v2.3
+  OUTPUT_REGISTER_KIT production → v2.3
+  New SECTION or CORE modification → v3.0
+
+---
+
+# OPERATIONAL TIERING v2.2 — END
+# VERSION FREEZE DOCUMENT v2.2 — END

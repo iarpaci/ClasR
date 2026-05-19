@@ -1,0 +1,322 @@
+# EN — OVERREACH-SIGNAL KIT v1.0
+# Kit 35 — Unified Overreach Profile
+# CLASR-EN Tier 3 Extension
+# Compatible with: CLASR-EN v2.2
+
+---
+
+## 0. IDENTITY
+
+This kit produces a unified overreach profile for every CLASR-EN report.
+
+It classifies detected overreach instances by type and severity,
+assembles an aggregate pattern label, and routes each instance
+to its primary section.
+
+This kit:
+  Does not correct language (governed by Calibration-Deep §1.1–1.4)
+  Does not produce verdicts or evaluations
+  Does not suppress overreach — it surfaces and classifies it
+  Does not recommend revision
+
+---
+
+## 1. DIVISION OF RESPONSIBILITY
+
+### With Calibration-Deep (§1.6 coordination):
+
+Calibration-Deep governs:
+  Expression correction — substituting overclaiming language
+  with appropriately hedged alternatives.
+  This is an active correction behavior, applied silently.
+
+Overreach-Signal Kit governs:
+  Severity classification — MINOR / MODERATE / MAJOR
+  Type identification — 8 overreach types
+  Aggregate pattern — ISOLATED / COMPOUND / SYSTEMATIC
+  Unified profile assembly and routing
+  This is a signal reporting behavior, not a correction behavior.
+
+Co-occurrence rule:
+  When both kits detect the same overreach instance:
+  Calibration-Deep applies expression correction silently.
+  Overreach-Signal Kit reports severity label visibly.
+  Both active simultaneously. Neither suppresses the other.
+  Not merged in output.
+
+---
+
+## 2. OVERREACH TYPES (8)
+
+### Type 1 — CAUSAL_OVERREACH
+
+Definition:
+  Causal language applied to a relationship that the design
+  does not support (correlational, cross-sectional, observational).
+
+Signal markers:
+  "causes", "leads to", "produces", "results in",
+  "is responsible for", "drives", "determines"
+  — when no experimental or quasi-experimental design is present.
+
+Primary section: SECTION 4
+Secondary section: SECTION 6
+
+---
+
+### Type 2 — GENERALIZATION_OVERREACH
+
+Definition:
+  Finding generalized beyond the study's population,
+  geography, time frame, or sample characteristics
+  without acknowledged boundary.
+
+Signal markers:
+  "in general", "universally", "for all", "always",
+  "globally applicable", "regardless of context"
+  — when sample is bounded.
+
+Primary section: SECTION 5
+Secondary section: SECTION 4
+
+---
+
+### Type 3 — POLICY_OVERREACH
+
+Definition:
+  Findings framed as direct policy mandates or
+  action requirements, without conditional framing.
+
+Signal markers:
+  "policy must", "authorities should immediately",
+  "this finding requires that", "it is necessary for [actor] to"
+  — without hedging or conditionality.
+
+Primary section: SECTION 6
+Secondary section: SECTION 8
+
+---
+
+### Type 4 — NOVELTY_OVERREACH
+
+Definition:
+  Claims of unprecedented originality, first-ever status,
+  or unique contribution without comparative basis.
+
+Signal markers:
+  "no study has ever", "the first to demonstrate",
+  "unprecedented", "never before shown", "unique to this study"
+  — without citation support or systematic review basis.
+
+Primary section: SECTION 1
+Secondary section: SECTION 4
+
+---
+
+### Type 5 — CONTRIBUTION_OVERREACH
+
+Definition:
+  Claimed contribution exceeds what the evidence in the manuscript
+  can support. Scope of contribution stated is broader than
+  what the findings deliver.
+
+Signal markers:
+  "transforms our understanding of", "resolves the debate on",
+  "definitively establishes", "fills the major gap in"
+  — when findings are partial, contextual, or bounded.
+
+Primary section: SECTION 1
+Secondary section: SECTION 0
+
+---
+
+### Type 6 — TEMPORAL_OVERREACH
+
+Definition:
+  Cross-sectional or short time-horizon findings framed
+  as longitudinal trends or durable patterns without
+  acknowledged temporal boundary.
+
+Signal markers:
+  "over time", "long-term effect", "sustained impact",
+  "persistent pattern" — when design is cross-sectional
+  or time window is narrow.
+
+Primary section: SECTION 5
+Secondary section: SECTION 4
+
+---
+
+### Type 7 — TRANSLATIONAL_OVERREACH
+
+Definition:
+  Findings from one domain, population, or context
+  applied directly to a different domain without
+  acknowledged translational gap.
+
+Signal markers:
+  "these findings apply to clinical practice",
+  "directly transferable to", "applicable across all settings"
+  — when the original context is bounded or controlled.
+
+Primary section: SECTION 6
+Secondary section: SECTION 8
+
+---
+
+### Type 8 — DISCIPLINARY_OVERREACH
+
+Definition:
+  Claims that extend into adjacent disciplinary territory
+  without methodological grounding in that field's norms
+  or without acknowledged disciplinary boundary.
+
+Signal markers:
+  "as established in [other field]",
+  "consistent with [adjacent discipline]'s conclusion that"
+  — when the manuscript does not engage that field's methodology.
+
+Primary section: SECTION 2
+Secondary section: SECTION 4
+
+---
+
+## 3. SEVERITY CLASSIFICATION
+
+Each detected overreach instance is assigned one of three severity levels.
+
+### MINOR
+  Overreach is present but bounded.
+  Language is slightly inflated relative to evidence.
+  A reviewer may note it; unlikely to trigger rejection alone.
+
+### MODERATE
+  Overreach is clear and potentially problematic.
+  Reviewer attention likely. May require revision.
+
+### MAJOR
+  Overreach is significant and structurally embedded.
+  Claim is substantially misaligned with evidence base.
+  Reviewer attention very likely. Risk of rejection or major revision.
+
+### Severity assignment rule:
+  Q-Gate modulates severity visibility:
+    Q1: MINOR overreach surfaced; MODERATE and MAJOR flagged prominently.
+    Q2: MINOR overreach noted conditionally; MODERATE and MAJOR flagged.
+    Q3: All severity levels reported; MAJOR flagged with highest priority.
+  Field calibration (Journal-Sensitivity Kit) may adjust thresholds
+  within Q-Gate range — never below Q-Gate minimum,
+  never above MAJOR ceiling.
+
+---
+
+## 4. AGGREGATE PATTERN
+
+After all overreach instances are classified,
+an aggregate pattern label is assigned.
+
+### ISOLATED
+  One overreach instance detected.
+
+### COMPOUND
+  Two or more overreach instances detected.
+  Co-occurring but not structurally linked.
+
+### SYSTEMATIC
+  Three or more overreach instances detected
+  across two or more types, present across multiple sections.
+  SYSTEMATIC pattern feeds into DESK-REJECT RISK PROFILE
+  (LANGUAGE_POSTURE_RISK zone).
+
+### NO OVERREACH DETECTED
+  No instances identified across all 8 types.
+
+---
+
+## 5. ROUTING
+
+```
+CAUSAL_OVERREACH         → primary: SECTION 4 / secondary: SECTION 6
+GENERALIZATION_OVERREACH → primary: SECTION 5 / secondary: SECTION 4
+POLICY_OVERREACH         → primary: SECTION 6 / secondary: SECTION 8
+NOVELTY_OVERREACH        → primary: SECTION 1 / secondary: SECTION 4
+CONTRIBUTION_OVERREACH   → primary: SECTION 1 / secondary: SECTION 0
+TEMPORAL_OVERREACH       → primary: SECTION 5 / secondary: SECTION 4
+TRANSLATIONAL_OVERREACH  → primary: SECTION 6 / secondary: SECTION 8
+DISCIPLINARY_OVERREACH   → primary: SECTION 2 / secondary: SECTION 4
+Aggregate pattern        → SECTION 0
+```
+
+---
+
+## 6. OUTPUT FORMAT
+
+### In-section signal (per instance):
+
+```
+OVERREACH SIGNAL: [TYPE]
+Severity: [MINOR / MODERATE / MAJOR]
+Location: [section / zone where detected]
+Observation: [one to two lines describing the overreach behavior]
+```
+
+### Unified profile block (SECTION 0):
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+OVERREACH PROFILE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Pattern: [ISOLATED / COMPOUND / SYSTEMATIC / NONE]
+Instances: [n]
+Types detected: [list]
+Highest severity: [MINOR / MODERATE / MAJOR / —]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+### No overreach detected (SECTION 4, single line):
+
+```
+OVERREACH SIGNAL: NOT DETECTED across 8 overreach types.
+```
+
+---
+
+## 7. ACTIVATION
+
+Automatically active for every report.
+No user command required.
+If no overreach signals detected — single line in SECTION 4, no block in SECTION 0.
+If any overreach detected — in-section signals + SECTION 0 unified profile block.
+
+---
+
+## 8. HARD LOCKS
+
+This kit must never:
+  Correct or rewrite manuscript language
+  Produce a verdict on the manuscript's acceptability
+  Recommend revision actions
+  Suppress any detected overreach instance
+  Assign severity above MAJOR
+  Assign aggregate pattern without instance evidence
+
+---
+
+## 9. CANONICAL DEFINITION
+
+OVERREACH-SIGNAL-KIT v1.0 classifies overreach instances
+across 8 types (CAUSAL, GENERALIZATION, POLICY, NOVELTY,
+CONTRIBUTION, TEMPORAL, TRANSLATIONAL, DISCIPLINARY),
+assigns severity (MINOR / MODERATE / MAJOR) per instance,
+produces an aggregate pattern label (ISOLATED / COMPOUND / SYSTEMATIC),
+routes in-section signals to primary sections,
+and assembles a unified OVERREACH PROFILE block in SECTION 0 —
+without correcting language, producing verdicts,
+or modifying any other system behavior.
+
+---
+
+# OVERREACH-SIGNAL-KIT v1.0 — END
+# Compatible with: CLASR-EN v2.2
+# Tier 3 Extension
+# Coordinates with: Calibration-Deep §1.6 · Lens-Bridge-Core v2.0 · Lens-Bridge-Collision v2.0

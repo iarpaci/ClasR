@@ -1,0 +1,227 @@
+# EN — CONCLUSION INTEGRITY KIT v1.0
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.0 — Conclusion-to-results traceability signal detection overlay
+
+---
+
+## 0. IDENTITY
+
+Type: EXTENSION KIT
+Attaches to: CLASR-EN reading layer (CORE unchanged)
+No content generation · No judgment · No recommendation
+
+Tier: 3 — Extension
+Primary SECTION: SECTION 4 — Argumentation
+Secondary SECTION: SECTION 8 — Limits & Uncertainties
+           SECTION 0 — Macro Frame
+
+---
+
+## 1. PURPOSE (ONE SENTENCE)
+
+To surface whether the claims made in the conclusion
+are traceable to the results and discussion —
+mapping new claim introduction, contribution inflation,
+and result-conclusion disproportionality as structural
+integrity signals, without producing evaluation.
+
+---
+
+## 2. DESIGN PRINCIPLE
+
+Argument Chain Kit tracks the central claim longitudinally
+across four transitions. Discussion Scope Drift Kit reads
+the Results → Discussion directional distance.
+
+Neither reads the conclusion zone specifically.
+
+The conclusion is a structurally distinct zone:
+it is the manuscript's final public claim — the statement
+that remains in the reader's memory, that gets cited,
+that shapes how the manuscript is positioned in a field.
+
+When the conclusion introduces claims not traceable
+to the results, or inflates contributions beyond
+what the analysis supports, this is a structural
+integrity signal regardless of what the rest
+of the manuscript does correctly.
+
+```
+Results zone signals extracted
+         ↓
+Discussion zone signals extracted
+         ↓
+Conclusion zone signals extracted
+         ↓
+Traceability map assembled:
+  each conclusion claim → results source
+         ↓
+New introductions and inflations identified
+         ↓
+Integrity profile reported — no verdict
+```
+
+---
+
+## 3. CONCLUSION ZONE DEFINITION
+
+The conclusion zone includes:
+- Explicitly labeled Conclusion section
+- Concluding Remarks or Summary section
+- Final paragraphs of Discussion when no separate Conclusion exists
+- Abstract conclusion statement (read separately — see § 7)
+
+The conclusion zone does not include:
+- Implications sections read as Discussion continuations
+- Future work sections (read separately by existing kits)
+- Acknowledgments or declarations
+
+---
+
+## 4. SIGNALS READ
+
+### 4.1 New Claim Introduction
+
+A claim appears in the conclusion that was not
+present in results or discussion.
+
+Label: CONCLUSION_NEW_CLAIM
+Magnitude: [MINOR / MODERATE / MAJOR]
+
+MINOR: single hedged claim extension
+MODERATE: clear new claim without results anchor
+MAJOR: conclusion reframes the manuscript's
+       central finding in a new direction
+
+### 4.2 Contribution Inflation in Conclusion
+
+The conclusion's contribution claim exceeds
+what the study's design, scope, or data can support —
+specifically in relation to what was delivered
+in the results and discussion.
+
+Label: CONCLUSION_CONTRIBUTION_INFLATION
+Intensity: [LOW / MEDIUM / HIGH]
+
+### 4.3 Result-Conclusion Disproportionality
+
+The conclusion is significantly denser in claim weight
+than the results it summarizes.
+
+Label: RESULT_CONCLUSION_DISPROPORTION
+Direction: [CONCLUSION_EXCEEDS / CONCLUSION_UNDERSELLS]
+
+### 4.4 Limitation Reversal
+
+The manuscript acknowledges limitations in SECTION 8
+but the conclusion proceeds as if those limitations
+do not apply to its claims.
+
+Label: LIMITATION_REVERSAL
+
+### 4.5 Abstract-Conclusion Consistency
+
+The conclusion's central claim compared
+to the abstract's conclusion statement.
+
+States:
+```
+CONSISTENT    → abstract and conclusion carry the same claim
+ESCALATED     → conclusion claim stronger than abstract
+DEFLATED      → conclusion claim weaker than abstract
+SUBSTITUTED   → conclusion introduces a different central claim
+               than the abstract declared
+```
+
+---
+
+## 5. INTEGRITY PROFILE OUTPUT
+
+Reported as a sub-block within SECTION 4:
+
+```
+▸ CONCLUSION INTEGRITY SIGNAL
+
+New claim introduction:       [DETECTED — magnitude /
+                               NOT DETECTED]
+Contribution inflation:       [DETECTED — intensity /
+                               NOT DETECTED]
+Result-conclusion proportion: [CONCLUSION_EXCEEDS /
+                               CONCLUSION_UNDERSELLS /
+                               PROPORTIONATE]
+Limitation reversal:          [DETECTED / NOT DETECTED]
+Abstract-conclusion:          [CONSISTENT / ESCALATED /
+                               DEFLATED / SUBSTITUTED]
+```
+
+No judgment. No recommendation.
+Integrity map only.
+
+If all signals are NOT DETECTED and abstract-conclusion
+is CONSISTENT:
+→ Single line: [Conclusion integrity: no active signals detected]
+
+---
+
+## 6. Q-VARIANT CALIBRATION
+
+Q1:
+  All five signal types scanned at full sensitivity.
+  CONCLUSION_NEW_CLAIM at MODERATE or MAJOR explicitly surfaced.
+  LIMITATION_REVERSAL noted as potential reviewer concern.
+  SUBSTITUTED abstract-conclusion noted as desk-reject signal.
+
+Q2:
+  All signals reported at standard detail.
+  CONCLUSION_NEW_CLAIM at MAJOR noted.
+  CONCLUSION_CONTRIBUTION_INFLATION at HIGH noted.
+
+Q3:
+  CONCLUSION_NEW_CLAIM at MAJOR reported.
+  RESULT_CONCLUSION_DISPROPORTION reported.
+  LIMITATION_REVERSAL reported.
+  Minor signals suppressed silently.
+
+---
+
+## 7. INTEGRATION — LENS-BRIDGE CONNECTION
+
+### Primary: SECTION 4 — Argumentation
+Full conclusion integrity profile
+→ reported as integrity sub-block within SECTION 4
+→ positioned after argument chain signals
+
+### Secondary: SECTION 8 — Limits & Uncertainties
+Where LIMITATION_REVERSAL is detected
+→ flagged as limitation-conclusion gap within SECTION 8
+
+### Secondary: SECTION 0 — Macro Frame
+Where SUBSTITUTED abstract-conclusion or MAJOR
+new claim introduction affects the overall profile
+→ noted as framing-conclusion gap within SECTION 0
+
+---
+
+## 8. HARD LIMITS
+
+This kit must never:
+  Evaluate the scholarly significance of conclusions
+  Recommend specific conclusion revisions
+  Label conclusions as over-reaching or under-reaching
+  Produce a conclusion quality score
+  Act as a standalone conclusion review tool
+
+---
+
+## 9. CANONICAL DEFINITION
+
+CONCLUSION INTEGRITY KIT v1.0 surfaces whether the claims
+made in the conclusion are traceable to results and discussion —
+mapping new claim introduction, contribution inflation,
+result-conclusion disproportionality, limitation reversal,
+and abstract-conclusion consistency — as structural integrity
+signals, without producing judgment, evaluation, or recommendation.
+
+---
+
+# CONCLUSION INTEGRITY KIT v1.0 — END
