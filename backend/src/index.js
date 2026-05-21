@@ -36,10 +36,11 @@ app.use('/subscription/webhook', subscriptionRoutes);
 app.use(express.json({ limit: '100kb' }));
 
 // Rate limiting
-const globalLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100, standardHeaders: true, legacyHeaders: false });
 const isDev = process.env.NODE_ENV !== 'production';
-const authLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: isDev ? 200 : 10, standardHeaders: true, legacyHeaders: false });
-const analyzeLimiter = rateLimit({ windowMs: 60 * 1000, max: isDev ? 50 : 5, standardHeaders: true, legacyHeaders: false });
+const jsonRateHandler = (req, res) => res.status(429).json({ error: 'Too many requests. Please wait a moment and try again.' });
+const globalLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100, standardHeaders: true, legacyHeaders: false, handler: jsonRateHandler });
+const authLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: isDev ? 200 : 20, standardHeaders: true, legacyHeaders: false, handler: jsonRateHandler });
+const analyzeLimiter = rateLimit({ windowMs: 60 * 1000, max: isDev ? 50 : 5, standardHeaders: true, legacyHeaders: false, handler: jsonRateHandler });
 
 app.use(globalLimiter);
 app.use('/auth', authLimiter, authRoutes);

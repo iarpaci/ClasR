@@ -72,9 +72,13 @@ router.post('/forgot-password', async (req, res, next) => {
   try {
     const { email } = req.body;
     if (!email || !EMAIL_RE.test(email)) return res.status(400).json({ error: 'Valid email required' });
-    await supabase.auth.resetPasswordForEmail(email.toLowerCase().trim(), {
+    const { error } = await supabase.auth.resetPasswordForEmail(email.toLowerCase().trim(), {
       redirectTo: `${process.env.WEB_URL}/reset-password`,
     });
+    if (error) {
+      console.error('[auth] resetPasswordForEmail:', error.message);
+      return res.status(500).json({ error: 'Failed to send reset link. Please try again later.' });
+    }
     res.json({ message: 'If this email exists, a reset link has been sent.' });
   } catch (err) { next(err); }
 });
