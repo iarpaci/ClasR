@@ -21,7 +21,7 @@ app.use(cors({
     const allowed = [undefined, null, 'http://localhost:3000', 'http://localhost:3001'];
     if (!origin || allowed.includes(origin)) return cb(null, true);
     if (origin.endsWith('.vercel.app')) return cb(null, true);
-    if (process.env.WEB_URL && origin === process.env.WEB_URL) return cb(null, true);
+    if (process.env.WEB_URL && (origin === process.env.WEB_URL || origin === process.env.WEB_URL.replace('://', '://www.'))) return cb(null, true);
     cb(new Error('Not allowed by CORS'));
   },
   methods: ['GET', 'POST', 'DELETE'],
