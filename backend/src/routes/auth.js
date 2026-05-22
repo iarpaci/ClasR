@@ -88,11 +88,12 @@ router.post('/reset-password', async (req, res, next) => {
   try {
     const { access_token, new_password } = req.body;
     if (!access_token || !new_password || new_password.length < 8) {
-      return res.status(400).json({ error: 'access_token and new_password (min 8 chars) required' });
+      return res.status(400).json({ error: 'Password must be at least 8 characters.' });
     }
-    await supabase.auth.setSession({ access_token, refresh_token: access_token });
-    const { error } = await supabase.auth.updateUser({ password: new_password });
-    if (error) return res.status(400).json({ error: 'Failed to reset password' });
+    const { data: { user }, error: userError } = await supabase.auth.getUser(access_token);
+    if (userError || !user) return res.status(400).json({ error: 'Reset link is invalid or has expired. Please request a new one.' });
+    const { error } = await supabase.auth.admin.updateUserById(user.id, { password: new_password });
+    if (error) return res.status(400).json({ error: 'Failed to reset password. Please try again.' });
     res.json({ message: 'Password updated successfully' });
   } catch (err) { next(err); }
 });
