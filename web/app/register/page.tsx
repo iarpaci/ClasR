@@ -1,68 +1,97 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { authApi } from '@/lib/api';
-import { saveSession, isLoggedIn } from '@/lib/auth';
+import { saveSession } from '@/lib/auth';
+import { useRedirectIfLoggedIn } from '@/app/hooks/useRequireAuth';
 
 export default function RegisterPage() {
   const router = useRouter();
-  const [email, setEmail] = useState('');
+  useRedirectIfLoggedIn();
+
+  const [email, setEmail]       = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [consentTerms,    setConsentTerms]    = useState(false);
+  const [consentPrivacy,  setConsentPrivacy]  = useState(false);
+  const [consentTransfer, setConsentTransfer] = useState(false);
+  const [consentGeo,      setConsentGeo]      = useState(false);
+  const [error,   setError]   = useState('');
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => { if (isLoggedIn()) router.replace('/'); }, [router]);
+  const allRequired = consentTerms && consentPrivacy && consentTransfer && consentGeo;
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!allRequired) { setError('Please accept all required agreements to continue.'); return; }
     setError(''); setLoading(true);
     try {
       await authApi.register(email, password);
       const { data } = await authApi.login(email, password);
       saveSession(data.access_token, data.refresh_token);
-      router.replace('/');
+      router.replace('/onboarding');
     } catch (err: any) {
-      setError(err?.response?.data?.error || 'Registration failed');
+      setError(err?.response?.data?.error || 'Registration failed. Please try again.');
     } finally { setLoading(false); }
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-gray-950">
-      <div className="w-full max-w-sm">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-black tracking-widest text-white">CLASR</h1>
-          <p className="text-gray-500 text-sm mt-1">Academic Signal Reader</p>
+    <div className="v9-auth-page">
+      <Link href="/" className="v9-auth-back">← Back to home</Link>
+
+      <main className="v9-auth-shell" aria-labelledby="register-title">
+        <img className="v9-auth-logo" src="/logo-primary.svg" alt="CLASR" />
+        <p id="register-title">Start mapping manuscripts in under a minute.</p>
+
+        <div className="v9-auth-card">
+          <a className="v9-auth-btn" href="#">Continue with <strong>&nbsp;Google</strong></a>
+          <a className="v9-auth-btn" href="#">Continue with <strong>&nbsp;ORCID</strong></a>
+          <div className="v9-auth-divider">OR</div>
+
+          <form onSubmit={handleSubmit}>
+            {error && (
+              <p style={{ margin: '0 0 10px', fontSize: 13, color: '#cd0015', background: '#fce5e7', padding: '8px 12px' }}>{error}</p>
+            )}
+            <label className="v9-auth-field">
+              <span>Email:</span>
+              <input type="email" value={email} onChange={e => setEmail(e.target.value)} autoComplete="email" required placeholder="jane.doe@university.edu" />
+            </label>
+            <label className="v9-auth-field">
+              <span>Password:</span>
+              <input type="password" value={password} onChange={e => setPassword(e.target.value)} autoComplete="new-password" required minLength={8} />
+            </label>
+
+            <div style={{ marginTop: 12, display: 'grid', gap: 10 }}>
+              {[
+                { id: 'ct', val: consentTerms,    set: setConsentTerms,    req: true,  label: <>I have read and agree to the <Link href="/terms" target="_blank" style={{ fontWeight: 600, color: '#2b555b' }}>Terms of Service</Link>. <span style={{ color: '#cd0015', fontSize: 10 }}>Required</span></> },
+                { id: 'cp', val: consentPrivacy,  set: setConsentPrivacy,  req: true,  label: <>I have read the <Link href="/privacy" target="_blank" style={{ fontWeight: 600, color: '#2b555b' }}>Privacy Policy</Link>. <span style={{ color: '#cd0015', fontSize: 10 }}>Required</span></> },
+                { id: 'cx', val: consentTransfer, set: setConsentTransfer, req: true,  label: <>I consent to manuscript content transfer to Anthropic, PBC for signal report generation. <span style={{ color: '#cd0015', fontSize: 10 }}>Required</span></> },
+                { id: 'cg', val: consentGeo,      set: setConsentGeo,      req: true,  label: <>I confirm I am eligible to use the Service in my country of residence. <span style={{ color: '#cd0015', fontSize: 10 }}>Required</span></> },
+              ].map(c => (
+                <div key={c.id} className="v9-terms-row">
+                  <input
+                    type="checkbox"
+                    id={c.id}
+                    checked={c.val}
+                    onChange={e => c.set(e.target.checked)}
+                    required={c.req}
+                  />
+                  <label htmlFor={c.id}>{c.label}</label>
+                </div>
+              ))}
+            </div>
+
+            <button className="v9-auth-primary" type="submit" disabled={loading || !allRequired}>
+              {loading ? 'Creating account…' : 'Create account'}
+            </button>
+          </form>
         </div>
-        <form onSubmit={handleSubmit} className="bg-gray-900 rounded-2xl p-8 space-y-4 border border-gray-800">
-          <h2 className="text-lg font-semibold text-white">Create Account</h2>
-          <p className="text-gray-500 text-xs">Free plan: 3 analyses to get started</p>
-          {error && <p className="text-red-400 text-sm bg-red-950 px-3 py-2 rounded-lg">{error}</p>}
-          <div>
-            <label className="block text-sm text-gray-400 mb-1">Email</label>
-            <input type="email" value={email} onChange={e => setEmail(e.target.value)} required
-              className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-blue-500" />
-          </div>
-          <div>
-            <label className="block text-sm text-gray-400 mb-1">Password <span className="text-gray-600">(min 8 chars)</span></label>
-            <input type="password" value={password} onChange={e => setPassword(e.target.value)} required minLength={8}
-              className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-blue-500" />
-          </div>
-          <button type="submit" disabled={loading}
-            className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-semibold py-3 rounded-xl transition-colors">
-            {loading ? 'Creating account...' : 'Create Account'}
-          </button>
-          <p className="text-center text-sm text-gray-500">
-            Already have an account? <Link href="/login" className="text-blue-400 hover:underline">Sign in</Link>
-          </p>
-          <p className="text-center text-xs text-gray-600">
-            By creating an account you agree to our{' '}
-            <Link href="/terms" className="text-gray-500 hover:text-gray-300 underline">Terms</Link>
-            {' '}and{' '}
-            <Link href="/privacy" className="text-gray-500 hover:text-gray-300 underline">Privacy Policy</Link>
-          </p>
-        </form>
-      </div>
+
+        <p className="v9-auth-switch">
+          Already have an account?{' '}
+          <Link href="/login">Log in</Link>
+        </p>
+      </main>
     </div>
   );
 }

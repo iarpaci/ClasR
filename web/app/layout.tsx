@@ -4,20 +4,33 @@ import CookieBanner from "./components/CookieBanner";
 import PosthogProvider from "./components/PosthogProvider";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://clasr.ai"),
   title: "CLASR — Academic Manuscript Signal Reader",
-  description: "AI-powered academic signal reader for English quantitative manuscripts. Structural review, methodological visibility, reference check, inconsistency detection, red flags, and final integrated Q1-style report.",
-  keywords: "academic manuscript review, peer review checker, research paper analysis, methodology review, citation checker",
+  description: "A non-decisional signal layer for academic manuscripts. No summaries. No verdicts. Just visibility.",
+  keywords: "academic manuscript review, peer review checker, research paper analysis, methodology review, signal mapping",
   openGraph: {
     title: "CLASR — Academic Manuscript Signal Reader",
-    description: "Read your manuscript the way a reviewer does. 6 AI-powered review functions for academic manuscripts.",
+    description: "Read your manuscript the way a reviewer does. AI-powered signal mapping for academic manuscripts.",
     type: "website",
+    url: "https://clasr.ai",
+    siteName: "CLASR",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "CLASR — Academic Manuscript Signal Reader",
+    description: "Read your manuscript the way a reviewer does. AI-powered signal mapping for academic manuscripts.",
+    site: "@clasr_ai",
   },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="h-full" suppressHydrationWarning>
-      <body className="min-h-full bg-gray-950 text-gray-100 antialiased" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="preconnect" href="https://use.typekit.net" crossOrigin="anonymous" />
+        <link rel="stylesheet" href="https://use.typekit.net/krb7yow.css" />
+      </head>
+      <body className="min-h-full bg-cream text-teal antialiased" suppressHydrationWarning>
         <PosthogProvider>
           {children}
         </PosthogProvider>

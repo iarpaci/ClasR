@@ -1,195 +1,153 @@
 'use client';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { subscriptionApi } from '@/lib/api';
+import { useState } from 'react';
 import { isLoggedIn } from '@/lib/auth';
+import SiteHeader from '@/app/components/SiteHeader';
+import SiteFooter from '@/app/components/SiteFooter';
 
-type Billing = 'monthly' | 'yearly';
+type PlanKey = 'trial-pack' | 'regular' | 'professional' | 'enterprise';
 
-const PLANS = [
+const PLANS: Array<{
+  key: PlanKey;
+  name: string;
+  price: string;
+  meta: string;
+  badge?: string;
+  features: string[];
+  trialNote?: string;
+  isEnterprise?: boolean;
+}> = [
   {
-    key: 'free',
-    name: 'Free',
-    monthly_price: '$0',
-    yearly_price: '$0',
-    period: 'forever',
-    analyses: '5 analyses',
-    note: 'lifetime total',
-    features: [
-      '03 · Reference Check',
-      '04 · Inconsistency Detection',
-      '05 · Red Flags / Critical Errors',
-      'PDF · DOCX · TXT export',
-      'Chat: not included',
-    ],
-    disabled: true,
+    key: 'trial-pack',
+    name: 'Trial Pack',
+    price: '$25',
+    meta: 'one-time payment',
+    features: ['5 articles', 'All 8 analysis sections', 'PDF · DOCX · TXT export', 'Analysis history'],
+    trialNote: '* $25 is fully credited to upgrade within 30 days.',
   },
   {
-    key: 'basic',
-    name: 'Basic',
-    monthly_price: '$19.99',
-    yearly_price: '$13.33',
-    yearly_total: '$159.99/yr',
-    period: 'month',
-    analyses: '40 analyses',
-    note: 'per month',
-    features: [
-      '01 · Structural Review',
-      '02 · Methodological Visibility',
-      '03 · Reference Check',
-      '04 · Inconsistency Detection',
-      '05 · Red Flags / Critical Errors',
-      '07 · Argument Chain Analysis',
-      '08 · Desk-Reject Risk Profile',
-      '5 chat messages / month',
-      'Monthly reset · Analysis history · PDF · DOCX',
-    ],
-    price_key_monthly: 'basic_monthly',
-    price_key_yearly: 'basic_yearly',
+    key: 'regular',
+    name: 'Regular',
+    price: '$49',
+    meta: 'per month or $490/year',
+    badge: 'Most Preferred',
+    features: ['25 articles', 'All 8 analysis sections', 'PDF · DOCX · TXT export', 'Analysis history'],
   },
   {
-    key: 'pro',
-    name: 'Pro',
-    monthly_price: '$99.99',
-    yearly_price: '$66.66',
-    yearly_total: '$799.99/yr',
-    period: 'month',
-    analyses: '150 analyses',
-    note: 'per month',
-    features: [
-      '01 · Structural Review',
-      '02 · Methodological Visibility',
-      '03 · Reference Check',
-      '04 · Inconsistency Detection',
-      '05 · Red Flags / Critical Errors',
-      '06 · Final Integrated Review',
-      '07 · Argument Chain Analysis',
-      '08 · Desk-Reject Risk Profile',
-      '50 chat messages / month',
-      'Monthly reset · Analysis history · PDF · DOCX',
-    ],
-    price_key_monthly: 'pro_monthly',
-    price_key_yearly: 'pro_yearly',
-    highlight: true,
+    key: 'professional',
+    name: 'Professional',
+    price: '$79',
+    meta: 'per month or $790/year',
+    features: ['60 articles', 'All 8 analysis sections', 'PDF · DOCX · TXT export', 'Analysis history'],
+  },
+  {
+    key: 'enterprise',
+    name: 'Enterprise',
+    price: 'Contact Us',
+    meta: 'custom pricing',
+    features: ['Custom volume', 'All 8 analysis sections', 'PDF · DOCX · TXT export', 'Analysis history'],
+    isEnterprise: true,
   },
 ];
 
+const FAQS = [
+  { q: 'What counts as one analysis?', a: 'Each PDF or DOCX paper you submit counts as one analysis, regardless of length. All 8 CLASR sections are generated in full for every submission.' },
+  { q: 'Do unused articles carry over?', a: 'Monthly plans reset at the start of each billing cycle. Unused analyses do not carry over. The Trial Pack is valid for 30 days from purchase.' },
+  { q: 'Can I upgrade or downgrade my plan?', a: 'Yes, you can change your plan at any time. Changes take effect at the start of your next billing cycle. Trial Pack holders can upgrade within 30 days and have the $25 credited in full.' },
+  { q: 'What file formats are supported?', a: 'CLASR accepts PDF and DOCX inputs. Outputs are available as PDF, DOCX, and TXT for all plans.' },
+  { q: 'Is annual billing charged upfront?', a: 'Yes. Annual plans are billed as a single payment at the start of the year, saving approximately 17% compared to monthly billing.' },
+  { q: 'What languages are supported?', a: 'CLASR is currently optimised for English language academic papers. Support for additional languages is on the roadmap.' },
+];
+
 export default function PricingPage() {
-  const [currentPlan, setCurrentPlan] = useState('');
-  const [billing, setBilling] = useState<Billing>('monthly');
-  const [loading, setLoading] = useState<string | null>(null);
+  const [selected, setSelected] = useState<PlanKey | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (isLoggedIn()) {
-      subscriptionApi.status().then(r => setCurrentPlan(r.data.plan)).catch(() => {});
-    }
-  }, []);
-
-  async function handleCheckout(price_key: string) {
+  async function handleGetStarted() {
+    if (!selected) return;
+    if (selected === 'enterprise') { window.location.href = '/contact'; return; }
     if (!isLoggedIn()) { window.location.href = '/register'; return; }
-    setLoading(price_key);
+    setLoading(true);
     try {
-      const { data } = await subscriptionApi.checkout(price_key);
-      window.location.href = data.url;
-    } catch { setLoading(null); }
+      const res = await fetch('/api/subscription/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('access_token')}` },
+        body: JSON.stringify({ plan: selected }),
+      });
+      const data = await res.json();
+      if (data.url) window.location.href = data.url;
+    } catch { /* noop */ } finally { setLoading(false); }
   }
 
   return (
-    <div className="min-h-screen bg-gray-950">
-      <header className="border-b border-gray-800 px-6 py-4 flex items-center gap-4">
-        <Link href="/" className="text-gray-500 hover:text-gray-300 text-sm">← Back</Link>
-        <h1 className="text-xl font-black tracking-widest text-white">CLASR</h1>
-      </header>
+    <div style={{ minHeight: '100vh', background: '#fff7ec', color: '#2b555b', fontFamily: 'var(--font-sans)' }}>
+      <SiteHeader />
 
-      <main className="max-w-4xl mx-auto px-6 py-16">
-        <div className="text-center mb-10">
-          <h2 className="text-3xl font-bold text-white mb-3">Choose Your Plan</h2>
-          <p className="text-gray-500 mb-8">Start free. Upgrade when you need more analyses.</p>
+      <main className="v9-pricing-page">
+        <img className="v9-pricing-icon" src="/brand-pattern-sage.svg" alt="" />
+        <h1 className="v9-pricing-title">CHOOSE YOUR PLAN</h1>
 
-          {/* Billing toggle */}
-          <div className="inline-flex bg-gray-900 border border-gray-700 rounded-xl p-1 gap-1">
-            <button onClick={() => setBilling('monthly')}
-              className={`px-5 py-2 rounded-lg text-sm font-medium transition-colors ${billing === 'monthly' ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-gray-200'}`}>
-              Monthly
-            </button>
-            <button onClick={() => setBilling('yearly')}
-              className={`px-5 py-2 rounded-lg text-sm font-medium transition-colors ${billing === 'yearly' ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-gray-200'}`}>
-              Yearly <span className="text-emerald-400 text-xs ml-1">−33%</span>
-            </button>
+        <div className="v9-plan-grid" role="group" aria-label="Pricing plans">
+          {PLANS.map(plan => (
+            <article
+              key={plan.key}
+              className={`v9-plan-card${selected === plan.key ? ' is-selected' : ''}`}
+              role="button"
+              tabIndex={0}
+              aria-pressed={selected === plan.key}
+              onClick={() => setSelected(plan.key)}
+              onKeyDown={e => e.key === 'Enter' || e.key === ' ' ? setSelected(plan.key) : null}
+            >
+              {plan.badge && <span className="v9-plan-badge">{plan.badge}</span>}
+              <h2>{plan.name}</h2>
+              <p className="v9-plan-price">{plan.price}</p>
+              <p className="v9-plan-meta">{plan.meta}</p>
+              <ul>
+                {plan.features.map(f => <li key={f}>&bull; {f}</li>)}
+              </ul>
+              {plan.trialNote && (
+                <p className="v9-trial-note">
+                  <span>* $25</span> is fully credited to upgrade within <span>30 days.</span>
+                </p>
+              )}
+            </article>
+          ))}
+        </div>
+
+        <div className="v9-pricing-action">
+          <button
+            onClick={handleGetStarted}
+            disabled={!selected || loading}
+            className="v9-btn v9-btn--primary v9-btn--pill"
+            style={{ minWidth: 156, minHeight: 40, opacity: !selected ? 0.45 : 1, cursor: !selected ? 'default' : 'pointer' }}
+          >
+            {loading ? 'Loading...' : (selected === 'enterprise' ? 'CONTACT US' : 'GET STARTED')}
+          </button>
+        </div>
+
+        <section id="institutions" className="v9-institution-box">
+          <div>
+            <strong>For institutions</strong>
+            <h2>Running a lab, department, or journal?</h2>
+            <p>Enterprise plans include volume discounts, team dashboards, custom onboarding, and priority support. Designed for research groups and editorial offices that need consistent, high-volume analysis at scale.</p>
           </div>
-        </div>
+          <Link href="/contact" className="v9-btn v9-btn--pill" style={{ background: '#e0e6d4', borderColor: '#2b555b', whiteSpace: 'nowrap' }}>CONTACT US</Link>
+        </section>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {PLANS.map(plan => {
-            const price = billing === 'yearly' && plan.yearly_price ? plan.yearly_price : plan.monthly_price;
-            const priceKey = billing === 'yearly' ? plan.price_key_yearly : plan.price_key_monthly;
-            const isCurrent = currentPlan === plan.key;
-
-            return (
-              <div key={plan.key}
-                className={`rounded-2xl p-6 border flex flex-col ${plan.highlight ? 'bg-blue-950 border-blue-700 relative' : 'bg-gray-900 border-gray-800'}`}>
-                {plan.highlight && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <span className="bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-full">Most Popular</span>
-                  </div>
-                )}
-
-                <div className="mb-5">
-                  <p className="text-xs text-gray-500 uppercase tracking-wider mb-2">{plan.name}</p>
-                  <div className="flex items-end gap-1">
-                    <span className="text-4xl font-black text-white">{price}</span>
-                    {price !== '$0' && <span className="text-gray-500 text-sm mb-1">/{plan.period}</span>}
-                  </div>
-                  {billing === 'yearly' && plan.yearly_total && (
-                    <p className="text-emerald-400 text-xs mt-1">Billed as {plan.yearly_total}</p>
-                  )}
-                  <div className={`mt-3 pt-3 border-t ${plan.highlight ? 'border-blue-800' : 'border-gray-800'}`}>
-                    <p className="text-white font-bold">{plan.analyses}</p>
-                    <p className="text-gray-500 text-xs">{plan.note}</p>
-                  </div>
-                </div>
-
-                <ul className="space-y-2 mb-6 flex-1">
-                  {plan.features.map(f => (
-                    <li key={f} className="flex items-start gap-2 text-sm text-gray-400">
-                      <span className="text-emerald-500 mt-0.5 shrink-0">✓</span> {f}
-                    </li>
-                  ))}
-                </ul>
-
-                {plan.disabled || isCurrent ? (
-                  <button disabled
-                    className="w-full py-3 rounded-xl text-sm font-semibold bg-gray-800 text-gray-500 cursor-not-allowed">
-                    {isCurrent ? 'Current plan' : 'Free forever'}
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => priceKey && handleCheckout(priceKey)}
-                    disabled={loading === priceKey}
-                    className={`w-full py-3 rounded-xl text-sm font-semibold transition-colors ${
-                      plan.highlight
-                        ? 'bg-blue-600 hover:bg-blue-500 text-white'
-                        : 'bg-gray-700 hover:bg-gray-600 text-white'
-                    } disabled:opacity-50`}>
-                    {loading === priceKey ? 'Loading...' : `Get ${plan.name}`}
-                  </button>
-                )}
-              </div>
-            );
-          })}
-        </div>
-
-        <p className="text-center text-gray-600 text-xs mt-10">
-          Prices in USD · Secure payment via Stripe · Cancel anytime
-        </p>
-        <p className="text-center text-gray-700 text-xs mt-3">
-          <Link href="/terms" className="hover:text-gray-500 underline">Terms of Service</Link>
-          {' · '}
-          <Link href="/privacy" className="hover:text-gray-500 underline">Privacy Policy</Link>
-          {' · '}
-          <Link href="/mesafeli-satis" className="hover:text-gray-500 underline">Mesafeli Satış Sözleşmesi</Link>
-        </p>
+        <section id="faq" aria-labelledby="faq-heading">
+          <h2 id="faq-heading" className="v9-faq-title">FAQ</h2>
+          <div className="v9-faq-grid">
+            {FAQS.map(({ q, a }) => (
+              <article key={q} className="v9-faq-card">
+                <h3>{q}</h3>
+                <p>{a}</p>
+              </article>
+            ))}
+          </div>
+        </section>
       </main>
+
+      <SiteFooter />
     </div>
   );
 }

@@ -81,30 +81,30 @@ function ChatContent() {
   function renderMessage(content: string) {
     return content.split('\n').map((line, i) => {
       if (line.startsWith('▸ SECTION') || line.startsWith('▸ ARGUMENT')) {
-        return <p key={i} className="text-blue-400 font-bold mt-4 mb-1">{line}</p>;
+        return <p key={i} className="text-teal-mid font-bold mt-4 mb-1">{line}</p>;
       }
-      if (line.match(/^[━═]{3,}/)) return <hr key={i} className="border-gray-700 my-2" />;
+      if (line.match(/^[━═]{3,}/)) return <hr key={i} className="border-cream-border my-2" />;
       if (line.trim() === '') return <div key={i} className="h-1" />;
       const html = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-      return <p key={i} className="text-sm leading-relaxed text-gray-300" dangerouslySetInnerHTML={{ __html: html }} />;
+      return <p key={i} className="text-sm leading-relaxed text-muted" dangerouslySetInnerHTML={{ __html: html }} />;
     });
   }
 
   return (
-    <div className="min-h-screen bg-gray-950 flex flex-col">
+    <div className="min-h-screen bg-cream flex flex-col">
       {/* Header */}
-      <header className="border-b border-gray-800 px-4 py-3 flex items-center justify-between shrink-0">
+      <header className="border-b border-cream-border px-4 py-3 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-3">
-          <Link href="/" className="text-gray-500 hover:text-gray-300 text-sm">←</Link>
-          <span className="text-white font-black tracking-widest">CLASR</span>
-          <span className="text-gray-600 text-xs">Chat</span>
+          <Link href="/" className="text-muted hover:text-muted text-sm">←</Link>
+          <span className="font-serif italic text-teal font-bold">CLASR</span>
+          <span className="text-muted text-xs">Chat</span>
         </div>
         <div className="flex items-center gap-2">
           {sub && (
-            <span className="text-xs text-gray-500">{sub.used}/{sub.limit} used</span>
+            <span className="text-xs text-muted">{sub.used}/{sub.limit} used</span>
           )}
           <button onClick={() => { setMessages([]); setConvId(null); }}
-            className="text-xs text-gray-500 hover:text-gray-300 px-2 py-1 bg-gray-800 rounded-lg">
+            className="text-xs text-muted hover:text-muted px-2 py-1 bg-cream-dark rounded-lg">
             New Chat
           </button>
         </div>
@@ -115,8 +115,8 @@ function ChatContent() {
         {messages.length === 0 && (
           <div className="text-center py-20">
             <p className="text-4xl mb-4">📄</p>
-            <p className="text-gray-400 font-semibold">CLASR-EN Chat</p>
-            <p className="text-gray-600 text-sm mt-2 max-w-sm mx-auto">
+            <p className="text-muted font-semibold">CLASR-EN Chat</p>
+            <p className="text-muted text-sm mt-2 max-w-sm mx-auto">
               Type a prompt, paste manuscript text, or attach a .docx file. Ask follow-up questions in the same conversation.
             </p>
             <div className="mt-6 flex flex-wrap gap-2 justify-center">
@@ -127,7 +127,7 @@ function ChatContent() {
                 'Run a revision round reading (R1):',
               ].map(s => (
                 <button key={s} onClick={() => setPrompt(s)}
-                  className="text-xs text-gray-500 hover:text-gray-300 bg-gray-800 hover:bg-gray-700 px-3 py-1.5 rounded-lg transition-colors">
+                  className="text-xs text-muted hover:text-muted bg-cream-dark hover:bg-sage px-3 py-1.5 rounded-lg transition-colors">
                   {s}
                 </button>
               ))}
@@ -139,8 +139,8 @@ function ChatContent() {
           <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
             <div className={`max-w-2xl rounded-2xl px-4 py-3 ${
               msg.role === 'user'
-                ? 'bg-blue-600 text-white text-sm'
-                : 'bg-gray-900 border border-gray-800'
+                ? 'bg-teal text-cream text-sm'
+                : 'bg-parchment border border-cream-border'
             }`}>
               {msg.filename && (
                 <p className="text-xs opacity-70 mb-1">📄 {msg.filename}</p>
@@ -155,11 +155,11 @@ function ChatContent() {
 
         {loading && (
           <div className="flex justify-start">
-            <div className="bg-gray-900 border border-gray-800 rounded-2xl px-4 py-3">
+            <div className="bg-parchment border border-cream-border rounded-2xl px-4 py-3">
               <div className="flex gap-1 items-center">
-                <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                <div className="w-2 h-2 bg-teal rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                <div className="w-2 h-2 bg-teal rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                <div className="w-2 h-2 bg-teal rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
               </div>
             </div>
           </div>
@@ -168,25 +168,25 @@ function ChatContent() {
       </div>
 
       {/* Input */}
-      <div className="border-t border-gray-800 px-4 py-4 shrink-0">
+      <div className="border-t border-cream-border px-4 py-4 shrink-0">
         <div className="max-w-3xl mx-auto">
           {limitReached && (
-            <div className="flex items-center justify-between bg-amber-950 border border-amber-800 rounded-xl px-4 py-2 mb-3">
-              <p className="text-amber-300 text-sm">Limit reached</p>
-              <Link href="/pricing" className="text-sm text-amber-400 font-semibold hover:underline">Upgrade →</Link>
+            <div className="flex items-center justify-between bg-[#fff7ec] border border-mist rounded-xl px-4 py-2 mb-3">
+              <p className="text-teal text-sm font-medium">Analysis limit reached</p>
+              <Link href="/pricing" className="text-sm text-teal font-semibold hover:underline">Upgrade →</Link>
             </div>
           )}
-          {error && <p className="text-red-400 text-sm mb-2">{error}</p>}
+          {error && <p className="text-[#8B2020] text-sm mb-2">{error}</p>}
           {file && (
-            <div className="flex items-center gap-2 mb-2 bg-gray-800 rounded-lg px-3 py-2">
-              <span className="text-sm text-gray-300">📄 {file.name}</span>
-              <button onClick={() => setFile(null)} className="text-gray-500 hover:text-red-400 ml-auto text-xs">✕</button>
+            <div className="flex items-center gap-2 mb-2 bg-cream-dark rounded-lg px-3 py-2">
+              <span className="text-sm text-muted">📄 {file.name}</span>
+              <button onClick={() => setFile(null)} className="text-muted hover:text-red-400 ml-auto text-xs">✕</button>
             </div>
           )}
           <form onSubmit={handleSend} className="flex gap-2">
             <input type="file" ref={fileRef} accept=".docx,.txt" onChange={e => e.target.files?.[0] && setFile(e.target.files[0])} className="hidden" />
             <button type="button" onClick={() => fileRef.current?.click()}
-              className="shrink-0 p-3 bg-gray-800 hover:bg-gray-700 text-gray-400 rounded-xl transition-colors"
+              className="shrink-0 p-3 bg-cream-dark hover:bg-sage text-muted rounded-xl transition-colors"
               title="Attach file">
               📎
             </button>
@@ -196,11 +196,11 @@ function ChatContent() {
               onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(e as any); } }}
               placeholder="Type a prompt or paste text... (Shift+Enter for new line)"
               rows={1}
-              className="flex-1 bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-gray-100 placeholder-gray-600 text-sm resize-none focus:outline-none focus:border-blue-500 transition-colors"
+              className="flex-1 bg-cream-dark border border-cream-border rounded-xl px-4 py-3 text-muted placeholder-muted text-sm resize-none focus:outline-none focus:border-teal transition-colors"
               style={{ minHeight: '48px', maxHeight: '200px' }}
             />
             <button type="submit" disabled={loading || limitReached || (!prompt.trim() && !file)}
-              className="shrink-0 bg-blue-600 hover:bg-blue-700 disabled:opacity-40 text-white px-5 rounded-xl transition-colors font-semibold">
+              className="shrink-0 bg-teal hover:bg-teal-dark disabled:opacity-40 text-[#1A1A1A] px-5 rounded-xl transition-colors font-semibold">
               {loading ? '⏳' : '↑'}
             </button>
           </form>
@@ -212,7 +212,7 @@ function ChatContent() {
 
 export default function ChatPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-gray-950 flex items-center justify-center text-gray-500">Loading...</div>}>
+    <Suspense fallback={<div className="min-h-screen bg-cream flex items-center justify-center text-muted">Loading...</div>}>
       <ChatContent />
     </Suspense>
   );

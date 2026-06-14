@@ -1,7 +1,11 @@
 'use client';
 import { useState, useEffect, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { authApi } from '@/lib/api';
+import AuthPageShell from '@/app/components/AuthPageShell';
+import FormInput from '@/app/components/FormInput';
+import ErrorMessage from '@/app/components/ErrorMessage';
 
 function ResetContent() {
   const router = useRouter();
@@ -13,11 +17,9 @@ function ResetContent() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    const hash = window.location.hash;
-    const params = new URLSearchParams(hash.replace('#', ''));
+    const params = new URLSearchParams(window.location.hash.replace('#', ''));
     const t = params.get('access_token');
-    if (t) setToken(t);
-    else setError('Invalid or expired reset link.');
+    if (t) setToken(t); else setError('Invalid or expired reset link.');
   }, []);
 
   async function handleSubmit(e: React.FormEvent) {
@@ -35,28 +37,29 @@ function ResetContent() {
 
   if (done) return (
     <div className="text-center space-y-3">
-      <p className="text-3xl">✅</p>
-      <p className="text-white font-semibold">Password updated</p>
-      <p className="text-gray-400 text-sm">Redirecting to sign in...</p>
+      <div className="w-14 h-14 mx-auto rounded-full bg-sage flex items-center justify-center">
+        <svg width="26" height="26" fill="none" stroke="#2B555B" strokeWidth="2" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
+      </div>
+      <p className="text-[#1A1A1A] font-semibold">Password updated</p>
+      <p className="text-muted text-sm">Redirecting to log in...</p>
     </div>
   );
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <h2 className="text-lg font-semibold text-white">Set New Password</h2>
-      {error && <p className="text-red-400 text-sm bg-red-950 px-3 py-2 rounded-lg">{error}</p>}
+      <h2 className="text-lg font-semibold text-[#1A1A1A]">Set New Password</h2>
+      <ErrorMessage message={error} />
       <div>
-        <label className="block text-sm text-gray-400 mb-1">New Password</label>
-        <input type="password" value={password} onChange={e => setPassword(e.target.value)} required minLength={8}
-          className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-blue-500" />
+        <FormInput label="New Password:" type="password" value={password}
+          onChange={e => setPassword(e.target.value)} required minLength={8} />
+        <p className="text-xs text-muted mt-1">Minimum 8 characters</p>
       </div>
-      <div>
-        <label className="block text-sm text-gray-400 mb-1">Confirm Password</label>
-        <input type="password" value={confirm} onChange={e => setConfirm(e.target.value)} required minLength={8}
-          className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-blue-500" />
-      </div>
+      <FormInput label="Confirm Password:" type="password" value={confirm}
+        onChange={e => setConfirm(e.target.value)} required minLength={8} />
       <button type="submit" disabled={loading || !token}
-        className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-semibold py-3 rounded-xl transition-colors">
+        className="w-full bg-teal hover:bg-teal-dark disabled:opacity-50 text-cream font-semibold py-3 rounded-full transition-colors text-sm">
         {loading ? 'Saving...' : 'Update Password'}
       </button>
     </form>
@@ -65,17 +68,10 @@ function ResetContent() {
 
 export default function ResetPasswordPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-gray-950">
-      <div className="w-full max-w-sm">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-black tracking-widest text-white">CLASR</h1>
-        </div>
-        <div className="bg-gray-900 rounded-2xl p-8 border border-gray-800">
-          <Suspense fallback={<p className="text-gray-500 text-sm">Loading...</p>}>
-            <ResetContent />
-          </Suspense>
-        </div>
-      </div>
-    </div>
+    <AuthPageShell>
+      <Suspense fallback={<p className="text-muted text-sm">Loading...</p>}>
+        <ResetContent />
+      </Suspense>
+    </AuthPageShell>
   );
 }

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+const BASE = process.env.NEXT_PUBLIC_API_URL || '/api';
 
 const api = axios.create({ baseURL: BASE, timeout: 120000 });
 
@@ -35,7 +35,10 @@ export const authApi = {
   register: (email: string, password: string) => api.post('/auth/register', { email, password }),
   login: (email: string, password: string) => api.post('/auth/login', { email, password }),
   me: () => api.get('/auth/me'),
-  forgotPassword: (email: string) => api.post('/auth/forgot-password', { email, redirectTo: `${window.location.origin}/reset-password` }),
+  forgotPassword: (email: string) => {
+    const origin = typeof window !== 'undefined' ? window.location.origin : '';
+    return api.post('/auth/forgot-password', { email, redirectTo: `${origin}/reset-password` });
+  },
   resetPassword: (access_token: string, new_password: string) => api.post('/auth/reset-password', { access_token, new_password }),
 };
 
