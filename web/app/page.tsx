@@ -4,49 +4,13 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { isLoggedIn } from '@/lib/auth';
 import DemoSection from './components/DemoSection';
+import SiteHeader from './components/SiteHeader';
 
 const C   = '#2b555b';
 const CREAM = '#fff7ec';
 const SAGE  = '#e0e6d4';
 const MIST  = '#b6c1bb';
 const PAD   = 'clamp(24px, 5.5vw, 80px)';
-
-const NAV_ITEMS = [
-  {
-    label: 'Features', href: '/features',
-    menu: [
-      { title: 'Signal Mapping',       desc: 'Behavioral signal reports across 9 sections',          href: '/features' },
-      { title: 'Argument Chain',       desc: 'Track the central claim from framing to conclusion',   href: '/features#argument-chain' },
-      { title: 'Desk-Reject Profile',  desc: 'See editorial risk patterns before an editor does',    href: '/features#desk-reject' },
-      { title: 'Q-Variant Calibration',desc: 'Adjust sensitivity for Q1, Q2, or Q3 targets',       href: '/features#q-calibration' },
-      { title: 'Output Modes',         desc: 'Author, Reviewer, or Advisor reading formats',         href: '/features#output-modes' },
-    ],
-  },
-  {
-    label: 'Resources', href: '#',
-    menu: [
-      { title: 'Signal Architecture',  desc: 'Reading perspectives, study types, and Q-profiles',   href: '/resources/signal-architecture' },
-      { title: 'How It Works',         desc: 'A walkthrough of the full reading process',            href: '/how-it-works' },
-      { title: 'FAQ',                  desc: 'Common questions about CLASR',                         href: '/faq' },
-    ],
-  },
-  {
-    label: 'Pricing', href: '/pricing',
-    menu: [
-      { title: 'Plans',                desc: 'Individual and team pricing options',                  href: '/pricing' },
-      { title: 'For Institutions',     desc: 'University and research group licensing',              href: '/pricing#institutions' },
-      { title: 'FAQ',                  desc: 'Billing and subscription questions',                   href: '/pricing#faq' },
-    ],
-  },
-  {
-    label: 'Company', href: '/about',
-    menu: [
-      { title: 'About',                desc: 'The team and mission behind CLASR',                   href: '/about' },
-      { title: 'Contact',              desc: 'Get in touch with us',                                href: '/contact' },
-      { title: 'Privacy Policy',       desc: 'How we handle your data',                             href: '/privacy' },
-    ],
-  },
-];
 
 const FOOTER_COLS = [
   { title: 'Features', links: [
@@ -123,7 +87,6 @@ function AnnotationUnderline({ src, widthEm = '3.75' }: { src: string; widthEm?:
 
 export default function LandingPage() {
   const router = useRouter();
-  const [mobileOpen, setMobileOpen]  = useState(false);
   const [role,  setRole]  = useState<ReadingRole>('Author');
   const [study, setStudy] = useState<StudyType>('Quantitative');
   const [qp,    setQp]    = useState<QProfile>('Q1');
@@ -142,89 +105,7 @@ export default function LandingPage() {
     <div style={{ background: CREAM, color: C, minHeight: '100vh', fontFamily: 'var(--font-sans)' }}>
 
       {/* ── Header ─────────────────────────────── */}
-      <header style={{ position: 'relative', zIndex: 10, background: CREAM, borderBottom: `1px solid ${C}` }}>
-        <div style={{ ...inner, minHeight: 58, display: 'grid', gridTemplateColumns: '140px 1fr auto', alignItems: 'center', gap: 28 }}>
-
-          {/* Logo */}
-          <Link href="/" aria-label="CLASR home">
-            <img src="/logo-primary.svg" alt="CLASR" style={{ width: 96, height: 'auto', display: 'block' }} />
-          </Link>
-
-          {/* Desktop mega nav */}
-          <nav className="hidden md:flex" style={{ alignItems: 'center', gap: 'clamp(36px, 6vw, 76px)', fontSize: 14, fontWeight: 500 }}>
-            {NAV_ITEMS.map(item => (
-              <div key={item.label} className="group" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-                <a
-                  href={item.href}
-                  style={{ display: 'inline-flex', alignItems: 'center', gap: 8, minHeight: 34, padding: '6px 8px', color: C, textDecoration: 'none' }}
-                >
-                  {item.label}
-                  <span style={{ width: 7, height: 7, display: 'inline-block', borderRight: `1.5px solid ${C}`, borderBottom: `1.5px solid ${C}`, transform: 'rotate(45deg) translateY(-2px)', opacity: 0.85 }} />
-                </a>
-                {/* Dropdown */}
-                <div
-                  className="opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto"
-                  style={{ position: 'absolute', top: 'calc(100% + 8px)', left: 0, zIndex: 40, width: 260, padding: 8, borderRadius: 8, border: `1px solid rgba(43,85,91,0.12)`, background: SAGE, boxShadow: '0 12px 28px rgba(43,85,91,0.13)', transition: 'opacity 140ms ease', display: 'grid', gap: 0 }}
-                >
-                  {item.menu.map(m => (
-                    <Link
-                      key={m.title}
-                      href={m.href}
-                      style={{ display: 'flex', flexDirection: 'column', gap: 2, padding: '10px 12px', borderRadius: 6, textDecoration: 'none', transition: 'background 120ms' }}
-                      onMouseEnter={e => (e.currentTarget.style.background = 'rgba(43,85,91,0.08)')}
-                      onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
-                    >
-                      <span style={{ fontSize: 13, fontWeight: 600, color: C, lineHeight: 1.2 }}>{m.title}</span>
-                      <span style={{ fontSize: 11.5, color: C, opacity: 0.6, lineHeight: 1.4 }}>{m.desc}</span>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </nav>
-
-          {/* Nav actions */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <Link
-              href="/login"
-              className="hidden md:inline-flex"
-              style={{ alignItems: 'center', justifyContent: 'center', minHeight: 32, padding: '6px 18px', border: `1px solid ${C}`, borderRadius: 0, background: 'transparent', color: C, fontSize: 13, fontWeight: 500, textDecoration: 'none' }}
-            >
-              Log In
-            </Link>
-            <Link
-              href="/register"
-              style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minHeight: 32, padding: '6px 18px', border: `1px solid ${C}`, borderRadius: 0, background: C, color: CREAM, fontSize: 13, fontWeight: 500, textDecoration: 'none' }}
-            >
-              Register
-            </Link>
-            <button
-              className="md:hidden"
-              onClick={() => setMobileOpen(v => !v)}
-              aria-label="Open menu"
-              aria-expanded={mobileOpen}
-              style={{ width: 42, height: 42, border: `1px solid ${C}`, borderRadius: 999, background: 'transparent', position: 'relative', cursor: 'pointer' }}
-            >
-              <span style={{ position: 'absolute', left: 12, right: 12, height: 2, background: C, top: 14 }} />
-              <span style={{ position: 'absolute', left: 12, right: 12, height: 2, background: C, top: 20 }} />
-              <span style={{ position: 'absolute', left: 12, right: 12, height: 2, background: C, top: 26 }} />
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile menu */}
-        {mobileOpen && (
-          <div style={{ borderTop: `1px solid ${MIST}`, padding: '12px 24px 20px', display: 'flex', flexDirection: 'column', gap: 4, background: CREAM }}>
-            {NAV_ITEMS.map(item => (
-              <Link key={item.label} href={item.href} style={{ padding: '10px 0', fontSize: 14, fontWeight: 500, color: C, textDecoration: 'none', borderBottom: `1px solid ${MIST}` }} onClick={() => setMobileOpen(false)}>
-                {item.label}
-              </Link>
-            ))}
-            <Link href="/login"    style={{ padding: '10px 0', fontSize: 14, color: C, textDecoration: 'none' }} onClick={() => setMobileOpen(false)}>Log In</Link>
-            <Link href="/register" style={{ marginTop: 8, display: 'block', textAlign: 'center', padding: '10px', background: C, color: CREAM, fontSize: 14, fontWeight: 500, textDecoration: 'none' }} onClick={() => setMobileOpen(false)}>Register</Link>
-          </div>
-        )}
-      </header>
+      <SiteHeader />
 
       {/* ── Hero ─────────────────────────────── */}
       <section style={{ padding: '56px 0 10px', textAlign: 'center' }}>

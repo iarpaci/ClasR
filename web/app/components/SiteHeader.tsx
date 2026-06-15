@@ -74,19 +74,21 @@ export default function SiteHeader() {
                 <span style={{ width: 7, height: 7, display: 'inline-block', borderRight: `1.5px solid ${C}`, borderBottom: `1.5px solid ${C}`, transform: 'rotate(45deg) translateY(-2px)', opacity: 0.85 }} />
               </a>
               <div
-                className="opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto"
-                style={{ position: 'absolute', top: 'calc(100% + 8px)', left: 0, zIndex: 40, width: 260, padding: 8, borderRadius: 8, border: `1px solid rgba(43,85,91,0.12)`, background: SAGE, boxShadow: '0 12px 28px rgba(43,85,91,0.13)', transition: 'opacity 140ms ease', display: 'grid', gap: 0 }}
+                className="opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:pointer-events-auto"
+                style={{ position: 'absolute', top: '100%', left: 0, zIndex: 40, width: 260, paddingTop: 8, transition: 'opacity 140ms ease' }}
               >
-                {item.menu.map(m => (
-                  <Link
-                    key={m.title}
-                    href={m.href}
-                    className="v9-nav-menu-link"
-                  >
-                    <span style={{ fontSize: 13, fontWeight: 600, color: C, lineHeight: 1.2 }}>{m.title}</span>
-                    <span style={{ fontSize: 11.5, color: C, opacity: 0.6, lineHeight: 1.4 }}>{m.desc}</span>
-                  </Link>
-                ))}
+                <div style={{ padding: 8, borderRadius: 8, border: `1px solid rgba(43,85,91,0.12)`, background: SAGE, boxShadow: '0 12px 28px rgba(43,85,91,0.13)', display: 'grid', gap: 0 }}>
+                  {item.menu.map(m => (
+                    <Link
+                      key={m.title}
+                      href={m.href}
+                      className="v9-nav-menu-link"
+                    >
+                      <span style={{ fontSize: 13, fontWeight: 600, color: C, lineHeight: 1.2 }}>{m.title}</span>
+                      <span style={{ fontSize: 11.5, color: C, opacity: 0.6, lineHeight: 1.4 }}>{m.desc}</span>
+                    </Link>
+                  ))}
+                </div>
               </div>
             </div>
           ))}
