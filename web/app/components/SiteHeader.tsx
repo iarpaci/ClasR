@@ -40,7 +40,7 @@ const NAV_ITEMS = [
     menu: [
       { title: 'About',                 desc: 'The team and mission behind CLASR',                  href: '/about' },
       { title: 'Contact',               desc: 'Get in touch with us',                               href: '/contact' },
-      { title: 'Privacy Policy',        desc: 'How we handle your data',                            href: '/privacy' },
+      { title: 'Legal',                  desc: 'Terms, privacy, and data commitments',               href: '/legal' },
     ],
   },
 ];

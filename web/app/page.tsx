@@ -5,37 +5,13 @@ import Link from 'next/link';
 import { isLoggedIn } from '@/lib/auth';
 import DemoSection from './components/DemoSection';
 import SiteHeader from './components/SiteHeader';
+import SiteFooter from './components/SiteFooter';
 
 const C   = '#2b555b';
 const CREAM = '#fff7ec';
 const SAGE  = '#e0e6d4';
 const MIST  = '#b6c1bb';
 const PAD   = 'clamp(24px, 5.5vw, 80px)';
-
-const FOOTER_COLS = [
-  { title: 'Features', links: [
-    { label: 'Signal Mapping',        href: '/features' },
-    { label: 'Argument Chain',        href: '/features#argument-chain' },
-    { label: 'Desk-Reject Profile',   href: '/features#desk-reject' },
-    { label: 'Q-Variant Calibration', href: '/features#q-calibration' },
-    { label: 'Output Modes',          href: '/features#output-modes' },
-  ]},
-  { title: 'Resources', links: [
-    { label: 'Signal Architecture',   href: '/resources/signal-architecture' },
-    { label: 'How It Works',          href: '/how-it-works' },
-    { label: 'FAQ',                   href: '/faq' },
-  ]},
-  { title: 'Pricing', links: [
-    { label: 'Plans',                 href: '/pricing' },
-    { label: 'For Institutions',      href: '/pricing#institutions' },
-    { label: 'FAQ',                   href: '/pricing#faq' },
-  ]},
-  { title: 'Company', links: [
-    { label: 'About',                 href: '/about' },
-    { label: 'Contact',               href: '/contact' },
-    { label: 'Privacy Policy',        href: '/privacy' },
-  ]},
-];
 
 type ReadingRole = 'Author' | 'Reviewer' | 'Advisor';
 type StudyType  = 'Quantitative' | 'Qualitative';
@@ -95,12 +71,6 @@ export default function LandingPage() {
     if (isLoggedIn()) router.replace('/analyze');
   }, [router]);
 
-  const inner: React.CSSProperties = {
-    width: `min(1440px, 100%)`,
-    margin: '0 auto',
-    padding: `0 ${PAD}`,
-  };
-
   return (
     <div style={{ background: CREAM, color: C, minHeight: '100vh', fontFamily: 'var(--font-sans)' }}>
 
@@ -110,21 +80,25 @@ export default function LandingPage() {
       {/* ── Hero ─────────────────────────────── */}
       <section style={{ padding: '56px 0 10px', textAlign: 'center' }}>
         <div style={{ width: `min(1280px, calc(100% - ${PAD} * 2))`, margin: '0 auto' }}>
-          <p style={{ margin: '0 0 28px', fontWeight: 500, fontSize: 14 }}>Manuscript Signal Layer</p>
-          <h1 style={{ width: 'min(690px, 100%)', margin: '0 auto', fontFamily: 'var(--font-serif)', fontSize: 'clamp(48px, 5.6vw, 64px)', fontWeight: 700, lineHeight: 1.2, letterSpacing: 0 }}>
-            <span style={{ position: 'relative', display: 'inline-block', isolation: 'isolate' }}>
-              &ldquo;READ
-              <AnnotationCircle />
+          <p className="hero-eyebrow">Manuscript Signal Layer</p>
+          <h1 style={{ width: 'min(690px, 100%)', margin: '0 auto', fontFamily: 'var(--font-serif)', fontSize: 'clamp(40px, 7vw, 86px)', fontWeight: 700, lineHeight: 1.1, letterSpacing: 0 }}>
+            <span style={{ display: 'block', whiteSpace: 'nowrap' }}>
+              <span style={{ position: 'relative', display: 'inline-block', isolation: 'isolate' }}>
+                &ldquo;READ
+                <AnnotationCircle />
+              </span>
+              {' '}BEFORE
             </span>
-            {' '}BEFORE<br />
-            YOU&rsquo;RE{' '}
-            <span style={{ position: 'relative', display: 'inline-block', isolation: 'isolate' }}>
-              READ
-              <AnnotationUnderline src="/annotation-underline.svg" />
+            <span style={{ display: 'block', whiteSpace: 'nowrap' }}>
+              YOU&rsquo;RE{' '}
+              <span style={{ position: 'relative', display: 'inline-block', isolation: 'isolate' }}>
+                READ
+                <AnnotationUnderline src="/annotation-underline.svg" />
+              </span>
+              .&rdquo;
             </span>
-            .&rdquo;
           </h1>
-          <p style={{ maxWidth: 630, margin: '28px auto 0', fontSize: 17, lineHeight: 1.35 }}>
+          <p style={{ maxWidth: 760, margin: '30px auto 0', fontSize: 'clamp(17px, 1.2vw, 22px)', fontWeight: 500, lineHeight: 1.28 }}>
             Academic manuscripts carry signals before they receive decisions.<br />
             CLASR makes those signals visible.
           </p>
@@ -196,41 +170,96 @@ export default function LandingPage() {
         <p style={{ margin: 0, fontFamily: 'var(--font-serif)', fontSize: 'clamp(14px, 1.4vw, 17px)', fontStyle: 'italic', lineHeight: 1.5, fontWeight: 400 }}>
           &ldquo;Manuscripts are not only read for what they claim, but for how they claim.&rdquo;<br />
           <cite style={{ fontStyle: 'normal', fontWeight: 400, letterSpacing: '0.02em', opacity: 0.45, textTransform: 'uppercase', fontSize: 'inherit' }}>
-            &mdash; CLASR Signal Architecture
+            &mdash; from the Clasr white paper
           </cite>
         </p>
       </blockquote>
+
+      {/* ── How It Works ──────────────────────── */}
+      <section id="how-it-works" className="landing-hiw container">
+        <div className="landing-hiw__head">
+          <p className="section-eyebrow">HOW IT WORKS</p>
+          <h2>Five reading layers from upload to report.</h2>
+        </div>
+        <div className="hiw-list">
+          {[
+            { num: '1', title: 'Intake', body: 'Clasr accepts English academic manuscripts, identifies manuscript zones, and treats any embedded instructions as manuscript content, not commands.' },
+            { num: '2', title: 'Detection and routing', body: 'The system detects field, Q-profile, input completeness, revision-round status, reader mode, and requested report scope.' },
+            { num: '3', title: 'Signal extraction', body: 'Clasr checks argument integrity, figure and table behavior, reproducibility patterns, source behavior, coherence, and drift.' },
+            { num: '4', title: 'Calibration and collision management', body: 'Signals are filtered through the active Q-gate and field profile, then resolved using signal hierarchy rules.' },
+            { num: '5', title: 'Assembly and presentation', body: 'The final report is assembled in a consistent order, with priority signals first.' },
+          ].map(item => (
+            <div key={item.num} className="hiw-item">
+              <span className="hiw-item__num">{item.num}</span>
+              <div className="hiw-item__body">
+                <strong>{item.title}</strong>
+                <p>{item.body}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="landing-hiw-note">
+          <span className="landing-hiw-note__label">What the user sees</span>
+          <h2 className="landing-hiw-note__title">A structured report, not a decision.</h2>
+          <p>The report identifies the Q tier, field profile, section coverage, limits and uncertainties, and reproducibility profile. What it does not show is a score, verdict, acceptance prediction, or recommendation.</p>
+        </div>
+      </section>
 
       {/* ── Signal Report ─────────────────────── */}
       <DemoSection />
 
       {/* ── What CLASR does / doesn't ─────────── */}
-      <section style={{ padding: '22px 0 88px' }}>
-        <div style={{ width: `min(1280px, calc(100% - ${PAD} * 2))`, margin: '0 auto', textAlign: 'center' }}>
-          <h2 style={{ margin: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: '0.16em', fontSize: 36, fontWeight: 500, lineHeight: 1, fontFamily: 'var(--font-sans)' }}>
-            What CLASR
-            <img src="/annotation-underline-does.svg" alt="does" style={{ display: 'inline-block', objectFit: 'contain', transform: 'translateY(-0.02em)', width: 102 }} />
-            and
-            <img src="/annotation-underline-doesnt.svg" alt="doesn&rsquo;t" style={{ display: 'inline-block', objectFit: 'contain', transform: 'translateY(0.08em)', width: 154 }} />
-            .
-          </h2>
-          <div className="v9-pillar-grid">
-            {[
-              { title: 'No scores,', sub: 'no decision.', body: ['Only structured', 'visibility before', 'judgment begins.'] },
-              { title: 'Behavior,',  sub: 'not rewrite.', body: ['CLASR reads',     'how the text',     'makes claims.'] },
-              { title: 'Visibility,',sub: 'not verdict.', body: ['Traceable signals','for authors,',     'reviewers, advisors.'] },
-            ].map(c => (
-              <article key={c.title} style={{ width: 228, height: 300, padding: '58px 44px 38px', background: SAGE, border: `1px solid rgba(43,85,91,0.16)`, borderRadius: 2 }}>
-                <h3 style={{ margin: '0 0 68px', fontWeight: 500, lineHeight: 1.03, fontFamily: 'var(--font-sans)' }}>
-                  <span style={{ fontSize: 30 }}>{c.title}</span><br />
-                  <small style={{ display: 'inline-block', fontSize: 22, fontWeight: 500, whiteSpace: 'nowrap' }}>{c.sub}</small>
-                </h3>
-                <p style={{ margin: 0, fontSize: 16, fontWeight: 400, lineHeight: 1.18 }}>
-                  {c.body.map((line, i) => <span key={i}>{line}<br /></span>)}
-                </p>
-              </article>
-            ))}
-          </div>
+      <section className="pillars container">
+        <h2 className="section-title section-title--mixed">
+          What CLASR
+          <img className="word-art word-art--does" src="/annotation-underline-does.svg" alt="does" />
+          and
+          <img className="word-art word-art--doesnt" src="/annotation-underline-doesnt.svg" alt="doesn&rsquo;t" />
+          .
+        </h2>
+        <div className="pillar-grid">
+          {[
+            { title: 'No scores,', sub: 'no decision.', body: 'Only structured visibility before judgment begins.' },
+            { title: 'Behavior,',  sub: 'not rewrite.', body: 'CLASR reads how the text makes claims.' },
+            { title: 'Visibility,',sub: 'not verdict.', body: 'Traceable signals for authors, reviewers, advisors.' },
+          ].map(c => (
+            <article key={c.title} className="pillar-card">
+              <h3>
+                <span>{c.title}</span><br />
+                <small>{c.sub}</small>
+              </h3>
+              <p>{c.body}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Q-Variant Calibration ─────────────── */}
+      <section className="landing-q container">
+        <div className="landing-q__copy">
+          <p className="section-eyebrow">Q-Variant Calibration</p>
+          <h2>Different journal targets need different signal sensitivity.</h2>
+          <p>Clasr adjusts how strictly it reads the same manuscript based on Q-profile and field context.</p>
+        </div>
+        <div className="landing-q__chips">
+          <span><strong>Q1</strong> strict</span>
+          <span><strong>Q2</strong> balanced</span>
+          <span><strong>Q3</strong> flexible</span>
+          <span><strong>Auto</strong> detected</span>
+        </div>
+      </section>
+
+      {/* ── Output Modes ──────────────────────── */}
+      <section className="landing-q landing-q--modes container">
+        <div className="landing-q__copy">
+          <p className="section-eyebrow">Output Modes</p>
+          <h2>One detection engine.<br />Three audiences.</h2>
+          <p>The signal layer stays consistent while the report format adapts to the reader.</p>
+        </div>
+        <div className="landing-q__chips landing-q__chips--three">
+          <span><strong>Author</strong> plain language</span>
+          <span><strong>Reviewer</strong> dense labels</span>
+          <span><strong>Advisor</strong> priority first</span>
         </div>
       </section>
 
@@ -249,62 +278,7 @@ export default function LandingPage() {
       </div>
 
       {/* ── Footer ─────────────────────────────── */}
-      <footer id="company" style={{ background: '#dbe4ce', borderTop: `1px solid ${MIST}`, position: 'relative', overflow: 'hidden' }}>
-        <div style={{ width: 'min(1440px, 100%)', margin: '0 auto', padding: `0 ${PAD}`, paddingTop: 52, paddingBottom: 28 }}>
-
-          {/* Top: logo + nav cols */}
-          <div className="v9-footer-top">
-            <div>
-              <Link href="/" aria-label="CLASR home">
-                <img src="/logo-primary.svg" alt="CLASR" style={{ width: 100, height: 'auto', display: 'block' }} />
-              </Link>
-              <p style={{ margin: '18px 0 0', fontSize: 13, fontWeight: 500, lineHeight: 1, whiteSpace: 'nowrap', opacity: 0.55 }}>
-                Manuscript Signal Layer
-              </p>
-            </div>
-            <div className="v9-footer-cols">
-              {FOOTER_COLS.map(col => (
-                <div key={col.title}>
-                  <p style={{ margin: '0 0 10px', fontSize: 13, fontWeight: 600, lineHeight: 1 }}>{col.title}</p>
-                  <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'grid', gap: 5 }}>
-                    {col.links.map(l => (
-                      <li key={l.label}>
-                        <Link href={l.href} className="v9-footer-link">{l.label}</Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Bottom bar */}
-          <div className="v9-footer-bottom">
-            <span style={{ fontSize: 13 }}>&copy; 2026 CLASR</span>
-            <Link href="/terms"   style={{ color: C, textDecoration: 'none', fontSize: 13 }}>Terms of Service</Link>
-            <Link href="/privacy" style={{ color: C, textDecoration: 'none', fontSize: 13 }}>Privacy Policy</Link>
-            <div className="v9-footer-bottom-spacer" />
-            <ul className="v9-footer-social-list">
-              {[
-                { href: '#', label: 'Instagram', src: '/social-instagram.svg' },
-                { href: '#', label: 'LinkedIn',  src: '/social-linkedin.svg' },
-                { href: '#', label: 'X',         src: '/social-x.svg' },
-                { href: '#', label: 'Github',    src: '/social-github.svg' },
-              ].map(s => (
-                <li key={s.label}>
-                  <a href={s.href} aria-label={s.label} className="v9-footer-social">
-                    <img src={s.src} alt="" style={{ width: 25, height: 25 }} />
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-        </div>
-
-        <img src="/brand-pattern-petrol.svg" alt="" aria-hidden="true"
-          style={{ position: 'absolute', right: 30, bottom: 42, width: 48, height: 'auto', opacity: 0.22, pointerEvents: 'none' }} />
-      </footer>
+      <SiteFooter />
     </div>
   );
 }
