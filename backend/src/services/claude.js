@@ -5,15 +5,19 @@ const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 const MODEL = 'claude-sonnet-4-6';
 const MAX_TOKENS = 4000;
 
-async function analyzeManuscript({ manuscriptText, qVariant = null, mode = null }) {
+const OUTPUT_MODES = { author: 'author mode', reviewer: 'reviewer mode', advisor: 'advisor mode' };
+
+async function analyzeManuscript({ manuscriptText, qVariant = null, mode = null, outputMode = null }) {
   const systemPrompt = assembleSystemPrompt();
 
-  // Build user message — prepend Q-variant hint or revision mode if provided
+  // Build user message — Q-variant, output mode, then manuscript text
   let userMessage = manuscriptText;
   if (qVariant && ['Q1', 'Q2', 'Q3'].includes(qVariant.toUpperCase())) {
-    userMessage = `${qVariant.toUpperCase()}\n\n${manuscriptText}`;
+    userMessage = `${qVariant.toUpperCase()}\n\n${userMessage}`;
   }
-  if (mode && ['R1', 'R2', 'revision', 'resubmission'].includes(mode.toLowerCase())) {
+  if (outputMode && OUTPUT_MODES[outputMode.toLowerCase()]) {
+    userMessage = `${OUTPUT_MODES[outputMode.toLowerCase()]}\n\n${userMessage}`;
+  } else if (mode && ['R1', 'R2', 'revision', 'resubmission'].includes(mode.toLowerCase())) {
     userMessage = `${mode}\n\n${userMessage}`;
   }
 

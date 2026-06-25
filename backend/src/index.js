@@ -9,6 +9,7 @@ const authRoutes = require('./routes/auth');
 const analyzeRoutes = require('./routes/analyze');
 const chatRoutes = require('./routes/chat');
 const subscriptionRoutes = require('./routes/subscription');
+const apiRoutes = require('./routes/api');
 
 const app = express();
 
@@ -18,8 +19,12 @@ app.use(helmet());
 // CORS
 app.use(cors({
   origin: (origin, cb) => {
-    const allowed = [undefined, null, 'http://localhost:3000', 'http://localhost:3001'];
-    if (!origin || allowed.includes(origin)) return cb(null, true);
+    if (!origin) return cb(null, true);
+    const allowed = [
+      'http://localhost:3000', 'http://localhost:3001', 'http://localhost:8029',
+      'https://clasr-static.vercel.app', 'https://clasr.ai', 'https://www.clasr.ai',
+    ];
+    if (allowed.includes(origin)) return cb(null, true);
     if (origin.endsWith('.vercel.app')) return cb(null, true);
     if (process.env.WEB_URL && (origin === process.env.WEB_URL || origin === process.env.WEB_URL.replace('://', '://www.'))) return cb(null, true);
     cb(new Error('Not allowed by CORS'));
@@ -47,6 +52,7 @@ app.use('/auth', authLimiter, authRoutes);
 app.use('/analyze', analyzeLimiter, analyzeRoutes);
 app.use('/chat', analyzeLimiter, chatRoutes);
 app.use('/subscription', subscriptionRoutes);
+app.use('/api', globalLimiter, apiRoutes);
 
 app.get('/', (req, res) => res.json({ name: 'CLASR API', version: '1.0.0', status: 'ok' }));
 app.get('/health', (req, res) => res.json({ status: 'ok', version: '1.0.0' }));
