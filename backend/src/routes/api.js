@@ -436,12 +436,34 @@ router.get('/billing/status', requireAuth, async (req, res, next) => {
 // ── POST /api/checkout/intent ───────────────────────────────────────────────
 router.post('/checkout/intent', requireAuth, async (req, res) => {
   const { plan = 'trial-pack', billing = 'monthly' } = req.body || {};
+
+  const PRICES = {
+    'trial-pack':           process.env.PADDLE_PRICE_TRIAL_PACK,
+    'researcher-monthly':   process.env.PADDLE_PRICE_RESEARCHER_MONTHLY,
+    'researcher-annual':    process.env.PADDLE_PRICE_RESEARCHER_ANNUAL,
+    'professional-monthly': process.env.PADDLE_PRICE_PROFESSIONAL_MONTHLY,
+    'professional-annual':  process.env.PADDLE_PRICE_PROFESSIONAL_ANNUAL,
+  };
+
+  const key = plan === 'trial-pack' ? 'trial-pack' : `${plan}-${billing}`;
+  const priceId = PRICES[key];
+  const paddleToken = process.env.PADDLE_CLIENT_TOKEN;
+
+  if (!priceId || !paddleToken) {
+    return res.status(503).json({
+      checkoutReady: false,
+      error: 'Payment is not yet available. Contact hello@clasr.ai to purchase.',
+      contactUrl: '/contact/',
+    });
+  }
+
   res.json({
-    checkoutReady: false,
+    checkoutReady: true,
+    priceId,
+    paddleToken,
     plan,
     billing,
-    message: 'Paddle checkout is not yet connected. Contact hello@clasr.ai to purchase manually.',
-    contactUrl: '/contact/',
+    userId: req.user.id,
   });
 });
 
