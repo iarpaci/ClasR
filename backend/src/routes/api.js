@@ -95,11 +95,13 @@ async function checkAndConsumeCredit(userId) {
   }
 
   // Atomic check-and-increment via DB function to prevent race conditions
-  const { data: consumed } = await supabase.rpc('check_and_consume_credit', {
+  const { data: consumed, error: rpcError } = await supabase.rpc('check_and_consume_credit', {
     p_user_id: userId,
     p_limit: limit,
     p_is_monthly: isMonthly,
   });
+
+  if (rpcError) throw new Error(`Credit check failed: ${rpcError.message}`);
 
   if (!consumed) {
     const reason = isMonthly ? 'monthly_limit_reached' : 'lifetime_limit_reached';
