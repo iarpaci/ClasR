@@ -8,8 +8,8 @@ const { analyzeManuscript } = require('../services/claude');
 const { extractText } = require('../services/fileParser');
 const {
   sendWelcomeEmail,
-  sendPasswordResetEmail,
   sendReportReadyEmail,
+  sendLimitReachedEmail,
   sendContactEmail,
   sendEnterpriseEmail,
   sendLegalRequestEmail,
@@ -88,18 +88,22 @@ async function checkAndConsumeCredit(userId) {
   const limit = PLAN_CREDITS[plan] || 5;
   const isMonthly = !['free', 'trial-pack', 'gift'].includes(plan);
 
-  if (isMonthly) {
-    if (isNewMonth(sub.period_start)) {
-      await supabase.from('user_subscriptions')
-        .update({ monthly_count: 0, period_start: new Date().toISOString() })
-        .eq('user_id', userId);
-      sub.monthly_count = 0;
-    }
-    if (sub.monthly_count >= limit) return { ok: false, reason: 'monthly_limit_reached', plan, limit };
-    await supabase.rpc('increment_monthly_count', { p_user_id: userId });
-  } else {
-    if (sub.lifetime_count >= limit) return { ok: false, reason: 'lifetime_limit_reached', plan, limit };
-    await supabase.rpc('increment_lifetime_count', { p_user_id: userId });
+  if (isMonthly && isNewMonth(sub.period_start)) {
+    await supabase.from('user_subscriptions')
+      .update({ monthly_count: 0, period_start: new Date().toISOString() })
+      .eq('user_id', userId);
+  }
+
+  // Atomic check-and-increment via DB function to prevent race conditions
+  const { data: consumed } = await supabase.rpc('check_and_consume_credit', {
+    p_user_id: userId,
+    p_limit: limit,
+    p_is_monthly: isMonthly,
+  });
+
+  if (!consumed) {
+    const reason = isMonthly ? 'monthly_limit_reached' : 'lifetime_limit_reached';
+    return { ok: false, reason, plan, limit };
   }
   return { ok: true, plan };
 }
@@ -110,7 +114,9 @@ const upload = multer({
   limits: { fileSize: 10 * 1024 * 1024 },
   fileFilter: (_req, file, cb) => {
     const ext = file.originalname.split('.').pop().toLowerCase();
-    if (['pdf', 'docx', 'txt'].includes(ext)) return cb(null, true);
+    const allowedExts = ['pdf', 'docx', 'txt'];
+    const allowedMimes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain'];
+    if (allowedExts.includes(ext) && allowedMimes.includes(file.mimetype)) return cb(null, true);
     cb(new Error('Only PDF, DOCX, or TXT files are supported'));
   },
 });
@@ -312,12 +318,14 @@ router.post('/readings/start', requireAuth, handleUpload, async (req, res, next)
 
     const creditCheck = await checkAndConsumeCredit(req.user.id);
     if (!creditCheck.ok) {
+      sendLimitReachedEmail(req.user.email, creditCheck.plan).catch(() => {});
       return res.status(403).json({ error: creditCheck.reason, plan: creditCheck.plan, upgradeUrl: '/dashboard/pricing/' });
     }
 
     const outputMode = (req.body.mode || 'author').toLowerCase();
     const qVariant = (['Q1', 'Q2', 'Q3', 'Auto'].includes(req.body.qProfile) ? req.body.qProfile : 'Auto');
-    const studyType = req.body.studyType || 'quantitative';
+    const VALID_STUDY_TYPES = ['quantitative', 'qualitative', 'mixed', 'review', 'theoretical', 'case-study', 'other'];
+    const studyType = VALID_STUDY_TYPES.includes(req.body.studyType) ? req.body.studyType : 'quantitative';
     const filename = req.file?.originalname || 'paste.txt';
 
     const jobId = createJob(req.user.id);

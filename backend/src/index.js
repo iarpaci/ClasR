@@ -25,7 +25,6 @@ app.use(cors({
       'https://clasr-static.vercel.app', 'https://clasr.ai', 'https://www.clasr.ai',
     ];
     if (allowed.includes(origin)) return cb(null, true);
-    if (origin.endsWith('.vercel.app')) return cb(null, true);
     if (process.env.WEB_URL && (origin === process.env.WEB_URL || origin === process.env.WEB_URL.replace('://', '://www.'))) return cb(null, true);
     cb(new Error('Not allowed by CORS'));
   },
@@ -67,6 +66,13 @@ app.use((err, req, res, next) => {
   console.error(err);
   res.status(500).json({ error: err.message });
 });
+
+const REQUIRED_ENV = ['ANTHROPIC_API_KEY', 'SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY', 'RESEND_API_KEY'];
+const missing = REQUIRED_ENV.filter(k => !process.env[k]);
+if (missing.length) {
+  console.error(`[clasr] Missing required env vars: ${missing.join(', ')}`);
+  process.exit(1);
+}
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`[clasr] Backend running on port ${PORT}`));
