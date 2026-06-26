@@ -1,0 +1,533 @@
+﻿# 12b CLASR — LENS-BRIDGE-COLLISION v3.0
+# Added to Project Files. Does not modify CORE.
+# STATUS: v3.0 — v3.0 integration update
+#   New collision rules added for kits 40, 41, 42, 43
+#   All v2.0 collision rules preserved unchanged
+# Previous: 12b_EN_LENS-BRIDGE-COLLISION_v2_0.txt
+# Companion file: 12a_EN_LENS-BRIDGE-CORE_v3_0.txt
+
+---
+
+## 0. IDENTITY
+
+This file defines collision management rules for CLASR —
+when the same signal is detected by multiple kits,
+how precedence is determined and how output is structured.
+
+Companion file 12a_EN_LENS-BRIDGE-CORE_v3_0.txt
+defines the section connection map and activation conditions.
+
+Both files must be present for full Lens-Bridge operation.
+
+---
+
+## 1. COLLISION PRINCIPLE
+
+When the same signal is detected by multiple kits,
+it is reported once, in the most relevant SECTION.
+Rule: More specifically bound kit takes precedence.
+Collision is not surfaced to the user.
+
+---
+
+## 2. COLLISION RULES — v2.0 (ALL PRESERVED)
+
+[All collision rules from v2.0 are preserved unchanged below.
+New v3.0 rules added in Section 3.]
+
+Verbal Lens + FREQUENCY SIGNAL: same sentence, same SECTION
+→ Combined note, one appearance
+
+LENSSA-DEPTH (SECTION 5) + FREQUENCY SIGNAL (SECTION 6): different SECTIONs
+→ Each reported separately
+
+Temporality Lens (SECTION 0) + Orientation Lens (SECTION 1): inevitability
+→ Both fire; reported in respective SECTIONs; not merged
+
+Integrity Signal + Temporality Lens: both in SECTION 0
+→ Reported as separate sub-signals; not merged
+
+Citation Behavior (SECTION 2) + Silence Lens (SECTION 7)
+→ Each reported separately; respective precedence
+
+Abstract–Body Coherence + Calibration-Deep: over-claim
+→ Calibration-Deep governs correction;
+  Coherence Kit reports gap separately
+
+Replication Signal (SECTION 3) + Numerical Hat DEPENDENCY_BREAK (SECTION 7)
+→ RETIRED — Replication Signal Kit (22) retired in v3.0
+→ Now: Reproducibility & Open Science Kit (42) SECTION 10
+  + Numerical Hat DEPENDENCY_BREAK SECTION 7
+→ Numerical Hat takes precedence in SECTION 7;
+  ROS Kit reports profile in SECTION 10; not merged
+
+Contribution Framing + Orientation Lens: both in SECTION 1
+→ Both fire as separate sub-signals;
+  Orientation Lens: scope-closure; Contribution Kit: novelty claim
+
+Contribution Framing (SECTION 1) + Citation Behavior (SECTION 2 or 4)
+→ Citation Kit: bibliographic absence; Contribution Kit: gap claim framing
+→ Combined note if same SECTION; otherwise separate
+
+Discussion Scope Drift + Verbal Lens: causal drift, same sentence SECTION 4
+→ Verbal Lens: language-level; Scope Drift Kit: structural drift
+→ Combined note if same sentence; otherwise separate
+
+Discussion Scope Drift (SECTION 4) + LENSSA-DEPTH (SECTION 5): scale
+→ LENSSA-DEPTH takes precedence in SECTION 5;
+  Scope Drift Kit reports in SECTION 4
+
+Discussion Scope Drift + Calibration-Deep: implication extension
+→ Calibration-Deep governs correction;
+  Scope Drift Kit reports structural pattern; not merged
+
+Discussion Scope Drift (SECTION 4) + Abstract–Body Coherence (SECTION 0)
+→ Coherence Kit: abstract–body distance;
+  Scope Drift Kit: Results–Discussion–Conclusion chain
+→ Both active; respective SECTIONs
+
+Argument Symmetry (SECTION 4) + Silence Lens (SECTION 7)
+→ Silence Lens: argumentative absence;
+  Argument Symmetry: proportionality pattern
+→ Reported separately; not merged
+
+Argument Symmetry + Discussion Scope Drift: both SECTION 4
+→ Scope Drift Kit: directional drift;
+  Argument Symmetry: zone-level ratio
+→ Both active; respective SECTIONs
+
+Argument Symmetry INVERTED + Calibration-Deep §1.3
+→ Calibration-Deep governs correction;
+  Argument Symmetry reports inversion; not merged
+
+Argument Symmetry CLOSING (SECTION 8) + Abstract–Body Coherence (SECTION 8)
+→ Coherence Kit: abstract–body distance;
+  Argument Symmetry: manuscript-level ratio
+→ Both active; respective SECTIONs
+
+Negative Result Visibility NULL_DEFLECTED (SECTION 8) + Silence Lens (SECTION 8)
+→ Silence Lens: argumentative silence;
+  Negative Result Visibility: framing behavior
+→ Both active; separate sub-signals
+
+Negative Result Visibility STRUCTURAL_NULL_ABSENCE (SECTION 5)
++ Discussion Scope Drift MECHANISM_INTRODUCTION (SECTION 4)
+→ Scope Drift Kit: interpretive expansion;
+  Negative Result Visibility: structural absence
+→ Respective SECTIONs; not merged
+
+Negative Result Visibility HYPOTHESIS_REJECTION_SUPPRESSED (SECTION 5)
++ Argument Symmetry ASYMMETRIC CORE (SECTION 4)
+→ Both active; respective SECTIONs; not merged
+
+Interdisciplinary Tension TENSION_SUPPRESSED (SECTION 2)
++ Citation Behavior FIELD_CONCENTRATION (SECTION 2)
+→ Citation Kit: bibliographic pattern;
+  Interdisciplinary Tension: theoretical tradition conflict
+→ Respective SECTIONs; not merged
+
+Interdisciplinary Tension ASSUMPTION_INVISIBILITY
++ Orientation Lens THRESHOLD_LOCK (SECTION 1)
+→ Orientation Lens: scope-closure;
+  Interdisciplinary Tension: tradition-specific assumption
+→ Both fire; respective SECTIONs
+
+Interdisciplinary Tension TENSION_SUPPRESSED (SECTION 2)
++ Silence Lens FRAMEWORK_MONOPOLY (SECTION 7)
+→ Silence Lens: argumentative silence;
+  Interdisciplinary Tension: cross-disciplinary conflict suppression
+→ Combined note if same SECTION; otherwise separate
+
+Interdisciplinary Tension TRADITION_CONFLICT (SECTION 2)
++ Abstract–Body Coherence METHOD_SIGNAL_GAP (SECTION 0 or 8)
+→ Coherence Kit: abstract–body distance;
+  Interdisciplinary Tension: tradition-level conflict
+→ Both active; respective SECTIONs
+
+Reader Model POLICY_ADJACENT (SECTION 1)
++ Discussion Scope Drift IMPLICATION_EXTENSION (SECTION 4)
+→ Scope Drift Kit: structural drift;
+  Reader Model: positioning signal
+→ Both active; respective SECTIONs
+
+Reader Model MISMATCH (SECTION 1)
++ Orientation Lens ALTERNATIVELESS_SCOPE (SECTION 1)
+→ Orientation Lens: scope-closure;
+  Reader Model: reader-evidence misalignment
+→ Respective SECTIONs; not merged
+
+Reader Model AUDIENCE_SHIFT (SECTION 1 or 6)
++ Abstract–Body Coherence CLAIM_ESCALATION/DEFLATION (SECTION 0)
+→ Coherence Kit: abstract–body distance;
+  Reader Model: register-level shift
+→ Both active; respective SECTIONs
+
+Reader Model EXPLANATION_DEPTH_UNDER (SECTION 6)
++ Interdisciplinary Tension TENSION_SUPPRESSED (SECTION 2)
+→ Interdisciplinary Tension: tradition conflict suppression;
+  Reader Model: explanation positioning
+→ Not merged; respective SECTIONs
+
+Reader Model (SECTION 1) + Contribution Framing SCOPE_INFLATION (SECTION 1)
+→ Contribution Kit: novelty claim;
+  Reader Model: positioning alignment
+→ Both fire in SECTION 1 as separate sub-signals
+
+Desk-Reject Signal Kit (SECTION 0) + Structural QA DESK_REJECT_RISK (SECTION 7)
+→ Structural QA: heading-based structural flag in SECTION 7;
+  Desk-Reject Kit: behavioral co-occurrence profile in SECTION 0
+→ Both active; never merged; user sees both outputs
+
+Desk-Reject Signal Kit SCOPE_FIT_RISK (SECTION 0 + SECTION 1)
++ Contribution Framing CONTRIBUTION_SCOPE_INFLATION (SECTION 1)
+→ Contribution Kit: novelty claim behavior;
+  Desk-Reject Kit: aggregated risk zone
+→ Not merged
+
+Desk-Reject Signal Kit ABSTRACT_POSTURE_RISK (SECTION 0)
++ Abstract–Body Coherence CLAIM_ESCALATION (SECTION 0)
+→ Coherence Kit: directional gap signal;
+  Desk-Reject Kit: aggregates coherence signal into risk profile
+→ Both reported in SECTION 0 as separate sub-blocks
+
+Argument Chain Kit BROKEN/UNRESOLVED (SECTION 4)
++ Discussion Scope Drift CAUSAL_DRIFT/SCALE_DRIFT (SECTION 4)
+→ Scope Drift Kit: directional drift behavior;
+  Argument Chain Kit: longitudinal chain profile
+→ Both active in SECTION 4; not merged
+
+Argument Chain Kit CLAIM_SUBSTITUTION (SECTION 4)
++ Abstract–Body Coherence CLAIM_ESCALATION (SECTION 0)
+→ Coherence Kit: abstract–body distance;
+  Argument Chain Kit: intra-body substitution
+→ Both active; respective SECTIONs; not merged
+
+Argument Chain Kit CLAIM_ABANDONMENT (SECTION 4)
++ Negative Result Visibility HYPOTHESIS_REJECTION_SUPPRESSED (SECTION 5)
+→ Negative Result Visibility takes precedence in SECTION 5;
+  Argument Chain Kit reports in SECTION 4
+→ Not merged
+
+Argument Chain Kit CLAIM_FRAGMENTATION (SECTION 4)
++ Argument Symmetry ASYMMETRIC CORE (SECTION 4)
+→ Symmetry Kit: proportionality pattern;
+  Argument Chain Kit: structural fragmentation
+→ Both active in SECTION 4 as separate sub-signals
+
+Argument Chain Kit BROKEN/UNRESOLVED (SECTION 4)
++ Desk-Reject Signal Kit (SECTION 0)
+→ Desk-Reject Kit aggregates chain signal into LANGUAGE_POSTURE_RISK;
+  Argument Chain Kit reports full transition map in SECTION 4
+→ Not merged
+
+Argument Load Kit LOAD_SHIFT (SECTION 4)
++ Discussion Scope Drift CAUSAL_DRIFT/SCALE_DRIFT (SECTION 4)
+→ Scope Drift Kit: directional drift;
+  Argument Load Kit: claim density shift
+→ Both active in SECTION 4; not merged
+
+Argument Load Kit METHODS_HEAVY (SECTION 4)
++ Interdisciplinary Tension ASSUMPTION_INVISIBILITY (SECTION 3)
+→ Respective SECTIONs; not merged
+
+Concept-Evidence Bridge FLOATING (SECTION 2)
++ Citation Behavior UNSUPPORTED_CLAIM_ZONE (SECTION 4)
+→ Citation Kit: bibliographic absence;
+  Concept-Evidence Bridge: conceptual grounding status
+→ Combined note if same SECTION; otherwise separate
+
+Concept-Evidence Bridge FLOATING (SECTION 2)
++ Silence Lens UNADDRESSED_ALTERNATIVE (SECTION 7)
+→ Silence Lens: argumentative silence;
+  Concept-Evidence Bridge: evidential grounding
+→ Silence Lens takes precedence; not merged
+
+Concept-Evidence Bridge OPERATIONALIZATION_GAP (SECTION 5)
++ LENSSA-DEPTH DRIFT_PATTERN (SECTION 5)
+→ LENSSA-DEPTH takes precedence on numerical signal drift;
+  Concept-Evidence Bridge reports grounding gap
+→ Both active in SECTION 5; not merged
+
+Conclusion Integrity CONCLUSION_NEW_CLAIM (SECTION 4)
++ Argument Chain CLAIM_SUBSTITUTION (SECTION 4)
+→ Both active in SECTION 4 as separate sub-signals
+
+Conclusion Integrity CONTRIBUTION_INFLATION (SECTION 4)
++ Contribution Framing CONTRIBUTION_SCOPE_INFLATION (SECTION 1)
+→ Both active; respective SECTIONs
+
+Conclusion Integrity LIMITATION_REVERSAL (SECTION 8)
++ Argument Symmetry ASYMMETRIC CLOSING (SECTION 8)
+→ Both active in SECTION 8 as separate sub-signals
+
+Conclusion Integrity SUBSTITUTED (SECTION 0)
++ Abstract–Body Coherence CLAIM_ESCALATION (SECTION 0)
+→ Coherence Kit takes precedence; not merged
+
+Overreach-Signal CAUSAL_OVERREACH (SECTION 4)
++ Discussion Scope Drift CAUSAL_DRIFT (SECTION 4)
+→ Scope Drift Kit: directional drift;
+  Overreach-Signal: severity classification
+→ Both active; not merged
+
+Overreach-Signal GENERALIZATION_OVERREACH (SECTION 5)
++ LENSSA-DEPTH SCALE_SHIFT (SECTION 5)
+→ LENSSA-DEPTH takes precedence; Overreach reports severity
+→ Both active; not merged
+
+Overreach-Signal NOVELTY_OVERREACH (SECTION 1)
++ Contribution Framing PRIMACY_CLAIM (SECTION 1)
+→ Both active as separate sub-signals in SECTION 1
+
+Overreach-Signal SYSTEMATIC (SECTION 0)
++ Desk-Reject Signal LANGUAGE_POSTURE_RISK (SECTION 0)
+→ Desk-Reject Kit aggregates; Overreach Kit reports independently
+→ Not merged
+
+Uncertainty-Visibility SUPPRESSED (SECTION 8)
++ Calibration-Deep §1.3 (SECTION 8)
+→ Calibration-Deep governs correction;
+  Uncertainty-Visibility reports visibility profile
+→ Both active; not merged
+
+Hedging-Calibration SELECTIVE_HEDGING (SECTION 4)
++ Verbal Lens certainty escalation (SECTION 6)
+→ Verbal Lens takes precedence on specific inflation;
+  Hedging-Calibration reports consistency pattern
+→ Not merged
+
+Hedging-Calibration PERFORMATIVE (SECTION 8)
++ Uncertainty-Visibility PERFORMATIVE (SECTION 8)
+→ Combined note in SECTION 8;
+  Uncertainty-Visibility: positioning; Hedging-Calibration: consistency
+
+Journal-Sensitivity FIELD_SIGNAL (any SECTION)
++ Calibration-Deep correction
+→ Both active; field signal does not suppress correction
+→ Not merged
+
+Journal-Sensitivity threshold adjustment + Q-Gate
+→ Q-Gate minimum always preserved; field calibration cannot
+  suppress below Q-Gate minimum; cannot amplify above MAJOR
+
+---
+
+## 3. COLLISION RULES — v3.0 NEW
+
+---
+
+### ARGUMENT INTEGRITY KIT (kit 40) COLLISIONS
+
+Argument Integrity A5 CONCLUSION_OVERREACH (SECTION 4)
++ Conclusion Integrity Kit CONCLUSION_NEW_CLAIM (SECTION 4)
+→ Conclusion Integrity Kit: conclusion-to-results traceability
+  (what is structurally absent from results).
+  Argument Integrity A5: argumentative scope expansion
+  (whether conclusion exceeds findings).
+→ Both active in SECTION 4 as separate sub-signals.
+  Not merged.
+
+Argument Integrity A4 ARGUMENT_SLIP (SECTION 4)
++ Argument Chain Kit longitudinal profile (SECTION 4)
+→ Argument Chain Kit: longitudinal continuity of central claim.
+  Argument Integrity A4: claim-finding alignment within Discussion.
+  Different reads of SECTION 4.
+→ Both active; reported as separate sub-blocks. Not merged.
+
+Argument Integrity A1 CLAIM_OVERREACH (SECTION 1)
++ Contribution Framing Kit PRIMACY_CLAIM (SECTION 1)
+→ Contribution Kit: novelty framing behavior.
+  Argument Integrity A1: claim structural scope.
+→ Both active in SECTION 1 as separate sub-signals. Not merged.
+
+Argument Integrity A5 GENERALIZABILITY_CLAIM (SECTION 4)
++ Overreach-Signal Kit GENERALIZATION_OVERREACH (SECTION 5)
+→ Overreach Kit: takes precedence on severity classification
+  and type assignment.
+  Argument Integrity A5: adds argumentative consequence layer.
+→ Both active. Overreach Kit in SECTION 5; Argument Integrity
+  in SECTION 4. Not merged.
+
+Argument Integrity A3 CAUSAL_DESIGN_MISMATCH (SECTION 3)
++ Discussion Scope Drift CAUSAL_DRIFT (SECTION 4)
+→ Scope Drift Kit: Results→Discussion directional distance.
+  Argument Integrity A3: method-claim fit at design level.
+  Different zones — SECTION 3 vs. SECTION 4.
+→ Both active; respective SECTIONs. Not merged.
+
+Argument Integrity A2 PREMISE_INVISIBILITY (SECTION 2)
++ Interdisciplinary Tension TENSION_SUPPRESSED (SECTION 2)
+→ Interdisciplinary Tension: cross-discipline conflict suppression.
+  Argument Integrity A2: load-bearing premise not stated.
+→ Both active in SECTION 2 as separate sub-signals. Not merged.
+
+Argument Integrity A5 LIMITATION_WITHOUT_CONSEQUENCE (SECTION 8)
++ Argument Symmetry ASYMMETRIC CLOSING (SECTION 8)
+→ Argument Symmetry: zone-level claim-limit ratio.
+  Argument Integrity A5: specific limitation-conclusion gap.
+→ Both active in SECTION 8; not merged.
+
+Argument Integrity A4 SELECTIVE_FINDING_DEPLOYMENT (SECTION 4)
++ Negative Result Visibility SELECTIVE_FINDING_DEPLOYMENT (SECTION 5)
+→ Negative Result Visibility: table-level omission patterns.
+  Argument Integrity A4: Discussion argument chain deployment.
+→ Both active; respective SECTIONs. Not merged.
+
+Argument Integrity A5 CONTRIBUTION_INFLATION (SECTION 4)
++ Conclusion Integrity CONTRIBUTION_INFLATION (SECTION 4)
+→ Conclusion Integrity: conclusion-zone contribution claim.
+  Argument Integrity A5: argumentative scope of contribution claim.
+→ Both active in SECTION 4 as separate sub-signals. Not merged.
+
+---
+
+### FIGURE / TABLE INTEGRITY KIT (kit 41) COLLISIONS
+
+Figure/Table Integrity M1 VISUAL_CLAIM_ASYMMETRY (SECTION 9)
++ LENSSA-DEPTH numerical scale behavior (SECTION 5)
+→ LENSSA-DEPTH: numerical scale behavior at claim level.
+  Figure/Table Integrity M1: visual-claim representational integrity.
+  Different reads — SECTION 5 vs. SECTION 9.
+→ Both active; respective SECTIONs. Not merged.
+
+Figure/Table Integrity M4 CONFIDENCE_INTERVAL_ABSENCE (SECTION 9)
++ Uncertainty Visibility Kit CI absence (SECTION 8)
+→ Uncertainty Visibility: CI absence in prose/argument.
+  Figure/Table Integrity M4: CI absence in figures/tables specifically.
+→ Both active; respective SECTIONs. Not merged.
+
+Figure/Table Integrity M3 TABLE_TEXT_MISMATCH (SECTION 9)
++ Abstract–Body Coherence SCOPE_BOUNDARY_GAP (SECTION 0)
+→ Coherence Kit: abstract–body directional gap.
+  Figure/Table Integrity M3: table-text numerical consistency.
+→ Different zones; both active. Not merged.
+
+Figure/Table Integrity M2 SELECTIVE_TABLE_OMISSION (SECTION 9)
++ Negative Result Visibility STRUCTURAL_NULL_ABSENCE (SECTION 5)
+→ Negative Result Visibility: null result handling in prose.
+  Figure/Table Integrity M2: table-level omission patterns.
+→ Both active; respective SECTIONs. Not merged.
+
+Figure/Table Integrity M4 EFFECT_SIZE_ABSENCE (SECTION 9)
++ Hedging-Calibration CALIBRATION_FAILURE (SECTION 6)
+→ Hedging-Calibration: hedging consistency patterns.
+  Figure/Table Integrity M4: effect size absence in tables/figures.
+→ Both active; respective SECTIONs. Not merged.
+
+Figure/Table Integrity SECTION 9 CRITICAL signals
++ Desk-Reject Signal Kit STRUCTURAL_COMPLETENESS_RISK (SECTION 0)
+→ Desk-Reject Kit: aggregates SECTION 9 CRITICAL signals into
+  STRUCTURAL_COMPLETENESS_RISK zone.
+  Figure/Table Integrity Kit: reports full signal details in SECTION 9.
+→ Not merged.
+
+---
+
+### REPRODUCIBILITY & OPEN SCIENCE KIT (kit 42) COLLISIONS
+
+ROS M09 AI_DISCLOSURE (SECTION 10)
++ Integrity Signal Kit INTERPRETIVE_FRAMING_INTERSECTION (SECTION 0)
+→ Integrity Signal Kit: competing interests structural intersection.
+  ROS M09: AI use disclosure completeness.
+→ Both active; respective SECTIONs. Not merged.
+
+ROS M11 FUNDING_COI (SECTION 10)
++ Integrity Signal Kit OUTCOME_INSTRUMENT_INTERSECTION (SECTION 0)
+→ Integrity Signal Kit: structural intersection of interest with
+  outcome variable or analytic tool.
+  ROS M11: disclosure completeness of funding and COI.
+→ Different concerns. Both active; respective SECTIONs. Not merged.
+
+ROS M15 SELECTIVE_REPORTING (SECTION 10)
++ Negative Result Visibility STRUCTURAL_NULL_ABSENCE (SECTION 5)
+→ Negative Result Visibility: null result framing in prose.
+  ROS M15: structural selective reporting indicators.
+→ Both active; respective SECTIONs. Not merged.
+
+ROS COMPOUND_RISK_FLAG (SECTION 10)
++ Desk-Reject Signal Kit STRUCTURAL_COMPLETENESS_RISK (SECTION 0)
+→ Desk-Reject Kit: aggregates ROS CRITICAL ABSENT signals into
+  STRUCTURAL_COMPLETENESS_RISK zone.
+  ROS Kit: reports compound risk flag and full synthesis in SECTION 10.
+→ Not merged.
+
+ROS M02 CODE_AVAILABILITY (SECTION 10)
++ Methodological Rhetoric Kit COMPLEMENTARITY_REFRAMING (SECTION 3)
+→ Methodological Rhetoric: inter-method rhetoric patterns.
+  ROS M02: code availability declaration.
+→ Different concerns. Both active; respective SECTIONs. Not merged.
+
+ROS M12 ETHICS_IRB (SECTION 10)
++ Structural QA MANDATORY_MISSING (SECTION 7)
+→ Structural QA: heading-level structural gap.
+  ROS M12: ethics compliance content signal.
+→ Both active; respective SECTIONs. Not merged.
+
+Reporting Standard Kit ABSENT items (SECTION 10)
++ ROS module ABSENT signals (SECTION 10)
+→ Both appear within SECTION 10.
+  ROS modules: reproducibility behavior signals.
+  Reporting Standard Kit: checklist item compliance signals.
+→ These are distinct signal types within SECTION 10.
+  Reported as separate blocks (module signals first,
+  compliance profile second). Not merged.
+
+---
+
+### SOURCE INTEGRITY KIT (kit 43) COLLISIONS
+
+Source Integrity HIGH_STAKES_SELF_CITATION (SECTION 2)
++ Citation Behavior Kit ELEVATED_SELF_CITATION_DENSITY (SECTION 2)
+→ Citation Behavior Kit: citation pattern density.
+  Source Integrity Kit: high-stakes self-citation (sole support +
+  primary claim + same author).
+→ Both active in SECTION 2 as separate sub-signals. Not merged.
+
+Source Integrity DATA_TYPE_CONFLATION_PATTERN (SECTION 3)
++ Calibration-Deep DATA_TYPE_MATCH detection (SECTION 3)
+→ Calibration-Deep: governs expression correction.
+  Source Integrity Kit: reports systematic data type conflation pattern.
+→ Both active; Calibration-Deep corrects silently;
+  Source Integrity reports pattern. Not merged.
+
+Source Integrity CONTEXT_MISMATCH_SIGNAL (SECTION 3)
++ Interdisciplinary Tension ASSUMPTION_INVISIBILITY (SECTION 2)
+→ Interdisciplinary Tension: tradition-specific assumption invisibility.
+  Source Integrity: population/condition mismatch in claim vs. source.
+→ Different reads. Both active; respective SECTIONs. Not merged.
+
+Source Integrity ARGUMENT_FRAGILITY_SIGNAL (SECTION 3)
++ Argument Chain Kit CRITICAL_PATH (SECTION 4)
+→ Argument Chain Kit: longitudinal claim continuity.
+  Source Integrity: load-bearing single-source dependency.
+  SECTION 3 vs. SECTION 4.
+→ Both active; respective SECTIONs. Not merged.
+
+Source Integrity RETRACTION_SIGNAL_FROM_TEXT (SECTION 7)
++ Integrity Signal Kit OUTCOME_INSTRUMENT_INTERSECTION (SECTION 0)
+→ Integrity Signal Kit: competing interests structural intersection.
+  Source Integrity Kit: retraction signal from manuscript text.
+→ Different concerns. Both active; respective SECTIONs. Not merged.
+
+Source Integrity PREPRINT_WITHOUT_DISCLOSURE (SECTION 3)
++ ROS M16 VERSION_AMENDMENT (SECTION 10)
+→ ROS M16: version and amendment tracking (full module).
+  Source Integrity: preprint status signal from source citation.
+  Source Integrity fires in SECTION 3; ROS M16 in SECTION 10.
+→ Both active; respective SECTIONs. Not merged.
+
+---
+
+## 4. LIMITS
+
+This file:
+  Cannot add new SECTIONs
+  Cannot reorder SECTIONs
+  Cannot modify internal rules of individual kits
+  Only defines collision management rules
+
+Section connection map and activation → see 12a_EN_LENS-BRIDGE-CORE_v3_0.txt
+
+---
+
+# LENS-BRIDGE-COLLISION v3.0 — END

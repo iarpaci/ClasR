@@ -1,0 +1,274 @@
+﻿# 45 CLASR — REPORTING STANDARD KIT v1.0
+# Added to Project Files. Does not modify CORE.
+# Tier: 3 — Extension
+# Primary SECTION: SECTION 10
+# Secondary SECTION: SECTION 3, SECTION 9
+# Activation: Automatic when study type is detected
+
+---
+
+## 0. IDENTITY
+
+This kit maps manuscript compliance with applicable reporting
+standards — item by item, across all relevant standards for
+the detected study type.
+
+Signal states: PRESENT / PARTIAL / ABSENT / NOT APPLICABLE
+
+This kit:
+  Produces compliance signals — not scores, not verdicts
+  Maps each standard item independently
+  Does not evaluate whether reported content is correct
+  Does not prescribe how to address missing items
+  Does not verify content of cited external documents
+
+---
+
+## 1. STANDARD SELECTION — AUTOMATIC
+
+Study type is detected from FIELD DETECTION LAYER (CORE).
+Standard(s) selected automatically:
+
+| Study type | Primary standard | Secondary standard |
+|---|---|---|
+| Observational (cohort / case-control / cross-sectional) | STROBE | — |
+| Randomized controlled trial | CONSORT | SPIRIT (if protocol) |
+| Systematic review | PRISMA | — |
+| Meta-analysis | PRISMA | MOOSE |
+| Diagnostic accuracy | STARD | — |
+| Qualitative research | COREQ or SRQR | — |
+| Clinical trial (general) | CONSORT | — |
+| All manuscript types | APA 7th edition | — |
+
+Multiple standards applied when study type spans categories.
+All applied standards listed in SECTION 10 header.
+
+If study type unclear: field detection asks one question,
+then proceeds.
+
+---
+
+## 2. APA 7TH EDITION — UNIVERSAL STANDARD
+
+Applied to all manuscript types.
+Covers: tables, figures, statistics, citations, references.
+Selected items most relevant to manuscript content:
+
+| Item | Description | Signal |
+|---|---|---|
+| APA 7.26 | Figure axes start at zero or justified | PRESENT / PARTIAL / ABSENT |
+| APA 7.4.4 | Effect sizes reported with CI | PRESENT / PARTIAL / ABSENT |
+| APA 7.36 | Tables consistent with text | PRESENT / PARTIAL / ABSENT |
+| APA stats | p-values with exact values; not "p < .05" | PRESENT / PARTIAL / ABSENT |
+| APA refs | DOI format consistent | PRESENT / PARTIAL / ABSENT |
+
+---
+
+## 3. STROBE — OBSERVATIONAL STUDIES
+
+Applied when: cohort study, case-control study, or
+cross-sectional study detected.
+
+| Item | Description | Signal |
+|---|---|---|
+| 1a | Study design indicated in title or abstract | PRESENT / PARTIAL / ABSENT |
+| 1b | Informative and balanced abstract | PRESENT / PARTIAL / ABSENT |
+| 2 | Scientific background and rationale explained | PRESENT / PARTIAL / ABSENT |
+| 3 | Specific objectives stated | PRESENT / PARTIAL / ABSENT |
+| 4 | Key elements of study design presented early | PRESENT / PARTIAL / ABSENT |
+| 5 | Setting, locations, and relevant dates described | PRESENT / PARTIAL / ABSENT |
+| 6a | Eligibility criteria stated | PRESENT / PARTIAL / ABSENT |
+| 6b | Matching criteria stated (if matched study) | PRESENT / PARTIAL / ABSENT / N/A |
+| 7 | All outcomes, exposures, confounders clearly defined | PRESENT / PARTIAL / ABSENT |
+| 8 | Data sources and measurement methods described | PRESENT / PARTIAL / ABSENT |
+| 9 | Efforts to address potential bias described | PRESENT / PARTIAL / ABSENT |
+| 10 | Study size rationale explained | PRESENT / PARTIAL / ABSENT |
+| 11 | Quantitative variable handling explained | PRESENT / PARTIAL / ABSENT |
+| 12a | All statistical methods described | PRESENT / PARTIAL / ABSENT |
+| 12b | Subgroup and interaction methods described | PRESENT / PARTIAL / ABSENT / N/A |
+| 12c | Missing data addressed | PRESENT / PARTIAL / ABSENT |
+| 12d | Loss to follow-up addressed (cohort) | PRESENT / PARTIAL / ABSENT / N/A |
+| 12e | Sensitivity analyses described | PRESENT / PARTIAL / ABSENT / N/A |
+| 13a | Numbers at each study stage reported | PRESENT / PARTIAL / ABSENT |
+| 13b | Reasons for non-participation given | PRESENT / PARTIAL / ABSENT |
+| 13c | Flow diagram considered | PRESENT / PARTIAL / ABSENT / N/A |
+| 14a | Participant characteristics described | PRESENT / PARTIAL / ABSENT |
+| 14b | Missing data per variable indicated | PRESENT / PARTIAL / ABSENT |
+| 14c | Follow-up time summarized (cohort) | PRESENT / PARTIAL / ABSENT / N/A |
+| 15 | Outcome data reported | PRESENT / PARTIAL / ABSENT |
+| 16a | Unadjusted and adjusted estimates with CI reported | PRESENT / PARTIAL / ABSENT |
+| 16b | Category boundaries reported for continuous variables | PRESENT / PARTIAL / ABSENT / N/A |
+| 16c | Absolute risk reported where relevant | PRESENT / PARTIAL / ABSENT / N/A |
+| 17 | Other analyses reported | PRESENT / PARTIAL / ABSENT / N/A |
+| 18 | Key results summarized with reference to objectives | PRESENT / PARTIAL / ABSENT |
+| 19 | Limitations discussed with bias direction and magnitude | PRESENT / PARTIAL / ABSENT |
+| 20 | Cautious overall interpretation given | PRESENT / PARTIAL / ABSENT |
+| 21 | Generalizability discussed | PRESENT / PARTIAL / ABSENT |
+| 22 | Funding source and funder role stated | PRESENT / PARTIAL / ABSENT |
+
+---
+
+## 4. CONSORT — RANDOMIZED CONTROLLED TRIALS
+
+Applied when: RCT detected.
+
+| Item | Description | Signal |
+|---|---|---|
+| 1a | Study design identified in title | PRESENT / PARTIAL / ABSENT |
+| 1b | Abstract structured with key information | PRESENT / PARTIAL / ABSENT |
+| 2a | Scientific background and rationale explained | PRESENT / PARTIAL / ABSENT |
+| 2b | Specific objectives or hypotheses stated | PRESENT / PARTIAL / ABSENT |
+| 3a | Trial design described | PRESENT / PARTIAL / ABSENT |
+| 3b | Changes to trial design after commencement | PRESENT / PARTIAL / ABSENT / N/A |
+| 4a | Eligibility criteria for participants stated | PRESENT / PARTIAL / ABSENT |
+| 4b | Settings and locations described | PRESENT / PARTIAL / ABSENT |
+| 5 | Interventions described with sufficient detail | PRESENT / PARTIAL / ABSENT |
+| 6a | Primary and secondary outcomes defined | PRESENT / PARTIAL / ABSENT |
+| 6b | Changes to outcomes after trial commencement | PRESENT / PARTIAL / ABSENT / N/A |
+| 7a | Sample size determination explained | PRESENT / PARTIAL / ABSENT |
+| 7b | Interim analyses and stopping guidelines | PRESENT / PARTIAL / ABSENT / N/A |
+| 8a | Randomization sequence generation described | PRESENT / PARTIAL / ABSENT |
+| 8b | Type of randomization described | PRESENT / PARTIAL / ABSENT |
+| 9 | Allocation concealment mechanism described | PRESENT / PARTIAL / ABSENT |
+| 10 | Who generated sequence, enrolled, and assigned | PRESENT / PARTIAL / ABSENT |
+| 11a | Blinding described | PRESENT / PARTIAL / ABSENT |
+| 11b | Similarity of interventions if blinding not possible | PRESENT / PARTIAL / ABSENT / N/A |
+| 12a | Statistical methods for primary and secondary outcomes | PRESENT / PARTIAL / ABSENT |
+| 12b | Additional statistical methods | PRESENT / PARTIAL / ABSENT / N/A |
+| 13a | Participant flow diagram | PRESENT / PARTIAL / ABSENT |
+| 13b | Losses and exclusions reported | PRESENT / PARTIAL / ABSENT |
+| 14a | Recruitment dates and follow-up period | PRESENT / PARTIAL / ABSENT |
+| 14b | Trial stopped early | PRESENT / PARTIAL / ABSENT / N/A |
+| 15 | Baseline characteristics table | PRESENT / PARTIAL / ABSENT |
+| 16 | Numbers analyzed per group | PRESENT / PARTIAL / ABSENT |
+| 17a | Outcomes and effect sizes with CI for each group | PRESENT / PARTIAL / ABSENT |
+| 17b | Binary outcomes: absolute and relative effect sizes | PRESENT / PARTIAL / ABSENT / N/A |
+| 18 | Ancillary analyses reported | PRESENT / PARTIAL / ABSENT / N/A |
+| 19 | Harms reported | PRESENT / PARTIAL / ABSENT |
+| 20 | Trial limitations discussed | PRESENT / PARTIAL / ABSENT |
+| 21 | Generalizability discussed | PRESENT / PARTIAL / ABSENT |
+| 22 | Interpretation consistent with results | PRESENT / PARTIAL / ABSENT |
+| 23 | Registration number and registry name | PRESENT / PARTIAL / ABSENT |
+| 24 | Protocol accessibility | PRESENT / PARTIAL / ABSENT / N/A |
+| 25 | Funding and role of funders | PRESENT / PARTIAL / ABSENT |
+
+---
+
+## 5. PRISMA — SYSTEMATIC REVIEWS AND META-ANALYSES
+
+Applied when: systematic review or meta-analysis detected.
+
+| Item | Description | Signal |
+|---|---|---|
+| 1 | Title identifies as systematic review | PRESENT / PARTIAL / ABSENT |
+| 2 | Structured abstract with key elements | PRESENT / PARTIAL / ABSENT |
+| 3 | Rationale and review question explained | PRESENT / PARTIAL / ABSENT |
+| 4 | Eligibility criteria stated | PRESENT / PARTIAL / ABSENT |
+| 5 | Information sources described | PRESENT / PARTIAL / ABSENT |
+| 6 | Search strategy presented | PRESENT / PARTIAL / ABSENT |
+| 7 | Study selection process described | PRESENT / PARTIAL / ABSENT |
+| 8 | Data collection process described | PRESENT / PARTIAL / ABSENT |
+| 9 | Data items listed and defined | PRESENT / PARTIAL / ABSENT |
+| 10 | Risk of bias assessment described | PRESENT / PARTIAL / ABSENT |
+| 11 | Effect measures specified | PRESENT / PARTIAL / ABSENT |
+| 12 | Synthesis methods described | PRESENT / PARTIAL / ABSENT |
+| 13 | Reporting bias assessment described | PRESENT / PARTIAL / ABSENT |
+| 14 | Certainty of evidence assessment described | PRESENT / PARTIAL / ABSENT / N/A |
+| 15 | Study selection results reported with PRISMA flow diagram | PRESENT / PARTIAL / ABSENT |
+| 16 | Characteristics of included studies | PRESENT / PARTIAL / ABSENT |
+| 17 | Risk of bias results | PRESENT / PARTIAL / ABSENT |
+| 18 | Results for all outcomes synthesized | PRESENT / PARTIAL / ABSENT |
+| 19 | Investigation of heterogeneity | PRESENT / PARTIAL / ABSENT / N/A |
+| 20 | Reporting biases investigated | PRESENT / PARTIAL / ABSENT / N/A |
+| 21 | Certainty of evidence for each outcome | PRESENT / PARTIAL / ABSENT / N/A |
+| 22 | General interpretation of results | PRESENT / PARTIAL / ABSENT |
+| 23 | Limitations discussed | PRESENT / PARTIAL / ABSENT |
+| 24 | Registration and protocol | PRESENT / PARTIAL / ABSENT |
+| 25 | Competing interests declared | PRESENT / PARTIAL / ABSENT |
+| 26 | Funding and role of funders | PRESENT / PARTIAL / ABSENT |
+| 27 | Availability of data, code, and materials | PRESENT / PARTIAL / ABSENT |
+
+---
+
+## 6. SECTION 10 OUTPUT FORMAT
+
+Reporting standard compliance profile appears within SECTION 10,
+after module-level signals, before SYNTHESIS:
+
+```
+─────────────────────────────────
+REPORTING STANDARD COMPLIANCE
+
+Standard applied: [STROBE / CONSORT / PRISMA / APA 7 / other]
+Study type detected: [type]
+
+[For each item:]
+Item [N] — [short description] : PRESENT / PARTIAL / ABSENT / N/A
+
+─────────────────────────────────
+COMPLIANCE SUMMARY
+PRESENT     : [n] items
+PARTIAL     : [n] items
+ABSENT      : [n] items
+NOT APPLICABLE: [n] items
+─────────────────────────────────
+```
+
+No score produced from compliance summary.
+Item counts are visibility signals — not quality grades.
+Interpretation belongs to the user.
+
+---
+
+## 7. MULTI-STANDARD OUTPUT
+
+When multiple standards apply (e.g., CONSORT + APA):
+Each standard receives its own compliance block.
+Blocks presented sequentially within SECTION 10.
+Combined summary across standards not produced —
+each standard's compliance is independent.
+
+---
+
+## 8. PARTIAL INPUT BEHAVIOR
+
+Abstract only:
+  Items assessable from abstract: scanned.
+  Body-dependent items: NOT APPLICABLE — abstract only.
+  Coverage noted in SECTION 10 header.
+
+Methods only:
+  Methods-specific items: fully scanned.
+  Results/discussion items: NOT APPLICABLE — methods only.
+
+---
+
+## 9. JOURNAL POLICY INTERACTION
+
+When M07 (Journal Policy Compliance, kit 42) is active
+and journal is named:
+Reporting standard compliance cross-referenced against
+journal's stated requirements for that standard.
+Discrepancies between manuscript compliance and journal
+policy noted in M07 output — not in this kit's output.
+These are separate signals.
+
+---
+
+## 10. HARD LIMITS
+
+This kit:
+  Does not produce compliance scores or grades
+  Does not evaluate whether reported content is accurate
+  Does not access standard documents or EQUATOR network
+  Does not recommend how to address absent items
+  Does not produce editorial decisions
+  Signal always based on manuscript text declarations only
+
+---
+
+# REPORTING STANDARD KIT v1.0 — END
+# Tier 3 — Extension
+# Primary: SECTION 10
+# Secondary: SECTION 3, SECTION 9
+# Activation: Automatic — study type detection triggers standard selection

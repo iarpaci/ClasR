@@ -1,0 +1,759 @@
+﻿# 42 CLASR — REPRODUCIBILITY # CLASR — REPRODUCIBILITY & OPEN SCIENCE KIT v1.1 OPEN SCIENCE KIT v1.1
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.2 — M02 simulation checklist added; M10 large-collaboration priority note added
+# Previous: v1.0
+# Changes:
+#   M11: Scope note added — text-layer boundary clarified
+#   M11: Signal label FUNDING_NOT_VISIBLE_IN_TEXT
+# Changes (v1.2):
+#   M02: Simulation-specific checklist added (version, geometry,
+#        physics list, output archival); ABSENT/CRITICAL escalation
+#        when all four absent in primary output context
+#   M10: Suppression condition narrowed; large collaboration (N>20)
+#        is now escalation condition, not suppression condition
+#        (replaces implicit FUNDING_ABSENT)
+#   Rationale: funding declarations in double-blind workflows
+#   may reside in editorial system, not manuscript body
+# Tier: 3 — Extension
+# Primary SECTION: SECTION 10
+# Secondary SECTION: SECTION 3, SECTION 7
+# Source system: CLASR-ROS v1.2 — absorbed and integrated
+
+---
+
+## 0. IDENTITY
+
+This kit defines SECTION 10 — Reproducibility & Open Science.
+
+Core question: Can this work be independently verified?
+
+This kit:
+  Produces signals — not scores
+  Maps presence, partial presence, or absence of
+  reproducibility and open science elements
+  Does not prescribe solutions or platforms
+  Does not verify external links or repository contents
+  Does not access the internet or live databases
+
+All signals based on declarations within manuscript text only.
+
+---
+
+## 1. MANUSCRIPT TYPE DETECTION
+
+Before running modules, manuscript type is detected.
+Type determines which modules are applicable.
+
+Types:
+  Quantitative / empirical
+  Qualitative / theoretical
+  Mixed methods
+  Systematic review / meta-analysis
+  Computational / simulation
+  Clinical / experimental
+
+Manuscript type stated at SECTION 10 header.
+Inapplicable modules suppressed with explicit reason.
+Silent suppression is a system failure.
+
+---
+
+## 2. MODULE TIERS
+
+CRITICAL (7 modules):
+  M01 Data Availability
+  M02 Code & Software Availability
+  M04 Pre-registration Status
+  M06 Reanalysis Feasibility
+  M12 Ethics & IRB Compliance
+  M14 Temporal Consistency
+  M15 Selective Reporting Signal
+
+STANDARD (6 modules):
+  M03 Materials & Protocol Transparency
+  M05 Supplementary File Audit
+  M10 Authorship & Contribution Transparency
+  M11 Funding & Conflict of Interest Transparency
+  M13 Data Provenance
+  M16 Version & Amendment Tracking
+
+CONTEXTUAL (3 modules):
+  M07 Journal Policy Compliance — activates when journal named
+  M08 Retraction Risk Profile — activates when risk pattern detected
+  M09 AI-Assisted Research Disclosure — runs for all types;
+       expected signal: PRESENT for explicit "no AI tools" statement
+
+Signal states: PRESENT / PARTIAL / ABSENT / NOT APPLICABLE
+
+---
+
+## 3. MODULE DEFINITIONS
+
+---
+
+### M01 — DATA AVAILABILITY
+Tier: CRITICAL
+
+Question: Is the underlying data accessible to an independent reader?
+
+Signal targets:
+  Explicit data availability statement present
+  Data deposited in recognized repository
+  Repository DOI or persistent link provided
+  Access conditions stated (open / restricted / embargo)
+  Raw vs. processed data distinction made
+
+Suppression condition:
+  Purely theoretical or conceptual manuscript with no empirical data
+  → NOT APPLICABLE — no empirical data component detected
+
+Risk escalation:
+  "Available upon request" → PARTIAL, elevated risk flag
+  No statement of any kind → ABSENT
+
+Structural limit:
+  Signal based on declaration in manuscript text only.
+  Repository link activity not verified.
+
+---
+
+### M02 — CODE & SOFTWARE AVAILABILITY
+Tier: CRITICAL
+
+Question: Can the analysis be computationally reproduced?
+
+Signal targets:
+  Analysis code shared (GitHub, OSF, Zenodo, institutional repo)
+  Repository link specific (not generic profile link)
+  Software named with version numbers
+  Custom scripts vs. standard package usage distinguished
+  License type stated for shared code
+
+Suppression condition:
+  Non-computational manuscript (purely qualitative, purely theoretical)
+  → NOT APPLICABLE — no computational analysis component detected
+
+Risk escalation:
+  Software named without version → PARTIAL
+  No software information → ABSENT
+  Code described as "available upon request" → PARTIAL, elevated flag
+
+Structural limit:
+  Signal based on declaration in manuscript text only.
+
+SIMULATION-SPECIFIC CHECKLIST:
+When simulation software (GEANT4, FLUKA, MCNP, ANSYS, OpenFOAM,
+or equivalent domain-specific simulation tools) is used to produce
+primary analytical outputs (validity maps, PSF estimates, threshold
+calculations, etc.), check all four of the following:
+
+  (a) Software version — explicit version number, not implied by
+      citation date. Three publications citing different GEANT4
+      releases do not constitute version disclosure.
+  (b) Geometry and material definition — described or archived.
+  (c) Physics list — named explicitly (e.g. QGSP_BERT, FTFP_BERT).
+  (d) Output data repository or access statement — where simulation
+      outputs are stored or how they can be reproduced.
+
+If simulation is used for primary analytical output AND all four
+items are absent → escalate to ABSENT, CRITICAL.
+If simulation is used for primary analytical output AND one or two
+items are present → PARTIAL.
+If simulation is used for secondary illustration only → PARTIAL
+if version is absent; PRESENT if version is declared.
+
+Distinction: Citation of the simulation software paper (e.g. three
+GEANT4 references) does not substitute for version disclosure,
+geometry, physics list, or output archival. These are separate
+requirements.
+
+---
+
+### M03 — MATERIALS & PROTOCOL TRANSPARENCY
+Tier: STANDARD
+
+Question: Can the study be independently replicated with
+sufficient procedural detail?
+
+Signal targets:
+  Measurement instruments identified
+  Instrument versions and sources cited
+  Data collection protocol described with sufficient detail
+  Equipment settings and calibration procedures reported
+  Participant/sample recruitment procedure transparent
+  Inclusion/exclusion criteria stated
+
+Suppression condition:
+  Purely computational or simulation study with no physical
+  or behavioral materials
+  → NOT APPLICABLE — no materials or physical protocol component
+
+Risk escalation:
+  Instruments named but versions/sources missing → PARTIAL
+  Protocol described vaguely without reproducible detail → PARTIAL
+
+---
+
+### M04 — PRE-REGISTRATION STATUS
+Tier: CRITICAL
+
+Question: Were hypotheses and analysis plans registered
+before data collection?
+
+Signal targets:
+  Pre-registration explicitly stated
+  Platform identified (OSF, AsPredicted, ClinicalTrials.gov,
+  PROSPERO, WHO ICTRP, or equivalent)
+  Registration ID or URL provided
+  Timing confirmed: prior to data collection, not retrospective
+  Registered report format noted if applicable
+
+Suppression condition:
+  Purely theoretical, conceptual, or secondary data analysis
+  manuscript where pre-registration is structurally inapplicable
+  → NOT APPLICABLE — study type does not require prospective
+  registration
+
+Risk escalation:
+  Pre-registration claimed but no ID/link → PARTIAL,
+  verification impossible flag
+  Retrospective registration detected → PARTIAL,
+  elevated editorial risk flag
+  No mention in confirmatory study → ABSENT
+
+Structural limit:
+  Signal based on declaration in manuscript text only.
+  Registration platforms not accessed.
+
+---
+
+### M05 — SUPPLEMENTARY FILE AUDIT
+Tier: STANDARD
+
+Question: Do supplementary materials contain the information
+they claim to contain?
+
+Signal targets:
+  Supplementary files listed and described in main text
+  Each supplementary item referenced specifically
+  Content of each supplement file described
+  Supplements accessible via persistent link or journal repository
+  Consistency between main text claims and supplement content
+
+Suppression condition:
+  Manuscript explicitly states no supplementary materials
+  → NOT APPLICABLE — no supplementary materials declared
+
+Risk escalation:
+  Supplements mentioned but content not described → PARTIAL
+  Critical data/analysis located only in supplements without
+  main-text summary → elevated flag
+
+Structural limit:
+  Signal based on description in manuscript text only.
+  Supplement file contents not accessed.
+
+---
+
+### M06 — REANALYSIS FEASIBILITY
+Tier: CRITICAL
+
+Question: Could an independent researcher reproduce the
+reported results?
+
+Signal targets:
+  Sufficient statistical information for result verification
+  (means, SDs, N, test statistics, p-values, effect sizes)
+  Analysis decisions documented
+  (exclusions, transformations, model specifications)
+  Multiple comparison corrections reported
+  Sensitivity analyses or robustness checks included
+  Reported values internally consistent
+
+Suppression condition:
+  Non-quantitative manuscript with no reportable statistics
+  → NOT APPLICABLE — no quantitative results subject to reanalysis
+
+Risk escalation:
+  Missing degrees of freedom, sample sizes, or test statistics
+  → PARTIAL
+  Reported values internally inconsistent → ABSENT, critical flag
+  Exclusions undocumented → PARTIAL
+
+---
+
+### M07 — JOURNAL POLICY COMPLIANCE
+Tier: CONTEXTUAL
+Activation: Only when journal name is provided in input
+
+Question: Does the manuscript meet this journal's open science
+requirements?
+
+Signal targets:
+  Data availability statement matches journal policy
+  Code sharing matches journal policy
+  Pre-registration matches journal policy
+  Open access requirements addressed
+  Author contribution statement matches journal format
+  Ethics statement matches journal requirements
+  AI disclosure policy compliance
+
+Operation:
+  Known journal policies applied from training knowledge.
+  If journal policy unknown or updated after knowledge cutoff:
+  → Signal flagged as UNVERIFIED — user must confirm current
+  policy directly.
+
+Structural limit:
+  Journal policies change. Training knowledge has a cutoff date.
+  Outputs should be verified against current journal guidelines
+  before submission.
+
+---
+
+### M08 — RETRACTION RISK PROFILE
+Tier: CONTEXTUAL
+Activation: When risk pattern co-occurrence detected
+
+Question: Does this manuscript's reproducibility profile match
+patterns associated with post-publication problems?
+
+Signal targets:
+  Combination of: absent data + absent code + no pre-registration
+  in confirmatory study
+  Internally inconsistent statistics
+  Undisclosed exclusions or analytical flexibility
+  Selective reporting indicators
+  Authorship anomalies
+  Temporal inconsistencies between study phases
+
+Risk tone output:
+  LOW — profile does not match known retraction patterns
+  MEDIUM — one or more elevated signals present
+  HIGH — multiple critical signals co-occurring
+  CRITICAL — profile strongly matches documented retraction risk patterns
+
+Boundary:
+  Identifies signal patterns only.
+  Does not accuse, conclude misconduct, or make editorial decisions.
+  Risk tone is descriptive, not accusatory.
+
+---
+
+### M09 — AI-ASSISTED RESEARCH DISCLOSURE
+Tier: CONTEXTUAL
+Runs for all manuscript types.
+
+Question: Is the use of AI tools in this research appropriately
+disclosed?
+
+Signal targets:
+  AI assistance disclosure statement present
+  Tools named
+  Nature of use described
+  (writing assistance, data analysis, literature search,
+  image generation, dataset generation, code generation)
+  Author responsibility statement for AI-generated content present
+  AI-generated datasets disclosed with generation parameters
+  Compliance with target journal's AI disclosure policy
+
+Suppression condition:
+  None. Runs for all manuscript types.
+  If no AI use: PRESENT expected for explicit
+  "no AI tools were used" statement.
+  Absence of any statement → ABSENT signal.
+
+Risk escalation:
+  AI tools suspected from text patterns but no disclosure
+  → PARTIAL, editorial risk flag
+  Disclosure present but tools or use not specified → PARTIAL
+  AI-generated dataset used with no disclosure → ABSENT,
+  critical flag
+
+---
+
+### M10 — AUTHORSHIP & CONTRIBUTION TRANSPARENCY
+Tier: STANDARD
+
+Question: Is it clear who did what, and can all listed authors
+be held accountable?
+
+Signal targets:
+  Author contribution statement present (CRediT taxonomy preferred)
+  Each author's specific contribution identified
+  Corresponding author contact information complete and current
+  Institutional affiliations complete for all authors
+  ORCID identifiers present (best practice — not mandatory signal)
+  Acknowledgment of non-author contributors where applicable
+
+Suppression condition:
+  Single-author manuscript → NOT APPLICABLE (contribution
+  statement not required; corresponding author contact still checked).
+  Journal explicitly confirmed as not requiring CRediT →
+  NOT APPLICABLE with notation.
+
+  SUPPRESSION RULE: Large collaboration size (N > 20 authors) is NOT
+  a suppression condition. It is an escalation condition.
+  A large collaboration paper without a CRediT statement presents
+  higher editorial risk, not lower — authorship accountability
+  questions are more visible, not less, in multi-institutional
+  large-collaboration contexts.
+
+Risk escalation:
+  Contribution statement vague
+  ("all authors contributed equally" for 8+ authors) → PARTIAL
+  Corresponding author contact missing or incomplete → PARTIAL
+  No contribution statement of any kind → ABSENT
+  Large collaboration (N > 20) with no CRediT statement →
+  ABSENT, elevated editorial visibility flag
+
+---
+
+### M11 — FUNDING & CONFLICT OF INTEREST TRANSPARENCY
+Tier: STANDARD
+
+Question: Are funding sources and potential conflicts of interest
+fully and accurately disclosed within the submitted manuscript text?
+
+Signal targets:
+  Funding statement present and specific (funder names, grant numbers)
+  "No funding received" explicitly stated if applicable
+  Conflict of interest statement present for all authors
+  Nature of COI described where declared
+  "No competing interests" explicitly stated if applicable
+  Industry funding disclosed
+  Funder role in study design, data collection, analysis,
+  or publication decision stated
+
+Scope note:
+  This module reads the manuscript text as submitted.
+  In double-blind peer review workflows, funding declarations
+  may be submitted separately to the editorial management system
+  (ScholarOne, Editorial Manager, etc.) rather than embedded
+  in the manuscript body. An ABSENT signal here reflects
+  absence from the manuscript text layer only — not from the
+  editorial submission record.
+  Signal label: FUNDING_NOT_VISIBLE_IN_TEXT (not FUNDING_ABSENT)
+  to reflect this text-layer scope boundary.
+
+Suppression condition:
+  None. Runs for all manuscript types.
+
+Risk escalation:
+  Funding present but grant numbers or funder roles missing → PARTIAL
+  COI statement absent for any listed author → PARTIAL
+  No funding or COI statement of any kind in manuscript text
+  → FUNDING_NOT_VISIBLE_IN_TEXT
+  Industry-funded study with no description of funder role
+  → PARTIAL, elevated editorial risk flag
+
+---
+
+### M12 — ETHICS & IRB COMPLIANCE
+Tier: CRITICAL
+
+Question: Does the manuscript demonstrate appropriate ethical
+oversight for the research conducted?
+
+Signal targets:
+  Ethics approval statement present
+  Approving body named
+  Approval reference number or protocol ID provided
+  Informed consent procedure described (human participants)
+  Consent waiver documented where applicable
+  Data anonymization or de-identification procedures stated
+  Compliance with relevant declarations noted
+  (Declaration of Helsinki, APA ethical principles, etc.)
+
+Suppression condition:
+  Purely theoretical, computational, or secondary analysis
+  manuscript using fully public, pre-existing, anonymized datasets
+  with no human/animal participant interaction
+  → NOT APPLICABLE — no direct participant involvement detected
+
+  Note: Suppression requires explicit confirmation in manuscript text.
+  Absence of ethics mention does not trigger suppression.
+  Default is to audit unless suppression is clearly warranted.
+
+Risk escalation:
+  Ethics approval mentioned but approving body or reference number
+  missing → PARTIAL
+  Informed consent not mentioned in human participant study → ABSENT
+  No ethics statement in clinical, psychological, or biological
+  study → ABSENT, critical flag
+
+---
+
+### M13 — DATA PROVENANCE
+Tier: STANDARD
+
+Question: Is the origin, nature, and integrity of the underlying
+data transparent?
+
+Signal targets:
+  Data origin declared:
+  primary collection / secondary dataset / public repository /
+  synthetic / AI-generated
+  Dataset name and version identified (for secondary or public data)
+  Data access date reported for online datasets
+  Synthetic or simulated data explicitly labeled
+  AI-generated datasets disclosed
+  Data cleaning and preprocessing steps documented
+  Known dataset limitations acknowledged
+  Linkage procedures described for multi-source datasets
+
+Suppression condition:
+  Purely theoretical manuscript with no data of any kind
+  → NOT APPLICABLE — no data component present
+
+Risk escalation:
+  Data described as "collected" with no collection procedure → PARTIAL
+  Secondary dataset used with no citation or version → PARTIAL
+  Synthetic or AI-generated data used with no disclosure
+  → ABSENT, critical flag
+  Data origin entirely unspecified → ABSENT
+
+---
+
+### M14 — TEMPORAL CONSISTENCY
+Tier: CRITICAL
+
+Question: Is the chronological sequence of study events internally
+consistent and plausible?
+
+Signal targets:
+  Pre-registration date precedes data collection start date
+  Data collection period consistent with reported sample size
+  Analysis completion date consistent with submission date
+  Version history chronologically coherent
+  No anachronistic references
+  (citing papers published after data collection closed)
+  Reported timeline consistent across manuscript sections
+
+Suppression condition:
+  Purely theoretical or conceptual manuscript with no empirical
+  timeline
+  → NOT APPLICABLE — no temporal sequence subject to audit
+
+Risk escalation:
+  Pre-registration date after stated data collection start
+  → ABSENT, critical flag
+  Dates missing or unspecified across key study phases → PARTIAL
+  Anachronistic citation detected → PARTIAL, elevated flag
+  Internal date contradictions across manuscript sections → ABSENT
+
+---
+
+### M15 — SELECTIVE REPORTING SIGNAL
+Tier: CRITICAL
+
+Question: Are there indicators that reported outcomes represent
+a selected subset of analyses conducted?
+
+Signal targets:
+  Number of reported hypotheses consistent with pre-registration
+  Number of reported outcomes consistent with methods section
+  All pre-specified primary and secondary outcomes reported
+  Exploratory analyses clearly labeled as post-hoc or exploratory
+  Null or non-significant results reported alongside significant
+  findings
+  No evidence of outcome switching between registration and manuscript
+  All variables described in methods appear in results
+  Subgroup analyses pre-specified or explicitly labeled as exploratory
+
+Suppression condition:
+  Purely theoretical, qualitative, or descriptive manuscript
+  with no hypothesis testing
+  → NOT APPLICABLE — no hypothesis-driven analysis to audit
+
+Risk escalation:
+  Pre-registered outcomes absent from results without explanation
+  → ABSENT, critical flag
+  Methods variables absent from results without explanation → PARTIAL
+  All reported results significant with no null findings in
+  multi-outcome study → PARTIAL, elevated flag
+  Exploratory analyses presented as confirmatory → PARTIAL,
+  elevated flag
+  Outcome switching detected between pre-registration and
+  manuscript → ABSENT, critical flag
+
+---
+
+### M16 — VERSION & AMENDMENT TRACKING
+Tier: STANDARD
+
+Question: Is the manuscript's publication history and any
+substantive changes transparently declared?
+
+Signal targets:
+  Preprint existence disclosed
+  (arXiv, bioRxiv, medRxiv, SSRN, PsyArXiv, or equivalent)
+  Preprint DOI or URL provided
+  Substantive differences between preprint and submitted version
+  declared
+  Previous rejection and resubmission history disclosed where
+  required by journal
+  Post-submission amendments or protocol changes documented
+  Conference presentation of preliminary results acknowledged
+  Relationship to thesis, dissertation, or funded project report
+  disclosed where applicable
+
+Suppression condition:
+  None. Runs for all manuscript types.
+  If no prior version exists: absence of statement is noted.
+  Detectable preprint indicators without disclosure → PARTIAL.
+
+Risk escalation:
+  Preprint exists (detectable from text or citation) but not
+  disclosed → PARTIAL, elevated flag
+  Substantive methodological differences between versions not
+  acknowledged → PARTIAL
+
+Structural limit:
+  Signal based on declaration in manuscript text only.
+  Preprint servers not accessed.
+
+---
+
+## 4. SYNTHESIS RULES
+
+### Signal Hierarchy
+
+CRITICAL modules — any ABSENT → overall risk tone minimum HIGH
+                 — any PARTIAL → overall risk tone minimum MEDIUM
+
+STANDARD modules — ABSENT → MEDIUM contribution to overall risk
+                 — PARTIAL → noted, no automatic escalation
+
+CONTEXTUAL modules — do not independently drive overall risk
+                    escalation
+
+### Compound Risk Rule
+
+Two CRITICAL ABSENT signals:
+→ Risk tone escalates one level above highest individual signal
+
+Three or more CRITICAL ABSENT signals:
+→ CRITICAL tone triggered regardless of all other signals
+→ Compound Risk Flag triggered — stated explicitly in synthesis
+
+Example:
+M01 ABSENT + M06 ABSENT + M15 ABSENT
+→ Compound Risk Flag: CRITICAL
+→ Note: "Three critical verifiability layers simultaneously absent.
+  Independent reproduction and outcome verification are not
+  feasible from the manuscript as submitted."
+
+### Overall Reproducibility Risk
+
+All CRITICAL modules PRESENT → LOW
+One or more CRITICAL PARTIAL → MEDIUM
+One CRITICAL ABSENT → HIGH
+Two CRITICAL ABSENT → HIGH, escalated by Compound Risk Rule
+Three or more CRITICAL ABSENT → CRITICAL
+
+---
+
+## 5. SECTION 10 OUTPUT FORMAT
+
+```
+▸ SECTION 10 — REPRODUCIBILITY & OPEN SCIENCE
+
+Manuscript type: [detected type]
+Journal: [name or "Not specified"]
+Applicable modules: [list — suppressed modules noted with reason]
+
+─────────────────────────────────
+CRITICAL TIER
+
+M01 Data Availability          : [PRESENT / PARTIAL / ABSENT / N/A]
+M02 Code & Software            : [PRESENT / PARTIAL / ABSENT / N/A]
+M04 Pre-registration           : [PRESENT / PARTIAL / ABSENT / N/A]
+M06 Reanalysis Feasibility     : [PRESENT / PARTIAL / ABSENT / N/A]
+M12 Ethics & IRB               : [PRESENT / PARTIAL / ABSENT / N/A]
+M14 Temporal Consistency       : [PRESENT / PARTIAL / ABSENT / N/A]
+M15 Selective Reporting        : [PRESENT / PARTIAL / ABSENT / N/A]
+
+STANDARD TIER
+
+M03 Materials & Protocol       : [PRESENT / PARTIAL / ABSENT / N/A]
+M05 Supplementary Audit        : [PRESENT / PARTIAL / ABSENT / N/A]
+M10 Authorship & Contribution  : [PRESENT / PARTIAL / ABSENT / N/A]
+M11 Funding & COI              : [PRESENT / PARTIAL / ABSENT / N/A]
+M13 Data Provenance            : [PRESENT / PARTIAL / ABSENT / N/A]
+M16 Version & Amendment        : [PRESENT / PARTIAL / ABSENT / N/A]
+
+CONTEXTUAL TIER
+
+M07 Journal Policy             : [ACTIVE — findings / INACTIVE]
+M08 Retraction Risk            : [ACTIVE — risk tone / INACTIVE]
+M09 AI Disclosure              : [PRESENT / PARTIAL / ABSENT]
+
+─────────────────────────────────
+SYNTHESIS
+
+Reproducibility Risk  : [LOW / MEDIUM / HIGH / CRITICAL]
+Compound Risk Flag    : [TRIGGERED — description / NOT TRIGGERED]
+Top 3 Critical Gaps   :
+  1. [gap + module reference]
+  2. [gap + module reference]
+  3. [gap + module reference]
+─────────────────────────────────
+```
+
+---
+
+## 6. SECONDARY SECTION CONNECTIONS
+
+### SECTION 3 — Methodological Visibility
+M02 (code/software), M03 (materials/protocol), M06 (reanalysis
+feasibility) signals with methodological transparency dimension
+→ flagged as reproducibility sub-signal within SECTION 3
+when they concern method-level transparency specifically.
+
+### SECTION 7 — Structural Integrity
+M05 (supplementary audit), M10 (authorship), M12 (ethics)
+signals that constitute structural completeness gaps
+→ flagged within SECTION 7 as structural integrity notes.
+
+---
+
+## 7. REVISION ROUND INTERACTION
+
+In Revision Round Mode, all CRITICAL modules scanned at
+Q1-level sensitivity regardless of declared Q-variant.
+
+ABSENT signals in a revised manuscript are weighted as
+residual risk — post-review editorial standards increasingly
+require open science compliance.
+
+---
+
+## 8. RELATIONSHIP TO REPLICATION SIGNAL KIT
+
+REPLICATION SIGNAL KIT (kit 22) is retired.
+This kit fully absorbs and extends its coverage:
+  Kit 22 covered 5 dimensions — this kit covers 16 modules.
+  All signals from kit 22 are present within M01, M02, M04,
+  M10, and the STANDARD tier modules above.
+
+---
+
+## 9. HARD LIMITS
+
+This kit:
+  Does not verify external links or repository contents
+  Does not access preprint servers or registration platforms
+  Does not produce numerical scores
+  Does not make editorial decisions
+  Does not prescribe solutions, repositories, or platforms
+  Cannot suppress SECTION 10 entirely when manuscript is present
+  Signal always based on manuscript text declarations only
+
+---
+
+# REPRODUCIBILITY & OPEN SCIENCE KIT v1.0 — END
+# Tier 3 — Extension
+# Primary: SECTION 10
+# Secondary: SECTION 3, SECTION 7
+# Replaces: REPLICATION SIGNAL KIT (kit 22) — retired

@@ -1,0 +1,121 @@
+﻿# BETA-MANAGER — CALIBRATION-KIT v1.2
+# Evaluation Calibration Thresholds
+# PROJECT FILES field.
+
+---
+
+## IDENTITY
+
+This kit defines Beta-Manager's calibration thresholds
+and deviation types across all 6 evaluation axes.
+
+---
+
+## E1 — SIGNAL QUALITY CALIBRATION
+
+✅ Threshold: Every signal carries a location reference and evidence.
+⚠ Threshold: Location missing in 20% or fewer signals.
+❌ Threshold: Location missing in more than 50% of signals,
+              or no signal can be matched to the source document.
+
+CONFIDENCE CEILING EXCEPTION — OPEN QUESTION (logged, not resolved):
+RETRACTION_CONFIRMED and similar high-certainty observational signals
+(absence confirmation, retraction status) may structurally warrant
+confidence values above the 0.90 Observation ceiling.
+Observed: Rudroff_2025, RETRACTION_CONFIRMED at 0.98.
+Status: logged for meta-factory review. Current rule (0.90 ceiling)
+applies until explicitly revised.
+
+---
+
+## E2 — DRIFT CONTROL CALIBRATION
+
+Drift types:
+- Role simulation: system behaves as reviewer, editor, or judge
+- Decision production: language such as "should be", "must be revised"
+- Revision writing: system produces corrected text for the author
+
+✅ Threshold: No drift type present.
+⚠ Threshold: Implicit decision language present but not explicit.
+❌ Threshold: Any drift type explicitly present.
+
+---
+
+## E3 — FALSE POSITIVE CALIBRATION
+
+False positive types:
+- Field norm error: behavior expected in that field is flagged as a signal
+- Publication period error: 2026 norms applied to a 1988 paper
+- Manuscript type error: empirical checklist applied to a theoretical paper
+
+✅ Threshold: Field and period calibration correct throughout.
+⚠ Threshold: One module shows incorrect calibration.
+❌ Threshold: Systematic miscalibration across multiple modules.
+
+---
+
+## E4 — TONE DEPENDENCY CALIBRATION
+
+Control question: Would the signal count change if the same
+structural content were written in a more or less confident register?
+
+✅ Threshold: Signal count appears tone-independent.
+⚠ Threshold: Signals weaker in fluently-written sections despite
+              structural issues being present.
+❌ Threshold: Explicit tone dependency confirmed.
+
+---
+
+## E5 — BOUNDARY VIOLATION CALIBRATION
+
+Violation types:
+- K4 violation: mathematical correctness is verified or claimed
+- Language boundary: output produced in a language not permitted
+- Domain boundary: content outside the active profile kit is analyzed
+
+✅ Threshold: No violation present.
+⚠ Threshold: Operation near boundary but no violation confirmed.
+❌ Threshold: Any violation confirmed.
+
+---
+
+## E6 — POSITIVE LABEL CALIBRATION
+
+Prohibited words when applied without evidence to mathematical,
+notational, proof, or argument elements:
+strong, well-executed, tight, high, robust, clear,
+appropriate, well-structured, consistent, sound, elegant,
+striking, grounds [as in "grounds the claim"]
+
+Permitted alternatives (structural observation language):
+- "No violation signal detected in this section"
+- "Assumptions are stated before use"
+- "Hedging language is present in Results and Discussion"
+- "No chain break detected between steps"
+
+✅ Threshold: No prohibited words, or all instances supported
+              by locatable structural evidence.
+⚠ Threshold: 1–2 prohibited words; borderline context.
+❌ Threshold: Prohibited positive label applied without evidence.
+
+SELF-CLEARANCE PATTERN (E2/E6 boundary):
+When the system detects a potentially prohibited word and then
+produces a decision such as "not an overreach" or "this is minor"
+to clear it — this is a boundary violation.
+Detecting a term and then adjudicating it crosses from observation
+into decision production (E2 drift) and constitutes an E6 ihlal
+if the cleared term was prohibited.
+Rule: flag the term as ⚠ or ❌; do not produce a clearance decision.
+Observed in: MontanoEtAl_2026 ("striking" → "not an overreach").
+
+---
+
+## OVERALL STATUS CALCULATION
+
+CLEAN     → all axes ✅
+ATTENTION → at least one ⚠, no ❌
+CRITICAL  → at least one ❌
+
+---
+
+# CALIBRATION-KIT v1.2 — END

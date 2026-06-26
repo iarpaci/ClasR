@@ -1,0 +1,431 @@
+﻿# 50 CLASR — CROSS-CONSISTENCY KIT v1.0
+# Added to Project Files. Does not modify CORE.
+# Tier: 3 — Extension
+# Primary SECTION: SECTION 4 — Argumentation
+# Secondary SECTION: SECTION 0 — Macro Frame
+#                    SECTION 8 — Limits & Uncertainties
+# Activation: Automatic — all manuscript types
+# Source: Adapted from CLASR-V CROSS-CONSISTENCY-KIT v1.0
+# STATUS: v1.0 — Initial release for CLASR v3.2
+
+---
+
+## 0. IDENTITY
+
+Type: EXTENSION KIT
+Attaches to: CLASR reading layer (CORE unchanged)
+No content generation · No judgment · No recommendation
+
+This kit reads long-range structural consistency across
+a manuscript's major zones — tracking whether conceptual
+commitments, epistemic frames, and contribution claims
+made in one zone are sustained, modified, or silently
+abandoned in another.
+
+It does not evaluate consistency as quality.
+It surfaces consistency gaps as structural signals only.
+
+**Scope:**
+Active for all manuscript types.
+VERBAL-PRIMARY and HYBRID manuscripts: full six-pair tracking.
+QUANTITATIVE-PRIMARY: all six pairs active; Pair 4
+(Theory ↔ Findings) activates only when a theoretical
+framework section is present.
+
+---
+
+## 1. DESIGN PRINCIPLE
+
+CLASR's existing kits read zone-level or adjacent-zone behavior:
+- Abstract-Body Coherence Kit (21) reads abstract-to-body distance
+- Conclusion Integrity Kit (34) reads conclusion-zone integrity
+- Argument Chain Kit (30) reads central claim continuity
+- Discussion Scope Drift Kit (24) reads Results→Discussion distance
+
+None of these reads the full matrix of long-range
+zone-to-zone consistency across the manuscript's six
+major zone pairs.
+
+A manuscript may be internally coherent at section level
+yet structurally inconsistent across its major zones:
+the theoretical framework introduced in the introduction
+may operate differently in the findings; the contribution
+framed in the abstract may differ from the conclusion's claim;
+the epistemic frame declared in methodology may shift
+by the discussion.
+
+These long-range gaps require a cross-zone consistency map.
+
+```
+Zone signals extracted per major zone pair
+         ↓
+Consistency state mapped per pair
+         ↓
+Gap type identified where inconsistency detected
+         ↓
+Long-range consistency profile assembled
+         ↓
+Profile reported — no verdict
+```
+
+---
+
+## 2. ZONE PAIRS TRACKED
+
+Six zone pairs are tracked for long-range consistency:
+
+```
+PAIR 1: Abstract ↔ Conclusion
+PAIR 2: Introduction ↔ Contribution
+PAIR 3: Literature ↔ Methodology
+PAIR 4: Theory ↔ Findings
+PAIR 5: Methodology ↔ Discussion
+PAIR 6: Contribution ↔ Limitation
+```
+
+Each pair assessed independently.
+Pairs are not ranked or weighted against each other.
+
+---
+
+## 3. CONSISTENCY STATES PER PAIR
+
+For each zone pair:
+
+```
+CONSISTENT   → both zones carry compatible signals;
+               no structural gap detected
+MODIFIED     → second zone adjusts or narrows
+               the first zone's position;
+               adjustment is visible and marked
+TENSION      → second zone signals partially
+               incompatible with first zone;
+               gap present but not acknowledged
+DIVERGENT    → second zone signals structurally
+               incompatible with first zone;
+               gap significant and unacknowledged
+SILENT_SHIFT → first zone establishes a position;
+               second zone operates differently
+               without acknowledging the change
+```
+
+CONSISTENT and MODIFIED: no signal — expected behavior.
+TENSION: medium signal.
+DIVERGENT and SILENT_SHIFT: high signals.
+
+---
+
+## 4. PAIR-SPECIFIC SIGNAL DEFINITIONS
+
+### PAIR 1 — Abstract ↔ Conclusion
+
+Reads whether the central claim and contribution framing
+in the abstract is carried through to the conclusion.
+
+Gap signals:
+- Abstract frames theoretical contribution;
+  conclusion claims empirical contribution
+- Abstract scope narrow; conclusion scope universal
+- Abstract hedged; conclusion assertive without results support
+
+**Cross-reference with Abstract-Body Coherence Kit (21):**
+Kit 21 reads abstract-body distance across five dimensions
+(claim, scope, limit, method, coherence).
+This kit reads specifically the abstract-conclusion pairing
+as a long-range consistency signal.
+Both active; reported as separate sub-signals. Not merged.
+
+---
+
+### PAIR 2 — Introduction ↔ Contribution
+
+Reads whether the research problem framed in the introduction
+is the problem the manuscript's contribution actually addresses.
+
+Gap signals:
+- Introduction frames Problem A;
+  contribution section addresses Problem B
+- Introduction positions the study within Field X;
+  contribution claims to advance Field Y
+- Introduction identifies a gap;
+  contribution does not demonstrably fill that gap
+
+---
+
+### PAIR 3 — Literature ↔ Methodology
+
+Reads whether the methodological choices are consistent
+with the theoretical tradition established in the
+literature review.
+
+Gap signals:
+- Literature review draws exclusively from interpretivist tradition;
+  methodology applies positivist validity criteria
+- Literature review establishes quantitative norm for the field;
+  methodology is qualitative without epistemological bridge
+- Cited literature requires one analytical approach;
+  methodology uses a different approach without explanation
+
+**Cross-reference with Epistemic Frame Kit (47):**
+Kit 47 reads frame-method alignment from the declared frame.
+This kit reads the literature-methodology consistency gap.
+Both active; different analytical angles; not merged.
+
+**Cross-reference with Interdisciplinary Tension Kit (27):**
+Kit 27 reads cross-disciplinary tradition conflict.
+This kit reads literature-methodology zone consistency.
+Both may fire; reported in their respective sections.
+Not merged.
+
+---
+
+### PAIR 4 — Theory ↔ Findings
+
+Reads whether the theoretical framework established in
+the conceptual section is operationally present in
+the findings.
+
+Gap signals:
+- Theoretical framework names Concept X as central;
+  findings section never references Concept X
+- Theory predicts Pattern A;
+  findings report Pattern B without acknowledging the divergence
+- Theoretical framework is interpretive;
+  findings reported in positivist language without bridge
+
+**Activation note:**
+QUANTITATIVE-PRIMARY without explicit theoretical framework:
+→ PAIR 4 not produced; scope note in SECTION 4:
+  [PAIR 4: no theoretical framework section detected —
+   pair not assessable]
+
+**Cross-reference with Concept Lifecycle Kit (48):**
+Kit 48 reads how individual concepts move from theory to findings.
+This kit reads the theory-findings zone pair consistency.
+Both active; different levels; not merged.
+
+---
+
+### PAIR 5 — Methodology ↔ Discussion
+
+Reads whether the discussion's claims are consistent
+with the methodological scope established in the
+methodology section.
+
+Gap signals:
+- Methodology: "exploratory study with 12 participants"
+  Discussion: "these findings indicate that..." (scope expansion)
+- Methodology declares bounded geographic scope;
+  discussion generalizes beyond that scope
+- Methodology acknowledges specific limitations;
+  discussion proceeds as if those limitations do not apply
+
+**Cross-reference with Discussion Scope Drift Kit (24):**
+Kit 24 reads Results→Discussion directional distance.
+This kit reads Methodology↔Discussion zone consistency.
+Both may fire on the same manuscript:
+→ Kit 24: SCALE_DRIFT in SECTION 4
+→ This kit: PAIR 5 DIVERGENT in SECTION 4
+→ Both active; reported as separate sub-signals; not merged.
+
+---
+
+### PAIR 6 — Contribution ↔ Limitation
+
+Reads whether the manuscript's contribution claims
+are proportionate to its acknowledged limitations.
+
+Gap signals:
+- Contribution: "first comprehensive study of X"
+  Limitation: "limited to a single national context"
+  (scope contradiction between contribution and limitation)
+- Contribution: "theoretical advancement"
+  Limitation: "no theoretical framework was developed"
+  (contribution type contradicted by limitation)
+- Limitations section present but does not address
+  the specific constraints on the contribution claimed
+
+**Cross-reference with Argument Symmetry Kit (25):**
+Kit 25 reads claim-limit ratio in the closing zone.
+This kit reads specifically the contribution-limitation pairing.
+Both active; different analytical objects; not merged.
+
+**Cross-reference with Conclusion Integrity Kit (34):**
+Kit 34 reads conclusion-zone integrity including LIMITATION_REVERSAL.
+This kit reads contribution-limitation zone consistency.
+Where both fire: Kit 34 reports LIMITATION_REVERSAL;
+this kit reports PAIR 6 DIVERGENT.
+Both active; reported as separate sub-signals; not merged.
+
+---
+
+## 5. LONG-RANGE CONSISTENCY PROFILE
+
+After all six pairs assessed, a manuscript-level profile:
+
+```
+FULLY CONSISTENT      → all pairs CONSISTENT or MODIFIED
+LOCALLY INCONSISTENT  → one pair shows TENSION
+STRUCTURALLY TENSE    → two pairs show TENSION or one DIVERGENT
+STRUCTURALLY UNSTABLE → two or more pairs DIVERGENT
+                        or one SILENT_SHIFT detected
+```
+
+---
+
+## 6. OUTPUT BEHAVIOR
+
+### Reported as sub-block in SECTION 4:
+
+```
+▸ LONG-RANGE CONSISTENCY PROFILE
+
+Pair 1 (Abstract ↔ Conclusion):       [state]
+Pair 2 (Introduction ↔ Contribution): [state]
+Pair 3 (Literature ↔ Methodology):    [state]
+Pair 4 (Theory ↔ Findings):           [state / NOT ASSESSED]
+Pair 5 (Methodology ↔ Discussion):    [state]
+Pair 6 (Contribution ↔ Limitation):   [state]
+
+Manuscript profile: [FULLY CONSISTENT / LOCALLY INCONSISTENT /
+                     STRUCTURALLY TENSE / STRUCTURALLY UNSTABLE]
+```
+
+Individual pair signals also reported in primary SECTION (§ 7).
+
+If all pairs CONSISTENT or MODIFIED:
+→ Single line: [Long-range consistency: no gaps detected]
+
+---
+
+## 7. SECTION ROUTING
+
+| Pair | Primary SECTION | Secondary SECTION |
+|------|----------------|------------------|
+| Pair 1: Abstract ↔ Conclusion | SECTION 0 | SECTION 4 |
+| Pair 2: Introduction ↔ Contribution | SECTION 4 | SECTION 2 |
+| Pair 3: Literature ↔ Methodology | SECTION 3 | SECTION 2 |
+| Pair 4: Theory ↔ Findings | SECTION 4 | SECTION 2 |
+| Pair 5: Methodology ↔ Discussion | SECTION 3 | SECTION 4 |
+| Pair 6: Contribution ↔ Limitation | SECTION 4 | SECTION 8 |
+| Full profile | SECTION 4 | — |
+
+This kit does not open new SECTIONS.
+
+---
+
+## 8. Q-VARIANT CALIBRATION
+
+**Q1:**
+All six pairs tracked at full sensitivity.
+DIVERGENT and SILENT_SHIFT states explicitly surfaced.
+STRUCTURALLY_UNSTABLE profile noted as potential desk-reject signal.
+Pair 3 (Literature ↔ Methodology) at HIGH sensitivity —
+Q1 reviewers weight epistemological coherence heavily.
+PAIR 6 DIVERGENT noted as potential reviewer concern.
+
+**Q2:**
+All pairs at standard sensitivity.
+DIVERGENT states reported.
+TENSION states reported without escalation.
+SILENT_SHIFT reported.
+
+**Q3:**
+DIVERGENT and SILENT_SHIFT states reported.
+TENSION states suppressed silently.
+Pair 6 (Contribution ↔ Limitation) retained at full sensitivity
+regardless of Q-variant — contribution-limitation proportionality
+is universally important.
+
+---
+
+## 9. PARTIAL INPUT BEHAVIOR
+
+**Abstract only (Type A):**
+→ Pair 1 partially assessable (conclusion absent)
+→ Other pairs not assessable
+→ Kit runs at reduced coverage; notes limitation
+
+**Introduction only (Type B):**
+→ Pairs 2 and 3 partially assessable
+→ Other pairs not assessable
+
+**Methods only (Type C):**
+→ Pairs 3 and 5 partially assessable
+
+**Results / Discussion only (Type D):**
+→ Pairs 4 and 5 assessable
+→ Other pairs not assessable
+
+**Mixed (Type E):**
+→ Kit runs on available zone pairs
+→ Unavailable pairs: [NOT ASSESSED — zone absent]
+
+---
+
+## 10. REVISION ROUND INTERACTION
+
+In Revision Round Mode, all six pairs assessed
+at Q1-level sensitivity regardless of declared Q-variant.
+
+SILENT_SHIFT signals in revised manuscripts carry
+particular weight — consistency gaps introduced through
+revision (e.g., contribution claim changed but limitation
+section not updated) are read as residual risk signals.
+
+STRUCTURALLY_UNSTABLE profile in revised manuscript
+is read as high residual risk.
+
+No separate flag produced.
+Profile reported as normal; sensitivity applies implicitly.
+
+---
+
+## 11. HARD LIMITS
+
+This kit must never:
+  Evaluate whether the consistency gaps are intentional
+  Judge which zone's position is more correct
+  Recommend how to resolve consistency gaps
+  Label the manuscript as incoherent or contradictory
+  Generate independent SECTIONS outside the routing table
+  Act as a standalone structural review tool
+
+---
+
+## 12. WHAT THIS KIT DOES NOT DO
+
+Does not:
+  Evaluate the quality of any zone's content
+  Recommend revision strategies
+  Label consistency gaps as errors
+  Compare the manuscript to other manuscripts
+  Replace Abstract-Body Coherence Kit (21),
+    Conclusion Integrity Kit (34), or
+    Discussion Scope Drift Kit (24) —
+    all four serve different analytical functions
+
+---
+
+## 13. CANONICAL DEFINITION
+
+CROSS-CONSISTENCY KIT v1.0 surfaces long-range structural
+consistency gaps across six zone pairs —
+abstract/conclusion, introduction/contribution,
+literature/methodology, theory/findings,
+methodology/discussion, and contribution/limitation —
+mapping each pair's consistency state
+(CONSISTENT / MODIFIED / TENSION / DIVERGENT / SILENT_SHIFT)
+and assembling a manuscript-level consistency profile
+(FULLY CONSISTENT / LOCALLY INCONSISTENT /
+STRUCTURALLY TENSE / STRUCTURALLY UNSTABLE) —
+without producing judgment, evaluation, or recommendation.
+
+---
+
+# CROSS-CONSISTENCY KIT v1.0 — END
+# Tier 3 — Extension
+# Primary: SECTION 4
+# Secondary: SECTION 0, SECTION 2, SECTION 3, SECTION 8
+# Adapted from: CLASR-V CROSS-CONSISTENCY-KIT v1.0
+# Activation: All manuscript types

@@ -1,0 +1,501 @@
+﻿# 57 CLASR — BETA SIGNAL KIT v1.1
+# Added to Project Files. Does not modify CORE.
+# Tier: 3 — Extension
+# STATUS: v1.1 — Editorial consequence field removed (CORE v1.9.0 alignment)
+# Previous: v1.0
+# Changes: Editorial consequence field removed from all 6 signal output formats;
+#          PAS card ends at Confidence per CORE v1.9.0 schema
+# Source: Beta accumulation v1.0 (5+ manuscript tests, 2026-06)
+# Activation: Automatic — signals fire when trigger conditions met
+#
+# This kit defines six signals identified during beta testing
+# that are not covered by existing kits. Each signal has a
+# defined trigger condition, primary section, and inference type.
+# All signals follow the Evidence → Inference Type → Confidence
+# → Editorial Consequence schema defined in CORE v1.9.
+
+---
+
+## 0. IDENTITY
+
+Type: EXTENSION KIT
+Attaches to: CLASR reading layer (CORE unchanged)
+No content generation · No judgment · No recommendation
+
+This kit surfaces six structural signal types identified
+through empirical beta testing across diverse manuscript types
+(ML/SBI, review articles, HCI/proof-of-concept, health policy
+microsimulation, mathematical/theoretical).
+
+---
+
+## 1. SIGNAL DEFINITIONS
+
+---
+
+### SIGNAL 1 — REVIEW_AS_ADVOCACY_PATTERN
+
+Type: Composite upper-level signal
+Primary SECTION: SECTION 0 (and PRIORITY ACTION SIGNALS)
+Inference type: Interpretive
+Confidence ceiling: 0.75
+
+Definition:
+A manuscript presented as a review article that behaves
+structurally as a position paper, perspective piece, or
+advocacy document — without declaring this framing.
+
+The signal fires when at least 3 of the following
+sub-components are simultaneously active:
+
+  Sub-1: SELF_CITATION_CONCENTRATION
+    Self-citations constitute ≥25% of the reference list
+    OR a single argument chain relies on 3+ consecutive
+    self-citations. (→ Kit 20 Citation Behavior Kit)
+
+  Sub-2: ABSTRACT_CLAIM_OVERREACH
+    Abstract states a consensus-level or field-defining claim
+    that the review's coverage does not substantiate.
+    (→ Kit 21 / Kit 35)
+
+  Sub-3: COMPETING_RESOLUTION_ASYMMETRY
+    Competing approaches to the review's central question
+    receive substantially less coverage, citation density,
+    or analytical depth than the preferred approach.
+    Asymmetry is structural, not quantified.
+
+  Sub-4: SELECTION_CRITERIA_ABSENT
+    No systematic search strategy, inclusion/exclusion criteria,
+    or database specification is provided for a review that
+    implies comprehensive coverage. (→ Kit 45 PRISMA)
+
+  Sub-5: FIGURE_SECTION_WEIGHT_IMBALANCE
+    Figures or sections devoted to the authors' preferred
+    framework or method constitute a disproportionate share
+    of the review's visual or structural weight relative to
+    the breadth of the field being reviewed.
+
+Activation rule:
+  3 of 5 sub-components active → REVIEW_AS_ADVOCACY_PATTERN fires
+  Sub-components are drawn from existing kit outputs —
+  this signal synthesizes them; it does not re-detect them.
+
+Output format:
+```
+REVIEW_AS_ADVOCACY_PATTERN — SECTION 0
+Evidence: [list active sub-components with manuscript locations]
+Inference type: Interpretive
+Inference: [what this structural pattern reveals about the manuscript's argumentative posture — one sentence]
+Confidence: [0.00–0.75]
+Active sub-components: [N of 5] — [list]
+```
+
+Hard lock: This signal never labels the manuscript as dishonest,
+biased, or advocacy. It maps a structural pattern only.
+
+---
+
+### SIGNAL 2 — LOSS_PHYSICS_ALIGNMENT_GAP
+
+Type: Methodological visibility signal
+Primary SECTION: SECTION 3
+Secondary SECTION: SECTION 5
+Inference type: Observation (when loss function and physics
+claim are both stated in text) / Interpretive (when gap
+requires domain knowledge to identify)
+Confidence ceiling: 0.90 (Observation) / 0.75 (Interpretive)
+
+Definition:
+A manuscript applies a machine learning loss function
+(MSE, MAE, cross-entropy, or similar) and simultaneously
+makes claims about downstream physical inference quality —
+without demonstrating or citing evidence that minimizing
+the stated loss function improves the stated physical inference.
+
+The gap between "lower MSE" and "better cosmological parameter
+estimation" is not self-evident. When the manuscript treats
+it as self-evident, this signal fires.
+
+Trigger conditions (both must be met):
+  1. A specific loss function is named or implied
+     (MSE, MAE, RMSE, cross-entropy, etc.)
+  2. A downstream physical inference claim is made
+     ("better constrains X", "improves estimation of Y",
+     "more accurate recovery of Z") that is not independently
+     validated against the physics inference target
+
+Negative trigger (signal does not fire):
+  Manuscript explicitly demonstrates loss-to-physics
+  correlation (e.g., plots showing loss improvement co-varies
+  with inference quality) → signal suppressed.
+
+Output format:
+```
+LOSS_PHYSICS_ALIGNMENT_GAP — SECTION 3
+Evidence: [loss function named + physics claim location]
+Inference type: [Observation / Interpretive]
+Inference: [what this gap reveals about the claim's evidential grounding — one sentence]
+Confidence: [0.00–0.90 (Observation) / 0.00–0.75 (Interpretive)]
+```
+
+Primary section: SECTION 3 (methodological design choice)
+Secondary cross-reference: SECTION 5 (numerical claim behavior)
+
+---
+
+### SIGNAL 3 — TRAINING_PRIOR_LEAKAGE
+
+Type: Methodological visibility signal
+Primary SECTION: SECTION 3
+Inference type: Interpretive
+Confidence ceiling: 0.75
+
+Definition:
+A manuscript trains a model on synthetic data drawn from
+a specific distribution and then claims generalization to
+observational data or out-of-distribution inputs — without
+addressing whether the model has learned the true underlying
+relationship or the prior regularities of the training distribution.
+
+The risk: the model may perform well because it has memorized
+the training distribution's statistical fingerprint, not because
+it has learned the physical or causal relationship being claimed.
+
+Trigger conditions:
+  1. Synthetic training data is explicitly stated
+  2. Generalization claim is made to real/observational data
+     OR to inputs outside the training distribution
+  3. No ablation, transfer test, or distribution shift
+     analysis is reported to support the generalization claim
+
+Output format:
+```
+TRAINING_PRIOR_LEAKAGE — SECTION 3
+Evidence: [training data description + generalization claim location]
+Inference type: Interpretive
+Inference: [what this gap reveals about the generalization claim's structural support — one sentence]
+Confidence: [0.00–0.75]
+```
+
+Severity: MEDIUM at Q2/Q3; HIGH at Q1 when generalization
+is the manuscript's central contribution claim.
+
+Relationship to existing signals:
+  GENERALIZATION_CLAIM (kit 35 / kit 40 A5) reads scope extension.
+  This signal reads the specific mechanism — training distribution
+  leakage — that may explain why the generalization fails.
+  Both may fire simultaneously. Not merged.
+
+---
+
+### SIGNAL 4 — MODEL_INTERPRETABILITY_ABSENT
+
+Type: Methodological visibility / argument signal
+Primary SECTION: SECTION 4
+Secondary SECTION: SECTION 8
+Inference type: Observation
+Confidence ceiling: 0.90
+
+Definition:
+A manuscript applies a machine learning model (neural network,
+ensemble, black-box classifier) in a context where the stated
+application domain requires or implies interpretability —
+and does not address the gap between model opacity and
+the interpretability requirements of that domain.
+
+This signal is domain-specific: it does not fire for ML
+manuscripts in contexts where black-box performance is
+the accepted standard (e.g., benchmark competitions,
+pure prediction tasks with no downstream decision-making).
+
+It fires when:
+  — The application domain implies interpretability need:
+    clinical decision support, physical mechanism discovery,
+    scientific inference, policy recommendation, causal claim
+  AND
+  — The manuscript does not address model interpretability:
+    no feature importance, no attention analysis, no mechanistic
+    interpretation, no acknowledgment of the opacity limitation
+
+Trigger conditions:
+  1. ML model applied (named or described)
+  2. Application claim implies interpretability need
+     (clinical, causal, scientific mechanism, policy)
+  3. No interpretability analysis OR no acknowledgment
+     that interpretability is beyond current scope
+
+Negative trigger (signal does not fire):
+  Manuscript explicitly scopes the contribution as
+  "predictive performance only" without interpretability claims
+  → signal suppressed.
+
+Output format:
+```
+MODEL_INTERPRETABILITY_ABSENT — SECTION 4
+Evidence: [model type + application claim location]
+Inference type: Observation
+Inference: [what this absence reveals about the claim's domain fit — one sentence]
+Confidence: [0.00–0.90]
+```
+
+Severity: MEDIUM when interpretability is peripheral;
+HIGH when interpretability is load-bearing for the
+manuscript's stated contribution.
+
+---
+
+### SIGNAL 5 — INDEX_LINEARITY_ASSUMPTION
+
+Type: Methodological visibility signal
+Primary SECTION: SECTION 3
+Secondary SECTION: SECTION 5
+Inference type: Observation
+Confidence ceiling: 0.90
+
+Definition:
+A manuscript constructs a composite index or score using
+weighted linear aggregation (∑pᵢwᵢxᵢ or equivalent) and
+makes validity or performance claims from that index —
+without addressing whether the linearity assumption,
+the independence assumption, and the weight assignment
+are defensible for the phenomenon being measured.
+
+The aggregation formula embeds three assumptions that
+affect the index's validity:
+  1. Linearity: components combine additively without
+     interaction effects
+  2. Independence: components are not correlated in ways
+     that inflate or deflate the composite
+  3. Weight validity: assigned weights reflect actual
+     relative importance in the domain
+
+When any of these three is unaddressed and the manuscript
+makes substantive validity or comparative claims from
+the index, the signal fires.
+
+Trigger conditions:
+  1. Composite index or weighted score is described
+     (AHP, Delphi-weighted sum, equal-weight composite,
+     or any ∑wᵢxᵢ construction)
+  2. Substantive claim is made from the index value
+     (ranking, benchmarking, validation, policy target)
+  3. At least one of the three assumptions (linearity,
+     independence, weight validity) is unaddressed
+
+Output format:
+```
+INDEX_LINEARITY_ASSUMPTION — SECTION 3
+Evidence: [index formula or description + claim location]
+Inference type: Observation
+Inference: [what unaddressed assumptions reveal about the index's validity claim — one sentence]
+Confidence: [0.00–0.90]
+Assumptions unaddressed: [linearity / independence / weight validity]
+```
+
+Severity: MEDIUM when index is supplementary to other evidence;
+HIGH when the index is the primary evidentiary instrument
+for the manuscript's contribution claim.
+
+Cross-reference: OPERATIONALIZATION_GAP (kit 33) may co-occur
+when the index components do not fully capture the construct.
+Both active; reported in their respective sections. Not merged.
+
+---
+
+### SIGNAL 6 — ASSUMPTION_STACKING_RISK
+
+Type: Methodological visibility / argument signal
+Primary SECTION: SECTION 3
+Secondary SECTION: SECTION 4
+Inference type: Interpretive
+Confidence ceiling: 0.75
+
+Definition:
+A manuscript's central claim depends on a chain of independent
+assumptions, where each assumption is individually plausible
+but the combined probability of all assumptions holding
+simultaneously is materially lower than any individual
+assumption alone — and this cumulative uncertainty is
+not acknowledged.
+
+This is distinct from a single questionable assumption.
+The signal is about the multiplication of uncertainty:
+if assumption A has 80% plausibility, and assumption B
+has 80% plausibility, and they are independent, the claim
+that requires both holds with ~64% plausibility.
+When five such assumptions stack, the cumulative uncertainty
+substantially undermines the claim — even if each individual
+assumption appears reasonable.
+
+Trigger conditions:
+  1. Three or more distinct assumptions are identifiable
+     as load-bearing for a primary claim
+  2. The assumptions are treated as independently valid
+     rather than as a chain with cumulative uncertainty
+  3. The manuscript does not quantify, acknowledge, or
+     bound the compound uncertainty of the assumption stack
+
+Characteristic patterns:
+  — Health policy microsimulation: effect transfer + baseline
+    prevalence + uptake rate + cost parameters + no interaction
+  — ML generalization: training distribution representativeness +
+    loss-to-physics alignment + no domain shift + benchmark parity
+  — Economic modelling: behavioral assumption + market structure +
+    equilibrium convergence + parameter stability
+
+Output format:
+```
+ASSUMPTION_STACKING_RISK — SECTION 3
+Evidence: [list of identified load-bearing assumptions + locations]
+Inference type: Interpretive
+Inference: [what the assumption stack reveals about the compound uncertainty of the central claim — one sentence]
+Confidence: [0.00–0.75]
+Assumptions identified: [N]
+```
+
+Severity:
+  MEDIUM: 3–4 assumptions, partial acknowledgment present
+  HIGH: 5+ assumptions OR primary contribution dependent on
+        stack with no compound uncertainty acknowledgment
+
+Relationship to existing signals:
+  CAUSAL_DESIGN_MISMATCH (kit 40 A3) reads design-claim fit.
+  GENERALIZABILITY_CLAIM (kit 40 A5) reads scope extension.
+  This signal reads the internal assumption architecture —
+  how many independent assumptions the central claim requires
+  and whether their compound uncertainty is visible.
+  All three may fire. Each reported in its primary section.
+  Not merged.
+
+---
+
+## 2. SECTION ROUTING SUMMARY
+
+| Signal                          | Primary  | Secondary |
+|---------------------------------|----------|-----------|
+| REVIEW_AS_ADVOCACY_PATTERN      | S0 / PAS | S1, S2    |
+| LOSS_PHYSICS_ALIGNMENT_GAP      | S3       | S5        |
+| TRAINING_PRIOR_LEAKAGE          | S3       | S8        |
+| MODEL_INTERPRETABILITY_ABSENT   | S4       | S8        |
+| INDEX_LINEARITY_ASSUMPTION      | S3       | S5        |
+| ASSUMPTION_STACKING_RISK        | S3       | S4        |
+
+---
+
+## 3. PRIORITY ACTION SIGNALS ELIGIBILITY
+
+REVIEW_AS_ADVOCACY_PATTERN: eligible at all confidence levels
+  (composite signal — presence of 3+ sub-components is
+  sufficient evidence regardless of individual sub-signal
+  inference type)
+
+LOSS_PHYSICS_ALIGNMENT_GAP:
+  Observation trigger → eligible
+  Interpretive trigger → eligible when generalization is
+  the manuscript's primary contribution claim
+
+TRAINING_PRIOR_LEAKAGE:
+  Eligible at Q1 when generalization is primary claim
+
+MODEL_INTERPRETABILITY_ABSENT:
+  Eligible at HIGH severity only
+
+INDEX_LINEARITY_ASSUMPTION:
+  Eligible at HIGH severity only (index is primary instrument)
+
+ASSUMPTION_STACKING_RISK:
+  Eligible at HIGH severity (5+ assumptions, no acknowledgment)
+
+---
+
+## 4. Q-VARIANT CALIBRATION
+
+Q1:
+  All six signals active at full sensitivity.
+  REVIEW_AS_ADVOCACY_PATTERN noted as potential desk-reject signal
+  for specialist empirical journals.
+  TRAINING_PRIOR_LEAKAGE at HIGH when generalization is central.
+  ASSUMPTION_STACKING_RISK at full sensitivity.
+
+Q2:
+  All signals at standard sensitivity.
+  REVIEW_AS_ADVOCACY_PATTERN noted without escalation.
+  ASSUMPTION_STACKING_RISK at MEDIUM threshold raised to 4+
+  assumptions before HIGH.
+
+Q3:
+  REVIEW_AS_ADVOCACY_PATTERN: fires at 3+ sub-components but
+  noted at summary level only.
+  LOSS_PHYSICS_ALIGNMENT_GAP and TRAINING_PRIOR_LEAKAGE:
+  reported at MEDIUM.
+  MODEL_INTERPRETABILITY_ABSENT: fires only if interpretability
+  is explicitly claimed in abstract or conclusion.
+  INDEX_LINEARITY_ASSUMPTION and ASSUMPTION_STACKING_RISK:
+  at summary level.
+
+---
+
+## 5. MANUSCRIPT TYPE CALIBRATION
+
+REVIEW_AS_ADVOCACY_PATTERN:
+  Active for review articles and systematic reviews only.
+  Suppressed for empirical, theoretical, and methods papers.
+
+LOSS_PHYSICS_ALIGNMENT_GAP:
+  Active for ML / computational / SBI manuscripts.
+  Suppressed for purely theoretical or purely observational designs.
+
+TRAINING_PRIOR_LEAKAGE:
+  Active for ML manuscripts with synthetic training data.
+  Suppressed when training data is observational.
+
+MODEL_INTERPRETABILITY_ABSENT:
+  Active for ML manuscripts with domain application claims.
+  Suppressed for pure benchmark or prediction-only papers.
+
+INDEX_LINEARITY_ASSUMPTION:
+  Active for any manuscript using composite scoring.
+  Field-agnostic.
+
+ASSUMPTION_STACKING_RISK:
+  Active for all manuscript types.
+  Highest sensitivity for policy simulation, ML generalization,
+  and structural equation / causal modelling papers.
+
+---
+
+## 6. HARD LIMITS
+
+This kit:
+  Does not evaluate the validity of any individual assumption
+  Does not assess whether ML models are technically correct
+  Does not produce verdicts on review quality or completeness
+  Does not label manuscripts as advocacy, biased, or flawed
+  Does not verify external claims or compare against field literature
+  Does not produce scores or rankings
+  Signals are structural observations — not evaluations
+
+---
+
+## 7. CANONICAL DEFINITION
+
+BETA SIGNAL KIT v1.1 defines six signals identified through
+empirical beta testing: REVIEW_AS_ADVOCACY_PATTERN (composite
+synthesis signal for review-as-position-paper behavior),
+LOSS_PHYSICS_ALIGNMENT_GAP (ML loss function to physics inference
+disconnect), TRAINING_PRIOR_LEAKAGE (synthetic-to-real generalization
+without distribution shift validation), MODEL_INTERPRETABILITY_ABSENT
+(black-box model in interpretability-requiring domain),
+INDEX_LINEARITY_ASSUMPTION (composite index without aggregation
+assumption audit), and ASSUMPTION_STACKING_RISK (compound
+uncertainty from multiple load-bearing assumptions) —
+without producing verdicts, evaluations, or recommendations.
+
+---
+
+# BETA SIGNAL KIT v1.1 — END
+# Tier 3 — Extension
+# Source: CLASR Beta Accumulation v1.0 (2026-06)
+# Version: v1.1
+# Covers: 6 signals across manuscript types ML/SBI, review,
+#         HCI/proof-of-concept, health policy, mathematical

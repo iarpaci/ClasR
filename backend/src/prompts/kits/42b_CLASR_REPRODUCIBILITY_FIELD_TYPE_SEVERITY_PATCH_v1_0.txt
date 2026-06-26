@@ -1,0 +1,317 @@
+﻿# 42b CLASR — REPRODUCIBILITY FIELD-TYPE SEVERITY PATCH v1.0
+# Kit: 42b_CLASR_REPRODUCIBILITY_FIELD_TYPE_SEVERITY_PATCH_v1_0
+# Position: Project Files — Tier 3 (Extension)
+# Patches: 42_EN_REPRODUCIBILITY_OPEN_SCIENCE_KIT_v1_1
+# Target section: §2 MODULE TIERS
+# STATUS: v1.0
+# Rationale:
+#   Base tier detection conflates structural importance with
+#   contextual severity. ABSENT status does not automatically
+#   carry CRITICAL weight across all manuscript types.
+#   This patch introduces a modulation layer between detection
+#   and final severity resolution.
+#
+# Architecture change:
+#   §2 MODULE TIERS restructured as:
+#     2.1 Base Tier (unchanged — structural importance)
+#     2.2 Suppression / N/A Conditions (unchanged — per-module)
+#     2.3 Field-Type Severity Modifier (NEW — this patch)
+#     2.4 Final Severity Resolution (NEW — this patch)
+#
+# First implementation modules: M01, M02, M04, M06, M12
+# Remaining modules: placeholder — extend in subsequent patches
+
+---
+
+## §2.1 BASE TIER
+
+Base tier defines structural importance of each module.
+Unchanged from 42_EN_REPRODUCIBILITY_OPEN_SCIENCE_KIT_v1_1:
+
+CRITICAL (7 modules):
+  M01 Data Availability
+  M02 Code & Software Availability
+  M04 Pre-registration Status
+  M06 Reanalysis Feasibility
+  M12 Ethics & IRB Compliance
+  M14 Temporal Consistency
+  M15 Selective Reporting Signal
+
+STANDARD (6 modules):
+  M03 Materials & Protocol Transparency
+  M05 Supplementary File Audit
+  M10 Authorship & Contribution Transparency
+  M11 Funding & Conflict of Interest Transparency
+  M13 Data Provenance
+  M16 Version & Amendment Tracking
+
+CONTEXTUAL (3 modules):
+  M07 Journal Policy Compliance
+  M08 Retraction Risk Profile
+  M09 AI-Assisted Research Disclosure
+
+Signal states: PRESENT / PARTIAL / ABSENT / NOT APPLICABLE
+
+Base tier labels indicate detection sensitivity and
+editorial attention weight — not final output severity.
+
+---
+
+## §2.2 SUPPRESSION / N/A CONDITIONS
+
+Per-module suppression conditions unchanged from Kit v1.1.
+Suppression = module does not run, or N/A declared with reason.
+Suppression is not the same as severity reduction.
+
+Silent suppression remains a system failure.
+
+---
+
+## §2.3 FIELD-TYPE SEVERITY MODIFIER
+
+### Core principle
+
+  Base tier detects structural importance.
+  Modifier determines contextual severity.
+
+  ABSENT ≠ automatically CRITICAL.
+  ABSENT + field relevance + claim centrality = final severity.
+
+### Modifier formula
+
+  Final Severity =
+    Base Module Tier
+    × Manuscript Type Modifier
+    × Data / Participant Risk Modifier
+    × Claim Centrality Modifier
+
+Modifiers are applied in sequence.
+If any modifier produces N/A: module suppressed (see §2.2).
+If all modifiers produce LOW: signal reported as LOW with note.
+
+### Manuscript type categories for modifier purposes
+
+  TYPE-A: RCT / prospective clinical study / interventional design
+  TYPE-B: Observational human study (cohort, case-control, survey)
+  TYPE-C: Tool / informatics / computational / retrospective
+           public-data study
+  TYPE-D: Systematic review / meta-analysis / evidence synthesis
+  TYPE-E: Theoretical / conceptual / narrative review /
+           purely verbal manuscript
+
+---
+
+### M01 — DATA AVAILABILITY modifier table
+
+Base tier: CRITICAL
+
+| Manuscript Type | ABSENT → Final Severity |
+|-----------------|------------------------|
+| TYPE-A          | CRITICAL               |
+| TYPE-B          | HIGH                   |
+| TYPE-C          | MEDIUM                 |
+|                 | (unless primary data    |
+|                 | collected by authors —  |
+|                 | then HIGH)             |
+| TYPE-D          | HIGH                   |
+|                 | (PRISMA requires data  |
+|                 | extraction transparency)|
+| TYPE-E          | LOW or N/A             |
+
+Claim centrality modifier:
+  If data availability is the central reproducibility claim
+  of the manuscript → upgrade one level regardless of type.
+
+---
+
+### M02 — CODE & SOFTWARE AVAILABILITY modifier table
+
+Base tier: CRITICAL
+
+| Manuscript Type | ABSENT → Final Severity |
+|-----------------|------------------------|
+| TYPE-A          | HIGH                   |
+| TYPE-B          | HIGH                   |
+| TYPE-C          | HIGH                   |
+|                 | (core contribution is  |
+|                 | computational — code   |
+|                 | absence is central gap)|
+| TYPE-D          | MEDIUM                 |
+|                 | (if statistical pooling|
+|                 | code absent → HIGH)    |
+| TYPE-E          | N/A                    |
+
+Data/participant risk modifier:
+  Custom scripts not described → upgrade one level.
+  Standard package use only (named, versioned) → no change.
+
+---
+
+### M04 — PRE-REGISTRATION STATUS modifier table
+
+Base tier: CRITICAL
+
+| Manuscript Type | ABSENT → Final Severity |
+|-----------------|------------------------|
+| TYPE-A          | CRITICAL               |
+| TYPE-B          | HIGH                   |
+| TYPE-C          | MEDIUM                 |
+| TYPE-D          | HIGH                   |
+|                 | (PROSPERO or equivalent|
+|                 | expected for SR/MA)    |
+| TYPE-E          | LOW or N/A             |
+
+Claim centrality modifier:
+  If hypothesis confirmation is the primary claim → upgrade one level.
+  If tool performance is the primary claim → no upgrade.
+
+Not-acknowledged modifier:
+  If ABSENT and absence is not noted as a study limitation
+  → append editorial note: "absence unacknowledged — reviewer
+  will flag."
+  This note does not change severity level; it flags
+  a transparency behavior.
+
+---
+
+### M06 — REANALYSIS FEASIBILITY modifier table
+
+Base tier: CRITICAL
+
+| Manuscript Type | ABSENT → Final Severity |
+|-----------------|------------------------|
+| TYPE-A          | CRITICAL               |
+| TYPE-B          | HIGH                   |
+| TYPE-C          | MEDIUM-HIGH            |
+|                 | (depends on whether    |
+|                 | evaluation sample is   |
+|                 | the primary evidentiary|
+|                 | unit)                  |
+| TYPE-D          | HIGH                   |
+| TYPE-E          | LOW or N/A             |
+
+Evaluation sample modifier (TYPE-C specific):
+  If evaluation sample is released publicly → PRESENT.
+  If evaluation sample undisclosed but tool is public
+  → PARTIAL (tool access ≠ reanalysis feasibility).
+  If evaluation sample undisclosed and tool access insufficient
+  for replication → MEDIUM-HIGH.
+
+---
+
+### M12 — ETHICS & IRB COMPLIANCE modifier table
+
+Base tier: CRITICAL
+
+| Manuscript Type       | Data Type              | ABSENT → Final Severity |
+|-----------------------|------------------------|------------------------|
+| TYPE-A                | Direct participants    | CRITICAL               |
+| TYPE-B                | Human-derived,         | HIGH                   |
+|                       | non-public data        |                        |
+| TYPE-B / TYPE-C       | Public registry /      | LOW-MEDIUM             |
+|                       | publication metadata   |                        |
+|                       | only                   |                        |
+| TYPE-C                | Computational,         | LOW                    |
+|                       | no human data          |                        |
+| TYPE-D                | Secondary data,        | MEDIUM                 |
+|                       | pooled human data      |                        |
+| TYPE-E                | No data                | N/A                    |
+
+Declaration modifier:
+  Explicit "IRB not required / waived" statement → PRESENT
+  (no signal produced).
+  No statement of any kind → ABSENT at severity per table above.
+  Suppression requires explicit confirmation in text —
+  absence of ethics mention does not itself trigger suppression
+  (unchanged from Kit v1.1).
+
+---
+
+### Modules without modifier tables in this patch
+
+M03, M05, M07, M08, M09, M10, M11, M13, M14, M15, M16:
+  Field-type modifier tables to be defined in subsequent patches.
+  Until defined: base tier severity applies (existing behavior).
+  This is explicit — not silent continuation.
+
+---
+
+## §2.4 FINAL SEVERITY RESOLUTION
+
+### Resolution rules
+
+1. Apply modifiers in sequence (§2.3).
+2. Final severity is the output of the full modifier chain,
+   not the base tier alone.
+3. Final severity is what appears in the module signal table
+   and in the SYNTHESIS block.
+4. Base tier is retained in the module table as a reference label:
+
+   ```
+   M04 Pre-registration  : ABSENT
+   Base tier: CRITICAL · Field modifier: TYPE-C → MEDIUM
+   Final severity: MEDIUM
+   Note: absence unacknowledged as study limitation.
+   ```
+
+5. Final severity drives:
+   — PRIORITY ACTION SIGNALS eligibility
+   — Compound Risk Flag threshold
+   — SYNTHESIS reproducibility risk level
+
+### Compound Risk Flag — revised threshold
+
+Previous rule:
+  Two or more CRITICAL ABSENT signals → Compound Risk Flag triggered.
+
+Revised rule:
+  Compound Risk Flag triggers only if:
+  — At least one component signal reaches HIGH or CRITICAL
+    after full modulation (not base tier alone)
+  AND
+  — The missing item affects one or more of:
+    (a) participant protection
+    (b) primary validity of the central claim
+    (c) reproducibility of a result the manuscript foregrounds
+
+  If both conditions met → COMPOUND RISK FLAG ACTIVE
+  If conditions not met → Editorial Compliance Note instead:
+
+  ```
+  Editorial Compliance Note: [module list] absent.
+  Field-modulated severity: [severity levels].
+  Not sufficient to trigger Compound Risk Flag at this
+  manuscript type. Reviewer may note as good-practice gap.
+  ```
+
+---
+
+## HARD LIMITS (patch-specific)
+
+This patch:
+  Does not change base tier definitions
+  Does not change suppression / N/A conditions (§2.2)
+  Does not change signal state vocabulary
+    (PRESENT / PARTIAL / ABSENT / NOT APPLICABLE)
+  Does not suppress signals — only modulates severity
+  Does not introduce new signals
+  Does not affect modules without modifier tables
+    (base tier behavior continues explicitly)
+  Cannot be selectively applied — modifier chain runs
+    for all modules with defined tables, every report
+
+---
+
+## VERSION DEPENDENCY
+
+  CLASR CORE v1.9
+  42_EN_REPRODUCIBILITY_OPEN_SCIENCE_KIT_v1_1
+  44_CLASR_ACTION_PRIORITY_BLOCK_KIT_v1_2
+
+---
+
+# 42b_CLASR_REPRODUCIBILITY_FIELD_TYPE_SEVERITY_PATCH_v1_0 — END
+# Patches: 42_EN_REPRODUCIBILITY_OPEN_SCIENCE_KIT_v1_1
+# First implementation: M01, M02, M04, M06, M12
+# Remaining modules: pending subsequent patches
+# Compound Risk Flag threshold: revised per §2.4

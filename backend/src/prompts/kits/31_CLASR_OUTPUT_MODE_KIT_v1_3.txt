@@ -1,0 +1,505 @@
+﻿# 31 CLASR — OUTPUT MODE KIT v1.3
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.3
+# Previous: v1.2.2
+# Changes:
+#   § 4 AUTHOR MODE — fully redefined:
+#          zero data loss rule added (non-negotiable);
+#          Section 10 full module walkthrough mandatory;
+#          three-part signal format (restatement + visibility note +
+#          options); reviewer-as-subject language explicitly forbidden;
+#          structural visibility framing rule added;
+#          PAS preview block added before section walkthrough;
+#          confidence field omission rule made explicit
+#   § 5 SIGNAL MODE — redefined:
+#          now carries full Evidence + Inference in fragment style
+#          (not label + location only as in v1.2.2);
+#          zero data loss rule added;
+#          Section 10 all modules mandatory in fragment form;
+#          fragment style definition added;
+#          use when column updated
+#   § 6 ADVISOR MODE — fully redefined:
+#          posture-first structure;
+#          global re-ranking across all sections (not section-ordered);
+#          compliance modules block (PRESENT/N/A/NOT FLAGGED) separate;
+#          triage summary block added;
+#          zero data loss rule added
+#   § 3 ACTIVATION — use-when column updated for Signal Mode
+#   § 14 CANONICAL DEFINITION — updated
+
+---
+
+## 0. IDENTITY
+
+Type: GOVERNANCE KIT
+Attaches to: CLASR output layer (CORE unchanged)
+No signal generation · No section reordering · No hierarchy modification
+
+Tier: 2 — Governance
+Activation: User-triggered — requires explicit command
+Default: Standard CLASR output — no command, no change
+
+---
+
+## 1. PURPOSE (ONE SENTENCE)
+
+To switch the presentation format of CLASR signal output
+between three user-facing modes — author, signal, advisor —
+without modifying signal content, section order,
+or any kit's detection behavior.
+
+Output Mode Kit modes do not simulate editorial roles.
+They format signal output for different reading contexts.
+Decisions, judgments, and evaluations always rest with the user.
+
+---
+
+## 2. DESIGN PRINCIPLE
+
+This kit formats. It does not read. It does not detect.
+
+All signals are produced by the existing kit system as normal.
+This kit receives the completed signal output
+and reformats its presentation layer only.
+
+```
+Standard kit system runs → signals produced
+         ↓
+Output Mode Kit activated?
+    No  → standard output delivered unchanged
+    Yes → presentation layer reformatted per active mode
+         ↓
+Reformatted output delivered
+```
+
+**Zero data loss — applies in all three modes:**
+Every signal in the source report must appear in the output.
+Every Evidence detail, every Inference clause, every Section 10
+module status (including PRESENT / NOT APPLICABLE / NOT FLAGGED),
+every cross-reference, and the compound risk flag must all be
+represented. Mode changes presentation, never coverage.
+
+The only field omitted in all modes: numeric confidence —
+never in any form, not as a number, percentage, or re-labeled score.
+
+Signal content is never altered.
+Signal labels are never suppressed.
+Section order is never changed (except Advisor Mode re-ranking — see § 6).
+UNIFIED-OUTPUT KIT v1.3 label enforcement remains active in all modes.
+
+---
+
+## 3. ACTIVATION
+
+Output Mode Kit is inactive by default.
+Standard CLASR behavior applies unless a mode command is given.
+
+Activation commands (case-insensitive, Turkish and English):
+
+| Command (TR)    | Command (EN)   | Mode activated | Use when |
+|-----------------|----------------|----------------|----------|
+| `yazar modu`    | `author mode`  | AUTHOR MODE    | Author needs plain-language walkthrough of every signal with structural visibility framing |
+| `sinyal modu`   | `signal mode`  | SIGNAL MODE    | Fluent CLASR reader needs full content in maximum-density fragment form |
+| `danışman modu` | `advisor mode` | ADVISOR MODE   | Supervisor / research support staff needs risk-ordered triage view across all signals |
+
+Command may appear:
+- Before the manuscript ("author mode: [manuscript]")
+- After the manuscript ("[manuscript] — signal mode")
+- As a standalone switch ("switch to advisor mode")
+
+One mode is active at a time.
+If two mode commands appear → last command takes precedence.
+Mode remains active for the duration of the session
+unless overridden by a new command.
+
+To return to standard output:
+`standart mod` / `standard mode` / `default mode`
+
+Backward compatibility:
+`reviewer mode` / `hakem modu` → activates SIGNAL MODE.
+These commands are accepted but SIGNAL MODE is the canonical name.
+
+---
+
+## 4. AUTHOR MODE
+
+**Audience:** The manuscript's author. Assumes no familiarity with
+CLASR's internal vocabulary. Assumes deep familiarity with their
+own manuscript.
+
+**Purpose:** Plain-language walkthrough of every signal, structured
+so the author can locate each finding in their own text and understand
+its structural significance without CLASR jargon.
+
+**Zero data loss — mandatory:**
+Every signal must appear. Every Evidence detail, every Inference
+clause, every Section 10 module (including PRESENT, NOT APPLICABLE,
+NOT FLAGGED), every cross-reference, and the compound risk flag
+must be represented. Condensing two signals into one mention is
+a format violation.
+
+**Report structure in Author Mode:**
+
+```
+[HEADER BLOCK — mode: Author Mode]
+
+1. PRIORITY ACTION SIGNALS PREVIEW
+   3–5 plain-language one-liners (highest-severity signals).
+   This is a preview — each signal is still written in full
+   in its home section below.
+
+2. SECTION-BY-SECTION WALKTHROUGH (Sections 0–10, source order)
+   For every signal:
+     a. PLAIN-LANGUAGE RESTATEMENT
+        Evidence and Inference in plain English.
+        Signal-vocabulary nouns removed or defined inline.
+        Inference type stated in plain words if it adds clarity
+        ("this is something CLASR observed directly in the text,"
+        not "Inference type: Observation" verbatim — but the
+        information must be present in substance).
+
+     b. STRUCTURAL VISIBILITY NOTE
+        Why this is the kind of thing that becomes visible during
+        editorial review — as a property of the manuscript's
+        structure, not as a prediction of a person's behavior.
+
+        FORBIDDEN: "A reviewer will likely flag this."
+        "Reviewers tend to ask..." Any sentence with a reviewer
+        as grammatical subject performing a future action.
+
+        ALLOWED: "Gaps in [X] are commonly the first thing checked
+        when [Y] is the paper's central claim" — structural-risk
+        framing where the manuscript property, not a person's
+        future behavior, is the subject.
+
+     c. WHAT YOU COULD DO
+        One or two concrete, non-prescriptive options.
+        Framed as options, never instructions.
+
+   For Section 10 specifically:
+     Walk through every module status (ABSENT, PARTIAL, PRESENT,
+     NOT APPLICABLE, NOT FLAGGED) — not only absent ones.
+     A PRESENT or NOT FLAGGED module is still part of the
+     compliance picture and must be stated, even briefly.
+     Include the compound risk flag in full where it occurs.
+
+   Cross-references:
+     A signal that appears in two sections must be written in
+     full at its primary location and referenced by name at its
+     secondary location — not silently dropped.
+
+   Ordering within a section:
+     Lead with highest-severity signal; preserve source order
+     among equal-severity signals.
+
+3. CLOSING — INTEGRATED RISK POSTURE EXPANDED
+   State the posture label, then expand its one-sentence
+   characterization into 2–3 plain-language sentences explaining
+   what combination of structural patterns produced this level.
+   Same non-behavioral framing as 2b. No recommendation. No grade.
+```
+
+**Tone:** Second person ("your manuscript," "you state").
+Plain English, no jargon left undefined.
+Favor clarity over density — this mode is for someone
+reading once, not scanning.
+
+**Confidence:** Never stated in any form.
+
+**Length impact:** Author mode significantly increases total report
+length. Section maximum lengths from UNIFIED-OUTPUT KIT are suspended
+for the author explanation layer. Signal content layer remains
+within standard length limits.
+
+---
+
+## 5. SIGNAL MODE
+
+**Audience:** Fluent reader of CLASR's signal vocabulary who wants
+density, not narrative. Reads fast; wants every field visible at
+a glance.
+
+**Purpose:** Full signal content in maximum-density fragment form.
+Not label + location only (that was v1.2.2 behavior).
+Every fact, number, quote, and logical link from the source
+signal survives — only connective tissue is removed.
+
+**Zero data loss — mandatory:**
+Every signal must appear with full Evidence and full Inference
+content preserved (compressed in form, not in substance).
+Every Section 10 module status must appear, including PRESENT,
+NOT APPLICABLE, NOT FLAGGED. Every cross-reference must appear.
+"Density" means tight sentence construction and fragment style —
+not selecting which facts survive.
+
+**Fragment style definition:**
+Drop connective tissue ("the manuscript states that,"
+"this indicates"). Keep every fact, number, quote, and logical link.
+A long Evidence or Inference stays long if the source is long —
+compress syntax, not content. Compress until removing another word
+would lose a fact, a number, a quote, or a logical link.
+
+**Report structure in Signal Mode:**
+
+```
+[HEADER BLOCK — mode: Signal Mode]
+
+1. PRIORITY ACTION SIGNALS
+   Distinct opening block. Each item compressed to:
+   [SEVERITY] SIGNAL_LABEL — Sec.N — [Inference type abbrev.]
+   Evidence: [full evidence content, fragment style]
+   Inference: [full inference content, fragment style]
+
+2. SECTION-BY-SECTION (Sections 0–10, source order)
+   For each signal, one compressed entry:
+   [SEVERITY] SIGNAL_LABEL — Sec.N — [Inf. type abbrev.] —
+   Evidence: [full evidence, fragment] Inference: [full inference, fragment]
+
+   For Section 10: all modules in order, each with status
+   and full justification compressed to fragment style.
+   Not only ABSENT modules. Compound risk flag in full.
+
+   Cross-references: use → notation pointing to the other
+   location, in addition to stating the signal's content
+   at its current location.
+
+3. CLOSING — POSTURE LABEL
+   One-line driver fragment naming the specific signals/modules
+   that produced the posture. Fragment style. Not a verbatim
+   copy of the source sentence.
+```
+
+**Tone:** Third person where a subject is needed; otherwise
+subjectless fragments. No transitions. No restated framing
+sentences. Direct field-to-field density.
+
+**Confidence:** Never stated in any form.
+
+**Exceptions (never suppressed in Signal Mode):**
+- Header block
+- PRIORITY ACTION SIGNALS block
+- INTEGRATED RISK POSTURE block
+- ARGUMENT DENSITY block
+- Closing disclaimer
+
+**Length impact:** Signal mode compresses output relative to
+standard, but is longer than v1.2.2 Signal Mode because
+Evidence + Inference content is now retained.
+
+---
+
+## 6. ADVISOR MODE
+
+**Audience:** Supervisors, writing centers, institutional research
+support staff triaging on behalf of someone else, often across
+many manuscripts.
+
+**Purpose:** Risk-ordered global view first — but completeness
+is not optional. Every signal must appear in the ranked list.
+All Section 10 modules appear in a separate compliance block.
+
+**Zero data loss — mandatory:**
+Every signal must appear in the ranked list with full Evidence +
+Inference content (in one sentence). Every Section 10 module
+(including PRESENT, NOT APPLICABLE, NOT FLAGGED) must appear
+in the compliance block. Compound risk flag must appear.
+Re-ranking is allowed; deletion is not.
+
+**Report structure in Advisor Mode:**
+
+```
+[HEADER BLOCK — mode: Advisor Mode]
+
+1. POSTURE FIRST
+   Posture label + full source characterization sentence,
+   unedited. Single fact a time-pressed advisor needs
+   before reading further.
+
+2. MANUSCRIPT PROFILE
+   Short paragraph: Section 0 field/Q-tier/manuscript-type/basis
+   information + any "no gap detected" framing-level findings
+   (aim-scope alignment, framework visibility, argument chain
+   soundness) that don't carry their own severity tier but are
+   still part of the source report. Do not drop these because
+   they are not flagged risks.
+
+3. RANKED SIGNAL LIST
+   Re-rank ALL signals (including all Section 10 ABSENT/PARTIAL
+   modules with a severity tier) into one global list,
+   ignoring original section grouping:
+     — CRITICAL/HIGH first, descending
+     — MEDIUM next
+     — LOW last
+   Preserve source relative order within a tier.
+
+   Each entry:
+   [SEVERITY] One sentence carrying every fact from the source
+   signal's Evidence + Inference (not a partial gist — every
+   number, quote, and logical link must survive in the sentence).
+   Source: Section N · originally SIGNAL_LABEL
+
+4. COMPLIANCE MODULES WITHOUT INDEPENDENT SEVERITY
+   Separate block listing every Section 10 module that is
+   PRESENT, NOT APPLICABLE, or NOT FLAGGED (not already in
+   ranked list above), each with its full justification content.
+   Label this block clearly as supplementary — not part of
+   the risk ranking.
+
+5. TRIAGE SUMMARY
+   Count of CRITICAL/HIGH signals.
+   Root-cause clustering if 2+ signals share one underlying cause.
+   Brief characterization of what MEDIUM/LOW signals have in
+   common as a group.
+   No recommendation. No quality characterization of the
+   manuscript ("concerning" / "solid") — that judgment is
+   not Advisor Mode's to make.
+```
+
+**Tone:** Third person, brief, built for scanning many reports
+in a row. Each ranked entry: readable in under 3 seconds AND
+containing every fact from its source signal.
+
+**Confidence:** Never stated in any form.
+
+**Length impact:** Advisor mode produces output comparable in
+length to standard output. Ranked list may be shorter per entry
+than standard prose; compliance block adds length.
+
+---
+
+## 7. HEADER BLOCK ADJUSTMENT
+
+In all active modes, one line is added to the header block:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CLASR — ACADEMIC READING REPORT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Q-Profile: [Q1 / Q2 / Q3] — [User-defined / AUTO-Q estimate]
+Mode: [Author Mode / Signal Mode / Advisor Mode]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+In standard output (no mode active), the Mode line is absent.
+
+---
+
+## 8. INTERACTION WITH READER MODEL KIT
+
+Reader Model Kit maps the implied reader profile
+of the manuscript (EXPERT / INTERDISCIPLINARY /
+POLICY_ADJACENT / GENERAL_ACADEMIC).
+
+Output Mode Kit maps the presentation format of the CLASR report —
+not a reader role simulation.
+
+These are distinct dimensions. They do not conflict.
+Reader Model Kit output appears within SECTION 1 as normal
+in all Output Mode Kit formats.
+
+In Author Mode: Reader Model signals receive plain-language
+restatement, structural visibility note, and options block.
+In Signal Mode: Reader Model signals appear in fragment form
+with full Evidence + Inference content.
+In Advisor Mode: Reader Model signals receive global priority
+ranking and one-sentence combined Evidence + Inference entry.
+
+---
+
+## 9. INTERACTION WITH PARTIAL INPUT KIT
+
+In partial input conditions, Output Mode Kit applies
+to available sections only.
+Suppressed sections remain suppressed regardless of active mode.
+Mode header reflects both:
+
+```
+Mode: Author Mode — Partial Input [Type]
+```
+
+---
+
+## 10. INTERACTION WITH REVISION ROUND KIT
+
+Output Mode Kit applies after Revision Round Kit
+adjusts reading posture and SECTION 8 expansion.
+Mode formatting is applied to the full revised output.
+No conflict. No precedence issue.
+
+---
+
+## 11. Q-VARIANT INTERACTION
+
+Output Mode Kit does not modify Q-variant thresholds.
+Q-variant governs signal detection and prose tone as normal.
+Output Mode Kit reformats the presentation of that output only.
+
+In Author Mode + Q1:
+  Signal labels appear at Q1 sensitivity.
+  Author explanations reflect Q1 editorial context
+  using structural-risk framing.
+
+In Signal Mode + Q3:
+  Signal labels appear at Q3 sensitivity.
+  Fragment style applies; no prose expansion.
+
+In Advisor Mode + Q1:
+  CRITICAL/HIGH signals at top of ranked list may be more
+  numerous due to Q1 sensitivity — ranked list reflects
+  this without modification.
+
+---
+
+## 12. WHAT THIS KIT DOES NOT DO
+
+Does not:
+  Generate new signals
+  Modify signal content or label vocabulary
+  Suppress any signal or module (zero data loss enforced)
+  Suppress confidence field (it is simply not produced in any mode)
+  Change section order (except Advisor Mode global re-ranking)
+  Override Q-variant thresholds
+  Modify any kit's detection behavior
+  Open new sections
+  Produce calls to action or revision recommendations
+  Simulate editorial roles or reviewer judgment
+  Predict reviewer behavior in any mode or field
+  Persist mode preference across sessions
+    (stateless — mode must be declared each session)
+
+---
+
+## 13. HARD LIMITS
+
+This kit must never:
+  Suppress a signal label that the detection system produced
+  Suppress Evidence or Inference content from any signal
+  Suppress any Section 10 module status
+  Interpret or evaluate signals beyond formatting
+  Apply author-layer explanations that constitute recommendations
+  Allow any mode to produce reviewer-as-subject framing
+    ("a reviewer will...") in any field
+  Simulate a peer reviewer, editor, or any evaluative role
+  Modify CORE behavior
+
+---
+
+## 14. CANONICAL DEFINITION
+
+OUTPUT MODE KIT v1.3 switches the presentation format of CLASR
+signal output between three user-triggered modes —
+Author Mode (plain-language walkthrough with structural visibility
+framing, PAS preview, Section 10 full module walkthrough,
+and options blocks; reviewer-as-subject language forbidden),
+Signal Mode (full Evidence + Inference content in fragment style,
+all Section 10 modules, zero prose connective tissue),
+and Advisor Mode (posture-first, global re-ranked signal list,
+separate compliance module block, triage summary) —
+enforcing zero data loss in all three modes, omitting only
+numeric confidence, without modifying signal content,
+detection behavior, kit hierarchy, or producing any editorial
+role simulation. All decisions rest with the user.
+
+---
+
+# OUTPUT MODE KIT v1.3 — END

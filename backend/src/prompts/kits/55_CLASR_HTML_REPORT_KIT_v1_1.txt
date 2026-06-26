@@ -1,0 +1,320 @@
+﻿# 55 CLASR — HTML REPORT KIT v1.1
+# Kit: EN_HTML-REPORT-KIT_v1.1
+# Position: Project Files
+# STATUS: v1.1
+# Previous: v1.0
+# Changes:
+#   PRIORITY ACTION SIGNALS RENDERING updated — two-row card format
+#   added; explanation line CSS spec and HTML structure defined
+# Purpose: Defines the standard for converting CLASR signal output
+#          into a branded HTML report using CLASR visual identity.
+
+---
+
+## IDENTITY
+
+This kit defines how CLASR converts its structured signal output
+into a branded HTML report. It governs layout, color mapping, signal
+rendering, and section assembly.
+
+The HTML report is not a separate product. It is the visual
+presentation layer of the same signal output. No signal is added,
+removed, or softened in the conversion. The HTML report and the
+plain-text report carry identical content.
+
+---
+
+## ACTIVATION
+
+The HTML report is produced when:
+- User requests "HTML report", "branded report", or "PDF report"
+- User references the visual template explicitly
+
+Default output remains plain-text signal report.
+HTML output is always on-demand, never automatic.
+
+---
+
+## BRAND TOKENS (FIXED)
+
+These values are fixed. They cannot be overridden by user request.
+
+```
+--petrol:       #2B555B   ← primary brand color
+--petrol-light: #3a6e76   ← hover / accent
+--red:          #CD0015   ← Editor Red — high severity signals
+--page-light:   #FFF7EC   ← page background
+--cream:        #F5F0E5   ← section backgrounds
+--sage:         #E0E6D4   ← passed / low severity
+--mist:         #B6C1BB   ← borders, secondary text
+--blush:        #FCE5E7   ← soft accent
+--ink:          #1a2e30   ← body text
+--mid:          #4a6366   ← secondary text
+
+Font roles:
+  Display / brand: Georgia, Times New Roman (serif)
+  Body / UI:       Helvetica Neue, Arial (sans-serif)
+  Code / labels:   Courier New (monospace)
+```
+
+---
+
+## REPORT STRUCTURE (FIXED ORDER)
+
+The HTML report assembles in this order. No section may be
+reordered, merged, or omitted.
+
+```
+1. REPORT HEADER
+   — Brand mark + CLASR wordmark
+   — Tagline (2-line identity header from CORE)
+   — Meta pills: Manuscript Type / Q-Profile / Reporting Standard
+
+2. EXECUTIVE SUMMARY BLOCK
+   — Dark petrol background block
+   — 5–7 sentences (EN_EXECUTIVE-SUMMARY-BLOCK_v1.0)
+   — Always present, always first content block
+
+3. PRIORITY ACTION SIGNALS
+   — Numbered list, red left-border cards
+   — Signal label + section location
+   — Always present, always after Executive Summary
+
+4. SECTION BLOCKS (S0 through S10)
+   — Each section: numbered header bar + body
+   — Signal cards rendered inside each section
+   — S9: conditional (figures/tables only)
+   — S10: always active, M17 block included
+
+5. REPORT FOOTER
+   — CLASR wordmark left
+   — Disclaimer right: "This report is an academic reading signal.
+     Decisions, evaluation, and publication responsibility
+     rest with the user."
+```
+
+---
+
+## SIGNAL SEVERITY → COLOR MAPPING
+
+Every signal card carries a severity badge. Badge color is assigned
+from signal confidence tier:
+
+```
+[CONFIRMED] / HIGH     → badge-high    red background    #fde8e8 / #CD0015
+[LIKELY]    / MEDIUM   → badge-medium  amber background  #fef4e0 / #8a5c00
+[FLAG]      / LOW      → badge-low     sage background   #E0E6D4 / #3d5c38
+NOT DETECTED / INFO    → badge-info    petrol-light      #e0eef0 / #2B555B
+```
+
+Status badges in tables:
+
+```
+DIVERGENT              → status-divergent  red    #fde8e8 / #CD0015
+TENSION                → status-tension    amber  #fef4e0 / #8a5c00
+CONSISTENT / PASS      → status-consistent sage   #E0E6D4 / #3d5c38
+PARTIAL                → status-partial    amber  #fef4e0 / #8a5c00
+ABSENT                 → c-absent          red    #CD0015
+PRESENT / PASS         → c-present         green  #3d7a38
+```
+
+---
+
+## SECTION BLOCK RENDERING RULES
+
+### Signal Cards
+Every named signal within a section renders as a signal card:
+- Header row: severity badge + signal name (monospace)
+- Body: location, observation text, note
+- Cards stack vertically within section body
+
+CONVERGENCE SUFFIX (CLASR-LAYER-CONVERGENCE-KIT active):
+When a signal carries a convergence count (×2 or more), two
+additions appear on the card:
+1. Convergence suffix pill appended to header row after signal name:
+   ×2 MODERATE → .convergence-moderate (cream bg / #4a6366 text)
+   ×3 STRONG   → .convergence-strong   (#E1F5EE bg / #085041 text)
+   ×4+ HIGH    → .convergence-high     (#2B555B bg / #FFF7EC text)
+2. Layer tag row below header, above body:
+   One small monospace pill per contributing layer.
+   Border: 1px dashed var(--border). Background: var(--cream).
+   Font-size: 10px. Colors: var(--mid) text / var(--cream) bg.
+CSS spec and full HTML structure defined in
+CLASR-LAYER-CONVERGENCE-KIT_v1.0 §4.
+
+### Kit-Specific Blocks
+Outputs from named kits render as distinct sub-blocks:
+
+```
+Epistemic Frame (Kit 47):
+  → 2-column grid of frame dimensions
+  → badge-info header
+
+Concept Lifecycle (Kit 48):
+  → sequential stage display
+  → transformation events listed
+  → final role badge
+
+Cross-Consistency (Kit 50):
+  → full-width table
+  → status badges per pair
+  → STRUCTURALLY UNSTABLE summary line in red
+
+M17 Citation Integrity:
+  → dark petrol header with M17 id badge
+  → individual signal sub-cards
+  → limitation note footer in cream
+
+Argument Chain:
+  → horizontal flow display
+  → green = sustained, amber = expanded, red = transformed
+```
+
+### Compliance Grids
+STROBE / CONSORT / APA 7 compliance items:
+→ 3-column grid
+→ Each item: label + status color
+
+---
+
+## SECTION HEADER FORMAT
+
+Every section opens with:
+```html
+<div class="section-header">
+  <span class="section-num">SN</span>        ← S0, S1, S2... S10
+  <span class="section-title">TITLE</span>   ← uppercase, petrol color
+</div>
+```
+
+Section numbers use sage background pill.
+Section titles: uppercase, letter-spacing 1px, petrol color.
+
+---
+
+## EXECUTIVE SUMMARY RENDERING
+
+```
+Background: var(--petrol)
+Text color: #e8f0f1
+Label: "EXECUTIVE SUMMARY" — 9px, uppercase, letter-spacing 2px, mist color
+Body: 13.5px, line-height 1.75
+Decorative circle: petrol-light, top-right, opacity 0.4
+```
+
+This block must be visually the heaviest element on the page —
+it is the first thing the reader's eye lands on.
+
+---
+
+## PRIORITY ACTION SIGNALS RENDERING
+
+Each signal item renders as a two-row card:
+
+```
+Row 1 — signal line:
+  Background: var(--cream)
+  Left border: 3px solid var(--red)
+  Border-radius: 4px 4px 0 0
+  Contents: [N] number (red) + signal name (monospace, ink) + section pill
+
+Row 2 — explanation line:
+  Background: white
+  Border: 1px solid var(--border), no left accent
+  Border-radius: 0 0 4px 4px
+  Border-top: 1px dashed var(--border)
+  Contents: one-sentence editorial explanation
+  Font: 12px, color var(--mid), font-style italic
+  Padding: 7px 14px 9px 36px (indented to align past signal number)
+```
+
+Signal number is red. Signal name is monospace bold. Section
+location is a light pill badge on the right of row 1.
+Explanation is italic, muted — visually subordinate to the signal
+label but immediately readable without opening the full report.
+
+HTML structure per signal item:
+```html
+<div class="signal-item">
+  <div class="signal-item-top">
+    <span class="signal-num">[N]</span>
+    <span class="signal-name">SIGNAL_LABEL</span>
+    <span class="signal-loc">Section N</span>
+  </div>
+  <div class="signal-item-explain">
+    One sentence editorial explanation here.
+  </div>
+</div>
+```
+
+CSS additions required in template:
+```css
+.signal-item {
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--red);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+.signal-item-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+}
+.signal-item-explain {
+  font-size: 12px;
+  color: var(--mid);
+  font-style: italic;
+  padding: 6px 14px 10px 36px;
+  border-top: 1px dashed var(--border);
+  background: white;
+  line-height: 1.6;
+}
+```
+
+---
+
+## PDF CONVERSION INSTRUCTIONS
+
+The HTML file renders correctly as PDF via browser print:
+1. Open HTML file in Chrome or Firefox
+2. File → Print (Ctrl+P / Cmd+P)
+3. Destination: Save as PDF
+4. Layout: Portrait
+5. Margins: Default
+6. Background graphics: ON (required for color blocks)
+
+The `@media print` and `@page` rules in the template handle
+page margins and color preservation automatically.
+
+---
+
+## WHAT THIS KIT DOES NOT DO
+
+This kit:
+  Does not modify signal content
+  Does not add signals not present in the plain-text report
+  Does not suppress signals for visual reasons
+  Does not produce a standalone document without CLASR output
+  Does not define signal logic (→ respective signal kits)
+  Does not define section content (→ MASTER SECTION KIT)
+
+It defines visual presentation only.
+
+---
+
+## VERSION DEPENDENCY
+
+This kit depends on:
+  CLASR CORE v1.4
+  EN_MASTER_SECTION_KIT v1.2
+  EN_EXECUTIVE-SUMMARY-BLOCK v1.0
+  EN_CITATION-INTEGRITY-MODULE M17 v1.0
+
+Brand tokens are fixed and version-independent.
+
+---
+
+# EN_HTML-REPORT-KIT_v1.0 — END

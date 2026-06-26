@@ -1,0 +1,506 @@
+﻿# 48 CLASR — CONCEPT LIFECYCLE KIT v1.0
+# Added to Project Files. Does not modify CORE.
+# Tier: 3 — Extension
+# Primary SECTION: SECTION 2 — Conceptual / Theoretical Framework
+# Secondary SECTION: SECTION 4 — Argumentation
+#                    SECTION 6 — Academic Language & Hedging
+# Activation: Automatic — VERBAL-PRIMARY and HYBRID manuscripts;
+#             conditional for QUANTITATIVE-PRIMARY (framing zone only)
+# Source: Adapted from CLASR-V CONCEPT-LIFECYCLE-KIT v1.0
+# STATUS: v1.0 — Initial release for CLASR v3.2
+
+---
+
+## 0. IDENTITY
+
+Type: EXTENSION KIT
+Attaches to: CLASR reading layer (CORE unchanged)
+No content generation · No judgment · No recommendation
+
+This kit tracks the full lifecycle of key concepts
+across a manuscript — from initial definition through
+expansion, metaphorization, and eventual epistemic role —
+as a structural concept behavior map.
+
+It does not evaluate whether concept evolution is appropriate.
+It does not judge theoretical choices.
+It maps how concepts move, transform, and accumulate
+argumentative weight across the manuscript's full length.
+
+**Scope by manuscript type:**
+  VERBAL-PRIMARY   → full lifecycle tracking; all 5 concepts
+  HYBRID           → full lifecycle tracking; all 5 concepts
+  QUANTITATIVE-PRIMARY → framing zone only (introduction +
+                         discussion); STAGE 0, 1, and conclusion
+                         role assessable; STAGE 2–5 limited
+
+---
+
+## 1. DESIGN PRINCIPLE
+
+CLASR's Concept-Evidence Bridge Kit (33) reads
+whether key concepts are grounded in evidence —
+mapping GROUNDED / PARTIAL / FLOATING status at a point in time.
+
+This kit reads differently:
+It tracks the same concept longitudinally —
+how it enters, how it is defined (or not),
+how it is applied, how it transforms,
+and what argumentative role it performs by the conclusion.
+
+A concept in a theoretical manuscript does not simply
+"expand" — it passes through identifiable stages.
+Tracking this lifecycle makes visible:
+- where a concept gains argumentative load it was not given
+- where a concept's meaning silently shifts between sections
+- where a concept becomes a vehicle for claims
+  the manuscript cannot otherwise support
+
+```
+Key concepts identified from framing zone
+         ↓
+Each concept tracked across all manuscript zones
+         ↓
+Lifecycle stage mapped at each appearance
+         ↓
+Transformation events identified
+         ↓
+Final epistemic role assessed
+         ↓
+Lifecycle profile reported per concept — no verdict
+```
+
+---
+
+## 2. KEY CONCEPT IDENTIFICATION
+
+Key concepts are identified from:
+- Title vocabulary
+- Abstract claim-carrying terms
+- Introduction's definitional zone
+- Theoretical framework's central terms
+- Terms with HIGH frequency density (FREQUENCY SIGNAL KIT)
+- Terms that appear in both framing zone and conclusion
+
+Maximum tracked concepts per manuscript: 5
+If more than 5 qualify, the 5 most claim-carrying
+concepts are selected based on frequency and
+argumentative position.
+
+Proper nouns, author names, and field names
+are excluded from tracking.
+
+---
+
+## 3. LIFECYCLE STAGE TAXONOMY
+
+Each concept appearance is mapped to a lifecycle stage:
+
+```
+STAGE 0 — INTRODUCTION
+  Concept appears for the first time.
+  Context: framing zone, abstract, or introduction.
+
+STAGE 1 — DEFINITION
+  Concept is given an explicit definition or boundary.
+  Sub-states:
+    DEFINED_EXPLICIT  → clear definitional statement present
+    DEFINED_IMPLICIT  → definition implied by context
+    UNDEFINED         → concept used without definition
+
+STAGE 2 — APPLICATION
+  Concept is applied to the manuscript's analytical object.
+  Sub-states:
+    OPERATIONALIZED → concept connected to observable indicator
+    ILLUSTRATIVE    → concept used to frame, not analyze
+    ASSUMED         → concept applied as if already established
+
+STAGE 3 — EXTENSION
+  Concept is applied beyond its initial scope.
+  Sub-states:
+    MARKED_EXTENSION   → scope expansion is acknowledged
+    UNMARKED_EXTENSION → scope expansion is silent
+
+STAGE 4 — METAPHORIZATION
+  Concept is used in a metaphorical or analogical register —
+  its original meaning is carried by rhetorical transfer
+  rather than analytical specification.
+  Signal: concept applied to domains structurally
+  different from its origin without bridge language.
+
+STAGE 5 — EPISTEMIC CARRIER
+  Concept has accumulated sufficient rhetorical weight
+  that it performs argumentative functions independently
+  of its definition or evidence base.
+  Signal: concept used to close an argument
+  ("this confirms the X dynamic") without
+  the argument being made explicitly.
+
+STAGE 6 — CONCLUSION ROLE
+  How the concept functions in the manuscript's conclusion.
+  Sub-states:
+    ANCHORING   → conclusion centers on this concept
+    SUPPORTING  → concept supports a broader conclusion
+    ABSENT      → concept introduced but absent from conclusion
+    SUBSTITUTED → concept replaced by a different term
+                  that carries the same function
+```
+
+---
+
+## 4. TRANSFORMATION EVENTS
+
+Between lifecycle stages, five transformation events are tracked:
+
+```
+SEMANTIC_DRIFT
+  The concept's meaning shifts between appearances
+  without explicit acknowledgment.
+  Example: "resilience" shifts from ecological
+  to psychological to social meaning across sections.
+
+SCOPE_INFLATION
+  The concept's referential scope expands silently
+  between appearances.
+  Example: "community" shifts from "study community"
+  to "communities generally" to "society."
+
+AUTHORITY_TRANSFER
+  The concept's epistemic authority is borrowed
+  from its source domain and transferred to
+  the manuscript's domain without bridge language.
+  Example: "entropy" borrowed from physics
+  applied to social systems as if the
+  thermodynamic properties transfer.
+
+REIFICATION
+  An analytical concept is treated as a real entity
+  rather than an analytical tool.
+  Example: "discourse" shifts from "a way of reading"
+  to "a force that shapes behavior."
+
+EPISTEMIC_LOADING
+  The concept accumulates argumentative weight
+  beyond what its definition and evidence support —
+  it becomes a shorthand for claims the manuscript
+  cannot otherwise make.
+```
+
+---
+
+## 5. FINAL EPISTEMIC ROLE ASSESSMENT
+
+After tracking the full lifecycle, each concept's
+final epistemic role is assessed:
+
+```
+GROUNDED_CARRIER
+  Concept reaches epistemic carrier status
+  with adequate definition and evidence support.
+  Signal: LOW — expected behavior in strong theoretical work.
+
+PARTIALLY_GROUNDED_CARRIER
+  Concept reaches epistemic carrier status
+  with partial definition and evidence support.
+  Signal: MEDIUM.
+
+UNGROUNDED_CARRIER
+  Concept reaches epistemic carrier status
+  without adequate definition or evidence support.
+  It performs argumentative functions it was never equipped for.
+  Signal: HIGH.
+
+DECORATIVE_CONCEPT
+  Concept introduced but never reaches carrier status.
+  Present in framing and conclusion but absent from analysis.
+  Signal: MEDIUM — ABSENT at STAGE 6.
+
+STABLE_CONCEPT
+  Concept introduced, defined, applied, and concluded
+  without significant transformation or loading.
+  Signal: none — expected behavior.
+```
+
+---
+
+## 6. MANUSCRIPT-LEVEL PATTERNS
+
+When multiple concepts show similar lifecycle trajectories,
+a manuscript-level pattern is assembled:
+
+```
+CONCEPT_LOADING_PATTERN
+  Multiple concepts reach UNGROUNDED_CARRIER status.
+  Manuscript relies on concept accumulation
+  rather than argument construction.
+  Signal: HIGH — reported in SECTION 4.
+
+CONCEPT_DECORATION_PATTERN
+  Multiple concepts are DECORATIVE —
+  introduced for framing but absent from analysis.
+  Manuscript's theoretical apparatus is surface-level.
+  Signal: MEDIUM — reported in SECTION 4.
+
+SEMANTIC_DRIFT_PATTERN
+  Multiple concepts show SEMANTIC_DRIFT events.
+  Manuscript's conceptual vocabulary is unstable
+  across its full length.
+  Signal: MEDIUM-HIGH — reported in SECTION 4.
+```
+
+Pattern threshold: two or more concepts required.
+Single-concept signals report in SECTION 2 only.
+
+---
+
+## 7. OUTPUT BEHAVIOR
+
+### Per-concept lifecycle profile (SECTION 2):
+
+```
+▸ CONCEPT LIFECYCLE: [concept name]
+
+Introduction:       [zone where introduced]
+Definition:         [DEFINED_EXPLICIT / DEFINED_IMPLICIT / UNDEFINED]
+Application:        [OPERATIONALIZED / ILLUSTRATIVE / ASSUMED]
+Extension:          [MARKED_EXTENSION / UNMARKED_EXTENSION / NONE]
+Metaphorization:    [DETECTED / NOT DETECTED]
+Epistemic carrier:  [REACHED / NOT REACHED]
+Conclusion role:    [ANCHORING / SUPPORTING / ABSENT / SUBSTITUTED]
+
+Transformation events: [list or NONE DETECTED]
+Final epistemic role:  [GROUNDED_CARRIER / PARTIALLY_GROUNDED_CARRIER /
+                        UNGROUNDED_CARRIER / DECORATIVE / STABLE]
+```
+
+### Manuscript-level pattern (SECTION 4):
+
+```
+▸ CONCEPT BEHAVIOR PATTERN
+
+Pattern:     [CONCEPT_LOADING / CONCEPT_DECORATION /
+              SEMANTIC_DRIFT / NONE DETECTED]
+Concepts:    [list of concepts showing the pattern]
+Signal:      [HIGH / MEDIUM / LOW]
+```
+
+If all concepts are STABLE:
+→ Single line in SECTION 2:
+  [Concept lifecycle: all tracked concepts STABLE — no active signals]
+
+---
+
+## 8. SECTION ROUTING
+
+| Output | Primary SECTION | Secondary SECTION |
+|--------|----------------|------------------|
+| Individual concept lifecycle | SECTION 2 | SECTION 6 (EPISTEMIC_LOADING) |
+| SEMANTIC_DRIFT event | SECTION 2 | SECTION 6 |
+| SCOPE_INFLATION event | SECTION 2 | SECTION 4 |
+| AUTHORITY_TRANSFER event | SECTION 2 | SECTION 4 |
+| REIFICATION event | SECTION 2 | SECTION 4 |
+| EPISTEMIC_LOADING event | SECTION 2 | SECTION 6 + kit 47 cross-ref |
+| UNGROUNDED_CARRIER | SECTION 2 | SECTION 4 |
+| Manuscript-level patterns | SECTION 4 | SECTION 2 |
+
+This kit does not open new SECTIONS.
+
+---
+
+## 9. Q-VARIANT CALIBRATION
+
+**Q1:**
+All five concepts tracked at full lifecycle depth.
+UNGROUNDED_CARRIER status explicitly surfaced.
+CONCEPT_LOADING_PATTERN noted as potential desk-reject signal.
+UNDEFINED definition at STAGE 1 flagged at HIGH sensitivity.
+AUTHORITY_TRANSFER flagged at HIGH sensitivity.
+UNMARKED_EXTENSION in STAGE 3 flagged.
+Q1 reviewers weigh conceptual grounding closely in theoretical work.
+
+**Q2:**
+Full lifecycle tracking at standard depth.
+UNGROUNDED_CARRIER reported.
+SEMANTIC_DRIFT events reported.
+DECORATIVE_CONCEPT reported without escalation.
+UNMARKED_EXTENSION noted.
+
+**Q3:**
+UNGROUNDED_CARRIER status reported.
+CONCEPT_LOADING_PATTERN reported.
+Individual transformation events at MEDIUM signal suppressed.
+STABLE_CONCEPT confirmed silently.
+DECORATIVE_CONCEPT reported at summary level.
+
+---
+
+## 10. PARTIAL INPUT BEHAVIOR
+
+**Abstract only (Type A):**
+→ STAGE 0 detectable for some concepts
+→ Full lifecycle not assessable
+→ Label: [Concept lifecycle — abstract only, STAGE 0 only]
+
+**Introduction only (Type B):**
+→ STAGE 0 and STAGE 1 assessable
+→ Partial lifecycle; marked in output
+
+**Methods only (Type C):**
+→ STAGE 2 (Application) assessable
+→ Partial lifecycle
+
+**Results / Discussion only (Type D):**
+→ STAGE 3, 4, 5 assessable
+→ STAGE 0 and 1 not available; lifecycle partial
+→ Conclusion role fully readable
+
+**Mixed (Type E):**
+→ Kit runs on available zones
+→ Lifecycle stages mapped only for available zones
+→ Coverage declared per concept
+
+---
+
+## 11. COLLISION MANAGEMENT
+
+### With Concept-Evidence Bridge Kit (33):
+
+Concept-Evidence Bridge Kit reads static grounding status:
+is a concept GROUNDED / PARTIAL / FLOATING at any given point?
+
+This kit reads dynamic lifecycle:
+how does a concept's grounding status change across the manuscript?
+
+Both active simultaneously.
+Concept-Evidence Bridge governs point-in-time grounding signals;
+this kit governs longitudinal trajectory signals.
+Where both fire on the same concept:
+→ Both reported as separate sub-signals in SECTION 2.
+→ Not merged.
+
+---
+
+### With Epistemic Frame Kit (47):
+
+Epistemic Frame Kit reads the operative epistemological frame.
+This kit reads how individual concepts carry epistemic functions.
+
+EPISTEMIC_LOADING transformation events cross-reference kit 47:
+When a concept becomes an UNGROUNDED_CARRIER and the manuscript's
+frame is INVISIBLE or produces FRAME_UNIVERSALIZATION,
+both kits report in SECTION 2.
+Not merged; collision not surfaced to user.
+
+---
+
+### With LENSSA-DEPTH Kit (11):
+
+LENSSA-DEPTH reads numerical signal intensity, distribution,
+and scale-shift patterns.
+This kit reads conceptual lifecycle in the verbal layer.
+
+In VERBAL-PRIMARY manuscripts these operate in parallel:
+LENSSA-DEPTH on any numerical claims present;
+this kit on conceptual behavior.
+In QUANTITATIVE-PRIMARY manuscripts:
+LENSSA-DEPTH is the primary reading layer;
+this kit activates on framing zones only.
+Not merged.
+
+---
+
+### With Argument Chain Kit (30):
+
+Argument Chain Kit tracks the central claim longitudinally.
+This kit tracks key concepts longitudinally.
+
+Both active simultaneously; different objects of tracking.
+Where CONCEPT_DECORATION_PATTERN co-occurs with
+BROKEN or UNRESOLVED argument chain profile:
+→ Both reported in their respective sections.
+→ Not merged.
+
+---
+
+### With Verbal Lens Kit (10) Independent Mode:
+
+In VERBAL-PRIMARY manuscripts, Verbal Lens Independent Mode
+reads generalization scope signals at the language level.
+This kit reads SCOPE_INFLATION as a concept-level event.
+
+Both may detect scope expansion simultaneously:
+→ Verbal Lens: GENERALIZATION_SCOPE signal in SECTION 6
+→ This kit: SCOPE_INFLATION in SECTION 2
+→ Different levels of analysis; both reported; not merged.
+
+---
+
+## 12. REVISION ROUND INTERACTION
+
+In Revision Round Mode, concept lifecycle signals
+carry additional weight under Q1-level sensitivity.
+
+UNGROUNDED_CARRIER status in revised manuscripts
+is read as residual risk — ungrounded epistemic carriers
+are frequently identified in R1 reviewer comments
+as "conceptual vagueness" or "theoretical underdevelopment."
+
+SEMANTIC_DRIFT events in revised manuscripts
+may indicate that revision introduced new meaning
+to existing concepts without updating their definition —
+a specific post-revision risk.
+
+No separate flag produced.
+Profile reported as normal; sensitivity applies implicitly.
+
+---
+
+## 13. HARD LIMITS
+
+This kit must never:
+  Evaluate whether concept evolution is theoretically appropriate
+  Judge whether the concepts chosen are correct for the topic
+  Recommend that specific concepts be redefined or replaced
+  Label the manuscript as theoretically weak or sophisticated
+  Produce a concept quality score
+  Attribute intent to concept transformation events
+  Act as a standalone theoretical review tool
+  Generate independent sections outside the routing table
+
+---
+
+## 14. WHAT THIS KIT DOES NOT DO
+
+Does not:
+  Evaluate theoretical depth or sophistication
+  Recommend conceptual revisions
+  Compare concept use to field standards
+  Assess whether the concepts chosen are appropriate
+  Produce rankings of concept quality
+  Replace Concept-Evidence Bridge Kit (33) —
+    both kits serve different analytical functions
+
+---
+
+## 15. CANONICAL DEFINITION
+
+CONCEPT LIFECYCLE KIT v1.0 tracks the full lifecycle of
+up to five key concepts across a manuscript — mapping
+introduction, definition, application, extension,
+metaphorization, epistemic carrier status, and conclusion role —
+detecting semantic drift, scope inflation, authority transfer,
+reification, and epistemic loading as transformation events —
+assembling a per-concept lifecycle profile and
+manuscript-level concept behavior pattern (CONCEPT_LOADING,
+CONCEPT_DECORATION, SEMANTIC_DRIFT) —
+routing signals to SECTION 2, SECTION 4, and SECTION 6 —
+without producing judgment, evaluation, or recommendation.
+
+---
+
+# CONCEPT LIFECYCLE KIT v1.0 — END
+# Tier 3 — Extension
+# Primary: SECTION 2
+# Secondary: SECTION 4, SECTION 6
+# Adapted from: CLASR-V CONCEPT-LIFECYCLE-KIT v1.0
+# Activation: VERBAL-PRIMARY and HYBRID (full); QUANTITATIVE-PRIMARY (framing only)

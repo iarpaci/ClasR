@@ -1,0 +1,377 @@
+﻿# 40 CLASR — ARGUMENT INTEGRITY KIT v1.1
+# Kit: CLASR-ARGUMENT-INTEGRITY-KIT_v1.1
+# Position: Project Files
+# STATUS: v1.1
+# Previous: v1.0
+# Changes:
+#   A4 — FINDING_CONTRADICTS_RECOMMENDATION added:
+#         directional contradiction between reported finding
+#         and derived recommendation; narrow trigger (direction
+#         must be explicitly opposite); HIGH severity; KAP pattern
+#   A4 — PRACTICAL_SIGNIFICANCE_ABSENT added:
+#         n>500 with absent/trivially small effect size while
+#         p<0.05 reported; S5 origin, A4 argument consequence;
+#         MEDIUM/HIGH severity
+#   A4 output format updated: DIRECTIONAL_CONTRADICTION alignment
+#         state and practical significance field added
+
+---
+
+## IDENTITY
+
+This kit structures SECTION 4 (Argumentation) output as a
+five-axis argument architecture audit. Each axis maps a distinct
+question about how the manuscript's argument holds from claim to
+conclusion.
+
+Without this kit, S4 produces argument signals as unordered
+observations. With this kit, every S4 output follows the A1–A5
+schema — systematic, comparable across reports, and traceable
+to a specific argument failure type.
+
+---
+
+## CORE PRINCIPLE
+
+An argument has architecture. Architecture can fail at specific
+points. This kit names those points.
+
+The five axes are sequential — each depends on the one before it.
+A failure at A2 (premises) cascades into A3, A4, and A5.
+A failure at A3 (method–claim fit) does not invalidate A1 or A2.
+The schema makes cascade failures visible.
+
+---
+
+## THE FIVE AXES
+
+### A1 — CLAIM INTEGRITY
+Question: Is the central claim coherent, bounded, and verifiable?
+
+What is checked:
+- Is the central claim extractable as a single statement?
+- Does the claim carry scope limits (population, context, time)?
+- Is the claim falsifiable or testable given the design?
+- Is the claim proportionate to the scale of the study?
+
+Primary signals:
+  CLAIM_OVERREACH         — claim exceeds what the evidence can support
+  SCOPE_UNMARKED          — claim does not carry explicit scope limits
+  CONTRIBUTION_ABSENT     — no identifiable contribution claim
+  CONTRIBUTION_OVERREACH  — contribution stated beyond what the study establishes
+
+Output format:
+```
+A1 — CLAIM INTEGRITY
+Status: CLEAN / FLAG / CRITICAL
+[Signal card if flagged]
+Central claim: [extracted one-sentence statement]
+Scope declared: YES / PARTIAL / NO
+```
+
+### A2 — PREMISE INTEGRITY
+Question: Are the load-bearing premises visible, stated, and justified?
+
+What is checked:
+- Are the assumptions on which the argument rests made explicit?
+- Are implicit causal premises embedded without declaration?
+- Are theoretical premises visible or hidden?
+
+Primary signals:
+  PREMISE_INVISIBILITY          — load-bearing premise not stated
+  IMPLICIT_CAUSAL_PREMISE       — causal assumption embedded without declaration
+  THEORETICAL_PREMISE_UNSTATED  — theoretical framework assumed, not declared
+
+Output format:
+```
+A2 — PREMISE INTEGRITY
+Status: CLEAN / FLAG / CRITICAL
+[Signal card if flagged]
+Visible premises: [list or NONE IDENTIFIED]
+Hidden premises: [list or NONE DETECTED]
+```
+
+### A3 — METHOD–CLAIM FIT
+Question: Does the method test what the claim asserts?
+
+What is checked:
+- Does the design type support the claim type?
+  (Cross-sectional → association only, not causation)
+- Is the operationalization of key constructs adequate?
+- Does the analytical approach match the research question?
+
+Primary signals:
+  CAUSAL_DESIGN_MISMATCH     — cross-sectional or correlational design
+                                with causal or directional claim language
+  OPERATIONALIZATION_GAP     — key construct measured by proxy that does
+                                not fully capture the construct
+  ANALYTICAL_APPROACH_MISMATCH — analysis type does not match
+                                   the stated research question
+
+ORDINAL_PEARSON_APPLICATION interaction:
+  When ORDINAL_PEARSON_APPLICATION is detected in S3, it enters A3
+  as an ANALYTICAL_APPROACH_MISMATCH sub-type — the analytical method
+  (Pearson correlation assuming interval measurement) does not match
+  the variable type (ordinal). The claim that emerges from this
+  analysis inherits the assumption mismatch: correlation strengths
+  reported for ordinal variables carry an undeclared measurement
+  assumption that affects how the finding–claim chain holds.
+  Cross-reference note in A3:
+  "[→ S3 cross-reference: ORDINAL_PEARSON_APPLICATION detected —
+    correlation findings for [variable list] carry undeclared
+    interval-measurement assumption. Affects A3 fit assessment.]"
+  This note does not create a separate A3 signal — it qualifies
+  the existing fit assessment.
+
+SAMPLING_FRAME interaction:
+  When SAMPLING_FRAME_ABSENT is detected in S3, it enters S4
+  as an A3 signal — it is both a methodological absence (S3) and
+  a method–claim fit failure (A3). In the Priority block, it is
+  classified as CONTRIBUTION COLLAPSE (Category 1) when the stated
+  contribution depends on a population claim the absent sampling
+  frame cannot support.
+
+Output format:
+```
+A3 — METHOD–CLAIM FIT
+Status: CLEAN / FLAG / CRITICAL
+[Signal card if flagged]
+Design type: [cross-sectional / RCT / qualitative / etc.]
+Claim type: [associative / causal / exploratory / etc.]
+Fit assessment: ALIGNED / TENSION / MISMATCH
+[Cross-reference notes if S3 signals interact]
+```
+
+### A4 — FINDING–CLAIM ALIGNMENT
+Question: Do the findings actually support the stated claim?
+
+What is checked:
+- Does the finding language in Results match the claim in Discussion?
+- Are results stated with appropriate precision in the conclusion?
+- Are complicating findings integrated or selectively deployed?
+- Is partial support presented as full confirmation?
+- Does a reported finding directionally contradict a policy
+  recommendation or intervention target in Discussion/Conclusion?
+- Is statistical significance inflated by large sample size while
+  practical significance is absent or unreported?
+
+Primary signals:
+  ARGUMENT_SLIP              — Results uses associative language;
+                                Discussion uses causal language;
+                                the gap is not argued
+
+  SELECTIVE_FINDING_DEPLOYMENT — findings that complicate the claim
+                                   are not integrated into the argument
+
+  MAGNITUDE_INFLATION        — effect size presented with less
+                                precision in conclusions than results
+
+  PARTIAL_SUPPORT_AS_CONFIRMATION — partial evidence treated as
+                                       full support for the claim
+
+  FINDING_CONTRADICTS_RECOMMENDATION — a reported finding is
+                                directionally opposite to the
+                                recommendation or intervention target
+                                that follows from it in Discussion
+                                or Conclusion.
+
+  Trigger condition (narrow):
+    Finding direction in Results AND recommendation direction in
+    Discussion/Conclusion must be explicitly extractable AND
+    opposite. The signal fires only on directional contradiction —
+    not on absence of support, not on weak correlation.
+
+  Example: Results report r=–0.116 between education level and
+    genetic test uptake (higher education → less uptake). Discussion
+    recommends targeting low-education groups with intervention
+    programs. The finding direction (high education = lower uptake)
+    contradicts the recommendation premise (low education = the
+    gap to close). A reviewer examining Table 2 will identify this.
+
+  Non-example (does not trigger): Finding shows weak positive
+    association (r=0.08, p=0.03). Discussion recommends further
+    research. No directional contradiction — signal does not fire.
+
+  Severity: HIGH. A directional contradiction between a reported
+    finding and a derived recommendation is among the most visible
+    argument failures at peer review. Common pattern in KAP
+    (Knowledge–Attitude–Practice) studies where subgroup findings
+    are selectively deployed to support predetermined targets.
+
+  Priority block placement: Category 1 (Contribution Collapse)
+    when the contradiction undermines the manuscript's stated
+    practical contribution.
+
+  PRACTICAL_SIGNIFICANCE_ABSENT — statistical significance
+                                    reported without effect size,
+                                    or effect size present but
+                                    trivially small relative to
+                                    sample size.
+
+  Trigger conditions (either):
+    Condition A: n > 500 AND no effect size reported for
+                 primary correlation or association findings.
+    Condition B: n > 500 AND effect size present AND
+                 |r| < 0.10 (or equivalent Cohen's d < 0.20)
+                 while p < 0.05 — statistical significance
+                 produced by sample size, not effect magnitude.
+
+  Rationale: In large samples (n > 500), virtually any non-zero
+    association reaches statistical significance. A p-value
+    without effect size context in this range is systematically
+    misleading about the practical magnitude of the finding.
+
+  Format:
+  ```
+  PRACTICAL_SIGNIFICANCE_ABSENT — MEDIUM / HIGH
+  Location: Section 5 (Results) / Section 4 (Discussion)
+  n=[sample size]. [Primary finding: r=X, p=Y].
+  Effect size [absent / trivially small at r=Z].
+  Statistical significance at this n does not establish
+  practical significance — [X]% of variance explained.
+  ```
+
+  Severity: MEDIUM when effect size simply absent.
+             HIGH when effect size present but trivially small
+             and the Discussion treats the finding as substantive.
+
+  Interaction with S5: PRACTICAL_SIGNIFICANCE_ABSENT is detected
+    in S5 (Numerical Behavior) and cross-referenced in A4 as a
+    finding–claim alignment issue. The signal originates in S5;
+    A4 carries the argument consequence.
+
+Output format:
+```
+A4 — FINDING–CLAIM ALIGNMENT
+Status: CLEAN / FLAG / CRITICAL
+[Signal card for each flagged signal]
+Finding language (Results): [associative / causal / hedged]
+Claim language (Discussion/Conclusion): [associative / causal / hedged]
+Alignment: CONSISTENT / ARGUMENT_SLIP / ESCALATION /
+           DIRECTIONAL_CONTRADICTION
+Practical significance: [present / absent / trivially small]
+```
+
+### A5 — CONCLUSION SCOPE
+Question: Does the conclusion stay within what the manuscript
+          can actually support?
+
+What is checked:
+- Does the conclusion generalize beyond the sample?
+- Are limitations acknowledged in the body but ignored
+  in the conclusion language?
+- Does the conclusion introduce recommendations the
+  design cannot support?
+- Does the abstract conclusion match the body conclusion?
+
+Primary signals:
+  GENERALIZABILITY_CLAIM          — conclusion extends beyond sample
+                                    scope without qualification
+  LIMITATION_WITHOUT_CONSEQUENCE  — limitations acknowledged in body
+                                    but not reflected in conclusion language
+  POLICY_OVERREACH                — directive recommendations without
+                                    causal or interventional design basis
+  ABSTRACT_CONCLUSION_DIVERGENCE  — abstract conclusion does not match
+                                    body conclusion
+
+Output format:
+```
+A5 — CONCLUSION SCOPE
+Status: CLEAN / FLAG / CRITICAL
+[Signal card if flagged]
+Conclusion scope: WITHIN WARRANT / EXPANDED / OVERREACHED
+Limitation consistency: REFLECTED / PARTIAL / ABSENT
+```
+
+---
+
+## S4 OUTPUT STRUCTURE
+
+When this kit is active, SECTION 4 output follows this structure:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 4 — ARGUMENTATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ARGUMENT ARCHITECTURE AUDIT
+
+A1 — CLAIM INTEGRITY          [CLEAN / FLAG / CRITICAL]
+A2 — PREMISE INTEGRITY        [CLEAN / FLAG / CRITICAL]
+A3 — METHOD–CLAIM FIT         [CLEAN / FLAG / CRITICAL]
+A4 — FINDING–CLAIM ALIGNMENT  [CLEAN / FLAG / CRITICAL]
+A5 — CONCLUSION SCOPE         [CLEAN / FLAG / CRITICAL]
+
+[Signal cards for each flagged axis, in A1–A5 order]
+
+CASCADE NOTE (when applicable):
+If A3 is CRITICAL: findings in A4 and conclusions in A5 inherit
+the method–claim gap. Cascade noted inline on A4 and A5 cards:
+"[→ A3 cascade: conclusion scope assessment affected by
+   method–claim mismatch]"
+```
+
+---
+
+## CASCADE FAILURE LOGIC
+
+When an upstream axis is CRITICAL, downstream axes inherit
+a qualification note — not a separate signal, a context tag:
+
+  A1 CRITICAL → A2, A3, A4, A5 all carry: "[→ A1 cascade]"
+  A2 CRITICAL → A3, A4, A5 carry: "[→ A2 cascade]"
+  A3 CRITICAL → A4, A5 carry: "[→ A3 cascade]"
+  A4 CRITICAL → A5 carries: "[→ A4 cascade]"
+
+Cascade tags do not inflate signal count.
+They are context notes, not additional signals.
+
+---
+
+## PRIORITY BLOCK INTERACTION
+
+A1 and A3 signals are the most likely to reach the Priority block.
+
+A1 CRITICAL signals → Priority Category 1 (Contribution Collapse)
+A3 CRITICAL signals → Priority Category 2 (Structural Absence)
+                      or Category 1 if claim depends on sampling frame
+A5 signals          → Priority Category 4 (Argument Calibration)
+                      when POLICY_OVERREACH or GENERALIZABILITY_CLAIM
+
+A2 and A4 signals rarely reach Priority alone — they are usually
+visible as components of A1 or A3 findings.
+
+---
+
+## HTML REPORT RENDERING
+
+When EN_HTML-REPORT-KIT is active, SECTION 4 renders as:
+
+- Architecture audit summary table (5 rows, status badge per axis)
+- Expanded signal card for each flagged axis below the table
+- Cascade tags rendered as small amber inline badges
+- Clean axes shown as single green badge rows in the summary table
+
+---
+
+## HARD LIMITS
+
+This kit:
+  Does not generate signals from outside S4's reading scope
+  Does not cascade severity — only context tags cascade
+  Does not suppress clean axes from the summary table
+  Does not replace S4 with a score or rating
+  Does not produce verdicts
+
+---
+
+## VERSION DEPENDENCY
+
+  CLASR CORE v1.7
+  EN_MASTER_SECTION_KIT v1.2
+  EN_HTML-REPORT-KIT v1.1
+  CORE v1.7 Priority Signal Ordering Hierarchy (A1/A3 placement)
+
+---
+
+# CLASR-ARGUMENT-INTEGRITY-KIT_v1.0 — END

@@ -1,0 +1,297 @@
+﻿# 51 CLASR — CITATION INTEGRITY MODULE M17 v1.0
+# Kit: 51_CLASR_CITATION_INTEGRITY_MODULE_M17_v1_0
+# Position: Project Files — Tier 3 (Extension) / SECTION 10
+# STATUS: v1.0
+# Scope: Text-layer citation behavior signals only.
+#         No external verification. No DOI lookup. No live database access.
+#         All signals derived from manuscript declarations only.
+
+---
+
+## IDENTITY
+
+M17 surfaces citation behavior signals detectable from the manuscript
+text layer. It does not verify sources externally. It does not confirm
+existence, retraction status, or content of cited works.
+
+The distinction is permanent:
+  Signal from text declaration → always in scope
+  External source verification → always out of scope (CORE HARD LIMIT)
+
+M17 operates within SECTION 10 STANDARD tier.
+Activation: all manuscript types. No suppression condition.
+Output: structured signal block within SECTION 10 synthesis.
+
+---
+
+## SIGNAL TAXONOMY
+
+Five signal categories. Each produces a labeled signal with
+confidence tier: [CONFIRMED] / [LIKELY] / [FLAG]
+
+---
+
+### M17-S1 — SINGLE-SOURCE DEPENDENCY
+
+Definition: A primary claim rests on a single cited source with
+no corroborating citation.
+
+Detection rule:
+  Primary claim = claim in Abstract, Introduction final paragraph,
+  or Conclusion that the paper's contribution depends on.
+  Single source = only one citation index attached to that claim.
+  No corroboration = no other citation in the same paragraph
+  or immediately adjacent sentence supporting the same claim.
+
+Confidence assignment:
+  [CONFIRMED] — primary claim, single citation, no corroboration
+                 visible anywhere in the paragraph
+  [LIKELY]    — primary claim, single citation, one adjacent citation
+                 but different claim type
+  [FLAG]      — secondary claim, single citation, load-bearing
+                 for an intermediate argument step
+
+Output format:
+  M17-S1 SINGLE-SOURCE DEPENDENCY [tier]
+  Location: [Section, paragraph]
+  Signal: "[Claim text excerpt]" — sole support: [Ref N]
+  Note: [what the dependency implies for argument fragility]
+
+---
+
+### M17-S2 — SELF-CITATION PATTERN
+
+Definition: Author cites own prior work as primary support for
+a load-bearing claim, with no independent corroboration.
+
+Detection rule:
+  Requires: author name(s) visible in reference list entry
+  matching first/corresponding author of current manuscript.
+  High-stakes condition: self-cited work is sole or dominant
+  support for a primary claim in Introduction or Discussion.
+  Rate signal: if >25% of total references share first author
+  with current manuscript → rate flag triggered independently
+  of claim-level assessment.
+
+Confidence assignment:
+  [CONFIRMED] — sole support for primary claim, same first author,
+                 no independent source in same paragraph
+  [LIKELY]    — dominant support (2 of 3 citations in paragraph),
+                 same first/corresponding author
+  [FLAG]      — self-citation rate >25% without claim-level pattern
+
+Output format:
+  M17-S2 SELF-CITATION PATTERN [tier]
+  Location: [Section, paragraph] / [Rate: N of M references]
+  Signal: [Ref N] — [author match basis] — [claim dependency level]
+  Note: [whether independent corroboration is absent or present]
+
+---
+
+### M17-S3 — CITATION-CLAIM FIT
+
+Definition: The citation type declared in the text does not match
+the claim type being made.
+
+Detection rule:
+  Text signals examined:
+    "directly measured" / "observed" / "demonstrated" →
+      claim type: primary empirical
+    "reported by" / "according to" / "found that" →
+      claim type: secondary report
+    "it is well established" / "is known" / "has been shown" →
+      claim type: consensus
+    "meta-analysis showed" / "systematic review found" →
+      claim type: synthesized evidence
+    "estimated" / "modelled" / "calculated" →
+      claim type: model-derived
+
+  Mismatch: claim type declared in text does not match source type
+  visible from reference entry (journal article vs. textbook vs.
+  conference abstract vs. grey literature).
+
+  Note: fit is assessed from text declarations only.
+  Source content is not verified.
+
+Confidence assignment:
+  [CONFIRMED] — claim declares primary empirical basis; source is
+                 grey literature, textbook, or non-peer-reviewed
+                 (detectable from reference entry format)
+  [LIKELY]    — claim declares consensus basis; single source cited
+                 (consensus claims require multiple independent sources)
+  [FLAG]      — claim type ambiguous but citation type mismatch
+                 detectable from reference format
+
+Output format:
+  M17-S3 CITATION-CLAIM FIT [tier]
+  Location: [Section, sentence]
+  Declared claim type: [type from text signal]
+  Source type (from reference entry): [type]
+  Signal: [specific mismatch description]
+
+---
+
+### M17-S4 — RETRACTION / CORRECTION SIGNAL
+
+Definition: Manuscript text contains explicit declaration of
+retraction, erratum, correction, or expression of concern
+associated with a cited source.
+
+Detection rule:
+  Scan for: "retracted" / "retraction" / "erratum" / "correction" /
+  "corrected" / "expression of concern" / "withdrawn"
+  appearing within two sentences of a citation index.
+
+  Also scan reference list entries for:
+  "Retraction" / "Erratum" / "Correction" appearing in
+  title field of reference entry.
+
+  Note: this signal detects text-layer declarations only.
+  It does not access Retraction Watch or any live database.
+  Absence of signal ≠ source is not retracted.
+
+Confidence assignment:
+  [CONFIRMED] — explicit retraction/erratum declaration in text
+                 or reference entry, directly attached to citation
+  [LIKELY]    — retraction-adjacent language near citation
+                 without explicit declaration
+  [FLAG]      — reference entry title contains unusual publication
+                 type markers that may indicate correction history
+
+Output format:
+  M17-S4 RETRACTION / CORRECTION SIGNAL [tier]
+  Location: [text location or reference entry number]
+  Signal: [exact text trigger]
+  Note: Text-layer signal only. External verification recommended.
+
+---
+
+### M17-S5 — CITATION DENSITY ANOMALY
+
+Definition: Citation behavior in a section is structurally
+anomalous relative to the claim load it carries.
+
+Two subtypes:
+
+  Subtype A — Undercitation:
+  A section carrying multiple primary claims has fewer citations
+  than claims. Ratio: claims > citations by factor of 2 or more.
+  Detection: count verifiable claim statements (T1-T5 from
+  CLAIM-EXTRACTION logic) vs. citation indices in section.
+
+  Subtype B — Citation clustering:
+  >60% of all citations in a section appear in a single paragraph,
+  while adjacent paragraphs carrying similar claim density have
+  none or one citation.
+
+Confidence assignment:
+  [CONFIRMED] — undercitation ratio ≥ 3:1 claims to citations
+                 in a primary claim section (Introduction / Discussion)
+  [LIKELY]    — undercitation ratio 2:1, or clustering >60%
+                 in one paragraph with adjacent uncited claims
+  [FLAG]      — mild imbalance detectable but below threshold
+
+Output format:
+  M17-S5 CITATION DENSITY ANOMALY [tier] — [Subtype A / B]
+  Location: [Section]
+  Signal: [ratio or clustering description]
+  Note: [structural implication for argument support]
+
+---
+
+## OUTPUT BLOCK FORMAT
+
+M17 produces a structured block within SECTION 10.
+Block activates when at least one signal fires.
+If no signals detected: single suppression note.
+
+```
+─────────────────────────────────
+M17  Citation Integrity
+─────────────────────────────────
+Scope     : Text-layer citation behavior — no external verification
+Activation: [manuscript type]
+Signals   : [N active / 5 categories]
+
+[Signal outputs listed here, one per detected signal]
+
+Limitation note: M17 operates from manuscript text declarations only.
+Source existence, content, and retraction status are not externally
+verified. Absence of M17 signals does not confirm citation integrity.
+─────────────────────────────────
+```
+
+If no signals detected:
+```
+─────────────────────────────────
+M17  Citation Integrity
+─────────────────────────────────
+Scope     : Text-layer citation behavior — no external verification
+Signals   : NOT DETECTED — no citation behavior anomalies identified
+            from text-layer scan.
+Limitation: External verification not performed.
+─────────────────────────────────
+```
+
+---
+
+## INTERACTION WITH EXISTING MODULES
+
+M17 does not duplicate existing SECTION 10 modules.
+Interaction notes:
+
+M06 (Reanalysis Feasibility): M06 assesses data availability.
+  M17-S1 single-source dependency may reinforce M06 fragility
+  signal — note cross-reference if both active.
+
+M08 (Retraction Risk): M08 assesses retraction risk profile.
+  M17-S4 retraction signal is text-layer only; M08 is structural
+  pattern-based. Both may fire independently. Not redundant.
+
+M15 (Selective Reporting): M15 assesses result reporting gaps.
+  M17-S3 citation-claim fit may surface framing-level selective
+  citation parallel to M15 result-level selective reporting.
+
+---
+
+## PRIORITY ACTION SIGNALS ELIGIBILITY
+
+M17 signals are eligible for PRIORITY ACTION SIGNALS block.
+Eligibility thresholds:
+
+  M17-S1 [CONFIRMED] → eligible
+  M17-S2 [CONFIRMED] → eligible
+  M17-S3 [CONFIRMED] → eligible
+  M17-S4 [CONFIRMED] or [LIKELY] → eligible (retraction signals
+    escalate regardless of tier due to integrity implications)
+  M17-S5 [CONFIRMED] → eligible
+
+[LIKELY] and [FLAG] tiers: eligible only if no higher-priority
+signals occupy all five PRIORITY ACTION SIGNALS slots.
+
+---
+
+## HARD LIMITS
+
+This module:
+  Does not verify source existence
+  Does not access DOI databases, Retraction Watch, or PubMed
+  Does not compare reference list against external standards
+  Does not confirm or deny retraction status
+  Does not produce verdicts on citation integrity
+  Does not attribute intent to authors
+
+Signals are behavioral observations from text declarations only.
+All findings are signals, not conclusions.
+
+---
+
+## VERSION DEPENDENCY
+
+  CLASR CORE v1.9
+  01_CLASR_MASTER_SECTION_KIT_v1_2
+  42_EN_REPRODUCIBILITY_OPEN_SCIENCE_KIT_v1_1
+
+---
+
+# 51_CLASR_CITATION_INTEGRITY_MODULE_M17_v1_0 — END

@@ -1,0 +1,394 @@
+﻿# 03 CLASR — UNIFIED-OUTPUT KIT v1.3
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.3
+# Previous: v1.2
+# Changes:
+#   § 1 — Report structure updated: INTEGRATED RISK POSTURE block added
+#          (after ARGUMENT DENSITY, before CLOSING BLOCK)
+#   § 7 — Structured block enforcement: INTEGRATED RISK POSTURE entry added
+#   § 8b — INTEGRATED RISK POSTURE BLOCK defined (new section)
+#   § 11 — Format violation list: INTEGRATED RISK POSTURE omission added
+
+---
+
+## 0. IDENTITY
+
+This kit locks the complete format, section order,
+length limits, and language rules of every CLASR report.
+
+Goal: Every session produces a report in the same structure —
+consistent, ready for pre-submission editorial review.
+
+---
+
+## 1. REPORT STRUCTURE (FIXED ORDER)
+
+```
+[HEADER BLOCK]
+[PRIORITY ACTION SIGNALS BLOCK]    ← always present; before SECTION 0
+[SECTION 0]
+[SECTION 1]
+[SECTION 2]
+[SECTION 3]
+[SECTION 4]
+[SECTION 5]
+[SECTION 6]
+[SECTION 7]
+[SECTION 8]
+[SECTION 9]                        ← conditional; when figures/tables present
+[SECTION 10]                       ← always present
+[SIGNAL CONFIDENCE PROFILE]        ← before ARGUMENT DENSITY
+[ARGUMENT DENSITY BLOCK]
+[INTEGRATED RISK POSTURE BLOCK]    ← after ARGUMENT DENSITY; before CLOSING
+[CLOSING BLOCK]
+```
+
+This order is non-negotiable.
+SECTION 0–8 may not be merged or skipped.
+SECTION 9: suppressed with scope note when no figures/tables present.
+SECTION 10: always present; modules may be suppressed with reason.
+
+---
+
+## 2. HEADER BLOCK FORMAT
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CLASR — ACADEMIC READING REPORT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Q-Profile: [Q1 / Q2 / Q3] — [User-defined / AUTO-Q estimate]
+Mode: English → English Signal Report
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+---
+
+## 3. SECTION HEADER FORMAT
+
+Each SECTION opens as follows:
+
+```
+▸ SECTION [N] — [NAME]
+```
+
+No color codes, emoji, or decorative elements.
+Only `▸` and the section number.
+
+---
+
+## 4. LENGTH STANDARDS
+
+| Section | Maximum length |
+|---------|---------------|
+| SECTION 0 | 6 lines |
+| SECTION 1 | 4 lines |
+| SECTION 2 | 4 lines |
+| SECTION 3 | 5 lines |
+| SECTION 4 | 5 lines |
+| SECTION 5 | 4 lines |
+| SECTION 6 | 5 lines |
+| SECTION 7 | 6 lines |
+| SECTION 8 | 6 lines |
+| SECTION 9 | No maximum — scales to number of figures/tables |
+| SECTION 10 | No maximum — scales to number of active modules |
+
+Note on SECTION 9 and 10: these sections contain structured
+blocks (Signal Map, Compliance Profile, Synthesis) that have
+internal length discipline. The "no maximum" rule applies to
+the section as a whole — individual signals remain concise.
+
+**Total report:** Full report (SECTION 0–10) has no fixed line
+maximum. Core report (SECTION 0–8) maximum ~45 lines prose
++ structured blocks.
+
+For short manuscripts → SECTIONs scale down proportionally.
+Length is never padded.
+
+---
+
+## 5. LANGUAGE RULES (LOCK)
+
+### Prohibited structures (all SECTIONs):
+- "This study does / shows / argues..." (content forwarding)
+- "The manuscript states that..." (summary framing)
+- "Based on what we read..." (interpretive opener)
+- Bullet-point lists — flowing prose required throughout
+
+### Minimum length rule (signal-conditional):
+- If signal is present in a SECTION → minimum 3 lines required
+- If no signal is detected → single-line scope note only:
+  `[SECTION N: no signal detected]`
+- Padding to reach 3 lines when no signal exists is a format
+  violation
+
+### Required structures:
+- Flowing, self-contained paragraph per SECTION
+- International academic English prose
+- Signal-focused; no calls to action
+
+---
+
+## 6. LABEL ENFORCEMENT LOCK
+
+Signal labels are mandatory in all output conditions.
+
+**Core rule:** When a kit detects a signal, its label must appear
+in the SECTION output as a discrete, visible identifier —
+not embedded in prose only.
+
+Required label format:
+```
+LABEL_NAME: [supporting observation — one line]
+```
+
+**Label suppression is prohibited under any condition:**
+- Q-variant does not suppress labels
+- Context length does not suppress labels
+- Partial input does not suppress labels for available signals
+
+**Two permitted output states only:**
+1. Signal detected → label appears with supporting observation
+2. No signal detected → kit runs silently, no output
+
+This rule applies to all sections including SECTION 9 and SECTION 10.
+
+---
+
+## 7. STRUCTURED BLOCK ENFORCEMENT
+
+Mandatory structured blocks — must appear in specified format
+regardless of context length or Q-variant:
+
+```
+Replication Signal Kit        → RETIRED (kit 22)
+                                → replaced by REPRODUCIBILITY &
+                                  OPEN SCIENCE KIT module signals
+                                  in SECTION 10
+Desk-Reject Signal Kit (29)   → DESK-REJECT RISK PROFILE (§ SECTION 0)
+Argument Chain Kit (30)       → ARGUMENT CHAIN SIGNAL (§ SECTION 4)
+Argument Density              → ARGUMENT DENSITY block (before closing)
+Overreach-Signal Kit (35)     → OVERREACH PROFILE (§ SECTION 0)
+Conclusion Integrity Kit (34) → CONCLUSION INTEGRITY SIGNAL (§ SECTION 4)
+Argument Load Kit (32)        → ARGUMENT LOAD PROFILE (§ SECTION 4)
+Uncertainty-Visibility (36)   → UNCERTAINTY VISIBILITY PROFILE (§ SECTION 8)
+Hedging-Calibration (37)      → HEDGING CALIBRATION PROFILE (§ SECTION 6)
+Signal Confidence Layer       → SIGNAL CONFIDENCE PROFILE
+                                  (before ARGUMENT DENSITY)
+Action Priority Block (44)    → PRIORITY ACTION SIGNALS (before SECTION 0)
+Argument Integrity Kit (40)   → ARGUMENT INTEGRITY SIGNALS (§ SECTION 4)
+Figure/Table Kit (41)         → SIGNAL MAP + SIGNAL SUMMARY (§ SECTION 9)
+ROS Kit (42)                  → MODULE SIGNAL TABLE + SYNTHESIS (§ SECTION 10)
+Reporting Standard Kit (45)   → REPORTING STANDARD COMPLIANCE (§ SECTION 10)
+Unified Output Kit (03)       → INTEGRATED RISK POSTURE
+                                  (after ARGUMENT DENSITY; before CLOSING)
+```
+
+Rendering a required structured block as a prose paragraph
+is a format violation.
+
+---
+
+## 8. ARGUMENT DENSITY BLOCK
+
+Inserted immediately before the INTEGRATED RISK POSTURE block
+(after SIGNAL CONFIDENCE PROFILE).
+
+Format:
+```
+▸ ARGUMENT DENSITY
+
+FRAMING:  [LOW / MEDIUM / HIGH]
+CORE:     [LOW / MEDIUM / HIGH]
+LANGUAGE: [LOW / MEDIUM / HIGH]
+CLOSING:  [LOW / MEDIUM / HIGH]
+
+Distribution: [FRONT-LOADED / BACK-LOADED /
+               CORE-CONCENTRATED / DISTRIBUTED]
+```
+
+Maximum 6 lines. No interpretation. No recommendation.
+SECTION 9 and SECTION 10 signals are NOT included in zone
+aggregation — they represent distinct epistemic dimensions.
+
+---
+
+## 8b. INTEGRATED RISK POSTURE BLOCK
+
+Inserted after ARGUMENT DENSITY, immediately before CLOSING BLOCK.
+Always present. Never omitted.
+
+**Purpose:** Synthesize the three cross-cutting risk dimensions
+into a single posture label and one-sentence characterization.
+This is not a verdict. It is a navigational signal — where
+the manuscript's combined risk profile sits at the moment
+of submission.
+
+**Three source dimensions:**
+
+```
+Overreach pattern (kit 35)    → NONE / ISOLATED / COMPOUND / SYSTEMATIC
+Desk-reject co-occurrence (29)→ LOW / MODERATE / HIGH
+Reproducibility risk (42)     → LOW / MEDIUM / HIGH / CRITICAL
+```
+
+**Posture resolution rule:**
+
+```
+All three at lowest level              → LOW
+Any one at HIGH / CRITICAL / SYSTEMATIC → HIGH
+Two or more at medium level            → MEDIUM
+Mixed (one HIGH, others LOW)           → HIGH
+```
+
+Resolution is always the ceiling of the three inputs —
+never averaged, never softened.
+
+**Format:**
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+INTEGRATED RISK POSTURE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[LOW / MEDIUM / HIGH / CRITICAL]
+[One sentence: which signal categories produced this posture.]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**Sentence construction rules:**
+- Names the signal categories that drove the posture level
+- Does not repeat individual signal labels from earlier in the report
+- Does not produce revision recommendations
+- Does not predict editorial outcome
+- Maximum one sentence
+
+**Examples:**
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+INTEGRATED RISK POSTURE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+HIGH
+Statistical method–claim mismatch, causal drift, and a closed
+replication profile are simultaneously present at submission.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+INTEGRATED RISK POSTURE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+MEDIUM
+Overreach signals are isolated and reproducibility gaps are
+partial; desk-reject trigger density is low.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+INTEGRATED RISK POSTURE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+LOW
+No active overreach pattern, no desk-reject trigger zones,
+and reproducibility profile is substantially complete.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**Partial input behavior:**
+If one or more source dimensions are not assessable
+(partial input type A, B, or C):
+→ Posture is produced on available dimensions only
+→ Label appended: `[Partial input — posture based on available dimensions]`
+
+**Special mode behavior:**
+- Summary Mode: INTEGRATED RISK POSTURE block produced in full
+- Signal Mode: label only — sentence suppressed
+- Advisor Mode: block produced in full; no priority number assigned
+
+---
+
+## 9. CLOSING BLOCK FORMAT
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+This report is an academic reading signal.
+Decisions, evaluation, and publication responsibility
+rest with the user.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+If calibration note applies (3+ deviations detected):
+```
+[Calibration: Expression levels were automatically adjusted]
+```
+This line appears immediately before the closing block.
+
+---
+
+## 10. SPECIAL MODES
+
+### Summary Mode ("short report" or "summary"):
+- PRIORITY ACTION SIGNALS: full
+- SECTION 0 + SECTION 8: full length
+- SECTION 10 SYNTHESIS block: full
+- All other SECTIONs: 2 lines each
+- SECTION 9: suppressed (scope note only)
+- INTEGRATED RISK POSTURE: full
+- Total: ~25 lines
+- Label Enforcement Lock applies
+
+### Structural Mode (heading list only):
+- SECTION 7 expanded (full Numerical Hat Kit output)
+- All other SECTIONs: not produced
+- SECTION 9: not produced
+- SECTION 10: not produced
+- INTEGRATED RISK POSTURE: not produced
+- Output: flags + score format
+
+### Q-Comparison Mode ("compare Q1 and Q2"):
+- Not two-column; two sequential full report blocks
+- Each block at full format, different Q threshold
+- INTEGRATED RISK POSTURE: produced per block
+
+### Section Scope Mode (OUTPUT_SCOPE_KIT):
+- User specifies which SECTIONs to produce
+- SECTION 9 and SECTION 10 are valid scope targets
+- SECTION 8 remains mandatory when any prose sections produced
+  (exception: structured blocks only mode)
+- INTEGRATED RISK POSTURE: produced when full report or
+  structured blocks only mode active
+- See OUTPUT_SCOPE_KIT for full command list
+
+---
+
+## 11. FORMAT VIOLATION PROTOCOL
+
+If a format violation is internally detected during output:
+- Production continues without interruption
+- Violation not surfaced to user
+- Violating element corrected in-line
+
+Format violations (exhaustive list):
+- Label suppression for a detected signal
+- Padding a SECTION with no signal to meet 3-line minimum
+- Prose-only output for a signal requiring a label
+- Structured block rendered as paragraph
+- SECTION skipped without scope note
+- Output order deviation from § 1
+- PRIORITY ACTION SIGNALS block omitted
+- SECTION 10 entirely suppressed without module-level notation
+- INTEGRATED RISK POSTURE block omitted
+- INTEGRATED RISK POSTURE sentence exceeding one sentence
+- INTEGRATED RISK POSTURE posture level softened below ceiling
+  of its three source dimensions
+
+---
+
+## 12. LIMITS
+
+This kit does not define:
+  SECTION content (→ SECTION-DEPTH KIT, kits 40-42)
+  Language thresholds (→ Q-GATE KITs)
+  Cross-lingual behavior (→ OUTPUT-LANGUAGE-KIT)
+
+It locks the external format, structure, label enforcement,
+and output discipline of every CLASR report.
+
+---
+
+# UNIFIED-OUTPUT KIT v1.3 — END

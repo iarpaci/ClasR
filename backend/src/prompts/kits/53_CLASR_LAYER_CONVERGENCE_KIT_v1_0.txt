@@ -1,0 +1,311 @@
+﻿# 53 CLASR — LAYER CONVERGENCE KIT v1.0
+# Kit: 53_CLASR_LAYER_CONVERGENCE_KIT_v1_0
+# Position: Project Files — Tier 2 (Governance)
+# STATUS: v1.0
+# Purpose: Tracks how many independent analysis layers within
+#          CLASR independently flag the same signal element.
+#          Surfaces convergence depth inline on signal cards.
+#          Adapted from CLASR-X Convergence Confidence Kit v1.0
+#          for single-system internal use.
+
+---
+
+## IDENTITY
+
+This kit adds a convergence count to signal cards when two or more
+independent CLASR analysis layers flag the same manuscript element
+independently. The count is shown inline on the signal card:
+
+  HIGH · CAUSAL_DESIGN_MISMATCH · ×4
+  [Argument · Method · Language · Reproducibility]
+
+This is not a score. It is a transparency layer.
+It tells the reader how many independent analytical lenses within
+CLASR converge on the same problem — without inflating any
+individual signal's weight.
+
+---
+
+## CORE PRINCIPLE
+
+Convergence is not a count. It is a distance.
+
+Two signals from the same layer saying the same thing
+is one signal with redundancy.
+Two signals from different layers saying the same thing
+is independent corroboration.
+
+This kit makes that difference visible.
+
+---
+
+## 1. THE SIX ANALYSIS LAYERS
+
+CLASR operates across six analysis layers.
+These are the only layers that count toward convergence.
+No other source is eligible.
+
+```
+Layer ID    Name                    Primary Sections / Kits
+─────────────────────────────────────────────────────────────────
+ARGUMENT    Argument layer          S2, S4, Kit 47, Kit 48,
+                                    Kit 50, argument chain signals
+
+METHOD      Method layer            S3, methodological visibility
+                                    signals, Kit 49
+
+LANGUAGE    Language / hedging      S6, verbal lens, hedging
+            layer                   calibration, overreach signals
+
+STRUCTURAL  Structural layer        S7, S4 load profile,
+                                    structural integrity signals
+
+REPRO       Reproducibility layer   S10 all modules (M01–M16)
+
+CITATION    Citation layer          S10 / M17 (Citation Integrity
+                                    Module)
+```
+
+**One kit per layer.** If two kits from the same layer both flag
+the same element, that counts as ×1 — not ×2.
+Example: Kit 47 and Kit 50 both flag the same concept behavior →
+ARGUMENT layer contributes ×1, not ×2.
+
+---
+
+## 2. CONVERGENCE COUNT — CALCULATION RULES
+
+For each signal element, count how many distinct layers
+independently flag it.
+
+**Independent** means:
+- Each layer reaches the signal through its own reading logic
+- The layers do not share a triggering mechanism
+- Removing one layer's detection would not prevent another's
+
+**Count is N where N = number of distinct layers flagging.**
+
+Minimum for display: ×2
+Maximum possible: ×6
+
+---
+
+## 3. CONVERGENCE LABELS
+
+| Count | Label    | Meaning                              |
+|-------|----------|--------------------------------------|
+| ×1    | —        | Single layer — no convergence shown  |
+| ×2    | MODERATE | Two independent layers converge      |
+| ×3    | STRONG   | Three independent layers converge    |
+| ×4+   | HIGH     | Four or more layers converge         |
+
+Single-layer signals carry no convergence marker.
+They are not penalised. Absence of marker ≠ low importance.
+One layer's reading can still be a critical signal.
+
+---
+
+## 4. INLINE FORMAT ON SIGNAL CARDS
+
+When convergence is detected (×2 or more), the signal card header
+gains a convergence suffix and a layer list below it.
+
+**Plain-text report format:**
+
+```
+HIGH · CAUSAL_DESIGN_MISMATCH · ×4 [HIGH convergence]
+Layers: Argument · Method · Language · Reproducibility
+Location: Section 4 / Section 6 / Section 3 / Section 10
+```
+
+**HTML report format (55_CLASR_HTML_REPORT_KIT_v1_2):**
+
+The convergence suffix appears on the signal card header line.
+A layer tag row appears directly below the signal title,
+using small muted pills — one per contributing layer.
+
+CSS additions required:
+
+```css
+.convergence-suffix {
+  font-size: 11px;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  padding: 2px 8px;
+  border-radius: 3px;
+  margin-left: 8px;
+}
+.convergence-high     { background: #2B555B; color: #FFF7EC; }
+.convergence-strong   { background: #E1F5EE; color: #085041; }
+.convergence-moderate { background: #F5F0E5; color: #4a6366; }
+
+.layer-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 6px 14px 8px;
+  border-top: 1px dashed var(--border);
+  background: white;
+}
+.layer-tag {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--mid);
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 1px 7px;
+}
+```
+
+HTML structure:
+```html
+<div class="signal-card">
+  <div class="signal-card-header">
+    <span class="signal-badge badge-high">HIGH</span>
+    <span class="signal-card-title">CAUSAL_DESIGN_MISMATCH</span>
+    <span class="convergence-suffix convergence-high">×4 HIGH</span>
+  </div>
+  <div class="layer-tags">
+    <span class="layer-tag">Argument</span>
+    <span class="layer-tag">Method</span>
+    <span class="layer-tag">Language</span>
+    <span class="layer-tag">Reproducibility</span>
+  </div>
+  <div class="signal-card-body">
+    [signal observation text]
+  </div>
+</div>
+```
+
+---
+
+## 5. PRIORITY ACTION SIGNALS — CONVERGENCE INTERACTION
+
+When a Priority Action Signal carries a convergence count,
+the count appears on the signal line:
+
+```
+[1] CAUSAL_DESIGN_MISMATCH · ×4 — Section 4
+    Cross-sectional design cannot establish the directional
+    causality claimed in Discussion — four independent
+    analysis layers flag the same gap.
+```
+
+The convergence count becomes part of the one-sentence
+explanation when it adds meaningful editorial information.
+It is not forced into every explanation — only when it
+clarifies why the signal has elevated weight.
+
+---
+
+## 6. ANTI-INFLATION RULES
+
+These rules prevent the convergence count from being inflated.
+
+**Rule 1 — Same layer, multiple kits: counts as ×1.**
+Kit 47 (Epistemic Frame) and Kit 48 (Concept Lifecycle) both
+live in the ARGUMENT layer. If both flag the same element,
+the ARGUMENT layer contributes ×1.
+
+**Rule 2 — Section overlap: primary section only.**
+A signal that appears in both S4 and S6 because of cross-section
+signal handling (CORE v1.6 Cross-Section Signal Rule) contributes
+from its PRIMARY section's layer only. The cross-reference note
+in the secondary section does not add a layer count.
+
+**Rule 3 — No extrapolation.**
+A layer is counted only when it has actually produced a signal
+for the element in question — not when it "could have" or "might
+have" flagged it if analyzed differently.
+
+**Rule 4 — No rounding up.**
+×3 layers means exactly 3 layers produced independent signals.
+Not "approximately 3" or "at least 2."
+
+**Rule 5 — M17 counts as CITATION layer, not REPRO layer.**
+M17 is housed in S10 but it is the Citation layer, not the
+Reproducibility layer. These are distinct. Both can contribute
+to convergence independently.
+
+---
+
+## 7. EXECUTIVE SUMMARY INTERACTION
+
+When a manuscript has one or more HIGH convergence signals
+(×4 or above), the Executive Summary Block references this:
+
+"The most critical signal carries HIGH convergence — four
+independent analysis layers within CLASR flag the same
+[brief description of element]."
+
+This appears as sentence 4 or 5 of the Executive Summary
+(see 52_CLASR_EXECUTIVE_SUMMARY_BLOCK_v1_0 for sentence structure).
+It replaces the generic "pattern observation" sentence when
+a HIGH convergence signal exists.
+
+---
+
+## 8. SECTION 0 INTEGRATION
+
+The MACRO FRAME block in SECTION 0 gains a convergence summary
+when this kit is active:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CONVERGENCE PROFILE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+HIGH (×4+)    : N signals
+STRONG (×3)   : N signals
+MODERATE (×2) : N signals
+Single layer  : N signals
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+This gives the reader a structural map of convergence
+distribution before entering the full report.
+
+---
+
+## 9. INTERACTION WITH CLASR-X
+
+When a CLASR report carrying convergence counts is fed
+into CLASR-X:
+
+- The convergence count is carried as context on the signal entry
+- It does not replace CLASR-X's own convergence calculation
+- CLASR-X reads the count as: "CLASR internally flagged
+  this element from N layers"
+- CLASR-X Convergence Confidence Kit counts CLASR as one
+  system (GROUP A) regardless of internal layer count
+
+The internal convergence count and the cross-system
+convergence score are different things. Both are visible.
+Neither replaces the other.
+
+---
+
+## 10. HARD LIMITS
+
+This kit:
+  Does not inflate convergence by counting same-layer kits twice
+  Does not generate convergence counts without actual layer signals
+  Does not use convergence count as a verdict
+  Does not suppress single-layer signals
+  Does not modify signal content — only adds the count
+  Does not count layers that did not produce signals for the element
+  Does not replace CLASR-X cross-system convergence calculation
+
+---
+
+## VERSION DEPENDENCY
+
+  CLASR CORE v1.9
+  01_CLASR_MASTER_SECTION_KIT_v1_2
+  55_CLASR_HTML_REPORT_KIT_v1_2
+  52_CLASR_EXECUTIVE_SUMMARY_BLOCK_v1_0
+  CORE v1.6+ Cross-Section Signal Rule (anti-inflation Rule 2)
+
+---
+
+# 53_CLASR_LAYER_CONVERGENCE_KIT_v1_0 — END

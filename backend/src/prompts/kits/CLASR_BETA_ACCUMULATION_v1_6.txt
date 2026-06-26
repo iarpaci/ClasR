@@ -1,0 +1,365 @@
+﻿# CLASR_BETA_ACCUMULATION_v1
+# Support File — Project Files alanına eklenir.
+# Kit değildir. CORE'u değiştirmez.
+# Beta serisi bulguları ve kalibrasyon referansı.
+# STATUS: v1 — 2026-06 / 10 rapor / 6 alan
+
+---
+
+## 1. BETA SERİSİ — GENEL BİLGİ
+
+Rapor sayısı   : 10
+Tarih          : 2026-06-20
+Sistem versiyonu: CLASR CORE v1.8.x → v1.9.0 geçiş dönemi
+Alan dağılımı  : Fizik, astronomi, hematoloji, halk sağlığı,
+                 biyomekanik, hukuk/siyaset bilimi
+
+---
+
+## 2. İŞLENEN MANUSCRIPT LİSTESİ
+
+| ID | Manuscript | Alan | CORE versiyonu |
+|----|-----------|------|----------------|
+| 01 | CookeEtAl_2024 | Parçacık fiziği (AWAKE/CERN) | v1.8.x |
+| 02 | MatteriEtAl_2025 | Biyomekanik | v1.8.x |
+| 03 | Rudroff_2025 | Nörobilim (retraksiyon senaryosu) | v1.8.x |
+| 04 | MontanoEtAl_2026 | Halk sağlığı (KAP çalışması) | v1.8.x |
+| 05 | SohnEtAl_2026 | Astronomi (zayıf lens) | v1.9.0 |
+| 06 | PuttasiddappaEtAl_2026 | Hematoloji | v1.8.x |
+| 07 | AdaTakEtAl_2026 | Halk sağlığı | v1.8.x |
+| 08 | PecileEtAl_2025 | Kardiyoloji | v1.8.x |
+| 09 | VanEylen_EtAl_2025 | Uzay bilimleri (savunuculuk belgesi) | v1.8.x |
+| 10 | (rezerv) | — | — |
+
+---
+
+## 3. E1 — CONFIDENCE MİMARİSİ BULGULARI
+
+**Durum:** v1.8.4'te düzeltildi. v1.9.0'da aktif.
+
+Gözlemlenen beş varyant (tarihsel kayıt):
+
+V1   : Ayrı blok, niteliksel etiket (HIGH/MEDIUM)
+       → CookeEtAl_2024, MatteriEtAl_2025
+V1-b : Ayrı tablo, sayısal değer, kısmen doğrulanabilir
+       → Rudroff_2025
+V2   : Confidence tamamen yok
+       → MontanoEtAl_2026
+V3   : Blok yok, inline yok, sessiz yokluk
+       → SohnEtAl_2026, PuttasiddappaEtAl_2026,
+         AdaTakEtAl_2026, PecileEtAl_2025
+V4   : Kategorik etiket sistemi, ayrı blok, sayısal değer yok
+       → AdaTakEtAl_2026
+
+Tek ceiling ihlali:
+  Rudroff_2025 / RETRACTION_CONFIRMED / 0.98
+  (Observation ceiling: 0.90)
+  Durum: açık soru — CALIBRATION-KIT v1.2'de kayıtlı
+
+---
+
+## 4. E6 — POZİTİF ETİKET BULGULARI
+
+**Durum:** CALIBRATION-KIT v1.2'de yasaklı kelime listesine eklendi.
+
+Onaylı ihlaller:
+
+| Kelime | Manuscript | Section | Bağlam |
+|--------|-----------|---------|--------|
+| "consistent" | VanEylen_EtAl_2025 | S9/M5 | kanıtsız |
+| "grounds the strategic claim more than any other element" | VanEylen_EtAl_2025 | S3 | desteksiz niteleyici |
+| "appropriate" | MontanoEtAl_2026 | S5 | kanıtsız |
+| "striking" | MontanoEtAl_2026 | S6 | öz-temizleme örüntüsüyle |
+
+Öz-temizleme örüntüsü (E2/E6 sınırı):
+  MontanoEtAl_2026 — "striking" flaglendi,
+  ardından "not an overreach" kararı üretildi.
+  Bu E2 drift + E6 ihlali.
+  Durum: ikinci onay bekleniyor.
+
+---
+
+## 5. E3 — ALAN KALİBRASYONU BULGULARI
+
+**Durum:** Düşük öncelik. İzleniyor.
+
+Kenar vakalar:
+
+VanEylen_EtAl_2025:
+  M06 (Sample Size) savunuculuk belgesine yanlış uygulandı.
+  Ampirik olmayan belge → M06 baskılanmalıydı.
+
+PRISMA / scoping review vakası:
+  "Meta-analiz" etiketli scoping review.
+  PRISMA uygulaması sınır vakası — onaylanmamış false positive.
+
+Verbal-primary kalibrasyon:
+  İki raporda doğru uygulandı. Sessizlik örüntüsü kuruldu.
+
+Rudroff_2025 retraksiyon senaryosu:
+  Doğru işlendi. M08 aktive edildi. Alan kalibrasyonu doğru.
+
+---
+
+## 6. E5 — SINIR YAKLAŞIMI
+
+**Durum:** Tek örnek. İzleniyor.
+
+PuttasiddappaEtAl_2026:
+  CLASR kaynak metin yargısını ("incomplete") sinyal kartına
+  kopyaladı, gözlem olarak raporlamak yerine.
+  ⚠ seviyesi — onaylanmamış ihlal.
+
+---
+
+## 7. TEMİZ EKSENLER (10 RAPORDAN)
+
+E2 — Drift                    : İhlal yok ✅
+E3 — False positive (genel)   : İhlal yok ✅
+E4 — Tone dependency          : İhlal yok ✅
+
+Sessizlik örüntüsü kuruldu.
+
+---
+
+## 8. AKTİF AÇIK SORULAR
+
+| # | Konu | Kaynak | Durum |
+|---|------|--------|-------|
+| 1 | RETRACTION_CONFIRMED confidence ceiling | Rudroff_2025 | Açık — meta-factory review bekliyor |
+| 2 | "Striking" öz-temizleme örüntüsü | MontanoEtAl_2026 | İkinci onay bekliyor |
+| 3 | PuttasiddappaEtAl E5 sınır yaklaşımı | PuttasiddappaEtAl_2026 | İkinci onay bekliyor |
+| 4 | GEANT4 PAS düzeyi — M02 alt-sinyali mi, bağımsız PAS mı? | CookeEtAl_2024 (8-rapor benchmark) | İzleniyor — ek veri gerekiyor |
+| 5 | Interpretive sinyal confidence ceiling — 0.75 mi, 0.65 mi? | CookeEtAl_2024 (8-rapor benchmark) | İzleniyor — ek veri gerekiyor |
+| 6 | Cross-table synthesis / assumption-scope / future-claim PAS kuralları | CookeEtAl_2024 (03:40 vs. nihai karşılaştırması) | İzleniyor — ek veri gerekiyor |
+| 7 | ASSUMPTION_VALIDITY_SCOPE_MISMATCH — energy-slice assumption üç sürümde spontan üretilmedi | CookeEtAl_2024 (3-sürüm karşılaştırması) | Yüksek öncelik — Kit 40 A3 kural adayı |
+| 8 | PSF propagation gap PAS kararlılığı — 03:57'de PAS, 04:15'te ikincil | CookeEtAl_2024 (4-sürüm karşılaştırması) | İzleniyor — PAS eşiği kalibrasyonu gerekiyor |
+| 9 | M01/M02 compound flag kalibrasyonu — bazı sürümler CRITICAL+COMPOUND, bazıları field-reduced | CookeEtAl_2024 (5-sürüm karşılaştırması) | Açık — APS 2022 vs. CERN norm çakışması |
+
+---
+
+## 9. KALİBRASYON REFERANS NOTLARI
+
+DIPOLE_RIPPLE_QUANTITATIVE_BOUND_ABSENT:
+  CookeEtAl_2024'te LOW / 0.73 olarak verildi.
+  Dominant systematic sayısallaştırılmamışsa MEDIUM
+  daha savunulabilir olabilir.
+  Not: Tek rapor. Kit 09'a §1.13 olarak eklemek için
+  beta verisi biriktirmeye devam.
+
+REVIEW_AS_ADVOCACY_PATTERN:
+  VanEylen_EtAl_2025'te ilk gerçek dünya aktivasyonu.
+  Kit 57 beta doğrulaması tamamlandı.
+
+SIMULATION_PARAMETER_TRANSPARENCY_ABSENT (potansiyel sinyal):
+  CookeEtAl_2024 8-rapor benchmark'ında v1.8.5-TR bu sinyali
+  CRITICAL PAS olarak atadı; v1.9.0 M02 alt-sinyali olarak bıraktı.
+  Argüman: Simülasyon üç kritik çıktı üretiyorsa (PSF genişliği,
+  validity haritaları, scattering contribution) bu PAS seviyesinde
+  bir yapısal risk. Kit 44 Tier 2 listesine eklenmesi tartışmaya değer.
+  Not: Tek benchmark. Ek simülasyon-ağırlıklı manuscript gerekiyor.
+
+INTERPRETIVE_SIGNAL_CONFIDENCE_CEILING:
+  Mevcut ceiling: 0.75 (tüm interpretive sinyaller).
+  CookeEtAl_2024 benchmark analizi: off-axis beam asymmetry →
+  validity map distorsiyonu gibi çıkarımsal zincirlerde 0.65
+  daha savunulabilir olabilir.
+  Öneri: Çıkarımsal zincir uzunluğuna göre diferansiyel ceiling
+  (doğrudan interpretive: 0.75 / zincirli interpretive: 0.65).
+  Not: Tek benchmark. Kit 09'a §1.13 olarak eklemek için
+  ek veri biriktirmeye devam.
+CROSS_TABLE_NUMERICAL_ANOMALY (potansiyel PAS kuralı):
+  CookeEtAl_2024 8-rapor benchmark: waist position discrepancy
+  (Tablo II'deki üç yöntem arasındaki 1.1 m fark + Fig. 5/6 vs.
+  Fig. 7 farklı referans çerçeveleri) 03:40 sürümünde PAS'tan ikincil
+  katmana indi. Öneri: birden fazla tablo/şekil karşılaştırması
+  gerektiren sayısal anomaliler PAS eşiğine taşınır.
+  Hedef: Kit 44 Tier 2 — CROSS_TABLE_NUMERICAL_ANOMALY.
+  Not: Tek benchmark. Ek veri gerekiyor.
+
+ASSUMPTION_VALIDITY_SCOPE_MISMATCH (potansiyel A3 sinyali):
+  CookeEtAl_2024 8-rapor benchmark: energy-slice assumption scope
+  sinyali 03:40 sürümünde PAS'tan düştü. Kalıp: load-bearing
+  varsayımın geçerlilik aralığı metodolojide kısıtlanmış ama
+  sonuç bölümünde bu kısıtla bağlanmamış.
+  Hedef: Kit 40 A3 — ASSUMPTION_VALIDITY_SCOPE_MISMATCH.
+  Not: Tek benchmark. Ek veri gerekiyor.
+
+FUTURE_CLAIM_PAS_THRESHOLD (negatif kural):
+  CookeEtAl_2024 8-rapor benchmark: 03:40 sürümünde
+  FUTURE_CLAIM_EVIDENCE_BRIDGE_WEAK (0.74 confidence, alan normuna
+  giren forward-looking tartışma) PAS #3'e taşındı ve daha güçlü
+  sinyallerin yerini aldı. Kural: 0.74 altı confidence + alan normu
+  olan forward-looking sinyaller PAS'a taşınmaz, ikincil katmanda
+  kalır. Hedef: Kit 44 selection kuralına not.
+  Not: Tek benchmark. Ek veri gerekiyor.
+AWAKE_BENCHMARK_CEILING_SIGNALS (yakalanmamış sinyal kataloğu — 04:15 sonrası güncellendi):
+  CookeEtAl_2024 üzerinde 3-sürüm + derin analiz sonucu tespit edilen,
+  hiçbir CLASR sürümünün yakalamadığı dört sinyal:
+
+  1. IMAGING_CONDITION_SCOPE_UNDECLARED:
+     "imaging condition only met at single point on scintillating screen,
+     this effect can be ignored at the measurement precision achieved"
+     — "ignored" kararının quantitative justification'ı yok.
+     Band: LOW-MODERATE. PAS değil.
+
+  2. CONVERGENCE_PARAMETER_SENSITIVITY_ABSENT:
+     Eq. 8'de "convergence achieved for n > 500" ifadesi var
+     ama bootstrap/simulation parametresinin sonuçlara etkisi
+     test edilmemiş ve kayıt altına alınmamış.
+     Band: LOW. PAS değil.
+
+  3. SIGN_CONVENTION_UNDEFINED:
+     Table I'deki laser-proton delay değerleri (−30 ps, +20 ps)
+     için işaret konvansiyonu tanımlanmamış; Fig. 1 geometrisiyle
+     bağ okuyucuya bırakılmış.
+     Band: LOW. PAS değil.
+
+  4. ABSTRACT_RANGE_COMPRESSION:
+     Abstract "∼0.5 mm mrad" diyor; on-axis gerçek aralık
+     0.37–0.66 mm mrad — tomografi değeri neredeyse iki katı.
+     Bu özetleme seçimi hiçbir sürümde sinyal olarak işlenmedi.
+     Band: LOW-MODERATE. Potansiyel SECTION 6 sinyali.
+     Cross-reference: Kit 09 §1.1 (over-claim detection) adayı.
+
+  Not: 04:15 sürümünde 1 ve 2 numaralı sinyaller kısmen yakalandı
+  (bkz. AWAKE_04:15_YENİ_SİNYALLER). Kalan boşluk: 3 ve 4 numara.
+  Sistem bu sinyallere ulaşmak için başka makalelerde daha fazla
+  iterasyon gerektirebilir.
+
+ENERGY_SLICE_ASSUMPTION_SYSTEMATIC_GAP:
+  CookeEtAl_2024'te beş CLASR sürümünde (21:42, 03:40, 03:57, 04:15, 04:27)
+  energy-slice assumption scope sinyali spontan üretilmedi.
+  DURUM: Kesin sistematik blind spot. Beş iterasyon, sıfır spontan üretim.
+  Bu makaledeki benchmarking'in doğal tavanına gelindi.
+  Bir sonraki CLASR iterasyonu için test kritik: bu blind spot kapanıyor mu?
+  Kalıp: Fig. 7'deki saçılma ile Bölüm III'teki "her enerji dilimi
+  demeti temsil eder" varsayımı arasındaki açık synthesis gerektiriyor.
+  Bu, ASSUMPTION_VALIDITY_SCOPE_MISMATCH kuralının yüksek öncelikli
+  olduğunu doğruluyor — kural olmadan bu sinyal üretilmiyor.
+  Hedef: Kit 40 A3 — ASSUMPTION_VALIDITY_SCOPE_MISMATCH.
+  Öncelik: YÜKSEK. Diğer kalibrasyon notlarından bağımsız olarak
+  tek rapor olsa bile kit güncellemesi tartışılabilir.
+
+AWAKE_BENCHMARK_SÜRÜM_PUANLARI (CLASR kendi ölçeğinde):
+  21:42 nihai   : ~87/100 — en yüksek recall, waist+energy-slice,
+                  PSF propagation gap kaçırıldı
+  03:40         : ~78/100 — precision yüksek, recall belirgin düştü
+  03:57         : ~85/100 — PSF propagation gap yeni kazanım,
+                  hedging analizi olgunlaştı, energy-slice hâlâ yok
+  04:15         : ~88/100 — en geniş sinyal havuzu, iki yeni sinyal
+                  (Fig. 2 değer çelişkisi, bootstrap count),
+                  PAS optimizasyonu biraz geride, energy-slice hâlâ yok
+  04:27         : ~86/100 — assumption interaction note yeni ve meşru,
+                  dipole ripple sensitivity ilk kez ayrı sinyal,
+                  compound flag kalibrasyonu açık soru, energy-slice hâlâ yok
+  Not: ChatGPT 96/100 farklı bir ölçek (genel akademik kalite).
+  CLASR puanlaması sinyal eksiksizliği + metin kanıtı bağına dayalı.
+  Beş sürüm spread: 78–88. Hiçbir sürüm tüm sinyalleri aynı anda tutamadı.
+
+---
+
+## 10. SINIRLAR
+
+Bu dosya:
+- Kit değildir
+- CORE'u değiştirmez
+- Otomatik kalibrasyon yapmaz
+- Yalnızca beta serisi bulgularını kayıt altına alır
+
+---
+
+
+AWAKE_04:15_YENİ_SİNYALLER (04:15 sürümü kazanımları):
+  İki sinyal ilk kez 04:15 sürümünde yakalandı:
+
+  FIGURE_TEXT_VALUE_DISCREPANCY (Sec 9, MEDIUM):
+    Fig. 2'de aynı event için iki farklı emittance değeri
+    (0.343 beam size yöntemiyle, 0.38 tomografi yöntemiyle)
+    etiket olmadan yan yana duruyor. 8 rapor boyunca hiç
+    yakalanmamıştı. AWAKE_BENCHMARK_CEILING_SIGNALS kataloğundan
+    çıkarıldı — artık yakalanmış.
+
+  BOOTSTRAP_RESAMPLE_COUNT_ABSENT (Sec 5, LOW):
+    Bootstrap band'larının kaç resample üzerinden üretildiği
+    belirtilmiyor; 2.5%/97.5% kuyrukta numerik kararlılık için
+    önemli. İlk kez yakalandı.
+
+  04:15 PAS seçimi notu:
+    WORKING_POINT_DISPLACEMENT_FRAMING PAS #5 olarak taşındı
+    (0.79 confidence). Alan normunda kalitatif fizik ifadeleri
+    için explicit predicted value beklenmez — bu slot PSF
+    propagation gap veya waist position için daha verimli
+    kullanılırdı. PSF propagation gap bu sürümde PAS'tan indi.
+
+  PSF_PROPAGATION_GAP_PAS_INSTABILITY:
+    03:57'de PAS seviyesinde, 04:15'te ikincil katmanda.
+    Bu sinyal PAS eşiğinde kararsız — calibration gerekiyor.
+    Hedef: Kit 44 selection kuralına not.
+
+
+AWAKE_04:27_BULGULAR:
+  04:27 sürümünde iki yeni sinyal ilk kez kayıt altına alındı:
+
+  ASSUMPTION_INTERACTION_UNANALYZED:
+    Üç load-bearing varsayımın (Gaussian beam, shot stationarity,
+    PSF invariance) birlikte ihlal senaryosu hiçbir sürümde
+    analiz edilmemişti. 04:27 bunu "boundary condition visible
+    to a reviewer" olarak kayıt altına aldı. Yeni ve meşru.
+
+  DIPOLE_RIPPLE_SENSITIVITY_ABSENT:
+    Dipole current ripple'ın waist position için dominant sistematik
+    olduğu ama Table IV'te PSF gibi nicel sensitivity coefficient
+    almadığı ilk kez ayrı sinyal olarak işlendi.
+
+  M01/M02 COMPOUND FLAG KALİBRASYON SORUNU:
+    03:57 ve 04:15: CRITICAL + COMPOUND FLAG aktif.
+    04:27: field-type-reduced severity, compound flag tetiklenmedi.
+    "CERN beamtime data public deposition norm değil" gerekçesi
+    gerçekçi ama APS 2022 sonrası data availability zorunluluğu
+    compound flag'i destekliyor.
+    Hedef: Kit 42b field-type modifier tablosu + Kit 42 compound
+    flag threshold kalibrasyonu. Açık soru #9.
+
+AWAKE_5_SÜRÜM_SİNYAL_MATRİSİ:
+  Sinyal              | 21:42 | 03:40 | 03:57 | 04:15 | 04:27
+  Waist position PAS  |   ✓   |   ✗   |   ✗   |   ✗   | ✗(S5)
+  Energy-slice scope  |   ✓   |   ✗   |   ✗   |   ✗   |   ✗
+  PSF prop. gap       |   ✗   |   ✗   | ✓ PAS |   ✗   | ✗(S8)
+  Fig.2 değer çelişki |   ✗   |   ✗   |   ✗   |   ✓   |   ✗
+  Bootstrap count     |   ✗   |   ✗   |   ✗   |   ✓   |   ✗
+  Assumption interact.|   ✗   |   ✗   |   ✗   |   ✗   |   ✓
+  Dipole ripple sens. |   ✗   |   ✗   |   ✗   |   ✗   |   ✓
+
+# CLASR_BETA_ACCUMULATION_v1_6 — BİTTİ
+# v1.2 değişiklikleri:
+#   Aktif açık sorular #4 ve #5 eklendi (CookeEtAl_2024 benchmark)
+#   SIMULATION_PARAMETER_TRANSPARENCY_ABSENT kalibrasyon notu eklendi
+#   INTERPRETIVE_SIGNAL_CONFIDENCE_CEILING kalibrasyon notu eklendi
+# v1.3 değişiklikleri:
+#   CROSS_TABLE_NUMERICAL_ANOMALY kalibrasyon notu eklendi
+#   ASSUMPTION_VALIDITY_SCOPE_MISMATCH kalibrasyon notu eklendi
+#   FUTURE_CLAIM_PAS_THRESHOLD negatif kural notu eklendi
+#   Açık sorular #6 eklendi
+# v1.4 değişiklikleri:
+#   AWAKE_BENCHMARK_CEILING_SIGNALS kataloğu eklendi (4 sinyal)
+#   ENERGY_SLICE_ASSUMPTION_SYSTEMATIC_GAP notu eklendi
+#   AWAKE_BENCHMARK_SÜRÜM_PUANLARI eklendi
+#   Açık soru #7 eklendi (energy-slice yüksek öncelik)
+# v1.5 değişiklikleri:
+#   04:15 sürüm puanı (~88/100) eklendi
+#   AWAKE_04:15_YENİ_SİNYALLER notu eklendi
+#   FIGURE_TEXT_VALUE_DISCREPANCY ceiling kataloğundan çıkarıldı
+#   BOOTSTRAP_RESAMPLE_COUNT_ABSENT kaydı eklendi
+#   Energy-slice blind spot kesin sistematik olarak güncellendi
+#   PSF propagation gap PAS kararsızlığı notu eklendi
+#   Açık soru #8 eklendi
+# v1.6 değişiklikleri:
+#   04:27 sürüm puanı (~86/100) eklendi
+#   AWAKE_04:27_BULGULAR notu eklendi
+#   Energy-slice beş iterasyon olarak güncellendi
+#   M01/M02 compound flag kalibrasyon sorunu kayıt altına alındı
+#   AWAKE_5_SÜRÜM_SİNYAL_MATRİSİ eklendi
+#   Açık soru #9 eklendi (M01/M02 compound flag)
+# Support file — Project Files
+# Son güncelleme: 2026-06

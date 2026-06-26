@@ -1,0 +1,161 @@
+﻿# 52 CLASR — EXECUTIVE SUMMARY BLOCK v1.0
+# Kit: 52_CLASR_EXECUTIVE_SUMMARY_BLOCK_v1_0
+# Position: Project Files — Tier 2 (Governance)
+#           Report position: Before PRIORITY ACTION SIGNALS,
+#           after identity header
+# STATUS: v1.0
+
+---
+
+## IDENTITY
+
+The Executive Summary Block produces a 5–7 sentence plain-language
+summary of the manuscript's most critical signals. It appears before
+PRIORITY ACTION SIGNALS and before SECTION 0.
+
+Purpose: allow the reader to grasp the manuscript's risk profile
+and primary signal locations without reading the full report.
+
+This block is not a verdict. It is not an editorial recommendation.
+It is a navigational aid — a map of where the report's weight sits.
+
+---
+
+## POSITION IN REPORT
+
+Fixed order:
+
+```
+[IDENTITY HEADER — 2 lines]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EXECUTIVE SUMMARY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[5–7 sentences]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PRIORITY ACTION SIGNALS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[signal list — unchanged]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+▸ SECTION 0 ...
+```
+
+---
+
+## CONTENT RULES
+
+The block contains exactly 5–7 sentences. No more, no less.
+
+Sentence 1: Manuscript type, field, and Q-profile in one sentence.
+Sentence 2: The single most critical signal — what it is and where.
+Sentence 3: The second most critical signal — what it is and where.
+Sentence 4: A third signal OR a pattern observation connecting
+            two signals if they interact. EXCEPTION: if a HIGH
+            convergence signal (×4+) exists (53_CLASR_LAYER_CONVERGENCE_KIT
+            active), this sentence references the convergence —
+            "The most critical signal carries HIGH convergence —
+            four independent analysis layers flag [brief element
+            description]." — replacing the generic pattern observation.
+Sentence 5: Overall structural or argumentative risk profile —
+            one sentence characterizing the manuscript's dominant
+            weakness or tension.
+Sentence 6 (optional): Reproducibility or integrity risk if
+            M-tier signals are critical.
+Sentence 7 (optional): A counterbalancing strength signal if
+            present — what the manuscript does well. Never omitted
+            if a genuine strength exists.
+
+---
+
+## LANGUAGE RULES
+
+- Editorial register — not technical signal vocabulary
+- No signal labels in this block (SIGNAL_LABEL format belongs
+  to PRIORITY ACTION SIGNALS only)
+- No hedging inflation — one qualifier per uncertainty
+- No verdict language — no "should", "must", "recommend"
+- Active voice preferred
+- Section references permitted: "in the methods section",
+  "in the conclusion" — not "SECTION 3" or "SECTION 6"
+
+---
+
+## HARD LIMITS
+
+This block:
+  Does not replace PRIORITY ACTION SIGNALS
+  Does not replace any SECTION
+  Does not produce recommendations
+  Does not assign scores
+  Cannot exceed 7 sentences
+  Cannot be omitted once this kit is active
+
+---
+
+## EXAMPLES
+
+### Example A — QUANTITATIVE-PRIMARY (Palestinian KAP study)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EXECUTIVE SUMMARY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+This is a cross-sectional KAP survey in public health genomics,
+targeting Q1 (Scientific Reports, Nature Portfolio), with a
+quantitative-primary design. The most significant signal is a
+missing sampling frame — the study claims national-level coverage
+of Palestine but documents no enumeration of the source population
+or verified governorate-level representation. The second critical
+signal is the absence of multivariate analysis: multiple demographic
+predictors are tested against multiple outcomes using bivariate
+tests only, and the discussion language then implies independent
+predictor identification the design cannot support. These two
+signals combine to produce a structural gap between what the
+methods establish and what the discussion and conclusion claim.
+Confidence intervals and effect sizes are absent across all four
+tables, a gap that will register immediately at Q1 under APA 7
+and STROBE standards. The study's strengths are its sample size,
+transparent null result reporting, and clear IRB documentation.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+### Example B — VERBAL-PRIMARY (UK court curbing article)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EXECUTIVE SUMMARY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+This is a theory-guided single-country case study in comparative
+constitutional law, published in a Q1 venue (American Journal of
+Comparative Law), with a verbal-primary design. The central
+argumentative tension is that the paper's empirical anchor —
+that publics prefer narrowly targeted court curbing over broadly
+targeted measures — rests on a single US-based study, and the
+mechanism's application to the UK is asserted rather than
+independently supported. The second critical signal sits in Part II:
+the Conservative Party's "enduring reverence" for the judiciary is
+established through selective primary source quotation (Blackstone,
+Disraeli, Churchill, Thatcher) with minimal secondary historical
+scholarship to validate the pattern as a genuine ideational
+constraint rather than rhetorical performance. These two signals
+interact — both the structural mechanism and the ideational
+constraint are argued from thin independent evidential bases,
+making the paper's explanatory framework more illustrative than
+confirmatory, which the author acknowledges but does not fully
+resolve. The paper's scope discipline is a genuine strength:
+the single-country framing is honest, the generalizing ambitions
+are clearly flagged as exploratory, and the seven-case analysis
+is systematically structured.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+---
+
+## VERSION DEPENDENCY
+
+  CLASR CORE v1.9
+  44_CLASR_ACTION_PRIORITY_BLOCK_KIT_v1_2
+  53_CLASR_LAYER_CONVERGENCE_KIT_v1_0 (optional — convergence sentence)
+
+---
+
+# 52_CLASR_EXECUTIVE_SUMMARY_BLOCK_v1_0 — END

@@ -1,0 +1,474 @@
+﻿# 49 CLASR — METHODOLOGICAL VERBAL RISK KIT v1.0
+# Added to Project Files. Does not modify CORE.
+# Tier: 3 — Extension
+# Primary SECTION: SECTION 3 — Methodological Visibility
+# Secondary SECTION: SECTION 6 — Academic Language & Hedging
+#                    SECTION 8 — Limits & Uncertainties
+# Activation: Automatic — qualitative, interpretive, mixed-method,
+#             and critical manuscripts; conditional for others
+# Source: Adapted from CLASR-V READING-KIT v2.0 (Axis 4) +
+#         GATE-KIT v2.0 (Methodological Verbal Risk thresholds)
+# STATUS: v1.0 — Initial release for CLASR v3.2
+
+---
+
+## 0. IDENTITY
+
+Type: EXTENSION KIT
+Attaches to: CLASR reading layer (CORE unchanged)
+No content generation · No judgment · No recommendation
+
+This kit detects verbal ambiguity, procedural opacity,
+and meritless validation language in methodology sections
+of qualitative, interpretive, mixed-method, and critical
+academic manuscripts.
+
+It does not evaluate whether the methodology is correct.
+It surfaces how methodological claims are verbally constructed —
+specifically where language substitutes for methodological
+transparency.
+
+**Scope by manuscript type:**
+
+  PRIMARY ACTIVATION — full signal detection:
+    Qualitative empirical (ethnography, discourse analysis,
+    grounded theory, phenomenology, thematic analysis)
+    Mixed-method (qualitative-dominant or equal-weight)
+    Critical / normative (critical theory, policy analysis,
+    feminist methodology, action research)
+    Interpretive theoretical (where methodology section exists)
+
+  CONDITIONAL ACTIVATION — framing zone only:
+    VERBAL-PRIMARY without explicit methodology section
+    → procedural opacity and legitimation by label
+      readable from method references in framing zones
+    QUANTITATIVE-PRIMARY
+    → this kit reads verbal framing of quantitative methods
+      only when explicit verbal risk signals are present
+      (e.g., "rigorous analysis was conducted" without specification)
+
+  SILENT:
+    Pure theoretical manuscripts with no methodology section
+    → kit runs silently; no note produced
+
+---
+
+## 1. DESIGN PRINCIPLE
+
+CLASR's SECTION 3 (Methodological Visibility) reads
+whether a method exists and how transparent it is.
+ARGUMENT-INTEGRITY-KIT (40) reads method-claim fit
+at the structural level.
+
+Neither reads verbal behavior within the methodology section
+itself — where language may perform methodological rigor
+without delivering it.
+
+In qualitative and mixed-method manuscripts, methodology
+sections carry a specific verbal risk profile:
+terms invoke established methods without operationalizing them,
+quality claims are made without grounding, procedural steps
+are described so generally that replication is impossible.
+
+This kit reads that verbal layer.
+
+```
+Methodology section identified
+         ↓
+Verbal behavior patterns scanned
+         ↓
+Five signal types detected independently
+         ↓
+Q-variant calibration applied
+         ↓
+Signals routed to SECTION 3
+```
+
+---
+
+## 2. SIGNAL TAXONOMY
+
+Five signal types. Each is independent — one may fire
+without others.
+
+---
+
+### 2.1 PROCEDURAL_OPACITY
+
+Methodological procedures described so generally that
+an independent reader could not replicate or assess them.
+
+**Signal indicators:**
+- "Analysis was conducted" without specifying what analysis
+- "Themes emerged from the data" without describing the process
+- "The data was coded" without explaining the coding procedure
+- "An iterative process was used" without stages defined
+- "Following established procedures" without naming them
+- Passive constructions that remove the researcher from
+  methodological decisions
+
+**Threshold:** Any instance where the core analytical procedure
+is named but not described at a level permitting independent
+assessment.
+
+**Intensity:**
+  LOW: minor procedural gap; core procedure described elsewhere
+  MEDIUM: key procedure underdescribed; partial specification
+  HIGH: core analytical procedure functionally opaque;
+        independent assessment not possible from text
+
+---
+
+### 2.2 SATURATION_CLAIM_WITHOUT_GROUNDING
+
+Saturation, sufficiency, or data adequacy is claimed
+without stating the criterion by which it was determined.
+
+**Signal indicators:**
+- "Data saturation was reached" without criterion
+- "Theoretical saturation was achieved" without process
+- "No new themes emerged" without describing the point
+  at which this was determined or how many cases were needed
+- "The sample was sufficient" without adequacy rationale
+- "Saturation was confirmed by [X]" where X is circular
+  (e.g., the researcher's judgment, without further grounding)
+
+**Note on field norms:**
+In some fields (e.g., constructivist grounded theory),
+saturation is a recognized concept with established literature.
+This kit reads whether the claim is grounded in that literature
+or stated as self-evident. "Saturation was reached" alone
+is ungrounded; "saturation was reached per [specific criterion]
+as defined in [source]" is grounded.
+
+**Intensity:**
+  LOW: saturation claimed; partial criterion visible
+  MEDIUM: saturation claimed; criterion absent but field norm present
+  HIGH: saturation claimed; no criterion; field norm absent
+
+---
+
+### 2.3 LEGITIMATION_BY_LABEL
+
+A recognized method or framework is named as if
+the naming itself constitutes methodological justification —
+without describing how the method was operationalized
+in this specific study.
+
+**Signal indicators:**
+- "Grounded theory was used" without describing procedures
+- "Discourse analysis was applied" without analytical framework
+- "A phenomenological approach was adopted" without
+  describing the phenomenological reduction or epoché
+- "Thematic analysis following [author]" without
+  describing how [author]'s framework was applied
+- "An interpretivist paradigm informed the study"
+  without methodological consequences being stated
+
+**Distinction from adequate citation:**
+Legitimation by label = name only, no operationalization.
+Adequate use = name + how it was operationalized here.
+
+**Intensity:**
+  LOW: method named with partial operationalization
+  MEDIUM: method named; operationalization absent
+  HIGH: multiple methods named; none operationalized
+
+---
+
+### 2.4 RIGOR_VOCABULARY_WITHOUT_PRACTICE
+
+Quality assurance language from qualitative research
+traditions is invoked without corresponding practice
+being described.
+
+**Signal indicators:**
+- "Trustworthiness was ensured" without stating how
+- "Credibility was established through [X]" where X
+  is a generic term without specific practice
+  (e.g., "member checking" mentioned but not described)
+- "Validity was addressed" in a qualitative manuscript
+  without specifying which validity concept and how
+- "Reflexivity was maintained throughout" without
+  evidence of how reflexivity was operationalized
+- "Rigorous analysis" used as a quality claim without
+  describing what rigor consisted of in this context
+
+**Note on terminology:**
+"Validity," "reliability," and "rigor" carry different meanings
+across paradigms. This kit reads whether the invoked term
+is used with paradigm-appropriate grounding — not whether
+the term itself is used.
+
+**Intensity:**
+  LOW: quality term used; partial practice described
+  MEDIUM: quality term used; practice absent
+  HIGH: multiple quality terms invoked; none grounded
+
+---
+
+### 2.5 SAMPLING_CIRCULARITY
+
+The sample is justified by criteria that are circular —
+the sample is described as appropriate because it produced
+the findings, or the selection criteria reproduce the
+conclusions they were meant to test.
+
+**Signal indicators:**
+- "Participants were selected because they had experience
+  with X" where X is the phenomenon the study claims to discover
+- "Purposive sampling was used to identify individuals
+  who exhibited [the pattern under study]"
+  without pre-sampling criteria being stated
+- "The sample was appropriate given the findings"
+  (retrospective justification)
+- "Snowball sampling was used" without describing
+  starting criteria or stopping rules
+
+**Intensity:**
+  LOW: sampling rationale partially circular
+  MEDIUM: sampling criteria imply the conclusion
+  HIGH: explicit retrospective justification present
+
+---
+
+## 3. OUTPUT BEHAVIOR
+
+### Per-signal (SECTION 3):
+
+```
+METHODOLOGICAL VERBAL RISK SIGNAL: [label]
+Location: [methodology zone or specific passage]
+Intensity: [LOW / MEDIUM / HIGH]
+Observation: [one-line structural description]
+```
+
+### Methodological Verbal Risk Profile (SECTION 3):
+
+```
+▸ METHODOLOGICAL VERBAL RISK PROFILE
+
+Procedural opacity:              [DETECTED — intensity / NOT DETECTED]
+Saturation claim without grounding: [DETECTED — intensity / NOT DETECTED]
+Legitimation by label:           [DETECTED — intensity / NOT DETECTED]
+Rigor vocabulary without practice: [DETECTED — intensity / NOT DETECTED]
+Sampling circularity:            [DETECTED — intensity / NOT DETECTED]
+```
+
+If no signals detected:
+→ Single line: [Methodological verbal risk: no active signals]
+
+---
+
+## 4. SECTION ROUTING
+
+| Signal | Primary SECTION | Secondary SECTION |
+|--------|----------------|------------------|
+| PROCEDURAL_OPACITY | SECTION 3 | SECTION 8 |
+| SATURATION_CLAIM_WITHOUT_GROUNDING | SECTION 3 | SECTION 8 |
+| LEGITIMATION_BY_LABEL | SECTION 3 | — |
+| RIGOR_VOCABULARY_WITHOUT_PRACTICE | SECTION 3 | SECTION 6 |
+| SAMPLING_CIRCULARITY | SECTION 3 | SECTION 4 |
+
+SECTION 8 routing:
+PROCEDURAL_OPACITY and SATURATION_CLAIM_WITHOUT_GROUNDING
+create unmapped knowledge boundaries — independent readers
+cannot assess the methodological basis of findings.
+These route to SECTION 8 as limit signals.
+
+SECTION 6 routing:
+RIGOR_VOCABULARY_WITHOUT_PRACTICE is also a language-level
+signal — quality claims without grounding are a form
+of epistemic overreach. Routes to SECTION 6 as secondary.
+
+SECTION 4 routing:
+SAMPLING_CIRCULARITY creates an argumentative integrity gap —
+findings cannot be cleanly separated from sampling criteria.
+Routes to SECTION 4 as secondary.
+
+This kit does not open new SECTIONS.
+
+---
+
+## 5. Q-VARIANT CALIBRATION
+
+**Q1:**
+All five signals active at HIGH sensitivity.
+PROCEDURAL_OPACITY at any instance flagged.
+SATURATION_CLAIM_WITHOUT_GROUNDING flagged at HIGH sensitivity
+— Q1 reviewers require explicit saturation criteria.
+LEGITIMATION_BY_LABEL flagged at HIGH sensitivity
+— Q1 requires operationalization, not naming.
+RIGOR_VOCABULARY_WITHOUT_PRACTICE at HIGH sensitivity.
+SAMPLING_CIRCULARITY flagged at any detection.
+
+**Q2:**
+All signals active at standard sensitivity.
+PROCEDURAL_OPACITY at MEDIUM and HIGH flagged.
+SATURATION_CLAIM_WITHOUT_GROUNDING at MEDIUM and HIGH flagged.
+LEGITIMATION_BY_LABEL at MEDIUM and HIGH flagged.
+LOW intensity signals noted without escalation.
+
+**Q3:**
+PROCEDURAL_OPACITY at HIGH flagged.
+SATURATION_CLAIM_WITHOUT_GROUNDING: if field standard
+  for saturation claims exists and is followed → suppressed.
+  If no field standard engaged → MEDIUM flagged.
+LEGITIMATION_BY_LABEL at HIGH flagged.
+LOW and MEDIUM intensity signals suppressed silently.
+
+---
+
+## 6. PARTIAL INPUT BEHAVIOR
+
+**Abstract only (Type A):**
+→ Kit largely not assessable — methodology not visible
+→ If abstract contains method reference: LEGITIMATION_BY_LABEL
+  readable at LOW confidence
+→ Label: [Methodological verbal risk — abstract only,
+   full assessment requires methods section]
+
+**Introduction only (Type B):**
+→ LEGITIMATION_BY_LABEL partially readable
+→ Other signals not assessable
+
+**Methods only (Type C):**
+→ Full activation — primary input type for this kit
+→ All five signals fully readable
+
+**Results / Discussion only (Type D):**
+→ SAMPLING_CIRCULARITY partially readable from discussion
+→ Other signals not assessable
+
+**Mixed (Type E):**
+→ Kit runs on available methodology zone
+→ Coverage declared
+
+---
+
+## 7. COLLISION MANAGEMENT
+
+### With Argument Integrity Kit (40) — A3:
+
+Argument Integrity Kit A3 reads method-claim fit:
+whether the statistical method matches the study design.
+
+This kit reads verbal behavior within the methodology section:
+whether methodological language is grounded.
+
+Both active simultaneously; different analytical levels.
+Where both fire (e.g., CAUSAL_DESIGN_MISMATCH + PROCEDURAL_OPACITY):
+→ Both reported in SECTION 3 as separate sub-signals.
+→ Not merged.
+
+---
+
+### With Epistemic Frame Kit (47):
+
+Epistemic Frame Kit reads EPISTEMIC_PRIVILEGE —
+methodological choices presented as neutral or obvious.
+
+This kit reads LEGITIMATION_BY_LABEL —
+methodological choices named but not operationalized.
+
+Both may fire on the same methodology zone:
+→ Epistemic Frame Kit: EPISTEMIC_PRIVILEGE in SECTION 3
+→ This kit: LEGITIMATION_BY_LABEL in SECTION 3
+→ Both reported; not merged.
+
+---
+
+### With Calibration-Deep Kit (09):
+
+Calibration-Deep reads statistical method-design mismatches
+(§1.9: ORDINAL_PEARSON_APPLICATION, LARGE_SAMPLE_NORMALITY_TEST).
+
+This kit reads verbal construction of methodology —
+not statistical method choice.
+
+Both active; non-overlapping domains.
+Not merged.
+
+---
+
+### With Hedging Calibration Kit (37):
+
+Hedging Calibration reads RIGOR_VOCABULARY hedging consistency.
+This kit reads RIGOR_VOCABULARY_WITHOUT_PRACTICE as a
+methodology-section-specific signal.
+
+Where both fire on the same quality claim:
+→ Hedging Calibration: CALIBRATION_FAILURE in SECTION 6
+→ This kit: RIGOR_VOCABULARY_WITHOUT_PRACTICE in SECTION 3
+→ Both active; reported in respective sections; not merged.
+
+---
+
+## 8. REVISION ROUND INTERACTION
+
+In Revision Round Mode, methodological verbal risk signals
+carry additional weight under Q1-level sensitivity.
+
+PROCEDURAL_OPACITY and LEGITIMATION_BY_LABEL in revised
+manuscripts are read as residual risk — methodological
+transparency is among the most common R1 reviewer demands
+for qualitative and interpretive submissions.
+
+SATURATION_CLAIM_WITHOUT_GROUNDING in revised manuscripts
+is particularly weighted: reviewers who raised it in R1
+will verify whether a criterion was added.
+
+No separate flag produced.
+Signal reported as normal; sensitivity applies implicitly.
+
+---
+
+## 9. HARD LIMITS
+
+This kit must never:
+  Evaluate whether the methodology is appropriate
+    for the research question
+  Judge which qualitative method should have been used
+  Recommend specific methodological procedures
+  Label the methodology as weak or flawed
+  Compare the methodology to field standards
+    beyond what is visible in the manuscript text
+  Attribute methodological choices to author ignorance
+    or deception
+  Generate independent sections outside the routing table
+
+---
+
+## 10. WHAT THIS KIT DOES NOT DO
+
+Does not:
+  Evaluate methodological rigor or sophistication
+  Recommend specific grounding strategies
+  Assess whether saturation was actually reached
+  Compare sampling to field norms not visible in the text
+  Produce a methodology quality score
+
+---
+
+## 11. CANONICAL DEFINITION
+
+METHODOLOGICAL VERBAL RISK KIT v1.0 detects five verbal
+risk patterns in qualitative, interpretive, mixed-method,
+and critical manuscript methodology sections —
+procedural opacity, saturation claims without grounding,
+legitimation by label, rigor vocabulary without practice,
+and sampling circularity — producing a structured signal
+profile in SECTION 3 with secondary routing to SECTION 4,
+SECTION 6, and SECTION 8 —
+without evaluating methodological correctness, recommending
+procedures, or producing quality judgments.
+
+---
+
+# METHODOLOGICAL VERBAL RISK KIT v1.0 — END
+# Tier 3 — Extension
+# Primary: SECTION 3
+# Secondary: SECTION 4, SECTION 6, SECTION 8
+# Adapted from: CLASR-V READING-KIT v2.0 (Axis 4) +
+#               CLASR-V GATE-KIT v2.0
+# Activation: Qualitative / interpretive / mixed-method / critical manuscripts

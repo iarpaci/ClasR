@@ -1,0 +1,352 @@
+﻿# 33 CLASR — CONCEPT-EVIDENCE BRIDGE KIT v1.0
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.0 — Concept-to-evidence grounding signal detection overlay
+
+---
+
+## 0. IDENTITY
+
+Type: EXTENSION KIT
+Attaches to: CLASR reading layer (CORE unchanged)
+No content generation · No judgment · No recommendation
+
+Tier: 3 — Extension
+Primary SECTION: SECTION 2 — Conceptual / Theoretical Framework
+Secondary SECTION: SECTION 4 — Argumentation
+           SECTION 5 — Numerical / Spatial Behavior
+
+---
+
+## 1. PURPOSE (ONE SENTENCE)
+
+To surface whether key concepts in the manuscript
+are grounded in evidence — mapping each concept's
+operationalization status as GROUNDED, PARTIAL, or FLOATING —
+without producing evaluation of the concepts themselves.
+
+---
+
+## 2. DESIGN PRINCIPLE
+
+CLASR reads how claims are made and bounded.
+Contribution Framing Kit reads how novelty is asserted.
+This kit reads a different gap:
+
+A manuscript may carry claims that are formally bounded
+and nominally supported — yet rest on concepts that are
+never operationalized, never defined in measurable terms,
+and never connected to the evidence base.
+
+These concepts float above the argument.
+They appear to carry weight. They carry none.
+
+```
+Key concepts extracted from framing zone
+         ↓
+Operationalization behavior tracked per concept
+         ↓
+Evidence connection mapped:
+  direct / indirect / absent
+         ↓
+Grounding profile assembled per concept
+         ↓
+Floating concepts identified
+         ↓
+Profile reported — no verdict
+```
+
+---
+
+## 3. KEY CONCEPT DETECTION
+
+Key concepts are identified from:
+- Title vocabulary
+- Abstract claim-carrying terms
+- Introduction's definitional zone
+- Theoretical framework's central terms
+- Terms that recur with HIGH frequency (Frequency Signal Kit)
+
+A concept qualifies as "key" when:
+- It appears in 3+ sections of the manuscript
+- OR it carries a claim in the abstract or conclusion
+- OR it is presented as a contribution marker
+
+Proper nouns, field names, and method names
+are excluded from key concept tracking.
+
+---
+
+## 4. OPERATIONALIZATION STATES
+
+For each key concept, operationalization is assessed:
+
+```
+DEFINED       → concept is explicitly defined in the manuscript
+OPERATIONALIZED → concept is connected to a measurable or
+                  observable indicator
+ASSUMED       → concept is used as if its meaning is
+                shared and self-evident
+CONTESTED     → manuscript acknowledges the concept
+                is debated or unstable
+IMPORTED      → concept is borrowed from another field
+                without boundary redefinition
+```
+
+---
+
+## 5. EVIDENCE CONNECTION STATES
+
+For each key concept, evidence connection is assessed:
+
+```
+DIRECT        → concept is directly supported by data,
+                citation, or demonstrated observation
+                in this manuscript
+INDIRECT      → concept is supported by cited literature
+                that the manuscript does not independently verify
+ABSENT        → concept carries claims without
+                identifiable evidential support
+```
+
+---
+
+## 6. GROUNDING PROFILE
+
+Combining operationalization and evidence connection
+produces a concept-level grounding status:
+
+```
+GROUNDED      → OPERATIONALIZED + DIRECT or INDIRECT support
+PARTIAL       → DEFINED or ASSUMED + INDIRECT support
+               OR OPERATIONALIZED + ABSENT support
+FLOATING      → ASSUMED or IMPORTED + ABSENT support
+               concept carries argumentative weight
+               with no evidential or definitional anchor
+```
+
+FLOATING is the high-signal state.
+PARTIAL is the medium-signal state.
+GROUNDED produces no signal — expected behavior.
+
+---
+
+## 7. FLOATING CONCEPT PATTERNS
+
+Specific patterns that indicate FLOATING concept behavior:
+
+### 7.1 Decorative Abstraction
+A high-register concept used to frame the manuscript
+but never connected to the analysis.
+
+Signal indicators:
+- "resilience", "sustainability", "epistemic justice",
+  "complexity", "transformation" appear in abstract
+  and conclusion but not in methods or results
+- Concept present in framing, absent in analysis
+
+Label: DECORATIVE_ABSTRACTION
+
+---
+
+### 7.2 Claim-Carrying Float
+A concept is used to make a claim in the conclusion
+but was never grounded in the body.
+
+Signal indicators:
+- "This study contributes to our understanding of [concept X]"
+  where concept X was never defined or measured
+- Conclusion introduces a conceptual frame
+  absent from introduction and methods
+
+Label: CLAIM_CARRYING_FLOAT
+
+---
+
+### 7.3 Borrowed Authority
+A concept is imported from a high-prestige theoretical
+tradition and used to elevate the manuscript's claims
+without engaging the tradition's internal debates.
+
+Signal indicators:
+- Single citation to a canonical theorist
+  followed by broad use of the theorist's vocabulary
+- Concept used without acknowledging its contested status
+  in its source tradition
+
+Label: BORROWED_AUTHORITY_CONCEPT
+
+---
+
+### 7.4 Operationalization Gap
+A concept is defined but never connected
+to the actual analytical operations of the study.
+
+Signal indicators:
+- Concept defined in theoretical framework
+- Definition never referenced in methods
+- Results section uses different vocabulary
+  for what was conceptually framed earlier
+
+Label: OPERATIONALIZATION_GAP
+
+---
+
+## 8. OUTPUT BEHAVIOR
+
+Reported as a sub-signal within SECTION 2 and SECTION 4:
+
+```
+CONCEPT-EVIDENCE BRIDGE SIGNAL
+
+Concept: [term]
+Operationalization: [DEFINED / OPERATIONALIZED /
+                     ASSUMED / CONTESTED / IMPORTED]
+Evidence connection: [DIRECT / INDIRECT / ABSENT]
+Grounding status: [GROUNDED / PARTIAL / FLOATING]
+Pattern: [DECORATIVE_ABSTRACTION / CLAIM_CARRYING_FLOAT /
+          BORROWED_AUTHORITY_CONCEPT /
+          OPERATIONALIZATION_GAP / none]
+```
+
+Multiple concepts may be reported.
+Each reported separately.
+
+If all key concepts are GROUNDED:
+→ Kit runs silently. No note produced.
+
+---
+
+## 9. Q-VARIANT CALIBRATION
+
+Q1:
+  FLOATING concepts explicitly surfaced.
+  CLAIM_CARRYING_FLOAT noted as potential desk-reject signal.
+  BORROWED_AUTHORITY_CONCEPT flagged at HIGH sensitivity.
+  Q1 reviewers scrutinize conceptual grounding closely.
+
+Q2:
+  FLOATING concepts reported at standard detail.
+  PARTIAL grounding noted without escalation.
+  BORROWED_AUTHORITY_CONCEPT noted if claim-carrying.
+
+Q3:
+  FLOATING concepts reported at summary level.
+  PARTIAL grounding suppressed silently.
+  DECORATIVE_ABSTRACTION noted only if claim-carrying.
+
+---
+
+## 10. INTEGRATION — LENS-BRIDGE CONNECTION
+
+### Primary: SECTION 2 — Conceptual / Theoretical Framework
+Key concept operationalization and grounding status
+→ reported as concept-bridge sub-signal within SECTION 2
+
+### Secondary: SECTION 4 — Argumentation
+Where FLOATING concepts function as argumentative bridges —
+carrying claims the evidence cannot support
+→ flagged as concept-bridge gap within SECTION 4
+
+### Secondary: SECTION 5 — Numerical / Spatial Behavior
+Where OPERATIONALIZATION_GAP exists between
+a theoretically defined concept and the numerical
+indicators used in analysis
+→ noted as concept-measurement alignment signal within SECTION 5
+
+---
+
+## 11. RELATIONSHIP TO EXISTING KITS
+
+### Contribution Framing Kit
+Contribution Kit reads novelty and originality claims.
+This kit reads whether the concepts carrying those claims
+are grounded in evidence.
+Both active simultaneously — reported as separate sub-signals.
+Not merged.
+
+### Silence Lens Kit
+Silence Lens reads systematic argumentative absences.
+This kit reads concept-level evidential absences.
+Where both fire on the same concept → combined note.
+Silence Lens takes precedence on argumentative silence;
+this kit reports concept-level grounding profile.
+
+### Verbal Lens Kit
+Verbal Lens reads where language inflates numerical claims.
+This kit reads where concepts float above the evidence base.
+Both active simultaneously — reported as separate sub-signals.
+Not merged.
+
+---
+
+## 12. PARTIAL INPUT BEHAVIOR
+
+Abstract only (Type A):
+→ Key concept detection possible; grounding not fully assessable
+→ Label: [Concept-evidence scan — abstract only, reduced coverage]
+
+Introduction only (Type B):
+→ Full key concept detection; operationalization partially readable
+
+Methods only (Type C):
+→ OPERATIONALIZATION_GAP readable if theoretical framework visible
+
+Results / Discussion only (Type D):
+→ CLAIM_CARRYING_FLOAT and DECORATIVE_ABSTRACTION readable
+
+Mixed (Type E):
+→ Kit runs on available zones
+→ Coverage noted per concept
+
+---
+
+## 13. REVISION ROUND INTERACTION
+
+In Revision Round Mode, FLOATING concept signals
+carry additional weight under Q1-level sensitivity.
+
+CLAIM_CARRYING_FLOAT in revised manuscripts is read
+as residual risk — ungrounded conceptual claims
+are a frequent R1 reviewer target in theoretical manuscripts.
+
+No separate flag produced.
+Signal reported as normal; sensitivity applies implicitly.
+
+---
+
+## 14. WHAT THIS KIT DOES NOT DO
+
+Does not:
+  Evaluate whether the concepts are correct or important
+  Judge whether the theoretical framework is appropriate
+  Recommend that specific concepts be defined or removed
+  Assess the philosophical validity of the concepts used
+  Label the manuscript as theoretically weak
+  Generate independent flags outside SECTION 2, SECTION 4, SECTION 5
+
+---
+
+## 15. HARD LIMITS
+
+This kit must never:
+  Evaluate conceptual validity or theoretical depth
+  Recommend specific operationalizations
+  Label concepts as appropriate or inappropriate
+  Produce a concept quality score
+  Act as a standalone theoretical review tool
+
+---
+
+## 16. CANONICAL DEFINITION
+
+CONCEPT-EVIDENCE BRIDGE KIT v1.0 surfaces whether key concepts
+in the manuscript are grounded in evidence — mapping each concept's
+operationalization status and evidence connection as GROUNDED,
+PARTIAL, or FLOATING — and detecting decorative abstraction,
+claim-carrying float, borrowed authority, and operationalization gaps —
+as structural grounding signals, without producing judgment,
+evaluation, or recommendation.
+
+---
+
+# CONCEPT-EVIDENCE BRIDGE KIT v1.0 — END

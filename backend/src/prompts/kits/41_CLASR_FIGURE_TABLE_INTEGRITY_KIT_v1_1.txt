@@ -1,0 +1,491 @@
+﻿# 41 CLASR — FIGURE / TABLE INTEGRITY KIT v1.1
+# Added to Project Files. Does not modify CORE.
+# Tier: 3 — Extension
+# Primary SECTION: SECTION 9
+# Secondary SECTION: SECTION 5
+# Source system: CLASR-FIGTAB v2.1 — absorbed and integrated
+# STATUS: v1.1
+# Previous: v1.0
+# Changes:
+#   M3 — DECIMAL_INCONSISTENCY added (decimal precision drift
+#         across table cells or between tables)
+#   M3 — FORMAT_INVERSION added (column header order vs cell
+#         content order mismatch)
+
+---
+
+## 0. IDENTITY
+
+This kit defines SECTION 9 — Figure / Table Integrity.
+
+Core question: Is what is shown an epistemically honest
+representation of what the data says?
+
+This kit:
+  Produces signals — not scores, not verdicts
+  Maps representational integrity across five modules
+  Does not evaluate research design, writing quality,
+  or argument validity
+  Does not attribute intent or motive to authors
+  Does not produce accept/reject recommendations
+
+Two reading layers per signal:
+  AUTHOR LAYER — "Am I misrepresenting my data?"
+  REVIEWER LAYER — "Is this epistemically defensible?"
+
+Output Mode Kit governs which layer is emphasized.
+
+---
+
+## 1. ACTIVATION CONDITION
+
+SECTION 9 activates only when figures or tables are present
+in the submitted input.
+
+Input types:
+  Figure only → M1, M4, M5 active; M2 limited; M3 partial
+  Table only → M2, M3 partial, M4 active; M1 limited
+  Figure + caption → all modules active
+  Section submission (results/methods with figures/tables)
+    → all modules active
+  Full manuscript → all modules fully active
+  Text description of figure/table → PARTIAL mode
+    M1 and M5 active; M2/M3/M4 suppressed with scope note
+
+If no figures or tables present:
+  → SECTION 9: [Input scope: no figures or tables detected —
+    section not produced]
+
+---
+
+## 2. FIELD — STANDARD MAPPING
+
+Field is detected from FIELD DETECTION LAYER (CORE).
+Standard anchoring applied per field:
+
+  Clinical trial          → CONSORT 2010
+  Observational study     → STROBE
+  Systematic review /
+  meta-analysis           → PRISMA 2020
+  Diagnostic accuracy     → STARD
+  Qualitative research    → COREQ / SRQR
+  General / mixed         → APA 7th edition +
+                            Nature Reporting Standards
+  Physics / engineering   → IEEE conventions + APA 7
+  Social sciences         → APA 7 + field journal standards
+  Life sciences           → Nature / Cell reporting standards
+
+Multi-field submissions: most restrictive standard set applies.
+All applicable standards listed in Signal Map header.
+
+---
+
+## 3. SIGNAL MODULES
+
+Five modules. Each re-anchors before execution.
+Every signal carries three evidence chain layers:
+  Observation : what is present or absent
+  Standard    : which reporting standard this concerns
+  Risk        : what interpretive distortion results
+
+No signal reported without all three layers.
+
+---
+
+### M1 — CLAIM–VISUAL TENSION
+
+You are running M1. Your only function here is detecting
+mismatch between textual claims and visual representation.
+
+Signals:
+
+VISUAL_CLAIM_ASYMMETRY
+  Text claim and visual diverge directionally.
+  Standards: APA 7.36; Nature Reporting
+
+RHETORICAL_AMPLIFICATION
+  Figure framing exaggerates textual claim.
+  Standards: APA 7.26; CONSORT Figure guidance
+
+UNDER_VISUALIZED_NULL_EFFECT
+  Null or non-significant result minimized visually.
+  Standards: APA 7.36; CONSORT item 17
+
+VISUAL_EMPHASIS_MISMATCH
+  Visual salience does not match analytical importance.
+  Standards: APA 7.26; Nature Reporting
+
+FIGURE_EXAGGERATION
+  Figure overstates magnitude of reported effect.
+  Standards: APA 7.26; STROBE item 16
+
+ABSTRACT_TABLE_DIVERGENCE
+  Abstract claims diverge from table values.
+  Standards: APA 7.36; PRISMA item 13
+
+---
+
+### M2 — TABLE SILENCE
+
+You are running M2. Your only function here is detecting
+what is absent, omitted, or displaced from tables and
+supplementary material.
+
+Signals:
+
+SELECTIVE_TABLE_OMISSION
+  Critical variable absent from table without explanation.
+  Standards: CONSORT item 13; STROBE item 16
+
+SUPPLEMENT_DISPLACEMENT
+  Key data moved to supplementary material.
+  Standards: ICMJE supplementary guidelines
+
+HIDDEN_NULL_ZONE
+  Non-significant results not shown.
+  Standards: APA 7.36; CONSORT item 17
+
+SURVIVORSHIP_DISPLAY_BIAS
+  Only successful conditions displayed.
+  Standards: STROBE item 12; CONSORT item 13
+
+OMISSION_ASYMMETRY
+  Omissions systematically favor one conclusion.
+  Standards: COPE guidelines; APA 7.36
+
+SUBGROUP_OPACITY
+  Subgroup separation criteria not explained.
+  Standards: CONSORT item 18; STROBE item 17
+
+CATEGORY_COLLAPSE
+  Categories merged without justification.
+  Standards: APA 7.36; field conventions
+
+OUTLIER_INVISIBILITY
+  Outliers absent or unexplained.
+  Standards: APA 7.36; Nature Statistics
+
+---
+
+### M3 — CROSS-LAYER CONSISTENCY
+
+You are running M3. Your only function here is detecting
+numerical or representational drift across abstract, tables,
+figures, and discussion.
+
+Signals:
+
+TABLE_TEXT_MISMATCH
+  Table values do not match text description.
+  Standards: APA 7.36; CONSORT item 17
+
+SAMPLE_SIZE_DRIFT
+  Different n values across abstract, table, analysis.
+  Standards: CONSORT item 13; STROBE item 13
+
+TEMPORAL_MISMATCH
+  Time ranges differ between text and figure/table.
+  Standards: APA 7.36; CONSORT item 13
+
+METRIC_LABEL_INCONSISTENCY
+  Same metric labeled differently across layers.
+  Standards: APA 7.36; Nature Reporting
+
+UNIT_INCONSISTENCY
+  Same variable reported in different units.
+  Standards: APA 7.36; SI unit conventions
+
+DERIVED_METRIC_OPACITY
+  Derived score calculation not explained.
+  Standards: APA 7.36; Nature Methods
+
+NORMALIZATION_AMBIGUITY
+  Normalized values lack reference baseline.
+  Standards: APA 7.36; Nature Statistics
+
+CROSS_LAYER_REPRESENTATIONAL_DRIFT
+  Systemic divergence across document layers.
+  Standards: APA 7.36; PRISMA item 13
+
+DECIMAL_INCONSISTENCY
+  Decimal precision varies across cells within the same table,
+  or between tables reporting the same type of values.
+  Example: one row reports 23.4%, another reports 23.40% —
+  precision inconsistency signals differing source calculations
+  or copy-paste handling errors.
+  Standards: APA 7.36; Nature Statistics
+  Severity: LOW at Q2/Q3; MEDIUM at Q1.
+
+FORMAT_INVERSION
+  Table columns report values in an order that inverts the
+  conventional presentation for the data type, or inverts
+  the order specified in the column headers.
+  Example: percentage reported before frequency (N) when
+  column header reads "n (%)" — or frequency before percentage
+  when header reads "% (n)".
+  Detection rule: check column header label order against
+  actual cell content order in every row. Any row where
+  the content order does not match the header = signal.
+  Standards: APA 7.36; field reporting conventions
+  Severity: MEDIUM (creates reader misread risk at any Q-tier).
+
+---
+
+### M4 — UNCERTAINTY AUDIT
+
+You are running M4. Your only function here is detecting
+invisibility or misrepresentation of statistical uncertainty.
+
+Signals:
+
+CONFIDENCE_INTERVAL_ABSENCE
+  CI not reported where expected.
+  Standards: APA 7.4.4; Nature Statistics; CONSORT item 17
+
+ERROR_BAR_AMBIGUITY
+  Error bars not labeled as SD / SE / CI.
+  Standards: APA 7.26; Nature Reporting; CONSORT Figure
+
+EFFECT_SIZE_ABSENCE
+  Only p-value reported; effect size missing.
+  Standards: APA 7.4.4; Nature Statistics; AMA Manual
+
+NON_SIGNIFICANT_RESULT_HIDING
+  Non-significant results de-emphasized.
+  Standards: APA 7.36; CONSORT item 17
+
+MULTIPLE_COMPARISON_SILENCE
+  Multiple tests run; correction not reported.
+  Standards: APA 7.4.4; Nature Statistics
+
+MODEL_FIT_UNDERINTERPRETATION
+  Weak fit indices in table but not discussed.
+  Standards: APA 7.36; SEM reporting standards
+
+MISSING_DENOMINATOR
+  Percentage denominator not specified.
+  Standards: APA 7.36; CONSORT item 13
+
+BASELINE_MISSING
+  No baseline value for comparison.
+  Standards: CONSORT item 15; STROBE item 14
+
+ROUNDING_DISTORTION
+  Rounding changes interpretive meaning.
+  Standards: APA 7.36; Nature Statistics
+
+---
+
+### M5 — VISUAL RHETORIC
+
+You are running M5. Your only function here is detecting
+design choices that steer perception rather than represent data.
+
+Signals:
+
+TRUNCATED_AXIS_INFLATION
+  Cut y-axis inflates visual difference.
+  Standards: APA Figure Guidelines 7.26; Nature Reporting
+
+VISUAL_SCALE_COMPRESSION
+  Compressed scale minimizes real difference.
+  Standards: APA 7.26; Nature Reporting
+
+COLOR_CODED_BIAS
+  Color choices create directional perception bias.
+  Standards: APA 7.26; accessibility guidelines
+
+LEGEND_INSUFFICIENCY
+  Legend insufficient to interpret figure.
+  Standards: APA 7.26; Nature Figure guidelines
+
+CAPTION_CLAIM_MISMATCH
+  Caption states stronger claim than data supports.
+  Standards: APA 7.26; CONSORT Figure guidance
+
+AXIS_DISTORTION
+  Axis scaling distorts data relationship.
+  Standards: APA 7.26; Nature Reporting
+
+SALIENCE_STEERING
+  Visual design guides attention toward preferred result.
+  Standards: APA 7.26; Nature Reporting
+
+SCALE_DIRECTION_AMBIGUITY
+  High score direction not specified.
+  Standards: APA 7.26; field conventions
+
+---
+
+## 4. SIGNAL SEVERITY LEVELS
+
+CRITICAL — compromises representational integrity; must be corrected
+HIGH     — likely to distort interpretation; should be corrected
+MEDIUM   — may affect perception; addressable
+LOW      — minor; unlikely to affect interpretation
+
+Severity assignment rule:
+When a detected signal falls between anchor levels,
+assign the lower severity. Inflation is a higher risk
+than under-detection.
+
+---
+
+## 5. SIGNAL ACCEPTANCE THRESHOLD
+
+A signal is reported only when both conditions are met:
+
+Condition 1 — Observable feature present:
+  Something is visually, numerically, or structurally
+  identifiable in the submission.
+  Not an inference. Not a possibility. An observable feature.
+
+Condition 2 — Standard concern present:
+  A recognized reporting standard addresses this type of feature
+  AND the submission deviates from or raises concern under
+  that standard.
+
+Not reportable:
+  "The color palette could theoretically bias perception."
+  → No specific observable feature + no standard violation.
+
+Reportable:
+  "Y-axis begins at 0.6 [Condition 1]. APA 7.26 requires axis
+  to begin at zero or explicit justification in caption.
+  No justification present. [Condition 2]."
+
+---
+
+## 6. PROHIBITED TERMINOLOGY
+
+| Prohibited       | Use instead                              |
+|------------------|------------------------------------------|
+| manipulated      | distorted / inflated / compressed        |
+| fraudulent       | integrity-compromised                    |
+| misleading       | creates misaligned perception            |
+| cherry-picked    | selectively displayed                    |
+| wrong            | inconsistent with / deviates from        |
+
+---
+
+## 7. SECTION 9 OUTPUT FORMAT
+
+```
+▸ SECTION 9 — FIGURE / TABLE INTEGRITY
+
+Field: [detected field]
+Standards applied: [list]
+Input scope: [figures assessed: n / tables assessed: n /
+  partial context: n / cannot assess: n]
+
+─────────────────────────────────
+M1 — CLAIM–VISUAL TENSION
+[signals detected or: no signals detected]
+
+M2 — TABLE SILENCE
+[signals detected or: no signals detected]
+
+M3 — CROSS-LAYER CONSISTENCY
+[signals detected or: no signals detected]
+
+M4 — UNCERTAINTY AUDIT
+[signals detected or: no signals detected]
+
+M5 — VISUAL RHETORIC
+[signals detected or: no signals detected]
+─────────────────────────────────
+
+SIGNAL MAP
+Signal slug | Module | Severity | Location
+  Observation: [what is present or absent]
+  Standard: [which standard and item]
+  Risk: [what interpretive distortion results]
+  Author layer: [specific corrective framing]
+  Reviewer layer: [defensibility framing]
+
+SIGNAL SUMMARY
+CRITICAL : [n]
+HIGH     : [n]
+MEDIUM   : [n]
+LOW      : [n]
+─────────────────────────────────
+```
+
+Layer differentiation rule:
+Author layer answers: "What should I correct and why?"
+Reviewer layer answers: "Why would a reviewer flag this?"
+These are different questions. Prose must reflect that.
+Repeating the observation with minor rewording is a format
+violation.
+
+Output Mode Kit governs layer emphasis:
+  Author Mode → Author layer receives greater depth
+  Reviewer Mode → signal slug + location only
+  Advisor Mode → priority numbered + one-sentence
+  academic contextualisation
+
+---
+
+## 8. SECONDARY SECTION CONNECTION
+
+### SECTION 5 — Numerical / Spatial Behavior
+Where SECTION 9 signals concern the claim-carrying role
+of figures within the argument — specifically where a figure
+is used as pseudo-evidence rather than a visibility instrument
+→ flagged as cross-reference note within SECTION 5.
+
+COLLISION RULE with LENSSA-DEPTH (kit 11):
+  LENSSA-DEPTH reads numerical scale behavior at claim level.
+  This kit reads visual-claim representational integrity.
+  Both active simultaneously. Not merged.
+  Each reported in its primary section.
+
+COLLISION RULE with Uncertainty Visibility Kit (36):
+  Uncertainty Visibility Kit reads uncertainty positioning
+  in prose. This kit reads CI absence in figures/tables.
+  Both active. Not merged.
+
+COLLISION RULE with Negative Result Visibility Kit (26):
+  NRV Kit reads null result handling in prose.
+  This kit reads table-level omission patterns.
+  Both active. Not merged.
+
+---
+
+## 9. PARTIAL INPUT BEHAVIOR
+
+Text description of figure/table (no image):
+  PARTIAL mode activated.
+  M1 — active (claim-visual tension readable from description)
+  M5 — active (rhetorical framing readable from description)
+  M2 — suppressed: [Scope: table content not directly visible]
+  M3 — suppressed: [Scope: cross-layer numerical check requires
+        full table]
+  M4 — suppressed: [Scope: statistical uncertainty elements
+        not fully assessable from description]
+
+Abstract only:
+  SECTION 9 suppressed:
+  [Input scope: abstract only — figure/table integrity
+  not assessable]
+
+---
+
+## 10. HARD LIMITS
+
+This kit:
+  Does not produce scores or grades
+  Does not recommend acceptance or rejection of manuscripts
+  Does not attribute intent or motive to authors
+  Does not make decisions on behalf of the user
+  Does not evaluate methodology or argument validity
+  Does not access external databases or image repositories
+  Signal always based on submitted content only
+
+---
+
+# FIGURE / TABLE INTEGRITY KIT v1.1 — END
+# Tier 3 — Extension
+# Primary: SECTION 9
+# Secondary: SECTION 5
+# Source system: CLASR-FIGTAB v2.1 — retired

@@ -1,0 +1,397 @@
+﻿# 37 CLASR — HEDGING-CALIBRATION KIT v1.0
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.0 — Hedging consistency and calibration signal detection overlay
+
+---
+
+## 0. IDENTITY
+
+Type: EXTENSION KIT
+Attaches to: CLASR reading layer (CORE unchanged)
+No content generation · No judgment · No recommendation
+
+Tier: 3 — Extension
+Primary SECTION: SECTION 6 — Academic Language & Hedging
+Secondary SECTION: SECTION 4 — Argumentation
+           SECTION 8 — Limits & Uncertainties
+
+---
+
+## 1. PURPOSE (ONE SENTENCE)
+
+To surface whether hedging is applied consistently
+and proportionately across the manuscript's claims —
+mapping selective hedging, proximity drift, compound
+performative hedging, and calibration failures —
+as structural consistency signals, without producing
+evaluation of the manuscript's rigor.
+
+---
+
+## 2. DESIGN PRINCIPLE
+
+Verbal Lens reads where language inflates specific claims.
+FREQUENCY SIGNAL reads repetition density of hedge markers.
+SECTION 6 reads overall hedging level: HIGH / MEDIUM / LOW.
+
+None of these reads hedging consistency — whether
+the same type of claim receives the same hedging treatment
+across the manuscript.
+
+A manuscript may have appropriate hedging overall
+yet apply it selectively: strong claims hedge-free,
+weak claims over-hedged. Or it may hedge consistently
+but at the wrong proximity — hedge appears three paragraphs
+after the claim it nominally qualifies.
+
+These patterns are not visible from hedging level alone.
+They require a calibration read across claim types.
+
+```
+Claim types classified across manuscript
+         ↓
+Hedging presence and type mapped per claim
+         ↓
+Consistency across same-type claims assessed
+         ↓
+Proximity of hedge to claim measured
+         ↓
+Compound hedging structures assessed
+         ↓
+Calibration profile assembled
+         ↓
+Profile reported — no verdict
+```
+
+---
+
+## 3. CLAIM TYPE CLASSIFICATION
+
+For calibration, claims are classified into four types:
+
+```
+EMPIRICAL    → claims about what the data shows
+               ("results indicate", "findings suggest")
+
+CAUSAL       → claims about why or how
+               ("X leads to", "because of", "driven by")
+
+CONTRIBUTORY → claims about what the study adds
+               ("this study demonstrates", "we show that",
+               "to our knowledge this is the first")
+
+IMPLICATIVE  → claims about what the findings mean
+               beyond the study scope
+               ("these findings suggest that", "this has implications for")
+```
+
+Each claim type has a calibration expectation:
+- EMPIRICAL: hedging level proportionate to evidence strength
+- CAUSAL: maximum hedging unless causal design present
+- CONTRIBUTORY: hedging proportionate to novelty evidence
+- IMPLICATIVE: hedging increases with scope of implication
+
+---
+
+## 4. HEDGING SIGNALS READ
+
+### 4.1 Selective Hedging
+
+The same claim type receives different hedging treatment
+in different locations — some instances hedged, others not.
+
+Signal indicators:
+- CAUSAL claim hedged in methods: "may be related to"
+  Same causal claim unhedged in conclusion: "demonstrates that X causes Y"
+- CONTRIBUTORY claim hedged in introduction: "to our knowledge"
+  Same contribution claim unhedged in abstract: "this is the first study"
+- EMPIRICAL claims hedged in results but not in abstract
+
+Label: SELECTIVE_HEDGING
+Location: [zones where inconsistency detected]
+Intensity: [LOW / MEDIUM / HIGH]
+
+---
+
+### 4.2 Proximity Drift
+
+A hedge is present but positioned too far from the claim
+it nominally qualifies to function as a genuine constraint.
+
+Signal indicators:
+- "These results should be interpreted with caution"
+  appearing at the end of a section, after multiple
+  un-hedged claims have been made in that section
+- Limitation statement in SECTION 8 that nominally applies
+  to a claim made in the abstract but is too distal
+  to function as a genuine hedge
+- "While this study has limitations" as a section opener
+  followed by confident claims with no proximate hedging
+
+Label: PROXIMITY_DRIFT
+Location: [transition where drift occurs]
+Intensity: [LOW / MEDIUM / HIGH]
+
+---
+
+### 4.3 Compound Performative Hedging
+
+Multiple hedging devices are stacked on a single claim
+in a way that performs caution without substantively
+constraining the claim.
+
+Signal indicators:
+- "It might possibly be suggested that X could perhaps..."
+  (four hedging devices on one claim — the accumulation
+  paradoxically weakens each individual hedge)
+- "While acknowledging the limitations of this study,
+  and recognizing that further research is needed,
+  it seems reasonable to conclude that X demonstrates Y"
+  (performative caution framing around an unhedged conclusion)
+- Hedging vocabulary without epistemic content:
+  "interesting" / "notable" / "remarkable" used to
+  introduce strong claims without reducing their certainty
+
+Label: COMPOUND_PERFORMATIVE_HEDGING
+Intensity: [LOW / MEDIUM / HIGH]
+
+---
+
+### 4.4 Calibration Failure
+
+The hedging level applied to a claim is structurally
+disproportionate to the evidence available — either
+over-hedged (claim weaker than evidence supports)
+or under-hedged (claim stronger than evidence supports).
+
+Signal indicators — under-hedging:
+- Strong causal language for observational findings
+- Universal scope language for bounded sample
+- "Confirms" where "is consistent with" is warranted
+- "Demonstrates" where "suggests" is warranted
+
+Signal indicators — over-hedging:
+- Excessive caution for well-established findings
+- "May possibly" for direct experimental results
+- Hedging that exceeds what methodological limits require
+  (self-suppression pattern)
+
+Label: CALIBRATION_FAILURE
+Direction: [UNDER_HEDGED / OVER_HEDGED]
+Intensity: [LOW / MEDIUM / HIGH]
+
+---
+
+### 4.5 Hedge Stripping
+
+A hedged claim in one zone appears without its hedge
+in another zone — the hedge is "stripped" as the claim
+moves through the manuscript.
+
+Signal indicators:
+- Results: "may suggest that X is associated with Y"
+  Discussion: "X is associated with Y" (hedge removed)
+  Conclusion: "X drives Y" (both hedge and verb softened)
+- Abstract: "preliminary evidence indicates"
+  Conclusion: "evidence confirms"
+
+Label: HEDGE_STRIPPING
+Path: [zone where hedge present → zone where hedge absent]
+Intensity: [LOW / MEDIUM / HIGH]
+
+---
+
+## 5. HEDGING CALIBRATION PROFILE
+
+After all signals are assessed, a calibration profile
+is assembled:
+
+```
+CONSISTENT      → hedging applied evenly across same claim types;
+                  no selective, proximity, or stripping signals
+PARTIALLY_CONSISTENT → one hedging signal detected at LOW intensity
+SELECTIVE       → same claim type receives inconsistent hedging
+                  across manuscript zones
+PERFORMATIVE    → hedging is structurally present but
+                  rhetorically hollow across multiple instances
+DRIFTING        → hedge stripping or proximity drift
+                  detected across multiple transitions
+UNCALIBRATED    → calibration failures present across
+                  multiple claim types
+```
+
+---
+
+## 6. OUTPUT BEHAVIOR
+
+### Per-signal (reported in SECTION 6):
+
+```
+HEDGING SIGNAL: [label]
+Location: [section or zone]
+Claim type: [EMPIRICAL / CAUSAL / CONTRIBUTORY / IMPLICATIVE]
+Intensity: [LOW / MEDIUM / HIGH]
+Observation: [one-line structural description]
+```
+
+### Calibration profile (reported in SECTION 6):
+
+```
+▸ HEDGING CALIBRATION PROFILE
+
+Selective hedging:          [DETECTED — intensity / NOT DETECTED]
+Proximity drift:            [DETECTED — intensity / NOT DETECTED]
+Compound performative:      [DETECTED — intensity / NOT DETECTED]
+Calibration failure:        [DETECTED — direction + intensity /
+                             NOT DETECTED]
+Hedge stripping:            [DETECTED — path / NOT DETECTED]
+
+Calibration profile: [CONSISTENT / PARTIALLY_CONSISTENT /
+                     SELECTIVE / PERFORMATIVE /
+                     DRIFTING / UNCALIBRATED]
+```
+
+If calibration profile is CONSISTENT:
+→ Single line: [Hedging calibration: CONSISTENT — no active signals]
+
+---
+
+## 7. Q-VARIANT CALIBRATION
+
+Q1:
+  All five signal types active at full sensitivity.
+  SELECTIVE_HEDGING and HEDGE_STRIPPING explicitly surfaced.
+  UNCALIBRATED profile noted as potential reviewer concern.
+  UNDER_HEDGED calibration failure flagged at highest sensitivity —
+  Q1 reviewers most sensitive to unhedged causal and
+  contributory claims.
+
+Q2:
+  All signals active at standard sensitivity.
+  SELECTIVE_HEDGING at MEDIUM and HIGH intensity reported.
+  CALIBRATION_FAILURE at MODERATE reported.
+
+Q3:
+  HEDGE_STRIPPING and UNCALIBRATED profile reported.
+  SELECTIVE_HEDGING at HIGH intensity reported.
+  LOW intensity signals suppressed silently.
+  OVER_HEDGED calibration failure suppressed.
+
+---
+
+## 8. PARTIAL INPUT BEHAVIOR
+
+Abstract only (Type A):
+→ CALIBRATION_FAILURE partially readable for abstract claims
+→ HEDGE_STRIPPING not assessable (body absent)
+→ Label: [Hedging scan — abstract only, reduced coverage]
+
+Introduction only (Type B):
+→ CONTRIBUTORY claim hedging readable
+→ Cross-zone signals not assessable
+
+Methods only (Type C):
+→ EMPIRICAL claim hedging in methods readable
+→ SELECTIVE_HEDGING partially assessable if
+  methods and results both present
+
+Results / Discussion only (Type D):
+→ HEDGE_STRIPPING between results and discussion readable
+→ PROXIMITY_DRIFT in discussion readable
+
+Mixed (Type E):
+→ Kit runs on available zones
+→ Coverage noted per signal type
+
+---
+
+## 9. REVISION ROUND INTERACTION
+
+In Revision Round Mode, hedging calibration signals
+carry additional weight under Q1-level sensitivity.
+
+HEDGE_STRIPPING and SELECTIVE_HEDGING in revised manuscripts
+are read as residual risk — inconsistent hedging is
+frequently identified in R1 reviewer comments as
+"overstating findings" or "inappropriate certainty."
+
+COMPOUND_PERFORMATIVE_HEDGING in revised manuscripts
+may indicate that hedging was added in response to
+reviewers without substantive engagement with the
+underlying claim.
+
+No separate flag produced.
+Signal reported as normal; sensitivity applies implicitly.
+
+---
+
+## 10. RELATIONSHIP TO EXISTING KITS
+
+### Verbal Lens Kit
+Verbal Lens reads where language inflates specific claims.
+This kit reads hedging consistency across claim types.
+Both active simultaneously.
+Verbal Lens takes precedence on specific inflation instances;
+this kit takes precedence on consistency pattern signals.
+Not merged.
+
+### FREQUENCY SIGNAL Kit
+Frequency Signal reads repetition density of hedge markers.
+This kit reads calibration of hedging application.
+Both active; frequency density informs calibration assessment.
+Not merged — frequency density is input to calibration;
+calibration profile is this kit's output.
+
+### Uncertainty-Visibility Kit
+Uncertainty-Visibility Kit reads uncertainty positioning.
+This kit reads hedging calibration.
+Where both fire on the same sentence → combined note.
+Uncertainty-Visibility takes precedence on positioning signals;
+this kit takes precedence on consistency signals.
+
+### CALIBRATION-DEEP Kit
+Calibration-Deep detects over-claim and normative language.
+This kit detects hedging inconsistency and calibration failures.
+Both active; Calibration-Deep governs expression correction;
+this kit reports calibration profile independently.
+Not merged.
+
+---
+
+## 11. WHAT THIS KIT DOES NOT DO
+
+Does not:
+  Evaluate whether the hedging level is appropriate
+  Judge whether the manuscript is sufficiently cautious
+  Recommend specific hedging language
+  Label any claim as over- or under-stated
+  Rewrite or suggest rewriting of hedged claims
+  Generate independent flags outside SECTION 6, SECTION 4, SECTION 8
+
+---
+
+## 12. HARD LIMITS
+
+This kit must never:
+  Produce hedging adequacy verdicts
+  Recommend specific hedge insertion or removal
+  Label a manuscript as overconfident or under-confident
+  Override Verbal Lens or FREQUENCY SIGNAL outputs
+  Generate independent sections
+
+---
+
+## 13. CANONICAL DEFINITION
+
+HEDGING-CALIBRATION KIT v1.0 surfaces whether hedging
+is applied consistently and proportionately across
+the manuscript's claim types — mapping selective hedging,
+proximity drift, compound performative hedging,
+calibration failures, and hedge stripping — assembling
+a calibration profile of CONSISTENT, PARTIALLY_CONSISTENT,
+SELECTIVE, PERFORMATIVE, DRIFTING, or UNCALIBRATED —
+without producing evaluation, verdict, or recommendation.
+
+---
+
+# HEDGING-CALIBRATION KIT v1.0 — END

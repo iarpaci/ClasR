@@ -1,0 +1,398 @@
+﻿# 44 CLASR — ACTION PRIORITY BLOCK KIT v1.6
+# Added to Project Files. Does not modify CORE.
+# Tier: 2 — Governance
+# Position: Report header — before SECTION 0
+# Activation: Automatic — every report
+# STATUS: Active
+# Previous: v1.5
+# Changes (v1.6):
+#   Editorial consequence field removed from all card formats
+#   (Standard, Author, Advisor, Signal modes)
+#   Rule 4 and Rule 6 updated: reviewer framing removed
+#   HARD LIMITS: reviewer behavior prediction forbidden
+# Changes (v1.5):
+#   Tier 2: VALIDATION_CIRCULARITY added — circular validation
+#   structure (assumption tested on same data it validates)
+#   qualifies for PAS at same level as METHOD_CLAIM_MISMATCH
+# Changes (v1.4):
+#   §2 OUTPUT FORMAT: Inference field added between Inference type
+#      and Confidence; editorial consequence scope narrowed
+#   §3 SIGNAL EXPLANATION updated: Inference vs. editorial
+#      consequence distinction formalized
+#   §10 HARD LIMITS: Inference field mandatory
+# Changes (v1.3):
+#   §2 OUTPUT FORMAT updated: Confidence field added inline
+#      per card (mandatory, numeric, follows Inference type)
+#   §4 INFERENCE TYPE CONFIDENCE CEILINGS updated:
+#      Confidence field now visible in output per card
+#   §10 HARD LIMITS updated: confidence field mandatory
+# Changes (v1.2):
+#   §2 OUTPUT FORMAT updated: Evidence + Inference Type fields
+#      added to each signal card (from CORE v1.9 PAS schema)
+#   §3 SIGNAL EXPLANATION SENTENCE RULE: unchanged from v1.1
+#   §4 INFERENCE TYPE CONFIDENCE CEILINGS added
+#   §5 EVIDENCE SUFFICIENCY RULE added
+
+---
+
+## 0. IDENTITY
+
+This kit defines the PRIORITY ACTION SIGNALS block —
+a fixed header block produced before SECTION 0 in every report.
+
+Purpose: surface the 3–5 signals with the highest editorial
+risk from across the full report, so the user can immediately
+locate what matters most without reading the full report first.
+
+This kit:
+  Selects signals — does not generate new signals
+  Produces labels, evidence, inference type, and editorial consequence
+  Does not recommend actions
+  Does not produce verdicts or evaluations
+  Does not rank quality — ranks editorial visibility risk only
+
+---
+
+## 1. SELECTION CRITERIA
+
+After full signal detection runs across all active sections,
+this kit selects the 3–5 highest editorial risk signals.
+
+### Priority determination — in order:
+
+Tier 1 — Structural completeness risks (highest priority):
+  MANDATORY_MISSING (Structural QA Kit)
+  SECTION 10 CRITICAL ABSENT signals (M01, M02, M04, M06,
+  M12, M14, M15)
+  DEPENDENCY_BREAK (Structural QA Kit)
+  COMPOUND RISK FLAG triggered (kit 42)
+
+Tier 2 — Argument and claim failures:
+  FINDING_CLAIM_INVERSION (kit 40 A4)
+  FINDING_CONTRADICTS_RECOMMENDATION (kit 40 A4)
+  PREMISE_CONTRADICTION (kit 40 A2)
+  PREMISE_CHAIN_COLLAPSE (kit 40 A2)
+  METHOD_CLAIM_MISMATCH (kit 40 A3)
+  CAUSAL_DESIGN_MISMATCH (kit 40 A3)
+  CLAIM_UNTESTABILITY (kit 40 A1)
+  PRACTICAL_SIGNIFICANCE_ABSENT (kit 40 A4)
+  VALIDATION_CIRCULARITY — circular validation structure:
+    the assumption required by a method is tested exclusively
+    on the same dataset to which the method is applied,
+    with no independent validation reference available
+
+Tier 3 — Overreach and scope failures:
+  SYSTEMATIC overreach pattern (kit 35)
+  CONCLUSION_OVERREACH at MAJOR magnitude (kit 40 A5)
+  BROKEN argument chain profile (kit 30)
+  GENERALIZABILITY_CLAIM at HIGH (kit 40 A5)
+  REVIEW_AS_ADVOCACY_PATTERN (kit 57)             ← NEW v1.2
+  ASSUMPTION_STACKING_RISK at HIGH (kit 57)       ← NEW v1.2
+
+Tier 4 — Integrity and transparency:
+  RETRACTION_SIGNAL_FROM_TEXT (kit 43)
+  HIGH_STAKES_SELF_CITATION (kit 43)
+  INTEGRITY SIGNAL DETECTED — OUTCOME INSTRUMENT INTERSECTION (kit 19)
+  SECTION 9 CRITICAL signals (kit 41)
+  ABSTRACT_POSTURE_RISK active (kit 29)
+
+Tier 5 — Language and hedging failures:
+  UNCALIBRATED hedging profile (kit 37)
+  AMPLIFICATION_CLUSTER at HIGH (kits 09 + 11)
+  NORMATIVE LANGUAGE detected at Q1 (kit 09)
+
+### Selection rules:
+
+Maximum 5 signals selected.
+Minimum 3 signals (if fewer than 3 detected: all detected signals listed).
+When signals compete within same tier: select by SECTION order
+(lower section number = higher priority).
+Structured block signals (DESK-REJECT RISK PROFILE,
+OVERREACH PROFILE) count as one entry each — not per component.
+Compound Risk Flag counts as one entry when triggered.
+
+---
+
+## 2. OUTPUT FORMAT
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PRIORITY ACTION SIGNALS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[1] SIGNAL_LABEL — SECTION N
+    Evidence: [specific observable feature from manuscript]
+    Inference type: [Observation / Interpretive / Quantitative]
+    Inference: [what this evidence reveals structurally — one sentence]
+    Confidence: [0.00–1.00]
+
+[2] SIGNAL_LABEL — SECTION N
+    Evidence: [specific observable feature from manuscript]
+    Inference type: [Observation / Interpretive / Quantitative]
+    Inference: [what this evidence reveals structurally — one sentence]
+    Confidence: [0.00–1.00]
+
+[3] SIGNAL_LABEL — SECTION N
+    Evidence: [specific observable feature from manuscript]
+    Inference type: [Observation / Interpretive / Quantitative]
+    Inference: [what this evidence reveals structurally — one sentence]
+    Confidence: [0.00–1.00]
+
+[4] SIGNAL_LABEL — SECTION N  (if applicable)
+    Evidence: [specific observable feature from manuscript]
+    Inference type: [Observation / Interpretive / Quantitative]
+    Inference: [what this evidence reveals structurally — one sentence]
+    Confidence: [0.00–1.00]
+
+[5] SIGNAL_LABEL — SECTION N  (if applicable)
+    Evidence: [specific observable feature from manuscript]
+    Inference type: [Observation / Interpretive / Quantitative]
+    Inference: [what this evidence reveals structurally — one sentence]
+    Confidence: [0.00–1.00]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+If no signals detected across full report:
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PRIORITY ACTION SIGNALS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+No high-priority signals detected.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+---
+
+## 3. SIGNAL EXPLANATION SENTENCE RULE
+
+The editorial consequence sentence is the most important
+output of each signal card.
+
+### What the sentence must do
+
+State exactly where the structural problem is and why a reviewer
+would stop there. Nothing more.
+
+The sentence answers this question:
+"What specific observable feature of this manuscript will cause
+a reviewer to pause — and where is it?"
+
+### Sentence construction rules
+
+RULE 1 — SPECIFIC OVER GENERAL
+The sentence names a concrete location, claim, or element.
+Not: "The contribution claim exceeds the study's scope."
+Yes: "'First psychiatry LLM' claim cannot be verified against
+     Figure 1's own literature map — reviewer stops here."
+
+RULE 2 — OBSERVATION OVER VERDICT
+The sentence describes what is structurally present or absent.
+Not: "Performance framing is inflated."
+Yes: "Relative percentages lead the results narrative;
+     absolute MCC differences (0.008 in best-case scenario)
+     are not foregrounded — a reviewer will check both."
+
+RULE 3 — NO INTENT ATTRIBUTION
+The sentence never implies the author intended the problem.
+Forbidden: "inflation", "misleading", "obscures", "hides",
+           "downplays", "cherry-picks"
+Permitted: "not foregrounded", "absent", "not addressed",
+           "structurally unsupported", "exceeds design warrant"
+
+RULE 4 — NO REVIEWER FRAMING
+The signal card does not predict reviewer behavior or editorial
+outcomes. The card ends with the Confidence value.
+Forbidden in any field: "reviewer will flag", "reviewer will ask",
+"desk-review stops here", "editorial return before peer review".
+The signal is produced. Interpretation belongs to the user.
+
+RULE 6 — INFERENCE IS THE FINAL ANALYSIS FIELD
+The Inference field carries the full structural analysis.
+No field follows it except the Confidence value.
+The card does not tell the user what to do, what a reviewer
+will do, or what the editorial outcome will be.
+Signal → Evidence → Inference type → Inference → Confidence.
+This is the complete card. Nothing after Confidence.
+
+RULE 5 — ONE SENTENCE ONLY
+Maximum one sentence per signal. No expansion.
+If the signal cannot be expressed in one sentence without
+losing precision, compress: name the location, name the gap,
+name the reviewer consequence. Three facts, one sentence.
+
+### The test
+
+Read the sentence aloud. Ask:
+  — Does it name something specific in the manuscript?
+  — Could the author point to the exact line or table it refers to?
+  — Does it say what a reviewer does, not what the author did wrong?
+
+If yes to all three: sentence is correct.
+If any answer is no: rewrite before producing output.
+
+---
+
+## 4. INFERENCE TYPE CONFIDENCE CEILINGS
+
+Inference type must be declared for every PAS signal.
+Each type carries a maximum confidence ceiling:
+
+  Observation    → signals derived directly from manuscript text
+                   without external reference
+                   Confidence ceiling: 0.90
+                   Example: "Table 2 reports r=–0.116;
+                   Discussion recommends targeting low-education
+                   groups — directional contradiction is present."
+
+  Interpretive   → signals derived from pattern-level reading;
+                   require analytical judgment beyond text surface
+                   Confidence ceiling: 0.75
+                   Example: "Coverage of competing resolutions
+                   is asymmetric across the review sections."
+
+  Quantitative   → signals derived from numerical comparison
+                   or threshold-based detection
+                   Confidence ceiling: 0.85
+                   Example: "n=847; effect size r=0.08, p=0.03 —
+                   practical significance not established at this N."
+
+Rules:
+- Inference type cannot be omitted. A signal without declared
+  inference type is not eligible for the PAS block.
+- Confidence value is mandatory inline per card. It cannot be
+  omitted, deferred to a separate block, or replaced by a
+  qualitative label (HIGH / MEDIUM / LOW).
+- A separate SIGNAL CONFIDENCE PROFILE block may exist as
+  supplementary summary but does not substitute for per-card
+  inline confidence values.
+- Two signals of different inference types at the same severity
+  level: Observation ranks above Quantitative above Interpretive
+  when all other factors are equal.
+- The confidence ceiling governs whether the signal meets
+  the evidentiary threshold for PAS inclusion.
+
+---
+
+## 5. EVIDENCE SUFFICIENCY RULE
+
+The Evidence field is not a paraphrase of the signal name.
+It is a locatable element from the manuscript.
+
+Sufficient evidence:
+  "Table 2, row 3: r=–0.116 (education level vs. uptake)"
+  "Abstract, sentence 2: 'first psychiatry-specific LLM'"
+  "Methods section: no sampling frame described for
+   national-level claim in sentence 4 of the aim statement"
+
+Insufficient evidence:
+  "The results show a weak association."  ← paraphrase
+  "The contribution claim is broad."      ← paraphrase
+  "Methodological gap detected."          ← signal name repeated
+
+If sufficient evidence cannot be cited from the manuscript,
+the signal does not meet the threshold for PAS inclusion.
+In this case: the signal is reported in its primary SECTION
+at standard detail, but does not appear in the PAS block.
+
+This rule prevents the PAS block from carrying signals whose
+evidentiary basis is unclear or pattern-level only. The section-
+level signal report carries these — the PAS block does not.
+
+---
+
+## 6. OUTPUT MODE INTERACTION
+
+### Standard Mode:
+Full card format as defined in §2.
+
+### Author Mode:
+Block expands — Evidence and Inference Type fields visible;
+editorial consequence sentence rephrased for the author:
+
+```
+[1] SIGNAL_LABEL — SECTION N
+    Evidence: [specific observable feature]
+    Inference type: [Observation / Interpretive / Quantitative]
+    Inference: [what this evidence reveals structurally]
+    Confidence: [0.00–1.00]
+    For the author: [plain language — what this means, not what to do]
+```
+
+### Signal Mode:
+Compressed — label + section + one-line evidence only:
+
+```
+[1] SIGNAL_LABEL — SECTION N
+    [Evidence in one phrase]
+```
+
+Inference type not shown. Editorial consequence suppressed.
+
+### Advisor Mode:
+Full card with priority number carried from section-level signals:
+
+```
+[Priority 1] SIGNAL_LABEL — SECTION N
+    Evidence: [specific observable feature]
+    Inference type: [Observation / Interpretive / Quantitative]
+    Inference: [what this evidence reveals structurally]
+    Confidence: [0.00–1.00]
+
+```
+
+---
+
+## 7. Q-VARIANT INTERACTION
+
+Q-variant does not change which signals appear in this block.
+Q-variant governs signal detection sensitivity in sections.
+This block surfaces what was detected — it does not re-calibrate.
+
+---
+
+## 8. PARTIAL INPUT INTERACTION
+
+In partial input conditions, block covers available sections only.
+Header note added:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PRIORITY ACTION SIGNALS
+[Partial input — coverage limited to available sections]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+---
+
+## 9. GOLD STANDARD INTERACTION
+
+In Gold Standard mode, all sections run at maximum sensitivity.
+This block reflects the full signal set produced under
+Gold Standard conditions — potentially all 5 slots filled
+with high-priority signals.
+
+---
+
+## 10. HARD LIMITS
+
+This kit:
+  Does not generate new signals
+  Does not modify signal content or labels
+  Does not produce recommendations or revision instructions
+  Does not produce verdicts or editorial decisions
+  Does not suppress signals based on user context
+  Cannot be omitted — block is mandatory in every report
+  Cannot list a signal without sufficient evidence (→ §5)
+  Cannot omit inference type from any signal card (→ §4)
+  Cannot omit inference field from any signal card (→ §2)
+  Cannot omit confidence value from any signal card (→ §4)
+  Cannot replace per-card confidence with separate block only
+  Cannot produce reviewer behavior predictions in any field
+  Cannot produce editorial outcome predictions in any field
+
+---
+
+# ACTION PRIORITY BLOCK KIT v1.6 — END
+# Tier 2 — Governance
+# Position: Before SECTION 0
+# Activation: Automatic — every report

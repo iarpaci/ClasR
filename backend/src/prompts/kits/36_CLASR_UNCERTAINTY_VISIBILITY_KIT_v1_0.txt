@@ -1,0 +1,264 @@
+﻿# 36 CLASR — UNCERTAINTY-VISIBILITY KIT v1.0
+# Kit 36 — Uncertainty Positioning and Visibility Profile
+# CLASR Tier 3 Extension
+# Compatible with: CLASR v2.1
+
+---
+
+## 0. IDENTITY
+
+This kit reads how uncertainty is positioned within the manuscript —
+not whether it is present, but how visible, how early, how consistently,
+and how structurally it is handled.
+
+This kit:
+  Does not produce verdicts or evaluations
+  Does not recommend revision
+  Does not suppress or modify manuscript content
+  Does not replace SECTION 8 (it extends it)
+
+---
+
+## 1. DIVISION OF RESPONSIBILITY
+
+### With Calibration-Deep §1.3:
+
+Calibration-Deep §1.3 reads:
+  Is uncertainty present?
+  Is SECTION 8 absent or under 3 lines?
+  → Triggers mandatory SECTION 8 production if threshold crossed.
+  This is a presence detection and correction behavior.
+
+Uncertainty-Visibility Kit reads:
+  How is uncertainty positioned?
+  Where does it appear relative to claims?
+  How consistently is it distributed?
+  Is it structurally embedded or end-appended?
+  This is a visibility and positioning behavior, not a correction behavior.
+
+Co-occurrence rule:
+  Both kits are active simultaneously.
+  They are not merged in output.
+  Calibration-Deep correction runs first if §1.3 threshold is crossed.
+  Uncertainty-Visibility Kit runs on all reports regardless.
+
+### With Hedging-Calibration Kit (SECTION 6 overlap):
+  Hedging-Calibration Kit reads hedging consistency across claim types.
+  Uncertainty-Visibility Kit reads where uncertainty is positioned
+  relative to the argument structure.
+  Both active; reported as separate sub-signals.
+  Hedging-Calibration in SECTION 6; Uncertainty-Visibility in SECTION 8.
+
+---
+
+## 2. VISIBILITY DIMENSIONS (5)
+
+Uncertainty-Visibility Kit reads along five dimensions.
+
+### Dimension 1 — POSITION
+
+Where does uncertainty acknowledgment appear
+relative to the claims it qualifies?
+
+```
+PROXIMATE   — uncertainty appears immediately after or alongside the claim
+DEFERRED    — uncertainty appears in a later section, separated from the claim
+TERMINAL    — uncertainty appears only in SECTION 8 / Limitations
+ABSENT      — no uncertainty acknowledgment found for a bounded claim
+```
+
+PROXIMATE is the strongest positioning.
+TERMINAL is not a failure — it is the minimum standard.
+ABSENT triggers Calibration-Deep §1.3 simultaneously.
+
+---
+
+### Dimension 2 — DISTRIBUTION
+
+How is uncertainty acknowledgment distributed across the manuscript?
+
+```
+DISTRIBUTED   — uncertainty appears across multiple sections
+                (Methods, Results, Discussion, Limitations)
+CONCENTRATED  — uncertainty appears only in one section (typically Limitations)
+FRONT-LOADED  — uncertainty acknowledged in Abstract or Introduction
+                as well as body sections
+ABSENT        — no distribution pattern detectable
+```
+
+---
+
+### Dimension 3 — SCOPE MATCH
+
+Does the scope of uncertainty acknowledgment
+match the scope of the claims being made?
+
+```
+MATCHED      — uncertainty acknowledgment covers the primary claims
+PARTIAL      — uncertainty acknowledged for some claims, not others
+ASYMMETRIC   — major claims left without uncertainty acknowledgment;
+               minor or secondary claims acknowledged
+ABSENT       — no match detectable
+```
+
+---
+
+### Dimension 4 — STRUCTURAL INTEGRATION
+
+Is uncertainty embedded in the argument structure
+or appended as a formal section only?
+
+```
+INTEGRATED   — uncertainty is woven into the presentation of findings;
+               limitations acknowledged within argumentation
+APPENDED     — uncertainty appears only as a separate Limitations section;
+               not referenced within findings or discussion
+PERFORMATIVE — limitations section present but does not connect
+               to the claims made in the manuscript
+```
+
+APPENDED is common and not inherently problematic.
+PERFORMATIVE is the signal of concern.
+
+---
+
+### Dimension 5 — LANGUAGE REGISTER
+
+What language register is used to signal uncertainty?
+
+```
+EPISTEMIC    — hedging language marks claims as contingent
+               ("suggests", "may indicate", "is consistent with")
+ASSERTIVE    — claims are stated without hedging markers
+               despite bounded evidence
+MIXED        — epistemic register used inconsistently;
+               some claims hedged, others not
+```
+
+---
+
+## 3. VISIBILITY PROFILE ASSEMBLY
+
+After reading all five dimensions,
+a composite visibility profile is assigned.
+
+### TRANSPARENT
+  Uncertainty is proximate or front-loaded,
+  distributed across sections,
+  scope-matched to primary claims,
+  structurally integrated,
+  and consistently expressed in epistemic register.
+
+### PARTIAL
+  Uncertainty is acknowledged but concentrated or terminal,
+  scope-match is partial or asymmetric,
+  language register is mixed.
+  Acknowledgment is present but not fully visible
+  at the claim level.
+
+### APPENDED
+  Uncertainty appears only in a Limitations section.
+  Not distributed, not proximate to claims,
+  not integrated into argument structure.
+  Standard but minimal positioning.
+
+### SUPPRESSED
+  One or more primary claims carry no uncertainty acknowledgment.
+  Scope match is absent or severely asymmetric.
+  Language register is assertive for bounded claims.
+  Calibration-Deep §1.3 is co-active when SECTION 8 is absent.
+
+---
+
+## 4. SECTION ROUTING
+
+Primary section: SECTION 8 — Limits & Uncertainties
+Secondary section: SECTION 4 — Argumentation
+Tertiary section: SECTION 6 — Academic Language & Hedging
+
+### SECTION 8 output:
+
+```
+UNCERTAINTY VISIBILITY PROFILE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Position:      [PROXIMATE / DEFERRED / TERMINAL / ABSENT]
+Distribution:  [DISTRIBUTED / CONCENTRATED / FRONT-LOADED / ABSENT]
+Scope match:   [MATCHED / PARTIAL / ASYMMETRIC / ABSENT]
+Integration:   [INTEGRATED / APPENDED / PERFORMATIVE]
+Register:      [EPISTEMIC / ASSERTIVE / MIXED]
+Profile:       [TRANSPARENT / PARTIAL / APPENDED / SUPPRESSED]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+### SECTION 4 secondary signal (when ASYMMETRIC or SUPPRESSED):
+
+```
+UNCERTAINTY VISIBILITY: [ASYMMETRIC / SUPPRESSED]
+Observation: Primary claims in [zone] carry no uncertainty acknowledgment.
+```
+
+### SECTION 6 tertiary signal (when register is ASSERTIVE or MIXED):
+
+```
+UNCERTAINTY REGISTER: [ASSERTIVE / MIXED]
+Observation: [one line describing the register pattern]
+```
+
+---
+
+## 5. ACTIVATION
+
+Automatically active in SECTION 8 for every report.
+No user command required.
+If visibility profile is TRANSPARENT → single line only:
+
+```
+UNCERTAINTY VISIBILITY PROFILE: TRANSPARENT
+```
+
+If any dimension is PARTIAL, APPENDED, ASYMMETRIC, SUPPRESSED,
+ASSERTIVE, or MIXED → full structured block produced.
+
+---
+
+## 6. RELATIONSHIP TO SECTION 8 MANDATORY REQUIREMENT
+
+SECTION 8 is mandatory in every full report (Calibration-Deep §1.3).
+This kit extends SECTION 8 — it does not replace it.
+If SECTION 8 is absent, Calibration-Deep §1.3 triggers first.
+Uncertainty-Visibility Kit then runs on the produced SECTION 8.
+
+---
+
+## 7. HARD LOCKS
+
+This kit must never:
+  Replace or suppress SECTION 8
+  Produce a verdict on the manuscript's overall uncertainty handling
+  Recommend revision or correction actions
+  Merge its output with Calibration-Deep §1.3 output
+  Assign TRANSPARENT when any dimension reads below that level
+  Assign SUPPRESSED without evidence of absent acknowledgment
+    for a primary claim
+
+---
+
+## 8. CANONICAL DEFINITION
+
+UNCERTAINTY-VISIBILITY-KIT v1.0 reads uncertainty positioning
+across five dimensions (POSITION, DISTRIBUTION, SCOPE MATCH,
+STRUCTURAL INTEGRATION, LANGUAGE REGISTER),
+assigns a composite visibility profile
+(TRANSPARENT / PARTIAL / APPENDED / SUPPRESSED),
+and produces a structured block in SECTION 8 —
+with secondary signals in SECTION 4 and SECTION 6
+when asymmetric or assertive patterns are detected —
+without correcting manuscript language, producing verdicts,
+or replacing SECTION 8's mandatory function.
+
+---
+
+# UNCERTAINTY-VISIBILITY-KIT v1.0 — END
+# Compatible with: CLASR v2.1
+# Tier 3 Extension
+# Coordinates with: Calibration-Deep §1.7 · Hedging-Calibration Kit · Lens-Bridge-Core v2.0

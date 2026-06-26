@@ -1,0 +1,458 @@
+﻿# 39 CLASR — METHODOLOGICAL RHETORIC KIT v1.0
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.0 — Methodological rhetoric pattern signal detection overlay
+# Compatible with: CLASR v2.2
+
+---
+
+## 0. IDENTITY
+
+Type: EXTENSION KIT
+Attaches to: CLASR reading layer (CORE unchanged)
+No content generation · No judgment · No recommendation
+
+Tier: 3 — Extension
+Primary SECTION: SECTION 3 — Methodological Visibility
+Secondary SECTION: SECTION 4 — Argumentation
+
+---
+
+## 1. PURPOSE (ONE SENTENCE)
+
+To surface field-independent methodological rhetoric patterns —
+argumentative moves that use methodological framing
+to perform validation, suppress uncertainty, or reframe
+inter-method disagreement — as structural behavior signals,
+without producing evaluation of the methods themselves.
+
+---
+
+## 2. DESIGN PRINCIPLE
+
+Calibration-Deep reads over-claim and normative language.
+Overreach Signal Kit classifies overreach by type and severity.
+Concept-Evidence Bridge reads whether concepts are grounded.
+Argument Symmetry reads claim-to-limit proportionality.
+
+None of these reads the specific rhetorical moves
+by which methodological choices are presented
+as self-validating, visually confirmed, or mutually complementary
+in ways that suppress legitimate uncertainty.
+
+These patterns are not field-specific.
+They appear across quantitative disciplines —
+physics, chemistry, ecology, economics, medicine —
+wherever methods carry argumentative weight
+beyond what they structurally deliver.
+
+```
+Methodological framing zone scanned
+         ↓
+Rhetoric pattern type identified
+         ↓
+Structural behavior mapped:
+  what the move performs vs. what it claims to perform
+         ↓
+Signal reported — no verdict on the method itself
+```
+
+---
+
+## 3. SIGNAL CATALOGUE (4 PATTERNS)
+
+---
+
+### 3.1 REPRESENTATIVENESS_TRANSFER
+
+**Definition:**
+An assumption is made that a measured or sampled subset
+fully represents a broader population, domain, or condition —
+and this representativeness is treated as established
+rather than argued.
+
+**Structural behavior:**
+The manuscript proceeds as if the sample-to-population
+transfer has been validated, when it has only been assumed.
+The assumption carries argumentative weight
+it has not earned through evidence or acknowledged uncertainty.
+
+**Signal indicators:**
+- A single energy slice, time window, spatial zone, or
+  experimental condition treated as representative of
+  the full distribution without boundary acknowledgment
+- "Each [subset] represents [whole]" stated without
+  evidence of representativeness testing
+- Results from a bounded sample generalized to
+  a broader context where the transfer is load-bearing
+  for the manuscript's main claim
+- Absence of sensitivity analysis for representativeness assumption
+
+**Distinction from GENERALIZATION_OVERREACH (Kit 35):**
+GENERALIZATION_OVERREACH flags when results are
+generalized beyond scope in the claim layer.
+REPRESENTATIVENESS_TRANSFER flags when the representativeness
+assumption is embedded in the method layer —
+before claims are made — and operates as a silent premise.
+
+**Primary section:** SECTION 3
+**Secondary section:** SECTION 4
+
+---
+
+### 3.2 VISUAL_CHECK_AS_VALIDATION
+
+**Definition:**
+A figure, plot, or visual output is used as evidence
+of methodological validity — with the visual inspection
+performing the role of a formal validation procedure
+that was not conducted.
+
+**Structural behavior:**
+The manuscript presents a figure and either explicitly
+or implicitly treats visual regularity, symmetry, or
+expected pattern as confirmation that a methodological
+assumption holds or a procedure is valid.
+No quantitative validation is present or referenced.
+
+**Signal indicators:**
+- "Figure N shows / confirms / demonstrates that [method assumption]"
+  where Figure N is a distributional plot, scatter, or output map
+- "Visual inspection suggests the assumption is satisfied"
+  as the only validation statement for a critical assumption
+- A figure described as "consistent with" a methodological requirement
+  without any quantitative test of that consistency
+- "As can be seen from [Figure N], the method performs as expected"
+  without performance metrics
+
+**Distinction from pseudo-evidence (CLASR CORE):**
+The core "map is not evidence" principle applies to
+spatial and numerical visuals used as argumentative conclusions.
+VISUAL_CHECK_AS_VALIDATION applies specifically to
+visuals used as methodological validation instruments —
+where the claim is not about findings but about method adequacy.
+
+**Primary section:** SECTION 3
+**Secondary section:** SECTION 5
+
+---
+
+### 3.3 DISTRIBUTIONAL_CONFIRMATION_BIAS
+
+**Definition:**
+A distributional output — histogram, density plot,
+residual distribution, cluster visualization — is
+interpreted as supporting a methodological assumption
+using hedged language that nonetheless performs
+a confirmatory function the evidence cannot sustain.
+
+**Structural behavior:**
+The manuscript presents a distribution and uses
+qualified language ("appears to support", "is consistent with",
+"suggests that") to draw a methodological conclusion
+that goes beyond what distributional inspection can establish.
+The hedge is present but functions as rhetorical cover
+rather than genuine uncertainty acknowledgment.
+
+**Distinction from HEDGE_STRIPPING (Kit 37):**
+Hedging Calibration Kit reads when hedges are removed
+as claims move through the manuscript.
+DISTRIBUTIONAL_CONFIRMATION_BIAS reads when a hedge
+is present but structurally performs a confirmatory
+function — the hedge does not constrain the claim
+it nominally qualifies.
+
+**Signal indicators:**
+- "The distribution appears to support [assumption X]"
+  where X is a load-bearing methodological premise
+  and no formal test of X is conducted
+- "Figure N is consistent with the [normality / independence /
+  stationarity] assumption" as the sole validation statement
+- Distribution described as "roughly [expected pattern]"
+  followed by a methodological conclusion treated as established
+- Hedged visual interpretation in methods section;
+  unhedged methodological conclusion in results or discussion
+
+**Calibration-Deep coordination (§1.3):**
+Calibration-Deep §1.3 reads uncertainty suppression
+at the level of SECTION 8 absence.
+DISTRIBUTIONAL_CONFIRMATION_BIAS reads uncertainty suppression
+embedded in the method validation layer —
+where the uncertainty is nominally acknowledged
+but structurally neutralized.
+Both active simultaneously; not merged.
+
+**Primary section:** SECTION 3
+**Secondary section:** SECTION 4
+
+---
+
+### 3.4 COMPLEMENTARITY_REFRAMING
+
+**Definition:**
+When two methods, models, or analytical approaches
+produce divergent or inconsistent results,
+the divergence is reframed as "complementarity" —
+the methods are described as addressing different aspects
+of the same phenomenon — without acknowledging that
+the inconsistency constitutes an unresolved methodological tension.
+
+**Structural behavior:**
+This is the most structurally significant pattern in this kit.
+The manuscript has two methods that disagree.
+Rather than treating the disagreement as a signal
+requiring explanation or boundary acknowledgment,
+the manuscript performs a reframing: the methods are
+not contradicting each other, they are complementing each other.
+This move suppresses the epistemological question
+the disagreement raises.
+
+**Signal indicators:**
+- "Method A and Method B yield different results,
+  but they address different aspects of the problem"
+  — without specifying which aspects and why
+  the difference in results follows from that
+- "The two approaches are complementary rather than contradictory"
+  — stated as conclusion, not demonstrated
+- Inter-method disagreement acknowledged in methods or results,
+  then resolved through framing in discussion
+  without quantitative or theoretical justification
+- "This discrepancy reflects the different sensitivities
+  of the two methods" — sensitivity difference asserted,
+  not measured or cited
+
+**Distinction from CAUSAL_OVERREACH (Kit 35):**
+CAUSAL_OVERREACH flags when causal language exceeds
+the design's causal capacity.
+COMPLEMENTARITY_REFRAMING flags when framing language
+resolves a methodological inconsistency
+that the evidence does not resolve.
+
+**Distinction from Discussion Scope Drift MECHANISM_INTRODUCTION:**
+Discussion Scope Drift reads when new mechanisms are introduced
+in the discussion without results support.
+COMPLEMENTARITY_REFRAMING reads when an existing disagreement
+is dissolved through framing — the rhetorical move
+is not addition but suppression.
+
+**Primary section:** SECTION 3
+**Secondary section:** SECTION 4
+
+---
+
+## 4. OUTPUT BEHAVIOR
+
+### Per-signal (reported in SECTION 3):
+
+```
+METHODOLOGICAL RHETORIC SIGNAL: [PATTERN_LABEL]
+Location: [section or zone where detected]
+Structural behavior: [one-line description of what the move performs]
+Observation: [one-line description of where in the manuscript]
+```
+
+### Profile block (if two or more patterns detected):
+
+```
+▸ METHODOLOGICAL RHETORIC PROFILE
+
+REPRESENTATIVENESS_TRANSFER:    [DETECTED / NOT DETECTED]
+VISUAL_CHECK_AS_VALIDATION:     [DETECTED / NOT DETECTED]
+DISTRIBUTIONAL_CONFIRMATION_BIAS: [DETECTED / NOT DETECTED]
+COMPLEMENTARITY_REFRAMING:      [DETECTED / NOT DETECTED]
+
+Pattern density: [SINGLE / COMPOUND / SYSTEMATIC]
+```
+
+SYSTEMATIC = three or more patterns detected.
+SYSTEMATIC pattern feeds into DESK-REJECT RISK PROFILE
+(STRUCTURAL_COMPLETENESS_RISK zone, Kit 29).
+
+If no patterns detected:
+→ Single line: [Methodological rhetoric scan: no active patterns detected]
+
+---
+
+## 5. Q-VARIANT CALIBRATION
+
+Q1:
+  All four patterns active at full sensitivity.
+  COMPLEMENTARITY_REFRAMING and REPRESENTATIVENESS_TRANSFER
+  explicitly surfaced — Q1 reviewers in methods-intensive fields
+  scrutinize these moves closely.
+  SYSTEMATIC density noted as potential reviewer concern.
+
+Q2:
+  All patterns active at standard sensitivity.
+  COMPLEMENTARITY_REFRAMING noted without escalation.
+  DISTRIBUTIONAL_CONFIRMATION_BIAS noted at standard detail.
+
+Q3:
+  COMPLEMENTARITY_REFRAMING and REPRESENTATIVENESS_TRANSFER reported.
+  VISUAL_CHECK_AS_VALIDATION and DISTRIBUTIONAL_CONFIRMATION_BIAS
+  reported only if structurally load-bearing.
+
+---
+
+## 6. FIELD SENSITIVITY
+
+These four patterns are field-independent by design.
+They appear in physics, chemistry, ecology, economics,
+medicine, engineering, and social science quantitative work.
+
+Journal-Sensitivity Kit (Kit 38) may modulate
+detection threshold for specific journals where
+visual validation or complementarity framing
+is a recognized disciplinary convention.
+
+When Journal-Sensitivity Kit is active:
+→ Field-conventional use of visual validation noted
+   at reduced signal intensity (not suppressed)
+→ COMPLEMENTARITY_REFRAMING remains at full sensitivity
+   regardless of field convention
+
+---
+
+## 7. PARTIAL INPUT BEHAVIOR
+
+Abstract only (Type A):
+→ Kit runs silently — method zone not available
+
+Introduction only (Type B):
+→ Kit runs silently
+
+Methods only (Type C):
+→ Full scan — primary input type for this kit
+→ All four patterns assessable
+
+Results / Discussion only (Type D):
+→ COMPLEMENTARITY_REFRAMING readable in discussion zone
+→ Others: reduced coverage
+
+Mixed (Type E):
+→ Kit runs on available method zone
+→ Coverage noted if reduced
+
+---
+
+## 8. REVISION ROUND INTERACTION
+
+In Revision Round Mode, methodological rhetoric signals
+carry additional weight under Q1-level sensitivity.
+
+COMPLEMENTARITY_REFRAMING in revised manuscripts is read
+as residual risk — inter-method disagreement framing
+is a frequent target of substantive R1 reviewer comments
+in methods-intensive fields.
+
+REPRESENTATIVENESS_TRANSFER in revised manuscripts
+is read as residual risk when it is load-bearing
+for the manuscript's primary claim.
+
+No separate flag produced.
+Signal reported as normal; sensitivity applies implicitly.
+
+---
+
+## 9. INTEGRATION — LENS-BRIDGE CONNECTION
+
+### Primary: SECTION 3 — Methodological Visibility
+All four pattern signals
+→ reported as methodological rhetoric sub-signals within SECTION 3
+→ positioned after existing transparency signals
+
+### Secondary: SECTION 4 — Argumentation
+Where COMPLEMENTARITY_REFRAMING and REPRESENTATIVENESS_TRANSFER
+function as argumentative bridges carrying load
+the evidence cannot support
+→ flagged as rhetoric-argumentation gap within SECTION 4
+
+### Desk-Reject Signal Kit (Kit 29) connection:
+SYSTEMATIC pattern density feeds into
+STRUCTURAL_COMPLETENESS_RISK zone of the desk-reject profile.
+
+---
+
+## 10. COLLISION MANAGEMENT
+
+If REPRESENTATIVENESS_TRANSFER overlaps with
+Overreach Signal Kit GENERALIZATION_OVERREACH (Kit 35):
+→ Overreach Kit governs claim-layer severity;
+  this kit reports method-layer assumption behavior
+→ Both active in SECTION 3 and SECTION 4; not merged
+
+If VISUAL_CHECK_AS_VALIDATION overlaps with
+Concept-Evidence Bridge Kit OPERATIONALIZATION_GAP (Kit 33):
+→ Concept-Evidence Bridge governs concept-level grounding;
+  this kit reports visual-validation rhetoric behavior
+→ Both active; reported as separate sub-signals
+
+If DISTRIBUTIONAL_CONFIRMATION_BIAS overlaps with
+Calibration-Deep §1.3 uncertainty suppression:
+→ Calibration-Deep governs SECTION 8 production threshold;
+  this kit reports method-validation layer suppression
+→ Both active; not merged
+
+If DISTRIBUTIONAL_CONFIRMATION_BIAS overlaps with
+Hedging Calibration Kit HEDGE_STRIPPING (Kit 37):
+→ Hedging Calibration Kit governs hedge consistency pattern;
+  this kit reports distributional confirmation behavior
+→ Both may fire; reported as separate sub-signals in SECTION 3
+
+If COMPLEMENTARITY_REFRAMING overlaps with
+Discussion Scope Drift Kit MECHANISM_INTRODUCTION (Kit 24):
+→ Scope Drift Kit governs new mechanism introduction;
+  this kit governs disagreement-suppression reframing
+→ Both active in SECTION 4; reported as separate sub-signals
+
+If COMPLEMENTARITY_REFRAMING overlaps with
+Argument Symmetry Kit ASYMMETRIC CORE zone (Kit 25):
+→ Symmetry Kit governs zone-level ratio;
+  this kit governs the specific reframing move
+→ Both active; not merged
+
+---
+
+## 11. WHAT THIS KIT DOES NOT DO
+
+Does not:
+  Evaluate whether the methods are appropriate or valid
+  Judge whether visual inspection is scientifically acceptable
+  Assess whether complementarity framing is justified
+  Recommend specific validation procedures
+  Label the manuscript as methodologically flawed
+  Generate independent flags outside SECTION 3 and SECTION 4
+
+---
+
+## 12. HARD LIMITS
+
+This kit must never:
+  Evaluate methodological correctness
+  Recommend specific statistical tests or validation approaches
+  Label methods as inappropriate or insufficient
+  Produce a verdict on the manuscript's methodological quality
+  Act as a standalone methods review tool
+
+---
+
+## 13. CANONICAL DEFINITION
+
+METHODOLOGICAL RHETORIC KIT v1.0 surfaces four
+field-independent methodological rhetoric patterns —
+REPRESENTATIVENESS_TRANSFER, VISUAL_CHECK_AS_VALIDATION,
+DISTRIBUTIONAL_CONFIRMATION_BIAS, and COMPLEMENTARITY_REFRAMING —
+as structural behavior signals that map how methodological
+framing performs validation, suppresses uncertainty,
+or reframes inter-method disagreement beyond what
+the evidence structurally supports — without producing
+judgment, evaluation, or methodological recommendation.
+
+---
+
+# METHODOLOGICAL RHETORIC KIT v1.0 — END
+# Compatible with: CLASR v2.2
+# Tier 3 Extension
+# Coordinates with: Calibration-Deep §1.3 · Overreach Signal Kit (35) ·
+#   Concept-Evidence Bridge Kit (33) · Hedging Calibration Kit (37) ·
+#   Discussion Scope Drift Kit (24) · Argument Symmetry Kit (25) ·
+#   Desk-Reject Signal Kit (29) · Journal-Sensitivity Kit (38)

@@ -1,0 +1,431 @@
+﻿# 43 CLASR — SOURCE INTEGRITY KIT v1.1
+# Added to Project Files. Does not modify CORE.
+# Tier: 3 — Extension
+# Primary SECTION: SECTION 3
+# Secondary SECTION: SECTION 2, SECTION 7
+# Source system: RefCheck v5.1.1 — signal logic absorbed and integrated
+# STATUS: v1.1 — SOURCE INTEGRITY SCOPE block added (§ 7)
+# Previous: v1.0
+# Changes:
+#   § 7 updated — SOURCE INTEGRITY SCOPE block added as mandatory output;
+#     produced regardless of whether signals are detected;
+#     prevents "silence = no problem" misreading
+
+---
+
+## 0. IDENTITY
+
+This kit surfaces source integrity signals from manuscript text.
+
+Core question: Does the source say what the manuscript claims it says?
+
+This kit:
+  Produces signals — not scores, not verdicts
+  Maps source integrity behavior from manuscript declarations only
+  Does not access external databases or verify DOIs
+  Does not perform reference list audits or DOI formatting checks
+  Does not claim a source is fake, retracted, or incorrect
+  unless there is clear evidence within the manuscript text
+
+All signals based on declarations within manuscript text only.
+Active external verification is always out of scope.
+
+---
+
+## 1. SIGNAL CATEGORIES
+
+Five signal categories:
+
+  CAT-A  Claim–Source Match Signals
+  CAT-B  Data Type Match Signals
+  CAT-C  Self-Citation Signals
+  CAT-D  Source Confidence Signals
+  CAT-E  Retraction & Correction Signals
+
+---
+
+## 2. CAT-A — CLAIM–SOURCE MATCH SIGNALS
+Primary section: SECTION 3
+
+These signals surface where the manuscript's relationship between
+a stated claim and its cited source raises structural concerns
+detectable from the manuscript text itself.
+
+---
+
+CLAIMED_VALUE_WITHOUT_VERIFICATION_PATH
+Definition: A specific numerical value is attributed to a cited
+source, but no access information, DOI, or verification pathway
+is provided for the source.
+Signal indicators:
+  Specific numerical claim with citation index only
+  No DOI, URL, or repository reference for the source
+  Source not in open-access venue
+Observation format:
+  Claim "[value]" attributed to [source ref] — no verification
+  pathway available from manuscript text.
+Risk: numerical claim cannot be traced by reader without
+  independent database access.
+
+---
+
+DATA_TYPE_CLAIM_SIGNAL
+Definition: The manuscript explicitly describes the data type of
+a cited value (directly measured / model estimate / secondary
+report / RCT / meta-analysis) — this declared type is flagged
+for reader attention as a structural transparency signal.
+Signal indicators:
+  "directly measured" — source is identified data type
+  "estimated via model" — computational source
+  "meta-analysis showed" — pooled data source
+  "reported by" — secondary report
+  "in a randomized trial" — RCT
+Observation format:
+  Claim at [location] declares data type as [type] citing [source].
+  Data type declaration noted for methodological transparency.
+Note: This is a transparency signal, not a mismatch signal.
+  Mismatch requires comparison — detectable only when source
+  is accessible within the manuscript context.
+
+---
+
+CONTEXT_MISMATCH_SIGNAL
+Definition: The manuscript's citation context signals a potential
+mismatch between what is claimed and what the source likely
+contains — detectable from within-manuscript evidence only.
+Four context dimensions:
+
+  POPULATION CONTEXT: claiming population-level finding from
+  a source explicitly described as a specific subgroup study,
+  single-case study, or controlled laboratory sample.
+  Signal: "mean [population value]" citing source described
+  elsewhere as "single [specific] individual" or "captive sample."
+
+  CONDITION CONTEXT: claiming in vivo measurement from a source
+  explicitly described elsewhere as computational or in vitro.
+  Signal: "direct measurement" citing source described as
+  "3D jaw model" or "simulation."
+
+  DIRECTION CONTEXT: citing a range value as a point value,
+  or citing the upper bound of a range as a single measurement.
+  Signal: source described as "ranged from X to Y" —
+  manuscript claims single value Y as the measurement.
+
+  VERSION CONTEXT: citing a value from a source that the
+  manuscript itself elsewhere mentions as corrected or updated.
+  Signal: erratum or correction mentioned for same source
+  in different manuscript location.
+
+Observation format:
+  CONTEXT_MISMATCH_SIGNAL: [dimension]
+  Claim at [location]: [claim description]
+  Within-manuscript evidence of mismatch: [evidence location]
+  Note: Confirmation requires source access.
+
+---
+
+ARGUMENT_FRAGILITY_SIGNAL
+Definition: A primary conclusion rests on a single source with
+no corroborating citation — structural fragility detectable from
+citation pattern alone.
+Signal indicators:
+  Central claim or primary conclusion supported by exactly one
+  citation
+  No convergent citation support visible in that argument zone
+  Source is not a systematic review or meta-analysis
+Observation format:
+  Primary claim at [location] rests on single source [ref].
+  No corroborating citations visible in this argument zone.
+  Structural fragility: claim's validity is entirely dependent
+  on this single source.
+Note: Single-source support is not inherently invalid —
+  it is a structural visibility signal for the reader.
+
+---
+
+CRITICAL_PATH_SOURCE
+Definition: A source appears multiple times along the critical
+argument path — the logical chain from evidence to primary
+conclusion. Multiple dependency on one source creates cascading
+fragility.
+Signal indicators:
+  Same citation index appears at multiple claim-bearing locations
+  Citations trace to same source across premise and conclusion zones
+Observation format:
+  Source [ref] appears at [locations] — multiple points in the
+  argument chain. Argument conclusion inherits fragility of this
+  source across all dependent claims.
+
+---
+
+## 3. CAT-B — DATA TYPE MATCH SIGNALS
+Primary section: SECTION 3
+
+These signals surface systematic data type patterns across the
+manuscript — distinct from individual claim-level context signals.
+
+---
+
+DATA_TYPE_CONFLATION_PATTERN
+Definition: Across the manuscript, a systematic pattern exists
+where model estimates, computational outputs, or secondary reports
+are described using language associated with direct measurement.
+Signal indicators:
+  Multiple instances of "measured" language for estimated values
+  Consistent conflation of simulation outputs with empirical results
+  Systematic use of causal language for correlational findings
+  across the manuscript
+Observation format:
+  DATA_TYPE_CONFLATION_PATTERN detected across [N] locations.
+  [measurement type language] used for [actual data type].
+  Pattern is systematic rather than isolated.
+
+---
+
+PRECISION_INFLATION_SIGNAL
+Definition: Numerical values reported with a precision level
+inconsistent with the measurement instrument or data type described.
+Signal indicators:
+  Multi-decimal precision for values described as estimates
+  Point values reported for phenomena described as ranges or
+  approximations
+  Statistical precision (p < 0.001) for descriptive study designs
+Observation format:
+  Precision level at [location] — [value] — exceeds what
+  [described measurement type] can reliably support.
+
+---
+
+## 4. CAT-C — SELF-CITATION SIGNALS
+Primary section: SECTION 2
+
+These signals extend Citation Behavior Kit (kit 20) with
+high-stakes self-citation detection.
+
+---
+
+HIGH_STAKES_SELF_CITATION
+Definition: A primary claim's sole evidential support is a
+self-citation by the same first author, with no independent
+corroboration — creating a circular epistemic structure.
+Signal indicators:
+  Primary or central claim supported by single citation
+  Citation author matches manuscript's first or corresponding author
+  No independent corroborating citation for this claim
+  Claim carries significant argumentative weight (not peripheral)
+Observation format:
+  HIGH_STAKES_SELF_CITATION: claim at [location] — primary
+  evidential support is self-citation [ref] with no independent
+  corroboration. Circular epistemic structure detected.
+Note: Self-citation is not inherently problematic —
+  undisclosed sole-support self-citation in a primary claim
+  is the structural concern.
+
+---
+
+SELF_CITATION_CHAIN
+Definition: Multiple consecutive self-citations form the sole
+evidential base for an argument chain.
+Signal indicators:
+  Three or more consecutive citations to same author group
+  These citations constitute the only support for a theoretical
+  or empirical claim chain
+Observation format:
+  SELF_CITATION_CHAIN: argument at [location] supported by
+  [N] consecutive self-citations with no independent sources.
+
+---
+
+## 5. CAT-D — SOURCE CONFIDENCE SIGNALS
+Primary section: SECTION 3
+
+These signals map the confidence level of source declarations
+within the manuscript — not-found subtypes for reader orientation.
+
+---
+
+SOURCE_DECLARED_WITHOUT_ACCESS_PATH
+Definition: Source is cited but no access pathway (DOI, URL,
+repository) is provided, and source type suggests limited
+accessibility.
+Signal indicators:
+  Grey literature, institutional report, conference proceeding,
+  or government document cited without DOI or URL
+  Thesis or dissertation cited without repository link
+Observation format:
+  Source [ref] at [location] — [source type] with no access
+  pathway declared. Independent verification requires
+  institutional or direct access.
+
+---
+
+PREPRINT_WITHOUT_DISCLOSURE
+Definition: Source characteristics suggest preprint status
+(arXiv, bioRxiv, medRxiv prefix, "preprint" in title) but
+source is cited as if peer-reviewed.
+Signal indicators:
+  Source URL or DOI contains preprint server identifier
+  Source title or description includes "preprint" language
+  No journal publication status indicated for recent sources
+Observation format:
+  Source [ref] at [location] shows preprint characteristics.
+  Peer-review status not confirmed in manuscript text.
+
+---
+
+RETRACTION_RISK_INDICATOR
+Definition: Within the manuscript text, signals suggest a cited
+source may have been retracted or corrected — detectable from
+within-manuscript evidence only.
+Signal indicators:
+  Manuscript itself mentions retraction or correction for a source
+  Source's findings described inconsistently across manuscript
+  sections in ways suggesting erratum
+  "Retracted" or "correction" language appears near citation
+Observation format:
+  RETRACTION_RISK_INDICATOR: source [ref] at [location].
+  Within-manuscript signal: [what was found].
+  Note: Confirmation requires Retraction Watch or PubMed lookup.
+  This signal is based on manuscript text only.
+
+---
+
+## 6. CAT-E — RETRACTION & CORRECTION SIGNALS
+Primary section: SECTION 7 (structural integrity)
+Secondary section: SECTION 2
+
+---
+
+RETRACTION_SIGNAL_FROM_TEXT
+Definition: The manuscript explicitly cites a source that it
+elsewhere identifies as retracted or under correction.
+Signal indicators:
+  Source cited at [location A]
+  Same source mentioned as retracted / corrected at [location B]
+  No acknowledgment that cited claims may be affected
+Observation format:
+  RETRACTION_SIGNAL_FROM_TEXT: source [ref] cited at [location A].
+  Retraction or correction referenced at [location B].
+  Impact on cited claims not acknowledged.
+
+---
+
+CORRECTION_WITHOUT_UPDATE
+Definition: An erratum or correction is mentioned for a source,
+but the cited value or claim has not been updated to reflect the
+correction.
+Signal indicators:
+  Erratum or correction mentioned for source
+  Original (pre-correction) value still cited
+  Corrected value not referenced
+Observation format:
+  CORRECTION_WITHOUT_UPDATE: erratum noted for source [ref] at
+  [location]. Original value [X] cited — corrected value not
+  reflected in manuscript claims.
+
+---
+
+## 7. SECTION 3 OUTPUT FORMAT
+
+The SOURCE INTEGRITY SCOPE block is mandatory in every report.
+It is produced regardless of whether signals are detected.
+Its purpose: prevent "silence = no problem" misreading.
+Silence means no signal was detected from manuscript text —
+not that sources are verified or clean.
+
+```
+▸ SECTION 3 — METHODOLOGICAL VISIBILITY
+[existing CLASR methodological visibility signals]
+
+─────────────────────────────────
+SOURCE INTEGRITY SCOPE
+━━━━━━━━━━━━━━━━━━━━━━
+Citations flagged for signal : [N]
+Signal categories active     : [CAT-A / CAT-B / CAT-C / CAT-D / CAT-E]
+External verification        : NONE — manuscript text only
+─────────────────────────────────
+SOURCE INTEGRITY SIGNALS
+
+CAT-A — Claim–Source Match
+[signals or: no signals detected]
+
+CAT-B — Data Type Match
+[signals or: no signals detected]
+
+CAT-C — Self-Citation
+[signals or: no signals detected]
+
+CAT-D — Source Confidence
+[signals or: no signals detected]
+─────────────────────────────────
+```
+
+CAT-E signals reported in SECTION 7 — Structural Integrity.
+
+SOURCE INTEGRITY SCOPE block rules:
+- "Citations flagged for signal" = number of citation instances
+  that triggered any CAT-A through CAT-E detection behavior.
+  Zero is a valid value. Zero does not mean all sources are clean.
+- "Signal categories active" = all five categories listed,
+  with active categories in normal weight and inactive
+  categories suppressed silently. If no signals: "none."
+- "External verification: NONE" is invariant — never changes.
+  This line is a permanent reminder of scope boundary.
+
+---
+
+## 8. COLLISION MANAGEMENT
+
+HIGH_STAKES_SELF_CITATION vs. Citation Behavior Kit (20):
+  Kit 20 reads citation patterns including self-citation density.
+  This kit adds high-stakes detection (sole support + primary claim
+  + same author). Both active, different sensitivity.
+  Not merged.
+
+DATA_TYPE_CONFLATION_PATTERN vs. Calibration-Deep Kit (09):
+  Calibration-Deep corrects specific over-claim language.
+  This kit detects systematic data type conflation patterns.
+  Both active. Calibration-Deep governs expression correction;
+  this kit reports structural pattern.
+  Not merged.
+
+CONTEXT_MISMATCH_SIGNAL vs. Interdisciplinary Tension Kit (27):
+  Tension Kit reads tradition conflict.
+  This kit reads population/condition mismatch in claim vs source.
+  Different reads, not merged.
+
+ARGUMENT_FRAGILITY_SIGNAL vs. Argument Chain Kit (30):
+  Chain Kit reads longitudinal claim continuity.
+  This kit reads load-bearing source dependency.
+  Both active, SECTION 3 and SECTION 4 respectively.
+  Not merged.
+
+RETRACTION_SIGNAL_FROM_TEXT vs. Integrity Signal Kit (19):
+  Integrity Kit reads competing interests declarations.
+  This kit reads retraction signals from text.
+  Different concerns, both active.
+  Not merged.
+
+---
+
+## 9. HARD LIMITS
+
+This kit:
+  Does not access external databases, DOI resolvers, or
+  retraction databases
+  Does not claim a source does not exist
+  Does not verify whether repository links are active
+  Does not perform reference list completeness audits
+  Does not check DOI formatting or APA citation style
+  Does not compare in-text citations to reference list
+  All signals based on manuscript text declarations only
+  "Not found" language never used — source accessibility
+  is reported, not source existence
+
+---
+
+# SOURCE INTEGRITY KIT v1.1 — END
+# Tier 3 — Extension
+# Primary: SECTION 3
+# Secondary: SECTION 2, SECTION 7
+# Source system: RefCheck v5.1.1 signal logic — retired

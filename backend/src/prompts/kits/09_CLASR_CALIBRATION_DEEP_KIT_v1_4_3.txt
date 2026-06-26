@@ -1,0 +1,602 @@
+﻿# 09 CLASR — CALIBRATION-DEEP KIT v1.4
+# Changes (v1.4):
+#   §1.11 added: ASSUMPTION_DECLARATION_VS_VALIDATION
+#          "declared ≠ validated" calibration rule;
+#          Gaussian beam, PSF spatial invariance, shot-to-shot
+#          stability and equivalent physical assumptions now
+#          trigger PAS when validation evidence is absent
+#   §1.12 added: INTER-METHOD_DIVERGENCE_THRESHOLD
+#          Systematic waist position divergence across methods
+#          now surfaces as Section 5 MODERATE signal when
+#          uncertainty ranges do not overlap v1.3
+# Added to Project Files. Does not modify CORE.
+# STATUS: v1.3 — Statistical method detection added
+# Previous: v1.2
+# Changes:
+#   §1.9 added — Statistical Method–Design Mismatch Detection
+#          (ORDINAL_PEARSON_APPLICATION, LARGE_SAMPLE_NORMALITY_TEST)
+#   §1.10 added — Inferential Reporting Incompleteness Detection
+#          (EFFECT_SIZE_ABSENT_FROM_SIGNIFICANCE,
+#           CI_ABSENT_FROM_PRIMARY_ANALYSIS,
+#           MULTIVARIATE_ANALYSIS_ABSENT)
+# Detection areas 1.1–1.8 unchanged.
+
+---
+
+## 0. IDENTITY
+
+This kit is the active calibration layer
+that monitors whether CLASR outputs remain within system boundaries,
+using concrete signal thresholds.
+
+It does not suppress content.
+It does not generate error messages.
+It applies targeted corrections when specific thresholds are crossed.
+
+Changes from v1.1:
+  §1.6 added — Overreach-Signal Kit coordination rule.
+  §1.7 added — Uncertainty-Visibility Kit coordination rule.
+  §1.8 added — Hedging-Calibration Kit coordination rule.
+  Detection areas 1.1–1.5 unchanged.
+
+---
+
+## 1. DETECTION AREAS AND THRESHOLDS
+
+### 1.1 Over-Claim Detection
+
+**Trigger signals:**
+- "demonstrates", "proves", "conclusively shows"
+- Causality asserted from an unmeasured variable
+- Sample → population generalization without flagging
+
+**Threshold:** Triggered on any detection
+
+**Response:**
+- "demonstrates" → "is consistent with / suggests / indicates"
+- "conclusively shows" → "observed within the study context"
+- Generalization → scale boundary explicitly marked
+
+---
+
+### 1.2 Scale Overflow Detection
+
+**Trigger signals:**
+- Neighborhood / district data → city / national conclusion
+- Single year cross-section → long-term trend claim
+- Specific sample → "general population" framing
+
+**Threshold:** Triggered whenever scale transition is unmarked
+
+**Response:**
+- Target scale named
+- Contextual boundary stated
+- Q1: scale transition blocked; suppressed
+- Q2: conditional and marked transition
+- Q3: interpretive transition; explicitly labeled
+
+---
+
+### 1.3 Uncertainty Suppression Detection
+
+**Trigger signals:**
+- Confidence interval not reported but precise figure given
+- Model assumptions never discussed
+- Data quality issues unacknowledged
+- SECTION 8 absent or under 3 lines
+
+**Threshold:** SECTION 8 absent or under 3 lines
+
+**Response:**
+- SECTION 8 produced as mandatory
+- Uncertainty areas labeled as "mappable boundary of knowledge"
+- Suppressed uncertainty made visible
+
+---
+
+### 1.4 Normative Language Detection
+
+**Trigger signals:**
+- "should", "must", "it is necessary" (action calls)
+- Policy-directed framing
+- "this finding implies that [authority] should…"
+
+**Threshold:** Any single normative expression
+
+**Response:**
+- Q1: fully suppressed
+- Q2: moved to conditional framing
+- Q3: labeled as contextual discussion only
+- Policy language → "potential domain of discussion in the literature"
+
+---
+
+### 1.5 Model Fit Threshold Violation Detection
+(Addendum A — added in v1.1, unchanged in v1.2)
+
+**Purpose:**
+To move from passive reporting acknowledgment to active flagging
+when structural model fit indices fall below stated or conventional
+thresholds — distinguishing between the two violation types.
+
+**Tracked fit indices and conventional thresholds:**
+
+```
+CFI   (Comparative Fit Index)              ≥ 0.90
+TLI   (Tucker-Lewis Index)                 ≥ 0.90
+RMSEA (Root Mean Square Error
+       of Approximation)                   ≤ 0.06
+SRMR  (Standardized Root Mean
+       Square Residual)                    ≤ 0.08
+```
+
+**Two violation types:**
+
+SELF-STATED THRESHOLD VIOLATION:
+  Author states a threshold in the manuscript.
+  Reported index does not meet that author-stated threshold.
+  → Flagged regardless of conventional threshold.
+  → Label: SELF-STATED THRESHOLD VIOLATION
+  → Priority: takes precedence over conventional violation
+
+CONVENTIONAL THRESHOLD VIOLATION:
+  No author-stated threshold present.
+  Reported index falls below conventional value above.
+  → Flagged with conventional threshold noted.
+  → Label: CONVENTIONAL THRESHOLD VIOLATION
+
+**Threshold:** Any single index violation triggers detection.
+
+**Response format:**
+```
+MODEL FIT SIGNAL: [index name]
+Reported: [value] / Threshold: [value]
+Label: [SELF-STATED / CONVENTIONAL] THRESHOLD VIOLATION
+```
+
+**Integration:**
+Attaches to: SECTION 3 — Methodological Visibility
+Reported as: model fit sub-signal within SECTION 3
+Does not open a new section.
+
+**Hard lock for 1.5:**
+  Does not evaluate overall model quality
+  Does not recommend model re-specification
+  Does not produce "weak / strong model" judgment
+  Only flags the arithmetic gap between
+  reported value and stated or conventional threshold
+
+---
+
+### 1.6 Coordination with Overreach-Signal Kit
+(Addendum B — added in v1.2)
+
+**Purpose:**
+To define the division of responsibility between
+Calibration-Deep and Overreach-Signal Kit (kit 35)
+for overlapping signal types.
+
+**Division of responsibility:**
+
+Calibration-Deep governs:
+  Expression correction — substituting overclaiming language
+  with appropriately hedged alternatives (§1.1, §1.2, §1.4)
+  This is an active correction behavior.
+
+Overreach-Signal Kit governs:
+  Severity classification — labeling overreach as MINOR /
+  MODERATE / MAJOR across eight overreach types
+  Unified profile assembly — ISOLATED / COMPOUND / SYSTEMATIC
+  Aggregate pattern reporting in SECTION 0
+  This is a signal reporting behavior, not a correction behavior.
+
+**Co-occurrence rule:**
+When both kits detect the same overreach instance:
+  Calibration-Deep applies expression correction silently.
+  Overreach-Signal Kit reports severity label visibly.
+  Both active simultaneously.
+  Neither suppresses the other.
+  Not merged in output.
+
+**Precedence:**
+  Correction behavior → Calibration-Deep takes precedence.
+  Severity classification → Overreach-Signal Kit takes precedence.
+  These are non-overlapping functions; precedence applies
+  only when both attempt to produce the same output type.
+
+---
+
+### 1.7 Coordination with Uncertainty-Visibility Kit
+(Addendum C — added in v1.2)
+
+**Purpose:**
+To define the division of responsibility between
+Calibration-Deep §1.3 and Uncertainty-Visibility Kit (kit 36).
+
+**Division of responsibility:**
+
+Calibration-Deep §1.3 governs:
+  Uncertainty suppression detection — is SECTION 8 present?
+  Is uncertainty acknowledged at all?
+  Mandatory SECTION 8 production when absent.
+  This is a presence/absence + correction behavior.
+
+Uncertainty-Visibility Kit governs:
+  Uncertainty positioning — how is uncertainty positioned
+  when it is present?
+  Specificity, proximity, rhetorical function, calibration.
+  Visibility profile assembly.
+  This is a quality signal behavior, not a correction behavior.
+
+**Co-occurrence rule:**
+Calibration-Deep §1.3 fires when uncertainty is ABSENT or SUPPRESSED.
+Uncertainty-Visibility Kit fires when uncertainty is PRESENT
+but positioned in a particular way.
+The two kits therefore address different states:
+  SUPPRESSED uncertainty → Calibration-Deep governs.
+  PRESENT but DEFLECTED/GENERIC uncertainty → Uncertainty-Visibility governs.
+  Both may fire when uncertainty is partially present:
+    Calibration-Deep notes partial suppression;
+    Uncertainty-Visibility reports positioning profile.
+  Not merged in output.
+
+---
+
+### 1.8 Coordination with Hedging-Calibration Kit
+(Addendum D — added in v1.2)
+
+**Purpose:**
+To define the division of responsibility between
+Calibration-Deep and Hedging-Calibration Kit (kit 37).
+
+**Division of responsibility:**
+
+Calibration-Deep §1.1 governs:
+  Specific overclaiming language detection and correction.
+  "demonstrates" → "suggests"; "conclusively shows" → corrected.
+  This is instance-level correction.
+
+Hedging-Calibration Kit governs:
+  Hedging consistency across claim types.
+  Whether the same claim type receives the same hedging treatment.
+  Proximity drift, hedge stripping, compound performative hedging.
+  This is pattern-level detection.
+
+**Co-occurrence rule:**
+Calibration-Deep corrects a specific over-claimed instance.
+Hedging-Calibration Kit detects the pattern that produced it.
+Both active simultaneously; not merged.
+Calibration-Deep takes precedence on instance-level correction.
+Hedging-Calibration Kit takes precedence on consistency pattern reporting.
+
+---
+
+### 1.9 Statistical Method–Design Mismatch Detection
+(Addendum E — added in v1.3)
+
+**Purpose:**
+To detect structural mismatches between the statistical methods
+applied and the nature of the variables or study design —
+specifically ordinal variable treatment and normality testing
+in large samples.
+
+**Two detection sub-types:**
+
+ORDINAL_PEARSON_APPLICATION:
+  Ordinal variables (Likert-type scales, ranked categories such as
+  age group, education level, income bracket) analyzed using
+  Pearson correlation without justification.
+  Spearman rho is the methodologically defensible alternative
+  for ordinal data; Pearson requires interval-level measurement.
+  → Label: ORDINAL_PEARSON_APPLICATION
+  → Severity: MEDIUM
+  → Trigger: Pearson correlation reported for variables described
+    as ordered categories or Likert-type scales without explicit
+    justification for treating them as interval-level.
+
+LARGE_SAMPLE_NORMALITY_TEST:
+  Kolmogorov-Smirnov or Shapiro-Wilk normality tests used on
+  samples with N > 300 as primary justification for parametric
+  analysis. At large N these tests are oversensitive — they detect
+  trivially small deviations from normality as "significant,"
+  making them poor inferential tools for this purpose.
+  Central Limit Theorem or visual inspection (Q-Q plots,
+  histograms) is typically the more defensible justification
+  for large samples.
+  → Label: LARGE_SAMPLE_NORMALITY_TEST
+  → Severity: LOW (flagged for transparency; not a critical error)
+  → Trigger: K-S or Shapiro-Wilk test cited as normality
+    justification when N > 300.
+
+**Response:**
+  Both sub-types reported as visibility signals in SECTION 3.
+  No expression correction — these are methodological transparency
+  signals, not language-level corrections.
+  User determines whether to address.
+
+---
+
+### 1.10 Inferential Reporting Incompleteness Detection
+(Addendum F — added in v1.3)
+
+**Purpose:**
+To detect structural gaps in inferential statistical reporting —
+specifically the absence of effect size measures and confidence
+intervals alongside significance test results, and the absence
+of multivariate analysis where design complexity warrants it.
+
+**Three detection sub-types:**
+
+EFFECT_SIZE_ABSENT_FROM_SIGNIFICANCE:
+  Statistical significance reported (p-value, chi-square, F-ratio,
+  correlation coefficient) without accompanying effect size measure.
+  Effect size measures: Cramér's V (chi-square), odds ratio
+  (binary outcomes), Cohen's d or η² (group comparisons),
+  r² (correlation). In Q1 publishing contexts, effect size
+  alongside p-value is expected for primary analyses.
+  → Label: EFFECT_SIZE_ABSENT_FROM_SIGNIFICANCE
+  → Severity: MEDIUM (Q1) / LOW (Q2/Q3)
+  → Trigger: Significance test results reported for primary
+    outcome comparisons without effect size measure.
+
+CI_ABSENT_FROM_PRIMARY_ANALYSIS:
+  Confidence intervals absent from primary outcome statistics.
+  Distinct from CI_ABSENT_SIGNAL in kit 41 (which reads figures
+  and tables). This sub-type reads the statistical reporting
+  in the Methods/Results text layer.
+  → Label: CI_ABSENT_FROM_PRIMARY_ANALYSIS
+  → Severity: MEDIUM (Q1) / LOW (Q2/Q3)
+  → Trigger: Primary analysis results reported without 95% CI
+    in study types where CI reporting is standard
+    (observational, experimental, survey with inferential claims).
+
+MULTIVARIATE_ANALYSIS_ABSENT:
+  Study design examines relationships between multiple demographic
+  or predictor variables and an outcome, but analysis is limited
+  to bivariate tests (chi-square, Pearson, t-test) without
+  multivariable modeling (logistic regression, linear regression,
+  ANOVA with covariates). Bivariate tests cannot control for
+  confounders; in studies claiming to identify independent
+  predictors, multivariate analysis is the methodological standard.
+  → Label: MULTIVARIATE_ANALYSIS_ABSENT
+  → Severity: HIGH (when manuscript claims to identify predictors)
+               MEDIUM (when manuscript presents associations only)
+  → Trigger: Multiple demographic predictors analyzed against
+    outcome variable using bivariate tests only, AND manuscript
+    language implies predictor identification or causal priority.
+
+**Response:**
+  All three sub-types reported as visibility signals in SECTION 3.
+  No expression correction.
+  Q-variant modulates severity visibility:
+    Q1: all three sub-types at full sensitivity.
+    Q2: EFFECT_SIZE and CI at MEDIUM; MULTIVARIATE at MEDIUM.
+    Q3: EFFECT_SIZE and CI suppressed silently if study is
+        explicitly descriptive; MULTIVARIATE at LOW.
+
+**Coordination with kit 40 A3:**
+  MULTIVARIATE_ANALYSIS_ABSENT may co-occur with
+  POWER_CLAIM_MISMATCH (kit 40 A3) when the absence of
+  multivariate analysis weakens the inferential support for
+  a causal or predictor claim.
+  Both active; reported in their respective kits.
+  Not merged.
+
+---
+
+
+### 1.11 Assumption Declaration vs. Validation Detection
+(Addendum G — added in v1.4)
+
+**Purpose:**
+To detect and flag the structural gap between an assumption being
+declared in the text and an assumption being validated by evidence.
+Declaration and validation are distinct epistemic operations.
+A declared assumption that is not validated remains an untested
+assumption — regardless of how clearly it is stated.
+
+**Core rule:**
+  ASSUMPTION DECLARED ≠ ASSUMPTION VALIDATED
+
+This rule applies to all parametric or distributional assumptions
+where the downstream analysis depends on the assumption holding.
+If the assumption fails, the analysis is compromised. Declaration
+alone does not reduce this risk.
+
+**Trigger conditions:**
+The following assumption types trigger this detection when declared
+but not supported by a goodness-of-fit test, residual analysis,
+or independent validation reference:
+
+GAUSSIAN_BEAM_ASSUMPTION:
+  Beam matrix reconstruction, emittance calculation, or phase-space
+  tomography assumes a Gaussian beam distribution. The assumption
+  is stated but no goodness-of-fit test, residual plot, or
+  non-Gaussian alternative comparison is presented.
+  → Label: GAUSSIAN_BEAM_ASSUMPTION_NOT_VALIDATED
+  → Severity: MODERATE (Q1 physics) / LOW (Q2/Q3)
+  → PAS eligibility: YES — Tier 2 when analysis is primary output
+
+PSF_SPATIAL_INVARIANCE_ASSUMPTION:
+  Point spread function assumed spatially invariant across the
+  detection plane. The assumption is stated but no measurement
+  of PSF variation across the field, or depth-of-field assessment
+  relative to known path-length variation, is presented.
+  → Label: PSF_SPATIAL_INVARIANCE_NOT_VALIDATED
+  → Severity: MODERATE (Q1) / LOW (Q2/Q3)
+  → PAS eligibility: YES — Tier 3 when PSF is an input to
+    primary parameter extraction
+
+SHOT_TO_SHOT_STABILITY_ASSUMPTION:
+  Multishot technique assumes shot-to-shot beam parameter stability.
+  The assumption is stated and a visual check (e.g. waterfall plot)
+  is presented — but the visual check uses the same dataset to which
+  the technique is applied. This is VALIDATION_CIRCULARITY
+  (Kit 44 Tier 2) not independent validation.
+  → Label: SHOT_TO_SHOT_STABILITY_NOT_INDEPENDENTLY_VALIDATED
+  → Severity: HIGH when visual check is the only stability evidence
+  → PAS eligibility: YES — Tier 2 (VALIDATION_CIRCULARITY applies)
+
+GENERAL_PARAMETRIC_ASSUMPTION:
+  Any parametric method assumes a distributional form
+  (Gaussian, Poisson, exponential, etc.) for primary output
+  extraction. Assumption is declared but no distributional test,
+  Q-Q plot, residual analysis, or sensitivity analysis is presented.
+  → Label: PARAMETRIC_ASSUMPTION_NOT_VALIDATED
+  → Severity: MODERATE (Q1) / LOW (Q2/Q3)
+  → PAS eligibility: Tier 2 when assumption is load-bearing for
+    primary result; Tier 3 otherwise
+
+**Non-trigger conditions (do not apply this detection):**
+  — Assumption is followed by a cited goodness-of-fit test
+  — Assumption is followed by sensitivity analysis showing
+    robustness to assumption violation
+  — Assumption is followed by a stated and justified scope boundary
+    ("this approximation holds within the parameter range studied
+    because...")
+  — Assumption is standard practice for the field and Q-tier
+    calibration places it below detection threshold
+
+**Calibration note — "declared = sufficient" trap:**
+Some field norms (particularly large-facility experimental physics)
+treat declaration of standard assumptions as editorially sufficient.
+CLASR does not reproduce this norm uncritically. If the assumption
+is load-bearing for a primary result, declaration without validation
+is a structural gap regardless of field convention.
+Q-tier modulates severity, not detection.
+
+**Response:**
+  Reported in SECTION 3 — Methodological Visibility.
+  PAS-eligible signals escalated per tier rules.
+  No expression correction — this is a structural visibility signal.
+
+**Coordination:**
+  VALIDATION_CIRCULARITY (Kit 44 Tier 2) takes precedence when
+  the validation evidence itself is drawn from the same dataset.
+  Both may co-occur; VALIDATION_CIRCULARITY reported in PAS,
+  §1.11 reported in SECTION 3.
+
+---
+
+### 1.12 Inter-Method Divergence Threshold Detection
+(Addendum H — added in v1.4)
+
+**Purpose:**
+To detect and flag systematic divergence between measurement methods
+when the divergence exceeds what can be explained by stated
+uncertainty ranges — specifically for parameter values reported
+across multiple methods in the same study.
+
+**Core rule:**
+When a manuscript reports the same physical quantity measured by
+two or more independent methods, and the results diverge such that
+their stated uncertainty ranges do not overlap, the divergence
+requires explicit reconciliation in the text. If no reconciliation
+is provided, this is a structural signal.
+
+**Trigger conditions:**
+
+PARAMETER_VALUE_DIVERGENCE:
+  Two or more methods report the same parameter (e.g. waist
+  position, emittance, divergence) with uncertainty ranges that
+  do not overlap. The Discussion attributes the divergence to
+  general methodological differences without providing a
+  quantitative reconciliation or identifying the specific
+  mechanism responsible.
+  → Label: WAIST_POSITION_DIVERGENCE_ACROSS_METHODS_UNADDRESSED
+    (or equivalent parameter label)
+  → Severity: MODERATE
+  → Section: SECTION 5 — Numerical Behavior
+  → PAS eligibility: Tier 3 when divergence is in a primary
+    parameter; Tier 4 when secondary
+
+DIRECTIONAL_BIAS_UNEXPLAINED:
+  One method systematically produces values in one direction
+  relative to the others (e.g. consistently upstream or
+  consistently larger) without a stated mechanism.
+  → Label: DIRECTIONAL_BIAS_[PARAMETER]_UNEXPLAINED
+  → Severity: MODERATE
+  → Section: SECTION 5
+  → PAS eligibility: Tier 3
+
+**Threshold for trigger:**
+  Non-overlapping uncertainty ranges: trigger detection.
+  Overlapping uncertainty ranges with no stated reconciliation:
+  → LOW severity, no PAS escalation.
+
+**Non-trigger conditions:**
+  — Divergence is explicitly reconciled with a named mechanism
+  — Authors state that one method is expected to differ for
+    a stated instrumental or physical reason
+  — Divergence is within combined uncertainty after propagation
+
+**Response:**
+  Reported in SECTION 5 — Numerical Behavior.
+  PAS escalation per tier and severity rules above.
+  No expression correction.
+
+**Coordination:**
+  May co-occur with §1.10 CI_ABSENT_FROM_PRIMARY_ANALYSIS
+  when the divergence could be partially explained by
+  underreported uncertainty. Both active; not merged.
+
+---
+
+## 2. CALIBRATION CYCLE
+
+Calibration runs throughout output production, not only at the end.
+
+```
+[SECTION production begins]
+         ↓
+[Signal detection: 1.1 → 1.5]
+         ↓
+     Deviation found?
+    Yes → Correction mechanism activated
+    No  → Continue
+         ↓
+[Next SECTION]
+```
+
+Coordination rules (§1.6–1.8) apply at post-production
+signal assembly — after section outputs are produced,
+before the Argument Density block.
+
+---
+
+## 3. REPORTING
+
+Calibration is not visible to the user by default.
+It surfaces only in:
+
+- If 3+ distinct deviation types found in a single output:
+  → One line appended before the closing block:
+  `[Calibration: Expression levels were automatically adjusted]`
+
+- If user explicitly requests "calibration report":
+  → Each deviation type and correction applied are listed
+
+Model fit threshold violations (1.5) are always visible
+within SECTION 3 — they are not subject to the 3+ rule above.
+They surface on any single detection.
+
+Coordination notes (§1.6–1.8) are not surfaced to the user.
+They govern internal kit behavior only.
+
+---
+
+## 4. LIMITS
+
+This kit:
+  Does not cancel output
+  Does not generate error messages
+  Does not burden the user
+  Cannot modify CORE
+  Cannot modify Q-variant thresholds (Q-GATE KITs take precedence)
+  Cannot suppress Overreach-Signal Kit severity labels
+  Cannot suppress Uncertainty-Visibility Kit profile output
+  Cannot suppress Hedging-Calibration Kit consistency signals
+
+---
+
+# CALIBRATION-DEEP KIT v1.4 — END

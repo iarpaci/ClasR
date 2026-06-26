@@ -1,0 +1,293 @@
+﻿# 54 CLASR — REPORT MODE KIT v1.0
+# Kit: 54_CLASR_REPORT_MODE_KIT_v1_0
+# Position: Project Files — Tier 2 (Governance)
+# STATUS: v1.0
+# Purpose: Defines six partial report modes. Each mode activates
+#          a specific subset of sections. Full report remains default.
+
+---
+
+## IDENTITY
+
+This kit defines six report modes for CLASR. Each mode produces
+a targeted subset of the full report — same signal quality, fewer
+sections. The user selects a mode by name or ID. The system activates
+only the defined sections for that mode.
+
+Full report (S0–S10) remains the default when no mode is specified.
+Modes are not ranked by importance. They are lenses — each surfaces
+a different dimension of the same manuscript.
+
+---
+
+## MODE ACTIVATION RULE
+
+User triggers a mode by stating its English name or ID:
+
+  "Quick Summary"     → MODE-1
+  "Methods & Data"    → MODE-2
+  "Argument"          → MODE-3
+  "Citations"         → MODE-4
+  "Publication Risk"  → MODE-5
+  "Full Report"       → FULL (default)
+
+Mode names are case-insensitive. Partial name matches are acceptable
+if unambiguous.
+
+When triggered via SaaS interface: mode ID is passed directly
+(MODE-1 through MODE-5). No text matching required.
+
+User-facing label translations (for UI only — not part of this kit):
+  Labels shown to end users in the product interface are defined
+  in the SaaS front-end layer, not in this kit. This kit defines
+  mode logic and section mapping only.
+
+---
+
+## THE SIX MODES
+
+---
+
+### FULL REPORT (default)
+**Label:** Full Report
+**ID:** FULL
+
+Sections: S0 · S1 · S2 · S3 · S4 · S5 · S6 · S7 · S8 · S9 · S10
+Includes: Executive Summary · Priority Action Signals · all kits · M17
+
+Use when: complete pre-submission review is needed.
+
+---
+
+### MODE-1 — Quick Summary
+**Label:** Quick Summary
+**ID:** MODE-1
+
+Sections: Executive Summary · Priority Action Signals only
+No section bodies. No kit outputs.
+
+Header format:
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CLASR — QUICK SUMMARY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[Executive Summary block — 5-7 sentences]
+[Priority Action Signals — with one-line explanations]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Full report available on request.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+Use when: editor or supervisor needs a rapid overview before
+deciding whether to invest time in the full report.
+
+---
+
+### MODE-2 — Methods & Data
+**Label:** Methods & Data
+**ID:** MODE-2
+
+Sections: S0 (header only) · S3 · S5 · S8 · S9
+Includes: Priority Action Signals filtered to S3/S5/S8/S9 signals only
+
+S0 header only: manuscript type + Q-profile + reporting standard.
+No S0 body text.
+
+Section scope:
+  S3: full methodological visibility signals
+  S5: numerical behavior, CI gaps, effect size gaps
+  S8: uncertainty visibility profile — full
+  S9: figure/table integrity — full (if present)
+
+Priority signals shown: only those located in S3, S5, S8, S9.
+Signals from other sections suppressed with suppression note.
+
+Use when: reviewer or statistician needs to assess methodological
+and analytical rigor specifically.
+
+---
+
+### MODE-3 — Argument
+**Label:** Argument
+**ID:** MODE-3
+
+Sections: S0 (header only) · S1 · S2 · S4 · S6
+Includes: Priority Action Signals filtered to S1/S2/S4/S6 signals only
+Includes: Kit 47 (Epistemic Frame) · Kit 48 (Concept Lifecycle) ·
+          Kit 50 (Cross-Consistency) — active within their sections
+
+Section scope:
+  S1: aim, scope, contribution claim integrity
+  S2: theoretical framework, epistemic frame, concept lifecycle
+  S4: argument chain, load profile, consistency profile
+  S6: hedging calibration, overreach signals
+
+Use when: assessing whether the argument structure is sound
+and whether claims are proportionate to evidence.
+
+---
+
+### MODE-4 — Citations
+**Label:** Citations
+**ID:** MODE-4
+
+Sections: S0 (header only) · S10/M17 only
+Includes: Full M17 block (all five signals)
+Excludes: All other S10 modules
+
+S0 header only: manuscript type + Q-profile.
+
+M17 output: full five-signal block as defined in
+51_CLASR_CITATION_INTEGRITY_MODULE_M17_v1_0.
+
+Supplementary note appended:
+"This mode reports text-layer citation behavior signals only.
+External source verification is not performed.
+For full reproducibility and open science profile, request
+Publication Risk mode or Full Report."
+
+Use when: checking citation behavior patterns — self-citation
+density, single-source dependencies, claim-fit issues.
+
+---
+
+### MODE-5 — Publication Risk
+**Label:** Publication Risk
+**ID:** MODE-5
+
+Sections: S0 (full) · Priority Action Signals (full, all sections) ·
+          S10 (full, all modules including M17)
+Excludes: S1, S2, S3, S4, S5, S6, S7, S8, S9 bodies
+
+S0 full: includes overreach profile and desk-reject risk profile.
+Priority Action Signals: all 3-5 signals with one-line explanations.
+S10: full reproducibility and open science profile.
+
+Use when: final pre-submission check focused on what could trigger
+desk rejection or editorial concern.
+
+---
+
+## SECTION SUPPRESSION RULE
+
+When a section is not included in the selected mode:
+  — It is not produced
+  — It is not mentioned in the body
+  — No placeholder is shown
+
+Exception: when Priority Action Signals from suppressed sections
+exist, a single line is appended to the Priority Action Signals block:
+
+```
+[Note: N additional signal(s) detected in sections not included
+in this mode. Request full report for complete signal map.]
+```
+
+---
+
+## CONVERGENCE COUNT VISIBILITY BY MODE
+
+When 53_CLASR_LAYER_CONVERGENCE_KIT is active, convergence counts
+(×N and layer tags) appear on signal cards. Visibility rules
+per mode:
+
+FULL       → Convergence counts visible on all signal cards.
+             CONVERGENCE PROFILE block shown in S0.
+
+MODE-1     → Convergence count visible on Priority Action Signals
+             only. Layer tags shown inline on each signal line.
+             No CONVERGENCE PROFILE block (S0 not produced).
+
+MODE-2     → Convergence counts visible on all active section
+             signal cards. CONVERGENCE PROFILE block shown in
+             S0 header — counts filtered to S3/S5/S8/S9 signals only.
+
+MODE-3     → Convergence counts visible on all active section
+             signal cards. CONVERGENCE PROFILE block shown in
+             S0 header — counts filtered to S1/S2/S4/S6 signals only.
+
+MODE-4     → Convergence counts visible on M17 signals where
+             CITATION layer contributes. No CONVERGENCE PROFILE block.
+
+MODE-5     → Convergence counts visible on Priority Action Signals
+             and S10 signals. CONVERGENCE PROFILE block shown in
+             S0 (full S0 active in this mode).
+
+Anti-inflation rule applies in all modes: only layers whose
+sections are active in the mode contribute to the displayed count.
+A signal that would show ×4 in FULL may show ×2 in MODE-2
+if two of its contributing layers are in suppressed sections.
+The count reflects what the mode can see — not the full count.
+When count is reduced by mode suppression, a note is added:
+  "×2 in this mode (×4 in Full Report)"
+
+---
+
+## MODE HEADER FORMAT
+
+Every partial report opens with a mode identifier line
+immediately after the identity header:
+
+```
+CLASR
+[manuscript title]
+
+MODE: [MODE LABEL] — [sections active]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+Example:
+```
+MODE: Methods & Data — S3 · S5 · S8 · S9
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+Full report does not show a MODE line.
+
+---
+
+## HTML RENDERING IN PARTIAL MODES
+
+When HTML output is requested alongside a partial mode:
+- Report header: same as full report
+- Mode identifier pill added to meta row
+- Only active sections rendered
+- Suppression note rendered as muted info card below
+  Priority Action Signals block if additional signals exist
+
+Suppression note card:
+```
+Background: var(--blush)
+Border: 1px solid var(--mist)
+Font: 12px, color var(--mid), italic
+Text: "N additional signal(s) in other sections.
+       Request full report for complete signal map."
+```
+
+---
+
+## HARD LIMITS
+
+This kit:
+  Does not suppress signals within active sections
+  Does not reduce signal quality in partial modes
+  Does not produce verdicts in any mode
+  Does not allow mode mixing — one mode per request
+  Does not override CORE hard limits in any mode
+  Does not define user-facing label translations —
+    those belong to the product UI layer
+
+---
+
+## VERSION DEPENDENCY
+
+  CLASR CORE v1.9
+  01_CLASR_MASTER_SECTION_KIT_v1_2
+  52_CLASR_EXECUTIVE_SUMMARY_BLOCK_v1_0
+  51_CLASR_CITATION_INTEGRITY_MODULE_M17_v1_0
+  55_CLASR_HTML_REPORT_KIT_v1_2
+  53_CLASR_LAYER_CONVERGENCE_KIT_v1_0 (convergence visibility rules)
+
+---
+
+# 54_CLASR_REPORT_MODE_KIT_v1_0 — END

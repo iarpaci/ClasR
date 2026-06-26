@@ -1,0 +1,465 @@
+﻿# 47 CLASR — EPISTEMIC FRAME KIT v1.0
+# Added to Project Files. Does not modify CORE.
+# Tier: 3 — Extension
+# Primary SECTION: SECTION 2 — Conceptual / Theoretical Framework
+# Secondary SECTION: SECTION 3 — Methodological Visibility
+#                    SECTION 4 — Argumentation
+# Activation: Automatic — all manuscript types
+# Source: Adapted from CLASR-V EPISTEMIC-KIT v1.0
+# STATUS: v1.0 — Initial release for CLASR v3.2
+
+---
+
+## 0. IDENTITY
+
+Type: EXTENSION KIT
+Attaches to: CLASR reading layer (CORE unchanged)
+No content generation · No judgment · No recommendation
+
+This kit identifies, maps, and signals epistemic frame behavior
+in English academic manuscripts.
+
+It does not evaluate which epistemological framework is correct.
+It surfaces how frameworks operate, where they are visible,
+and where they generate internal tensions with method or contribution.
+
+**Scope note:**
+This kit activates for all manuscript types.
+In QUANTITATIVE-PRIMARY manuscripts, epistemic frame signals
+are most visible in framing zones (introduction, discussion).
+In VERBAL-PRIMARY manuscripts, epistemic frame signals
+are active across all zones.
+In HYBRID manuscripts, frame-method alignment is the
+primary signal zone.
+
+---
+
+## 1. EPISTEMIC FRAME TAXONOMY
+
+Six frame types are recognized. Detection is operational —
+what the manuscript actually does, not what the author declares.
+
+| Frame Type | Core Assumption | Common Markers |
+|-----------|----------------|----------------|
+| Post-positivist | Reality exists; approximated through controlled inquiry | findings, evidence, validity, generalizability, reliability |
+| Interpretivist | Meaning is socially constructed; understanding is contextual | meaning, understanding, lived experience, interpretation, context |
+| Critical | Power structures shape knowledge; research should expose and challenge them | power, emancipation, oppression, ideology, structural, critique |
+| Post-structuralist | Categories and meanings are unstable; deconstruction is primary | discourse, subject position, genealogy, deconstruction, difference |
+| Pragmatist | Knowledge judged by practical utility and consequence | utility, action, practice, consequence, what works |
+| Mixed / Unspecified | Multiple frames or no declared frame | Marker vocabulary spans multiple frame types without synthesis |
+
+**Detection method:**
+Frame is detected through five channels:
+1. Vocabulary pattern — which frame-specific terms appear and with what density
+2. Ontological claims — what the manuscript asserts about the nature of reality or knowledge
+3. Methodological logic — what counts as adequate grounding for a claim
+4. Subject construction — how actors, agents, and social entities are conceptualized
+5. Contribution framing — how novelty and significance are defined
+
+Detected frame = operational frame.
+If declared frame and operational frame diverge, both are noted.
+The operational frame is the primary signal.
+
+---
+
+## 2. FRAME VISIBILITY
+
+How explicitly the epistemic frame is positioned:
+
+```
+EXPLICIT   → manuscript declares its epistemological position
+             in dedicated framing language
+IMPLICIT   → frame detectable through vocabulary and logic
+             but not declared by the author
+INVISIBLE  → manuscript operates as if epistemologically neutral;
+             no positioning statement present or implied
+```
+
+Visibility state is reported without judgment.
+INVISIBLE is a signal, not a verdict.
+Some fields have low frame-declaration norms —
+visibility is read against disciplinary expectation,
+not against a universal standard.
+
+---
+
+## 3. FRAME-METHOD ALIGNMENT
+
+Reads whether the methodological approach is consistent
+with the detected epistemic frame.
+
+| State | Definition | Signal level |
+|-------|-----------|-------------|
+| ALIGNED | Detected frame and methodological approach are consistent | No signal — expected behavior |
+| PARTIAL_TENSION | Frame and method partially misalign | MEDIUM |
+| MISALIGNED | Clear inconsistency between operational frame and practice | HIGH |
+
+**Examples of misalignment:**
+- Manuscript declares interpretivist stance but applies
+  positivist validity criteria (reliability, generalizability)
+- Post-structuralist vocabulary in framing but causal claims in findings
+- Critical framework claimed but power analysis absent from discussion
+- Pragmatist framing but no engagement with practical consequences
+- Interpretivist framing but sample size justified with power analysis logic
+
+**Misalignment location:**
+When MISALIGNED, the specific zone where the inconsistency
+appears is noted (framing zone / methods zone / discussion zone).
+
+---
+
+## 4. FRAME-CONTRIBUTION ALIGNMENT
+
+Reads whether the manuscript's contribution claim
+is consistent with what its epistemic frame can deliver.
+
+| State | Example | Signal level |
+|-------|---------|-------------|
+| ALIGNED | Interpretivist manuscript claims new contextual understanding | No signal |
+| PARTIAL_TENSION | Critical manuscript claims empirical contribution without frame bridge | MEDIUM |
+| MISALIGNED | Post-structuralist manuscript claims definitive findings | HIGH |
+
+Additional misalignment patterns:
+- Post-positivist manuscript claims theoretical contribution
+  without engaging theoretical literature
+- Interpretivist manuscript claims generalizability
+  without acknowledging frame-based scope limits
+- Critical manuscript claims policy application
+  without addressing power-in-implementation
+
+---
+
+## 5. FRAME UNIVERSALIZATION
+
+Detected when one epistemic frame is presented as
+self-evidently correct without acknowledgment of alternatives.
+
+**Signal indicators:**
+- "Research must be..." (followed by frame-specific criterion)
+- "True understanding requires..." (where 'true' implies frame-specific standard)
+- "Rigorous analysis demands..." (where 'rigorous' is defined by one tradition)
+- Alternative epistemologies unnamed and unengaged
+- Methodological choices presented as neutral or obvious
+  when they reflect specific epistemic commitments
+
+**Label:** FRAME_UNIVERSALIZATION
+**Intensity:** [LOW / MEDIUM / HIGH]
+
+LOW: single instance; minor framing language
+MEDIUM: recurring pattern; alternatives consistently absent
+HIGH: frame treated as the only valid approach throughout;
+  no acknowledgment that other frameworks exist
+
+Cross-reference with SECTION 4 (Argumentation):
+Frame universalization often functions as an argumentative
+closure mechanism — eliminating alternatives before
+the argument has established why they are excluded.
+When this occurs, ORIENTATION LENS KIT also fires.
+Both reported; not merged.
+
+---
+
+## 6. STRUCTURAL NORMATIVE DEPTH
+
+Three patterns of epistemically embedded normativity
+that operate below the level of explicit normative language:
+
+### 6.1 Alternative Erasure
+Competing frameworks are absent or dismissed
+without substantive engagement.
+
+**Detection method:**
+Trace what is not present where alternative engagement
+is structurally expected — literature review zone,
+theoretical framework zone, methodology justification zone.
+
+**Signal:** ALTERNATIVE_ERASURE
+Distinct from Silence Lens FRAMEWORK_MONOPOLY:
+Silence Lens reads argumentative silence.
+This pattern reads epistemic silence — the systematic
+exclusion of epistemological alternatives, not just
+argumentative alternatives.
+Both may fire; reported as separate sub-signals.
+
+---
+
+### 6.2 Inevitability Architecture
+Manuscript builds toward a conclusion framed as
+the only logical outcome.
+
+**Detection method:**
+Track the logic chain from framing to conclusion.
+Note where branching closes — where the argument
+stops acknowledging that other conclusions were possible.
+
+**Signal:** INEVITABILITY_ARCHITECTURE
+Distinct from ORIENTATION LENS "only option" framing:
+Orientation Lens reads scope-setting behaviors at the
+aim and method level.
+This pattern reads the full argument architecture —
+how the conclusion is constructed as inevitable
+across the manuscript's entire trajectory.
+Both may fire; reported in their respective sections.
+
+---
+
+### 6.3 Epistemic Privilege
+One way of knowing is treated as universally valid —
+methodological choices presented as neutral or obvious
+when they reflect specific epistemic commitments.
+
+**Detection method:**
+Detect where methodological choices are presented
+without epistemological justification — where the
+choice is treated as self-evident rather than
+as one defensible option among others.
+
+**Signal:** EPISTEMIC_PRIVILEGE
+Relationship to FRAME_UNIVERSALIZATION:
+Frame Universalization: frame presented as the only valid frame.
+Epistemic Privilege: specific methodological practices treated
+as epistemically neutral when they are not.
+Both may co-occur; reported as separate signals.
+
+---
+
+## 7. OUTPUT BEHAVIOR
+
+### Per-signal (in relevant SECTION):
+
+```
+EPISTEMIC FRAME SIGNAL: [label]
+Location: [SECTION or argument zone]
+Intensity: [LOW / MEDIUM / HIGH] (where applicable)
+Observation: [one-line structural description]
+```
+
+### Epistemic Frame Profile (in SECTION 2):
+
+```
+▸ EPISTEMIC FRAME PROFILE
+
+Detected frame:              [type(s)]
+Frame visibility:            [EXPLICIT / IMPLICIT / INVISIBLE]
+Frame-method alignment:      [ALIGNED / PARTIAL_TENSION / MISALIGNED]
+Frame-contribution alignment:[ALIGNED / PARTIAL_TENSION / MISALIGNED]
+Frame universalization:      [DETECTED — intensity / NOT DETECTED]
+
+Structural normative depth:
+  Alternative erasure:       [DETECTED / NOT DETECTED]
+  Inevitability architecture:[DETECTED / NOT DETECTED]
+  Epistemic privilege:       [DETECTED / NOT DETECTED]
+```
+
+If frame is ALIGNED across all dimensions and no structural
+normative depth signals detected:
+→ Single line: [Epistemic frame: ALIGNED — no active signals]
+
+---
+
+## 8. SECTION ROUTING
+
+| Signal | Primary SECTION | Secondary SECTION |
+|--------|----------------|------------------|
+| Epistemic Frame Profile | SECTION 2 | — |
+| Frame-method alignment (MISALIGNED) | SECTION 3 | SECTION 2 |
+| Frame-contribution alignment (MISALIGNED) | SECTION 4 | SECTION 2 |
+| Frame universalization | SECTION 2 | SECTION 4 |
+| Alternative erasure | SECTION 2 | SECTION 8 |
+| Inevitability architecture | SECTION 4 | SECTION 2 |
+| Epistemic privilege | SECTION 3 | SECTION 2 |
+
+This kit does not open new SECTIONS.
+All signals route through existing sections per above.
+
+---
+
+## 9. Q-VARIANT CALIBRATION
+
+**Q1:**
+All signals active at full sensitivity.
+INVISIBLE frame visibility explicitly surfaced — Q1 reviewers
+weight epistemological positioning heavily in theoretical work.
+MISALIGNED frame-method noted as potential desk-reject signal.
+FRAME_UNIVERSALIZATION at MEDIUM and HIGH explicitly surfaced.
+All three structural normative depth patterns active.
+
+**Q2:**
+All signals active at standard sensitivity.
+PARTIAL_TENSION states noted without escalation.
+INVISIBLE frame visibility noted where disciplinary norm expects declaration.
+FRAME_UNIVERSALIZATION at HIGH explicitly surfaced.
+
+**Q3:**
+MISALIGNED states reported.
+FRAME_UNIVERSALIZATION at HIGH reported.
+PARTIAL_TENSION states suppressed silently.
+INVISIBLE frame visibility suppressed unless manuscript
+explicitly claims an epistemological position elsewhere.
+Structural normative depth: INEVITABILITY_ARCHITECTURE
+and ALTERNATIVE_ERASURE at HIGH reported; EPISTEMIC_PRIVILEGE
+at standard sensitivity.
+
+---
+
+## 10. PARTIAL INPUT BEHAVIOR
+
+**Abstract only (Type A):**
+→ Frame vocabulary detectable from abstract
+→ Frame visibility assessable
+→ Alignment states: LOW confidence
+→ Label: [Epistemic frame — abstract only, alignment confidence LOW]
+
+**Introduction only (Type B):**
+→ Frame detection: full or near-full
+→ Frame-method alignment: partial (methods absent)
+→ Structural normative depth: partially readable
+
+**Methods only (Type C):**
+→ Frame-method alignment: fully readable
+→ Frame detection: partial
+→ Epistemic privilege: fully readable
+
+**Results / Discussion only (Type D):**
+→ Frame-contribution alignment: fully readable
+→ Inevitability architecture: readable in discussion
+→ Frame detection: partial
+
+**Mixed (Type E):**
+→ Kit runs on available zones
+→ Coverage declared per signal type
+
+---
+
+## 11. COLLISION MANAGEMENT
+
+### With Interdisciplinary Tension Kit (27):
+
+Interdisciplinary Tension Kit reads tradition-level conflict
+between disciplines (e.g., positivist method + interpretivist theory
+from different fields).
+
+This kit reads epistemic frame coherence within the manuscript's
+own declared position.
+
+Both may fire simultaneously:
+→ Interdisciplinary Tension Kit: TENSION_SUPPRESSED in SECTION 2
+→ This kit: MISALIGNED in SECTION 3
+→ Both active; reported as separate sub-signals; not merged.
+
+---
+
+### With Orientation Lens Kit (16):
+
+Orientation Lens reads "only option" framing at aim/scope level.
+This kit reads frame universalization across the full manuscript.
+
+Both may fire:
+→ Orientation Lens: ONLY-OPTION FRAMING in SECTION 1
+→ This kit: FRAME_UNIVERSALIZATION in SECTION 2
+→ Both active; reported in their respective sections; not merged.
+
+---
+
+### With Silence Lens Kit (15):
+
+Silence Lens reads FRAMEWORK_MONOPOLY as argumentative silence.
+This kit reads ALTERNATIVE_ERASURE as epistemic silence.
+
+Both may fire on the same zone:
+→ Silence Lens: FRAMEWORK_MONOPOLY in SECTION 7
+→ This kit: ALTERNATIVE_ERASURE in SECTION 2
+→ More specific signal takes precedence in its section.
+→ Not merged; collision not surfaced to user.
+
+---
+
+### With Hedging Calibration Kit (37):
+
+Hedging Calibration Kit reads inconsistent hedging across claim types.
+This kit reads frame-contribution misalignment.
+
+Where both fire (e.g., post-structuralist framing +
+unhedged causal conclusion):
+→ Hedging Calibration Kit: CALIBRATION_FAILURE in SECTION 6
+→ This kit: FRAME-CONTRIBUTION MISALIGNED in SECTION 4
+→ Both active; not merged.
+
+---
+
+### With Verbal Lens Kit (10) Independent Mode:
+
+In VERBAL-PRIMARY manuscripts, Verbal Lens Independent Mode
+reads epistemic overreach at the language level.
+This kit reads epistemic frame behavior at the structural level.
+
+Both active simultaneously:
+→ Verbal Lens: EPISTEMIC_OVERREACH in SECTION 6
+→ This kit: FRAME_UNIVERSALIZATION or MISALIGNED in SECTION 2/3
+→ Complementary; different levels of analysis; not merged.
+
+---
+
+## 12. REVISION ROUND INTERACTION
+
+In Revision Round Mode, epistemic frame signals carry
+additional weight under Q1-level sensitivity.
+
+MISALIGNED frame-method in revised manuscripts is read
+as residual risk — epistemological coherence is frequently
+raised in R1 reviewer comments for theoretical and
+interpretive submissions.
+
+FRAME_UNIVERSALIZATION in revised manuscripts is read
+as a persistent structural risk — reviewers who identified
+it in R1 will check whether it has been addressed.
+
+No separate flag produced.
+Signal reported as normal; sensitivity applies implicitly.
+
+---
+
+## 13. HARD LIMITS
+
+This kit must never:
+  Evaluate which epistemic framework is correct
+  Advocate for any epistemological position
+  Recommend that authors change their framework
+  Attribute ideology or political position to the author
+  Produce frame-based verdicts
+  Label any framework as superior or inferior
+  Generate independent sections outside the routing table
+
+---
+
+## 14. WHAT THIS KIT DOES NOT DO
+
+Does not:
+  Evaluate the scholarly merit of any epistemological position
+  Assess whether the chosen framework is appropriate for the topic
+  Recommend specific epistemological alternatives
+  Label the manuscript as epistemologically weak or strong
+  Produce a framework quality score
+
+---
+
+## 15. CANONICAL DEFINITION
+
+EPISTEMIC FRAME KIT v1.0 identifies the operative epistemic frame
+of an English academic manuscript — mapping frame visibility,
+frame-method alignment, frame-contribution alignment,
+frame universalization, and three structural normative depth patterns
+(alternative erasure, inevitability architecture, epistemic privilege) —
+as a structured signal profile in SECTION 2, with secondary signals
+routing to SECTION 3 and SECTION 4 —
+without evaluating framework correctness, attributing ideology,
+or producing recommendations.
+
+---
+
+# EPISTEMIC FRAME KIT v1.0 — END
+# Tier 3 — Extension
+# Primary: SECTION 2
+# Secondary: SECTION 3, SECTION 4
+# Adapted from: CLASR-V EPISTEMIC-KIT v1.0
+# Activation: All manuscript types; VERBAL-PRIMARY at full depth

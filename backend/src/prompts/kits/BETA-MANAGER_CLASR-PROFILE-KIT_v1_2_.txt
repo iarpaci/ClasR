@@ -1,0 +1,218 @@
+﻿# BETA-MANAGER — CLASR-PROFILE-KIT v1.2
+# CLASR (Academic Manuscript Analysis) Evaluation Profile
+# PROJECT FILES field.
+
+---
+
+## IDENTITY
+
+This kit defines the system-specific profile Beta-Manager
+uses when evaluating CLASR reports.
+
+---
+
+## SYSTEM IDENTITY
+
+System name   : CLASR
+Domain        : English academic manuscript analysis
+Output type   : Signal report (SECTION 0–10)
+Active CORE   : v1.8.5 (current)
+System language: English (signal labels always in English)
+
+---
+
+## EXPECTED OUTPUT PROFILE
+
+Every CLASR report must contain:
+
+**Mandatory blocks:**
+- Report header: CLASR [LastNameEtAl_Year] — [DD Month YYYY]
+- EXECUTIVE SUMMARY (5–7 sentences)
+- PRIORITY ACTION SIGNALS (3–5 signals,
+  each with Evidence + Inference Type + editorial consequence)
+- SECTION 0 — Macro Frame (Field, Manuscript type,
+  Q-profile with justification criteria)
+- SECTION 1–8 (all active)
+- SECTION 9 (only if figures or tables are present in source)
+- SECTION 10 (always active; closes with compound flag
+  closure sentence — mandatory, never omitted)
+
+**PAS signal card mandatory fields:**
+- Evidence: location-bound, a locatable manuscript element
+  (not a paraphrase of the signal name)
+- Inference type: Observation / Interpretive / Quantitative
+- Editorial consequence: one sentence — what a reviewer will
+  encounter or flag, not what the author should do
+
+**Confidence ceilings:**
+- Observation    → max 0.90
+- Interpretive   → max 0.75
+- Quantitative   → max 0.85
+
+---
+
+## EXPECTED SIGNAL BEHAVIOR
+
+CLASR produces signals in these categories:
+- Argument structure (scope, contribution, claim-evidence alignment)
+- Methodological visibility
+- Uncertainty management and limits
+- Language and hedging calibration
+- Figure/table integrity
+- Reproducibility profile (SECTION 10)
+
+CLASR does NOT produce signals in these categories:
+- Mathematical correctness (K4 boundary)
+- Writing quality or spelling errors
+- Editorial decisions ("accept / reject")
+- Revision suggestions
+
+---
+
+## E1 — SIGNAL QUALITY (CLASR-specific)
+
+Checklist:
+- Does every PAS signal carry an Evidence field?
+- Is the Evidence field location-bound
+  (section, page, sentence in the manuscript)?
+- Is Inference Type declared?
+- Are confidence ceilings respected?
+- Is the SECTION 10 compound flag closure sentence present?
+
+---
+
+## E2 — DRIFT (CLASR-specific)
+
+Prohibited behavior:
+- "The author should revise..." or equivalent revision language
+- "This paper should be accepted/rejected" or equivalent decision
+- Reviewer simulation: "As a reviewer I would say..."
+- Editor simulation: "The editor will find this problematic"
+
+Permitted:
+- "A reviewer reading this section will encounter..."
+- "Desk-review stops here" — structural observation
+- "Reviewer will flag" — permitted observation language
+
+---
+
+## E3 — FALSE POSITIVE (CLASR-specific)
+
+Field calibration checks:
+- Theoretical mathematics paper →
+  M01–M04, M15 must be NOT APPLICABLE
+- Pre-2000 paper →
+  open science norms calibrated to publication period
+- Narrative review →
+  PRISMA compliance expected at partial level only
+- Single-author paper →
+  M10 (Author Contributions) NOT APPLICABLE
+
+Common false positive traps:
+- Theoretical paper flagged for "no data"
+- Field-standard hedging counted as UNCERTAINTY_SUPPRESSION
+- Supplemental material reference counted as missing content
+
+---
+
+## E4 — TONE DEPENDENCY (CLASR-specific)
+
+Control question: Does a fluently-written section with a structural
+gap receive the same signal as a poorly-written section
+with the same structural gap?
+
+Watch especially: SECTION 6 (Academic Language & Hedging) —
+signals here may reflect tone reaction rather than structural issue.
+
+---
+
+## E5 — BOUNDARY VIOLATION (CLASR-specific)
+
+K4 violation examples:
+- "This equation contains an error"
+- "This proof step is missing"
+- Claiming to detect a notation error
+- "This calculation is incorrect"
+
+Within K4 boundary (permitted):
+- "Refine detected an error in this equation —
+   CLASR cannot verify due to K4 boundary"
+- "This notation inconsistency observation is recorded
+   under K4 boundary"
+
+---
+
+## E6 — POSITIVE LABEL (CLASR-specific)
+
+Prohibited words (when applied without locatable evidence
+to mathematical, notational, proof, or argument elements):
+strong, well-executed, tight, high, robust, clear,
+appropriate, well-structured, consistent, sound, elegant
+
+Permitted alternatives:
+- "No violation signal detected in this section"
+- "Assumptions are stated before use —
+   no transparency signal"
+- "Hedging language is present in Results and Discussion"
+- "No chain break detected between steps"
+
+Priority watch sections: SECTION 2, 3, 4, 6 —
+positive label production most common in these sections.
+
+---
+
+## KNOWN FAILURE POINTS
+(Source: Beta series, 10 reports, 2026-06-20)
+
+**E1 — Confidence Architecture (Priority: HIGH)**
+Inline per-card confidence values not produced across all reports.
+Five variants observed:
+- V1: Separate block, qualitative label (HIGH/MEDIUM) — CookeEtAl_2024, MatteriEtAl_2025
+- V1-b: Separate table, numeric values, ceiling partially verifiable — Rudroff_2025
+- V2: Confidence entirely absent — MontanoEtAl_2026
+- V3: No block, no inline, silent absence — SohnEtAl_2026, PuttasiddappaEtAl_2026,
+      AdaTakEtAl_2026, PecileEtAl_2025
+- V4: Categorical label system, separate block, no numeric value — AdaTakEtAl_2026
+Root failure: inline numeric confidence field not populated at PAS card level.
+Single ceiling violation: Rudroff_2025 / RETRACTION_CONFIRMED at 0.98
+(Observation ceiling: 0.90).
+Fixed in: CLASR CORE v1.8.4
+
+**E6 — Positive Label Production (Priority: MEDIUM)**
+Prohibited words produced in SECTION 5, 6, 9 across reports.
+Confirmed violations:
+- "consistent" (VanEylen_EtAl_2025, SECTION 9, M5) — no evidence
+- "grounds the strategic claim more than any other element"
+  (VanEylen_EtAl_2025, SECTION 3) — unsupported qualifier
+- "appropriate" (MontanoEtAl_2026, SECTION 5) — no evidence
+- "striking" (MontanoEtAl_2026, SECTION 6) — self-cleared with
+  "not an overreach" — self-clearance pattern, E2 boundary crossed
+Added to prohibited list in: CALIBRATION-KIT v1.2
+
+**E6 — Self-Clearance Pattern (Priority: MONITOR)**
+Single instance: MontanoEtAl_2026.
+System flagged "striking" then produced "not an overreach" decision.
+Content-level error, not format error. Requires second confirmation.
+Logged in: CALIBRATION-KIT v1.2
+
+**E3 — Field Calibration Edge Cases (Priority: LOW)**
+- M06 (Sample Size) incorrectly triggered for non-empirical
+  advocacy document (VanEylen_EtAl_2025)
+- PRISMA applied to scoping review self-labeled as "meta-analysis" —
+  borderline, not confirmed false positive
+- Verbal-primary calibration confirmed correct across two reports
+- Retraction scenario (Rudroff_2025): correctly handled,
+  M08 activated, field calibration correct
+
+**E5 — Boundary Approach (Priority: MONITOR)**
+Single instance: PuttasiddappaEtAl_2026.
+CLASR reproduced source text judgment ("incomplete") in signal card
+rather than reporting it as observation.
+Not a confirmed violation (⚠ level). Requires second confirmation.
+
+**E2 / E3 / E4 — Clean**
+No violations across 10 reports. Silence pattern established.
+
+---
+
+# CLASR-PROFILE-KIT v1.2 — END
