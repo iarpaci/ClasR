@@ -260,6 +260,21 @@ router.post('/auth/refresh', async (req, res, next) => {
   } catch (err) { next(err); }
 });
 
+// ── GET /api/auth/google/start ─────────────────────────────────────────────
+router.get('/auth/google/start', async (_req, res, next) => {
+  try {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: 'https://clasr.ai/callback/',
+        skipBrowserRedirect: true,
+      },
+    });
+    if (error || !data.url) return res.status(500).json({ error: 'Google OAuth not configured' });
+    res.redirect(data.url);
+  } catch (err) { next(err); }
+});
+
 // ── GET /api/plans ──────────────────────────────────────────────────────────
 router.get('/plans', (_req, res) => res.json({ plans: PLANS }));
 
