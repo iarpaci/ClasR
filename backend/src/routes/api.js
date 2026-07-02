@@ -48,7 +48,7 @@ const PLANS = [
 ];
 
 const PLAN_CREDITS = {
-  'free': 5, 'basic': 40, 'pro': 150,
+  'free': 0, 'basic': 40, 'pro': 150,
   'trial-pack': 1, 'researcher': 5, 'professional': 12, 'enterprise': 9999,
 };
 
@@ -85,7 +85,7 @@ async function getUserSub(userId) {
 async function checkAndConsumeCredit(userId) {
   const sub = await getUserSub(userId);
   const plan = sub.plan;
-  const limit = PLAN_CREDITS[plan] || 5;
+  const limit = PLAN_CREDITS[plan] ?? 0;
   const isMonthly = !['free', 'trial-pack', 'gift'].includes(plan);
 
   if (isMonthly && isNewMonth(sub.period_start)) {
