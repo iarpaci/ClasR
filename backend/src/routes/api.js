@@ -134,14 +134,16 @@ function handleUpload(req, res, next) {
 // ── GET /api/session ────────────────────────────────────────────────────────
 router.get('/session', requireAuth, async (req, res) => {
   const sub = await getUserSub(req.user.id);
+  const meta = req.user.user_metadata || {};
+  const oauthNameParts = (meta.name || meta.full_name || '').split(' ').filter(Boolean);
   res.json({
     authenticated: true,
     user: {
       id: req.user.id,
       email: req.user.email,
-      firstName: req.user.user_metadata?.firstName || '',
-      lastName: req.user.user_metadata?.lastName || '',
-      institution: req.user.user_metadata?.institution || '',
+      firstName: meta.firstName || meta.given_name || oauthNameParts[0] || '',
+      lastName: meta.lastName || meta.family_name || oauthNameParts.slice(1).join(' ') || '',
+      institution: meta.institution || '',
       plan: sub.plan,
       creditsLeft: (() => {
         const limit = PLAN_CREDITS[sub.plan] || 0;
@@ -207,8 +209,8 @@ router.post('/auth/login', async (req, res, next) => {
       user: {
         id: data.user.id,
         email: data.user.email,
-        firstName: data.user.user_metadata?.firstName || '',
-        lastName: data.user.user_metadata?.lastName || '',
+        firstName: data.user.user_metadata?.firstName || data.user.user_metadata?.given_name || '',
+        lastName: data.user.user_metadata?.lastName || data.user.user_metadata?.family_name || '',
         plan: sub.plan,
       },
       nextUrl: '/dashboard/',
