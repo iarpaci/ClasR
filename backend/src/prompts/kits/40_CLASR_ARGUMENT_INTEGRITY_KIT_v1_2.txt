@@ -1,9 +1,15 @@
-﻿# 40 CLASR — ARGUMENT INTEGRITY KIT v1.1
-# Kit: CLASR-ARGUMENT-INTEGRITY-KIT_v1.1
+﻿# 40 CLASR — ARGUMENT INTEGRITY KIT v1.2
+# Kit: CLASR-ARGUMENT-INTEGRITY-KIT_v1.2
 # Position: Project Files
-# STATUS: v1.1
-# Previous: v1.0
-# Changes:
+# STATUS: v1.2
+# Previous: v1.1
+# Changes (v1.2):
+#   A3 — ASSUMPTION_VALIDITY_SCOPE_MISMATCH added
+#         (load-bearing assumption validity range constrained in methods
+#         but results/conclusion extend beyond it without acknowledgment;
+#         HIGH severity; 5-iteration AWAKE/CERN systematic blind spot;
+#         PAS Tier 2; Kit 44 v1.7 Rule C3 auto-elevation)
+# Changes (v1.1):
 #   A4 — FINDING_CONTRADICTS_RECOMMENDATION added:
 #         directional contradiction between reported finding
 #         and derived recommendation; narrow trigger (direction
@@ -107,6 +113,11 @@ Primary signals:
                                 not fully capture the construct
   ANALYTICAL_APPROACH_MISMATCH — analysis type does not match
                                    the stated research question
+  ASSUMPTION_VALIDITY_SCOPE_MISMATCH — load-bearing assumption validity
+                                        range declared or constrained
+                                        in methods, but results or
+                                        conclusions extend beyond that
+                                        range without acknowledgment
 
 ORDINAL_PEARSON_APPLICATION interaction:
   When ORDINAL_PEARSON_APPLICATION is detected in S3, it enters A3
@@ -122,6 +133,53 @@ ORDINAL_PEARSON_APPLICATION interaction:
     interval-measurement assumption. Affects A3 fit assessment.]"
   This note does not create a separate A3 signal — it qualifies
   the existing fit assessment.
+
+
+ASSUMPTION_VALIDITY_SCOPE_MISMATCH interaction:
+  When a manuscript declares or constrains the validity range of a
+  load-bearing assumption in the methods section but makes results or
+  conclusion claims that extend beyond that declared range without
+  explicitly acknowledging the extension, this is an A3 method-claim
+  fit failure.
+
+  Trigger conditions (ALL must be met):
+    (a) The assumption is load-bearing for the manuscript's central
+        measurement, analytical, or interpretive result
+    (b) The assumption's validity range is constrained or qualified
+        somewhere in the manuscript (methods, footnote, or discussion)
+    (c) Results or conclusion claims extend beyond that declared range
+        without a statement acknowledging this extension
+
+  Label: ASSUMPTION_VALIDITY_SCOPE_MISMATCH
+  Severity: HIGH when central result depends on the assumption;
+            MODERATE when a secondary result depends on it
+  Section: SECTION 3 (primary) + SECTION 4 A3 (argument consequence)
+  PAS eligibility: Tier 2 — auto-elevated by Kit 44 v1.7 Rule C3
+
+  Example: Manuscript states imaging condition is met only at a single
+    point on the scintillating screen. Results report emittance values
+    derived from the full screen without restricting the claim to the
+    validated imaging point. Scope extension is structurally present
+    but unacknowledged.
+
+  Non-trigger conditions:
+    — Assumption validated across the full range used in results
+    — Assumption flagged as limitation with explicit scope note
+      in the conclusion section
+    — Q-tier calibration places it below detection threshold for
+      field-standard implicit assumptions
+
+  Cross-reference:
+    Kit 09 §1.13 handles the detection layer (Section 3).
+    A3 carries the argument consequence (Section 4).
+    Kit 44 v1.7 Rule C3 handles PAS elevation.
+
+  Output format addition to A3 when triggered:
+    ASSUMPTION_VALIDITY_SCOPE_MISMATCH — HIGH / MODERATE
+    Assumption: [statement of the load-bearing assumption]
+    Declared scope: [where and how the scope is constrained]
+    Claim extension: [where results/conclusions exceed scope]
+    Gap: [one sentence describing the structural mismatch]
 
 SAMPLING_FRAME interaction:
   When SAMPLING_FRAME_ABSENT is detected in S3, it enters S4
@@ -374,4 +432,4 @@ This kit:
 
 ---
 
-# CLASR-ARGUMENT-INTEGRITY-KIT_v1.0 — END
+# CLASR-ARGUMENT-INTEGRITY-KIT_v1.2 — END

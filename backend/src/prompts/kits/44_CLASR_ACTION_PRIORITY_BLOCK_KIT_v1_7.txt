@@ -1,37 +1,31 @@
-﻿# 44 CLASR — ACTION PRIORITY BLOCK KIT v1.6
+﻿# 44 CLASR — ACTION PRIORITY BLOCK KIT v1.7
 # Added to Project Files. Does not modify CORE.
 # Tier: 2 — Governance
 # Position: Report header — before SECTION 0
 # Activation: Automatic — every report
 # STATUS: Active
-# Previous: v1.5
-# Changes (v1.6):
-#   Editorial consequence field removed from all card formats
-#   (Standard, Author, Advisor, Signal modes)
-#   Rule 4 and Rule 6 updated: reviewer framing removed
-#   HARD LIMITS: reviewer behavior prediction forbidden
-# Changes (v1.5):
-#   Tier 2: VALIDATION_CIRCULARITY added — circular validation
-#   structure (assumption tested on same data it validates)
-#   qualifies for PAS at same level as METHOD_CLAIM_MISMATCH
-# Changes (v1.4):
-#   §2 OUTPUT FORMAT: Inference field added between Inference type
-#      and Confidence; editorial consequence scope narrowed
-#   §3 SIGNAL EXPLANATION updated: Inference vs. editorial
-#      consequence distinction formalized
-#   §10 HARD LIMITS: Inference field mandatory
-# Changes (v1.3):
-#   §2 OUTPUT FORMAT updated: Confidence field added inline
-#      per card (mandatory, numeric, follows Inference type)
-#   §4 INFERENCE TYPE CONFIDENCE CEILINGS updated:
-#      Confidence field now visible in output per card
-#   §10 HARD LIMITS updated: confidence field mandatory
-# Changes (v1.2):
-#   §2 OUTPUT FORMAT updated: Evidence + Inference Type fields
-#      added to each signal card (from CORE v1.9 PAS schema)
-#   §3 SIGNAL EXPLANATION SENTENCE RULE: unchanged from v1.1
-#   §4 INFERENCE TYPE CONFIDENCE CEILINGS added
-#   §5 EVIDENCE SUFFICIENCY RULE added
+# Previous: v1.6
+# Changes (v1.7):
+#   § 1 SELECTION CRITERIA — three structural additions:
+#     A) TIER CASCADE RULE: explicit ordered fill logic added;
+#        tier N fills before tier N+1 is consulted
+#     B) INTRA-TIER TIEBREAKER: three-step deterministic order
+#        (inference type → section number → confidence value)
+#        now binds selection when multiple signals compete
+#        within the same tier
+#     C) NEGATIVE SELECTION RULES: three explicit exclusion
+#        conditions that previously caused cross-session PAS
+#        variance now defined as hard rules:
+#        — FUTURE_CLAIM threshold (confidence < 0.74 +
+#          field-normal forward-looking claim → PAS excluded)
+#        — CROSS_TABLE_NUMERICAL_ANOMALY auto-elevation
+#          (multi-table Observation → mandatory PAS)
+#        — ASSUMPTION_VALIDITY_SCOPE_MISMATCH elevation rule
+#          (load-bearing assumption scope undeclared → PAS
+#          if Tier 1 and 2 not already at 5 signals)
+#   § 6 OUTPUT MODE INTERACTION — Signal Mode updated to match
+#       Kit 31 v1.3 fragment style (full Evidence + Inference,
+#       not label + one-line only)
 
 ---
 
@@ -46,7 +40,8 @@ locate what matters most without reading the full report first.
 
 This kit:
   Selects signals — does not generate new signals
-  Produces labels, evidence, inference type, and editorial consequence
+  Produces labels, evidence, inference type, inference,
+  and confidence fields
   Does not recommend actions
   Does not produce verdicts or evaluations
   Does not rank quality — ranks editorial visibility risk only
@@ -58,7 +53,7 @@ This kit:
 After full signal detection runs across all active sections,
 this kit selects the 3–5 highest editorial risk signals.
 
-### Priority determination — in order:
+### Priority tiers — ordered by editorial risk:
 
 Tier 1 — Structural completeness risks (highest priority):
   MANDATORY_MISSING (Structural QA Kit)
@@ -76,18 +71,15 @@ Tier 2 — Argument and claim failures:
   CAUSAL_DESIGN_MISMATCH (kit 40 A3)
   CLAIM_UNTESTABILITY (kit 40 A1)
   PRACTICAL_SIGNIFICANCE_ABSENT (kit 40 A4)
-  VALIDATION_CIRCULARITY — circular validation structure:
-    the assumption required by a method is tested exclusively
-    on the same dataset to which the method is applied,
-    with no independent validation reference available
+  VALIDATION_CIRCULARITY (kit 44 v1.5)
 
 Tier 3 — Overreach and scope failures:
   SYSTEMATIC overreach pattern (kit 35)
   CONCLUSION_OVERREACH at MAJOR magnitude (kit 40 A5)
   BROKEN argument chain profile (kit 30)
   GENERALIZABILITY_CLAIM at HIGH (kit 40 A5)
-  REVIEW_AS_ADVOCACY_PATTERN (kit 57)             ← NEW v1.2
-  ASSUMPTION_STACKING_RISK at HIGH (kit 57)       ← NEW v1.2
+  REVIEW_AS_ADVOCACY_PATTERN (kit 57)
+  ASSUMPTION_STACKING_RISK at HIGH (kit 57)
 
 Tier 4 — Integrity and transparency:
   RETRACTION_SIGNAL_FROM_TEXT (kit 43)
@@ -101,12 +93,131 @@ Tier 5 — Language and hedging failures:
   AMPLIFICATION_CLUSTER at HIGH (kits 09 + 11)
   NORMATIVE LANGUAGE detected at Q1 (kit 09)
 
-### Selection rules:
+---
+
+### A. TIER CASCADE RULE
+
+PAS slots fill in strict tier order. Tier N must be exhausted
+before Tier N+1 is consulted.
+
+Execution sequence:
+
+  Step 1: Collect all detected signals across all tiers.
+  Step 2: Fill PAS slots from Tier 1, applying intra-tier
+          tiebreaker (→ Section B) until Tier 1 signals
+          are exhausted or 5 slots are filled.
+  Step 3: If slots remain, fill from Tier 2 in the same way.
+  Step 4: If slots remain, fill from Tier 3. Continue through
+          Tier 4 and Tier 5 until 5 slots are filled or all
+          detected signals are exhausted.
+  Step 5: If fewer than 3 signals are detected across all tiers,
+          all detected signals are listed. The block does not
+          pad to reach 3 with weak signals.
+
+This rule is non-negotiable. A Tier 3 signal never displaces
+a Tier 1 or Tier 2 signal regardless of confidence value,
+inference type, or section position.
+
+---
+
+### B. INTRA-TIER TIEBREAKER
+
+When multiple signals compete within the same tier,
+selection follows this three-step order. Apply each step
+in sequence; proceed to next step only if a tie remains.
+
+  Step 1 — Inference type:
+    Observation > Quantitative > Interpretive
+    Rationale: Observation signals are directly verifiable
+    from manuscript text; Interpretive signals require
+    analytical judgment and carry lower confidence ceilings.
+
+  Step 2 — Section number:
+    Lower section number = higher priority.
+    SECTION 0 > SECTION 1 > ... > SECTION 10.
+    Rationale: Earlier sections carry load-bearing structural
+    information; signals there have wider downstream impact.
+
+  Step 3 — Confidence value:
+    Higher confidence = higher priority.
+    Applied only when Steps 1 and 2 leave a tie unresolved.
+    Rationale: Higher confidence indicates stronger evidentiary
+    grounding.
+
+If all three steps leave a tie unresolved (identical inference
+type, identical section, identical confidence): select the
+signal whose label appears first alphabetically. This case
+is rare; alphabetical resolution is a last resort.
+
+---
+
+### C. NEGATIVE SELECTION RULES
+
+The following conditions explicitly exclude a signal from PAS
+inclusion or mandate PAS inclusion regardless of tier position.
+These rules bind before the tier cascade is applied.
+
+**C1 — FUTURE_CLAIM exclusion:**
+A signal of type FUTURE_CLAIM_EVIDENCE_BRIDGE_WEAK is excluded
+from PAS if BOTH of the following conditions are met:
+  (a) Confidence value is below 0.74
+  (b) The forward-looking claim is field-normal — i.e., the
+      type of future direction statement routinely present in
+      papers of this manuscript type without triggering
+      editorial concern
+
+If either condition is absent, the signal is eligible for PAS
+under normal tier rules.
+
+Rationale: FUTURE_CLAIM at low confidence + field-normal framing
+occupies a PAS slot that higher-priority signals should hold.
+Cross-session PAS variance observed when this rule was absent.
+
+**C2 — CROSS_TABLE_NUMERICAL_ANOMALY auto-elevation:**
+A signal is auto-elevated to Tier 2 (regardless of its
+originating kit's tier assignment) if ALL of the following
+conditions are met:
+  (a) The signal requires comparison of values across two or
+      more distinct tables or figures to detect the anomaly
+  (b) Inference type is Observation
+  (c) The anomaly is directly readable without external reference
+
+Auto-elevation means the signal competes for PAS slots at
+Tier 2 level, not at its originating tier.
+
+Rationale: Multi-table Observation anomalies are structurally
+self-evident and carry high editorial visibility. Under the
+previous system, waist position reference frame discrepancy
+in cross-table comparison was inconsistently elevated to PAS
+across sessions. This rule makes elevation deterministic.
+
+**C3 — ASSUMPTION_VALIDITY_SCOPE_MISMATCH elevation:**
+A signal of type ASSUMPTION_VALIDITY_SCOPE_MISMATCH is
+auto-elevated to Tier 2 if ALL of the following are met:
+  (a) The assumption is load-bearing — i.e., the manuscript's
+      central claim depends on it
+  (b) The assumption's validity range is constrained or
+      qualified in the methods section
+  (c) The results or conclusion section makes claims that
+      extend beyond the declared validity range without
+      acknowledging this extension
+
+If fewer than 5 PAS slots are filled after Tier 1 and Tier 2
+signals are exhausted, this signal fills a remaining slot
+before any Tier 3 signal is consulted.
+
+Rationale: This signal was not spontaneously produced in five
+consecutive iterations on the AWAKE/CERN benchmark (confirmed
+systematic blind spot, Beta Accumulation v1.6). A structural
+elevation rule is required for reliable detection.
+
+---
+
+### General selection rules (unchanged from v1.6):
 
 Maximum 5 signals selected.
-Minimum 3 signals (if fewer than 3 detected: all detected signals listed).
-When signals compete within same tier: select by SECTION order
-(lower section number = higher priority).
+Minimum 3 signals (if fewer than 3 detected: all detected
+signals listed — do not pad).
 Structured block signals (DESK-REJECT RISK PROFILE,
 OVERREACH PROFILE) count as one entry each — not per component.
 Compound Risk Flag counts as one entry when triggered.
@@ -165,17 +276,17 @@ No high-priority signals detected.
 
 ## 3. SIGNAL EXPLANATION SENTENCE RULE
 
-The editorial consequence sentence is the most important
-output of each signal card.
+The inference sentence is the most important output of each
+signal card.
 
 ### What the sentence must do
 
-State exactly where the structural problem is and why a reviewer
-would stop there. Nothing more.
+State exactly where the structural problem is and why it
+is structurally visible. Nothing more.
 
 The sentence answers this question:
-"What specific observable feature of this manuscript will cause
-a reviewer to pause — and where is it?"
+"What specific observable feature of this manuscript creates
+a structural gap — and where is it?"
 
 ### Sentence construction rules
 
@@ -183,14 +294,14 @@ RULE 1 — SPECIFIC OVER GENERAL
 The sentence names a concrete location, claim, or element.
 Not: "The contribution claim exceeds the study's scope."
 Yes: "'First psychiatry LLM' claim cannot be verified against
-     Figure 1's own literature map — reviewer stops here."
+     Figure 1's own literature map."
 
 RULE 2 — OBSERVATION OVER VERDICT
 The sentence describes what is structurally present or absent.
 Not: "Performance framing is inflated."
 Yes: "Relative percentages lead the results narrative;
      absolute MCC differences (0.008 in best-case scenario)
-     are not foregrounded — a reviewer will check both."
+     are not foregrounded."
 
 RULE 3 — NO INTENT ATTRIBUTION
 The sentence never implies the author intended the problem.
@@ -206,26 +317,19 @@ Forbidden in any field: "reviewer will flag", "reviewer will ask",
 "desk-review stops here", "editorial return before peer review".
 The signal is produced. Interpretation belongs to the user.
 
-RULE 6 — INFERENCE IS THE FINAL ANALYSIS FIELD
-The Inference field carries the full structural analysis.
-No field follows it except the Confidence value.
-The card does not tell the user what to do, what a reviewer
-will do, or what the editorial outcome will be.
-Signal → Evidence → Inference type → Inference → Confidence.
-This is the complete card. Nothing after Confidence.
-
 RULE 5 — ONE SENTENCE ONLY
 Maximum one sentence per signal. No expansion.
-If the signal cannot be expressed in one sentence without
-losing precision, compress: name the location, name the gap,
-name the reviewer consequence. Three facts, one sentence.
+
+RULE 6 — INFERENCE IS THE FINAL ANALYSIS FIELD
+Signal → Evidence → Inference type → Inference → Confidence.
+This is the complete card. Nothing after Confidence.
 
 ### The test
 
 Read the sentence aloud. Ask:
   — Does it name something specific in the manuscript?
   — Could the author point to the exact line or table it refers to?
-  — Does it say what a reviewer does, not what the author did wrong?
+  — Does it describe a structural property, not a person's action?
 
 If yes to all three: sentence is correct.
 If any answer is no: rewrite before producing output.
@@ -240,21 +344,14 @@ Each type carries a maximum confidence ceiling:
   Observation    → signals derived directly from manuscript text
                    without external reference
                    Confidence ceiling: 0.90
-                   Example: "Table 2 reports r=–0.116;
-                   Discussion recommends targeting low-education
-                   groups — directional contradiction is present."
 
   Interpretive   → signals derived from pattern-level reading;
                    require analytical judgment beyond text surface
                    Confidence ceiling: 0.75
-                   Example: "Coverage of competing resolutions
-                   is asymmetric across the review sections."
 
   Quantitative   → signals derived from numerical comparison
                    or threshold-based detection
                    Confidence ceiling: 0.85
-                   Example: "n=847; effect size r=0.08, p=0.03 —
-                   practical significance not established at this N."
 
 Rules:
 - Inference type cannot be omitted. A signal without declared
@@ -265,9 +362,9 @@ Rules:
 - A separate SIGNAL CONFIDENCE PROFILE block may exist as
   supplementary summary but does not substitute for per-card
   inline confidence values.
-- Two signals of different inference types at the same severity
-  level: Observation ranks above Quantitative above Interpretive
-  when all other factors are equal.
+- Two signals of different inference types at the same tier
+  and section: Observation ranks above Quantitative above
+  Interpretive (→ Intra-Tier Tiebreaker § B, Step 1).
 - The confidence ceiling governs whether the signal meets
   the evidentiary threshold for PAS inclusion.
 
@@ -294,10 +391,6 @@ the signal does not meet the threshold for PAS inclusion.
 In this case: the signal is reported in its primary SECTION
 at standard detail, but does not appear in the PAS block.
 
-This rule prevents the PAS block from carrying signals whose
-evidentiary basis is unclear or pattern-level only. The section-
-level signal report carries these — the PAS block does not.
-
 ---
 
 ## 6. OUTPUT MODE INTERACTION
@@ -307,7 +400,7 @@ Full card format as defined in §2.
 
 ### Author Mode:
 Block expands — Evidence and Inference Type fields visible;
-editorial consequence sentence rephrased for the author:
+plain-language restatement added:
 
 ```
 [1] SIGNAL_LABEL — SECTION N
@@ -315,21 +408,24 @@ editorial consequence sentence rephrased for the author:
     Inference type: [Observation / Interpretive / Quantitative]
     Inference: [what this evidence reveals structurally]
     Confidence: [0.00–1.00]
-    For the author: [plain language — what this means, not what to do]
+    For the author: [plain language — what this means structurally,
+                    not what to do; no reviewer framing]
 ```
 
 ### Signal Mode:
-Compressed — label + section + one-line evidence only:
+Full Evidence + Inference content in fragment style
+(Kit 31 v1.3 alignment — full content, not label + one-line):
 
 ```
-[1] SIGNAL_LABEL — SECTION N
-    [Evidence in one phrase]
+[1] SIGNAL_LABEL — Sec.N — [Inf. type abbrev.]
+    Evidence: [full evidence content, fragment style]
+    Inference: [full inference content, fragment style]
 ```
 
-Inference type not shown. Editorial consequence suppressed.
+Confidence suppressed in Signal Mode per Kit 31 v1.3.
 
 ### Advisor Mode:
-Full card with priority number carried from section-level signals:
+Full card with priority number:
 
 ```
 [Priority 1] SIGNAL_LABEL — SECTION N
@@ -337,7 +433,6 @@ Full card with priority number carried from section-level signals:
     Inference type: [Observation / Interpretive / Quantitative]
     Inference: [what this evidence reveals structurally]
     Confidence: [0.00–1.00]
-
 ```
 
 ---
@@ -371,6 +466,10 @@ This block reflects the full signal set produced under
 Gold Standard conditions — potentially all 5 slots filled
 with high-priority signals.
 
+Negative selection rules (§1.C) apply in Gold Standard mode.
+The CROSS_TABLE_NUMERICAL_ANOMALY auto-elevation rule applies
+at full sensitivity.
+
 ---
 
 ## 10. HARD LIMITS
@@ -389,10 +488,19 @@ This kit:
   Cannot replace per-card confidence with separate block only
   Cannot produce reviewer behavior predictions in any field
   Cannot produce editorial outcome predictions in any field
+  Cannot elevate a Tier 3 signal above a Tier 1 or Tier 2
+    signal regardless of confidence value or section position
+  Cannot apply FUTURE_CLAIM to a PAS slot when C1 conditions
+    are both met
+  Cannot omit CROSS_TABLE_NUMERICAL_ANOMALY from Tier 2
+    when C2 conditions are all met
+  Cannot omit ASSUMPTION_VALIDITY_SCOPE_MISMATCH from PAS
+    when C3 conditions are all met and slots remain after
+    Tier 1 and Tier 2 are exhausted
 
 ---
 
-# ACTION PRIORITY BLOCK KIT v1.6 — END
+# ACTION PRIORITY BLOCK KIT v1.7 — END
 # Tier 2 — Governance
 # Position: Before SECTION 0
 # Activation: Automatic — every report

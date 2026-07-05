@@ -1,14 +1,16 @@
-﻿# 09 CLASR — CALIBRATION-DEEP KIT v1.4
+﻿# 09 CLASR — CALIBRATION-DEEP KIT v1.5
+# Changes (v1.5):
+#   §1.13 added: ASSUMPTION_VALIDITY_SCOPE_MISMATCH detection
+#          Detection layer for load-bearing assumption scope
+#          extensions: assumption constrained in methods but
+#          results/conclusions extend beyond declared range.
+#          Confirmed systematic blind spot: 5 AWAKE/CERN iterations,
+#          zero spontaneous production without this rule.
+#          Reports to SECTION 3. Argument consequence to Kit 40 A3.
+#          PAS elevation via Kit 44 v1.7 Rule C3.
 # Changes (v1.4):
 #   §1.11 added: ASSUMPTION_DECLARATION_VS_VALIDATION
-#          "declared ≠ validated" calibration rule;
-#          Gaussian beam, PSF spatial invariance, shot-to-shot
-#          stability and equivalent physical assumptions now
-#          trigger PAS when validation evidence is absent
 #   §1.12 added: INTER-METHOD_DIVERGENCE_THRESHOLD
-#          Systematic waist position divergence across methods
-#          now surfaces as Section 5 MODERATE signal when
-#          uncertainty ranges do not overlap v1.3
 # Added to Project Files. Does not modify CORE.
 # STATUS: v1.3 — Statistical method detection added
 # Previous: v1.2
@@ -583,6 +585,107 @@ They surface on any single detection.
 Coordination notes (§1.6–1.8) are not surfaced to the user.
 They govern internal kit behavior only.
 
+
+
+### 1.13 Assumption Validity Scope Mismatch Detection
+(Addendum I — added in v1.5)
+
+**Purpose:**
+To detect cases where a manuscript constrains the validity range
+of a load-bearing assumption in the methods section but proceeds
+to make results or conclusion claims that extend beyond that
+declared range without acknowledging the extension.
+
+This signal addresses a confirmed systematic blind spot:
+in five consecutive iterations on the AWAKE/CERN benchmark
+(CookeEtAl_2024), this class of signal was never spontaneously
+produced. A structural detection rule is required.
+
+**Core rule:**
+When a manuscript declares that an assumption holds only within
+a specific parameter range, condition, or context — AND the
+results or conclusions cite values or make claims beyond that
+range — without a statement acknowledging the scope extension,
+this is a structural gap in the methods-to-claim chain.
+
+**Trigger conditions (ALL must be met):**
+
+  (a) The assumption is load-bearing — the manuscript's central
+      measurement, analytical, or interpretive result depends on it.
+
+  (b) The assumption's validity range is constrained or qualified
+      somewhere in the manuscript. Forms of constraint include:
+      — Explicit scope statement ("valid within parameter range X")
+      — Approximation boundary ("this approximation holds at...")
+      — Single-point or single-condition validation
+        ("measured at position Y only")
+      — Acknowledged limitation that bounds the assumption
+
+  (c) Results or conclusion claims cite values, draw inferences,
+      or make recommendations that extend beyond the declared
+      range WITHOUT a statement acknowledging this extension.
+
+**Labels and severity:**
+
+ASSUMPTION_VALIDITY_SCOPE_MISMATCH:
+  Central result depends on assumption whose scope is exceeded.
+  → Severity: HIGH
+  → Section: SECTION 3 — Methodological Visibility
+  → PAS eligibility: Tier 2 (Kit 44 v1.7 Rule C3 auto-elevation)
+  → Argument consequence: Kit 40 A3
+
+ASSUMPTION_SCOPE_EXTENSION_UNACKNOWLEDGED:
+  Secondary result depends on assumption whose scope is exceeded.
+  → Severity: MODERATE
+  → Section: SECTION 3
+  → PAS eligibility: Tier 3
+
+**Example (AWAKE/CERN):**
+Manuscript states that the imaging condition is met only at a
+single point on the scintillating screen. The results section
+reports emittance values and makes claims about beam parameters
+derived from the full screen area without restricting the claim
+to the single validated imaging point. The scope extension
+is structurally present but unacknowledged.
+→ Label: ASSUMPTION_VALIDITY_SCOPE_MISMATCH — HIGH
+
+**Example (general energy-slice pattern):**
+A multishot technique is described with a validation step
+performed on a specific subset of energy slices. Results
+aggregate across all energy slices and present emittance
+as a single value, implying the technique generalizes
+across the full energy distribution. No statement acknowledges
+whether the validation holds across the full energy range.
+→ Label: ASSUMPTION_VALIDITY_SCOPE_MISMATCH — HIGH
+
+**Non-trigger conditions:**
+  — Assumption is validated across the full range used in results
+  — Manuscript explicitly flags the scope extension as a
+    limitation with a scope note in Section 8 or conclusion
+  — Q-tier calibration places standard field-practice assumptions
+    below detection threshold (field convention + Q3 = no trigger)
+  — The scope extension is quantitatively demonstrated to be
+    negligible with cited evidence
+
+**Output format:**
+```
+ASSUMPTION_VALIDITY_SCOPE_MISMATCH — HIGH / MODERATE
+Section: 3
+Assumption: [statement of the load-bearing assumption as written]
+Declared scope: [specific constraint as stated in manuscript]
+Claim extension: [where results or conclusions exceed that scope]
+Gap: [one sentence: what is structurally present but unacknowledged]
+```
+
+**Coordination:**
+  Kit 40 A3 carries the argument consequence of this signal.
+  Kit 44 v1.7 Rule C3 governs PAS elevation.
+  Both §1.11 (declared ≠ validated) and §1.13 may co-occur;
+  §1.11 fires when validation is absent, §1.13 fires when
+  validation scope is narrower than results scope.
+  Report both when both conditions are met.
+
+---
 ---
 
 ## 4. LIMITS
