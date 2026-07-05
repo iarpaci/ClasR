@@ -34,8 +34,8 @@ app.use(cors({
 
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'tiny' : 'combined'));
 
-// Webhook route must use raw body — register BEFORE express.json()
-app.use('/subscription/webhook', subscriptionRoutes);
+// Raw body parser for Paddle webhook — must run BEFORE express.json() consumes the stream
+app.use('/subscription/webhook', express.raw({ type: 'application/json' }));
 
 app.use(express.json({ limit: '100kb' }));
 
@@ -61,7 +61,7 @@ app.use((err, req, res, next) => {
   if (Sentry) Sentry.captureException(err);
   if (process.env.NODE_ENV === 'production') {
     console.error(err.message, err.stack);
-    return res.status(500).json({ error: 'Internal server error', detail: err.message });
+    return res.status(500).json({ error: 'Internal server error' });
   }
   console.error(err);
   res.status(500).json({ error: err.message });

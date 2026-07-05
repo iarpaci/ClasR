@@ -14,10 +14,12 @@ const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 10 * 1024 * 1024 },
-  fileFilter: (req, file, cb) => {
+  fileFilter: (_req, file, cb) => {
     const ext = file.originalname.split('.').pop().toLowerCase();
-    if (['docx', 'pdf', 'txt'].includes(ext)) return cb(null, true);
-    cb(new Error('Only .docx, .pdf and .txt files are supported'));
+    const allowedExts = ['pdf', 'docx', 'txt'];
+    const allowedMimes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain'];
+    if (allowedExts.includes(ext) && allowedMimes.includes(file.mimetype)) return cb(null, true);
+    cb(new Error('Only PDF, DOCX, or TXT files are supported'));
   },
 });
 

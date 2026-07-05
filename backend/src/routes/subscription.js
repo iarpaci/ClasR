@@ -22,7 +22,8 @@ function planForPrice(priceId) {
 }
 
 function verifySignature(rawBody, header, secret) {
-  if (!header || !secret) return !secret; // skip verification if secret not set (dev)
+  if (!secret) return false; // secret must be configured; reject all events if missing
+  if (!header) return false;
   const parts = {};
   header.split(';').forEach(part => { const [k, v] = part.split('=', 2); parts[k] = v; });
   if (!parts.ts || !parts.h1) return false;

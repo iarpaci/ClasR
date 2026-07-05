@@ -2,6 +2,7 @@
 
 const express = require('express');
 const multer = require('multer');
+const rateLimit = require('express-rate-limit');
 const { v4: uuidv4 } = require('uuid');
 const { supabase, requireAuth } = require('../middleware/auth');
 const { analyzeManuscript } = require('../services/claude');
@@ -398,7 +399,7 @@ router.post('/readings/start', requireAuth, handleUpload, async (req, res, next)
         sendReportReadyEmail(req.user.email, readingId, outputMode).catch(() => {});
       } catch (err) {
         console.error('[api] processing error:', err.message);
-        updateJob(jobId, { status: 'failed', error: err.message });
+        updateJob(jobId, { status: 'failed', error: 'Analysis failed. Please try again.' });
       }
     })();
 
@@ -489,8 +490,15 @@ router.post('/gift-code/apply', requireAuth, async (req, res) => {
   res.status(501).json({ applied: false, message: 'Gift code validation is not yet available.' });
 });
 
+const contactLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 5,
+  standardHeaders: true, legacyHeaders: false,
+  handler: (_req, res) => res.status(429).json({ error: 'Too many requests. Please try again later.' }),
+});
+
 // ── POST /api/contact ───────────────────────────────────────────────────────
-router.post('/contact', async (req, res, next) => {
+router.post('/contact', contactLimiter, async (req, res, next) => {
   try {
     const { firstName, lastName, email, message, topic } = req.body || {};
     if (!email || !message) return res.status(400).json({ error: 'Email and message are required' });
@@ -500,7 +508,7 @@ router.post('/contact', async (req, res, next) => {
 });
 
 // ── POST /api/enterprise-contact ────────────────────────────────────────────
-router.post('/enterprise-contact', async (req, res, next) => {
+router.post('/enterprise-contact', contactLimiter, async (req, res, next) => {
   try {
     const { institution, email, expectedVolume, message } = req.body || {};
     if (!email) return res.status(400).json({ error: 'Email is required' });
@@ -510,7 +518,7 @@ router.post('/enterprise-contact', async (req, res, next) => {
 });
 
 // ── POST /api/legal/request-access ──────────────────────────────────────────
-router.post('/legal/request-access', async (req, res, next) => {
+router.post('/legal/request-access', contactLimiter, async (req, res, next) => {
   try {
     const { document, email } = req.body || {};
     await sendLegalRequestEmail({ document, email }).catch(() => {});

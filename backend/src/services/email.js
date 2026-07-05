@@ -2,6 +2,15 @@
 
 const { Resend } = require('resend');
 
+function esc(str) {
+  return String(str ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;');
+}
+
 const getResend = () => {
   if (!process.env.RESEND_API_KEY) return null;
   return new Resend(process.env.RESEND_API_KEY);
@@ -107,23 +116,31 @@ async function sendLimitReachedEmail(email, plan) {
 
 async function sendContactEmail({ firstName, lastName, email, message, topic }) {
   const adminEmail = process.env.ADMIN_EMAIL || 'hello@clasr.ai';
+  const safeName = `${esc(firstName)} ${esc(lastName)}`.trim();
+  const safeEmail = esc(email);
+  const safeTopic = esc(topic);
+  const safeMsg = esc(message).replace(/\n/g, '<br>');
   return send(adminEmail, `[Clasr Contact] ${topic || 'Message'} from ${firstName || ''} ${lastName || ''}`.trim(), shell(`
     <h2 style="margin:0 0 16px;font-size:18px;color:#1A1A1A">Contact form submission</h2>
-    <p><strong>From:</strong> ${firstName || ''} ${lastName || ''} &lt;${email}&gt;</p>
-    ${topic ? `<p><strong>Topic:</strong> ${topic}</p>` : ''}
+    <p><strong>From:</strong> ${safeName} &lt;${safeEmail}&gt;</p>
+    ${topic ? `<p><strong>Topic:</strong> ${safeTopic}</p>` : ''}
     <p><strong>Message:</strong></p>
-    <blockquote style="margin:8px 0;padding:12px 16px;background:#F5F0E5;border-left:3px solid #A32642;font-size:14px;line-height:1.7">${String(message).replace(/\n/g, '<br>')}</blockquote>
+    <blockquote style="margin:8px 0;padding:12px 16px;background:#F5F0E5;border-left:3px solid #A32642;font-size:14px;line-height:1.7">${safeMsg}</blockquote>
   `));
 }
 
 async function sendEnterpriseEmail({ institution, email, expectedVolume, message }) {
   const adminEmail = process.env.ADMIN_EMAIL || 'hello@clasr.ai';
+  const safeInst = esc(institution);
+  const safeEmail = esc(email);
+  const safeVol = esc(expectedVolume);
+  const safeMsg = message ? esc(message).replace(/\n/g, '<br>') : '';
   return send(adminEmail, `[Clasr Enterprise] Request from ${institution || email}`, shell(`
     <h2 style="margin:0 0 16px;font-size:18px;color:#1A1A1A">Enterprise contact</h2>
-    <p><strong>Institution:</strong> ${institution || '—'}</p>
-    <p><strong>Email:</strong> ${email}</p>
-    <p><strong>Expected volume:</strong> ${expectedVolume || '—'}</p>
-    ${message ? `<p><strong>Message:</strong></p><blockquote style="margin:8px 0;padding:12px 16px;background:#F5F0E5;border-left:3px solid #A32642;font-size:14px;line-height:1.7">${String(message).replace(/\n/g, '<br>')}</blockquote>` : ''}
+    <p><strong>Institution:</strong> ${safeInst || '—'}</p>
+    <p><strong>Email:</strong> ${safeEmail}</p>
+    <p><strong>Expected volume:</strong> ${safeVol || '—'}</p>
+    ${safeMsg ? `<p><strong>Message:</strong></p><blockquote style="margin:8px 0;padding:12px 16px;background:#F5F0E5;border-left:3px solid #A32642;font-size:14px;line-height:1.7">${safeMsg}</blockquote>` : ''}
   `));
 }
 
@@ -131,8 +148,8 @@ async function sendLegalRequestEmail({ document, email }) {
   const adminEmail = process.env.ADMIN_EMAIL || 'hello@clasr.ai';
   return send(adminEmail, `[Clasr Legal] Document access request: ${document || '—'}`, shell(`
     <h2 style="margin:0 0 16px;font-size:18px;color:#1A1A1A">Legal document request</h2>
-    <p><strong>Document:</strong> ${document || '—'}</p>
-    <p><strong>Requested by:</strong> ${email || '—'}</p>
+    <p><strong>Document:</strong> ${esc(document) || '—'}</p>
+    <p><strong>Requested by:</strong> ${esc(email) || '—'}</p>
   `));
 }
 

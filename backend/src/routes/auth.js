@@ -70,9 +70,9 @@ router.post('/refresh', async (req, res, next) => {
 
 router.post('/forgot-password', async (req, res, next) => {
   try {
-    const { email, redirectTo } = req.body;
+    const { email } = req.body;
     if (!email || !EMAIL_RE.test(email)) return res.status(400).json({ error: 'Valid email required' });
-    const resetRedirect = redirectTo || `${process.env.WEB_URL}/reset-password`;
+    const resetRedirect = `${process.env.WEB_URL || 'https://clasr.ai'}/reset-password/`;
     const { error } = await supabase.auth.resetPasswordForEmail(email.toLowerCase().trim(), {
       redirectTo: resetRedirect,
     });
