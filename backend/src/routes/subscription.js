@@ -41,6 +41,8 @@ async function upsertSub(userId, fields) {
   if (error) console.error('[paddle] upsert error:', error.message);
 }
 
+router.get('/webhook', (_req, res) => res.status(200).json({ ok: true }));
+
 // ── POST /subscription/webhook ──────────────────────────────────────────────
 router.post('/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
   const rawBody = req.body.toString('utf8');
