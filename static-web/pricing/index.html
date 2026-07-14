@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pricing | Clasr</title>
+    <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/styles.css?v=privacy-cookie-1">
+    <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+    <script src="/script.js?v=paddle-retain-1" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a href="/" aria-label="Clasr home"><img class="logo" src="/assets/brand/logo-primary.svg?v=clean-final-1" alt="Clasr"></a>
+        <nav class="nav-links nav-links--mega" aria-label="Primary navigation">
+          <div class="nav-item">
+            <a href="/features/">Features</a>
+            <div class="nav-menu" aria-label="Features menu">
+              <a href="/features/" class="nav-menu__item">
+                <span class="nav-menu__title">Signal Mapping</span>
+                <span class="nav-menu__desc">Behavioral signal reports across 11 report sections</span>
+              </a>
+              <a href="/features/#argument-chain" class="nav-menu__item">
+                <span class="nav-menu__title">Argument Chain</span>
+                <span class="nav-menu__desc">Track the central claim from framing to conclusion</span>
+              </a>
+              <a href="/features/#desk-reject" class="nav-menu__item">
+                <span class="nav-menu__title">Desk-Reject Profile</span>
+                <span class="nav-menu__desc">See editorial risk patterns before an editor does</span>
+              </a>
+              <a href="/features/#q-calibration" class="nav-menu__item">
+                <span class="nav-menu__title">Q-Variant Calibration</span>
+                <span class="nav-menu__desc">Adjust sensitivity for Q1, Q2, or Q3 targets</span>
+              </a>
+              <a href="/features/#output-modes" class="nav-menu__item">
+                <span class="nav-menu__title">Output Modes</span>
+                <span class="nav-menu__desc">Author, Reviewer, or Advisor reading formats</span>
+              </a>
+            </div>
+          </div>
+          <div class="nav-item">
+            <a href="/resources/signal-architecture/">Resources</a>
+            <div class="nav-menu" aria-label="Resources menu">
+              <a href="/resources/signal-architecture/" class="nav-menu__item">
+              <span class="nav-menu__title">Signal Architecture</span>
+              <span class="nav-menu__desc">Reading perspectives, study types, and Q-profiles</span>
+            </a>
+              <a href="/resources/how-it-works/" class="nav-menu__item">
+              <span class="nav-menu__title">How It Works</span>
+                <span class="nav-menu__desc">A walkthrough of the full reading process</span>
+              </a>
+              <a href="/faq/" class="nav-menu__item">
+                <span class="nav-menu__title">FAQ</span>
+                <span class="nav-menu__desc">Common questions about Clasr</span>
+              </a>
+            </div>
+          </div>
+          <div class="nav-item">
+            <a href="/pricing/">Pricing</a>
+            <div class="nav-menu" aria-label="Pricing menu">
+              <a href="/pricing/" class="nav-menu__item">
+                <span class="nav-menu__title">Plans</span>
+                <span class="nav-menu__desc">Individual and team pricing options</span>
+              </a>
+              <a href="/enterprise-contact/" class="nav-menu__item">
+                <span class="nav-menu__title">For Institutions</span>
+                <span class="nav-menu__desc">University and research group licensing</span>
+              </a>
+              <a href="/pricing/#faq" class="nav-menu__item">
+                <span class="nav-menu__title">FAQ</span>
+                <span class="nav-menu__desc">Billing and subscription questions</span>
+              </a>
+            </div>
+          </div>
+          <div class="nav-item">
+            <a href="/about/">Company</a>
+            <div class="nav-menu" aria-label="Company menu">
+              <a href="/about/" class="nav-menu__item">
+                <span class="nav-menu__title">About</span>
+                <span class="nav-menu__desc">The team and mission behind Clasr</span>
+              </a>
+              <a href="/contact/" class="nav-menu__item">
+                <span class="nav-menu__title">Contact</span>
+                <span class="nav-menu__desc">Get in touch with us</span>
+              </a>
+              <a href="/legal/" class="nav-menu__item">
+                <span class="nav-menu__title">Legal</span>
+                <span class="nav-menu__desc">Terms, privacy, and data commitments</span>
+              </a>
+            </div>
+          </div>
+        </nav>
+        <div class="nav-actions">
+          <a class="button button--small" href="/login/">Log In</a>
+          <a class="button button--primary button--small" href="/register/">Register</a>
+        </div>
+        <button class="mobile-toggle" type="button" aria-label="Open menu" aria-expanded="false"><span></span></button>
+      </div>
+    </header>
+
+    <main class="pricing-page">
+      <section class="pricing-choice" aria-labelledby="pricing-choice-title">
+        <span class="pricing-choice__label">Pricing</span>
+        <h1 id="pricing-choice-title">Choose your plan</h1>
+        <p>A plan to fit how you work whether you read one manuscript a year or twelve a month.</p>
+        <div class="pricing-choice__controls" aria-label="Billing options">
+          <div class="billing-toggle" role="group" aria-label="Billing period">
+            <button class="is-active" type="button" data-billing-option="monthly" aria-pressed="true">Monthly</button>
+            <button type="button" data-billing-option="annual" aria-pressed="false">Annual</button>
+          </div>
+          <span class="annual-save">Save up to 17% annually</span>
+        </div>
+      </section>
+
+      <section class="plan-grid" aria-label="Plans">
+        <article class="plan-card" data-plan="trial-pack">
+          <h2>Trial Pack</h2>
+          <p class="plan-kicker">Try Clasr before committing</p>
+          <div class="plan-price-row">
+            <p class="price">$25</p>
+            <p class="plan-meta">one-time</p>
+          </div>
+          <p class="plan-submeta">Valid 30 days &middot; No subscription</p>
+          <ul>
+            <li class="plan-reading-count">1 manuscript reading</li>
+            <li>Full signal report, all 11 sections</li>
+            <li>Q-variant calibration, field detection</li>
+            <li>Author, Reviewer, or Advisor mode</li>
+            <li>PDF, DOCX, TXT export</li>
+            <li>$25 credited toward any upgrade</li>
+          </ul>
+          <a class="button button--primary plan-card__cta" href="/register/?plan=trial-pack">Start with Trial Pack</a>
+        </article>
+        <article class="plan-card" data-plan="researcher">
+          <h2>Researcher</h2>
+          <p class="plan-kicker">For regular submissions</p>
+          <div class="plan-price-row">
+            <p class="price" data-monthly-text="$59" data-annual-text="$590">$59</p>
+            <p class="plan-meta" data-monthly-text="/ month" data-annual-text="/ year">/ month</p>
+          </div>
+          <p class="plan-meta plan-divider-meta" data-monthly-text="or $590/year, save $118" data-annual-text="Save $118 with annual billing">or $590/year, save $118</p>
+          <ul>
+            <li class="plan-reading-count">5 readings / month</li>
+            <li>Full signal report on every reading</li>
+            <li>Extra readings: $29 each</li>
+            <li>Reading history saved 7 days (configurable)</li>
+            <li>All output modes included</li>
+            <li>Cancel anytime</li>
+          </ul>
+          <a class="button button--primary plan-card__cta" href="/register/?plan=researcher">Choose Researcher</a>
+        </article>
+        <article class="plan-card" data-plan="professional">
+          <h2>Professional</h2>
+          <p class="plan-kicker">For high-output researchers</p>
+          <div class="plan-price-row">
+            <p class="price" data-monthly-text="$119" data-annual-text="$1,190">$119</p>
+            <p class="plan-meta" data-monthly-text="/ month" data-annual-text="/ year">/ month</p>
+          </div>
+          <p class="plan-meta plan-divider-meta" data-monthly-text="or $1,190/year, save $238" data-annual-text="Save $238 with annual billing">or $1,190/year, save $238</p>
+          <ul>
+            <li class="plan-reading-count">12 readings / month</li>
+            <li>Everything in Researcher</li>
+            <li>Priority processing, no queue</li>
+            <li>Cross-manuscript comparison</li>
+            <li>Advisor mode included</li>
+            <li>Cancel anytime</li>
+          </ul>
+          <a class="button button--primary plan-card__cta" href="/register/?plan=professional">Choose Professional</a>
+        </article>
+      </section>
+
+      <section class="pricing-reading-note" aria-label="Reading definition">
+        <p><strong>What counts as one reading?</strong> Each PDF or DOCX submission counts as one reading, regardless of length up to 70,000 words. All 11 report sections are generated in full for every reading.</p>
+        <p><strong>Taxes.</strong> Listed prices do not include taxes. Applicable taxes may apply and will be calculated based on your location and shown before payment at checkout.</p>
+      </section>
+
+      <section id="institutions" class="institution-box">
+        <div>
+          <strong>Enterprise</strong>
+          <h2>For labs, departments, journals, and institutions.</h2>
+          <p>Custom pricing for teams that need volume readings, all 11 report sections, PDF/DOCX/TXT export, reading history, onboarding, and priority support.</p>
+        </div>
+        <a class="button plan-card__cta institution-box__cta" href="/enterprise-contact/">Contact Us</a>
+      </section>
+
+      <section id="faq" aria-labelledby="faq-heading">
+        <span class="pricing-choice__label">Pricing FAQ</span>
+        <h2 id="faq-heading" class="faq-title">Common Questions <span>(Pricing &amp; Plans)</span></h2>
+        <div class="faq-grid">
+          <article class="faq-card">
+            <h3>What counts as one manuscript reading?</h3>
+            <p>One PDF or DOCX, up to 70,000 words, counts as one reading, no matter the length. You get all 11 report sections every time. Resubmitting a revised version counts as a new reading.</p>
+          </article>
+          <article class="faq-card">
+            <h3>Do unused monthly readings roll over?</h3>
+            <p>Yes, for up to 2 months on individual plans, then they expire. It happens automatically and stacks with the current month. Enterprise pools roll over too, on terms set in the contract.</p>
+          </article>
+          <article class="faq-card">
+            <h3>What if I need more readings than my plan includes?</h3>
+            <p>Extra readings are $29 each, billed automatically through your account. No upgrade needed.</p>
+          </article>
+          <article class="faq-card">
+            <h3>Can I upgrade or downgrade my plan?</h3>
+            <p>Yes. Upgrades kick in right away, prorated for the rest of the period. Downgrades wait until the next billing cycle. If you're on the Trial Pack, you can upgrade within 30 days and the $25 counts fully toward your plan.</p>
+          </article>
+          <article class="faq-card">
+            <h3>Is annual billing charged upfront?</h3>
+            <p>Yes, one payment at the start of the year, about 17% cheaper than paying monthly. Researcher is $590/year versus $708 if paid monthly. Professional is $1,190/year versus $1,428.</p>
+          </article>
+          <article class="faq-card">
+            <h3>Is there a low-cost way to try Clasr first?</h3>
+            <p>Yes. The Trial Pack is $25 for one full reading, no subscription required, valid for 30 days. If you upgrade within that window, the $25 carries over to your first payment.</p>
+          </article>
+          <article class="faq-card">
+            <h3>Is there a contract or long-term commitment?</h3>
+            <p>No, for individual plans. Cancel anytime, and you keep access until the period you already paid for ends. Enterprise contracts run about 12 months, with renewal terms in the agreement.</p>
+          </article>
+          <article class="faq-card">
+            <h3>What payment methods are accepted?</h3>
+            <p>Major credit and debit cards are accepted through our secure checkout. Available payment methods are shown before payment.</p>
+          </article>
+          <article class="faq-card">
+            <h3>How are taxes handled?</h3>
+            <p>Taxes are not included in the listed prices. Applicable taxes (such as VAT or GST) are calculated based on your location and shown at checkout before payment.</p>
+          </article>
+          <article class="faq-card">
+            <h3>Are there discounts for students or developing regions?</h3>
+            <p>Not on individual monthly plans right now; the Trial Pack is meant to be the low-cost way in. For institutions in developing regions, email <a href="mailto:hello@clasr.ai">hello@clasr.ai</a> and we'll talk pricing.</p>
+          </article>
+          <article class="faq-card">
+            <h3>Where can I learn more about enterprise pricing?</h3>
+            <p>Email <a href="mailto:hello@clasr.ai">hello@clasr.ai</a> with your team size and use case: lab, department, university, or journal. You'll hear back within 2 business days with a proposal.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer id="company" class="footer">
+      <div class="footer__inner">
+        <div class="footer__top">
+          <div>
+            <a class="footer-logo-link" href="/" aria-label="Clasr home"><img class="logo" src="/assets/brand/footer-logo.svg?v=clean-final-1" alt="Clasr"></a>
+            <p class="footer-tag">Manuscript Signal Layer</p>
+          </div>
+          <div class="footer-columns">
+            <section>
+              <h3>Features</h3>
+              <ul>
+                <li><a href="/features/">Signal Mapping</a></li>
+                <li><a href="/features/#argument-chain">Argument Chain</a></li>
+                <li><a href="/features/#desk-reject">Desk-Reject Profile</a></li>
+                <li><a href="/features/#q-calibration">Q-Variant Calibration</a></li>
+                <li><a href="/features/#output-modes">Output Modes</a></li>
+              </ul>
+            </section>
+            <section>
+              <h3>Resources</h3>
+              <ul>
+                
+                <li><a href="/resources/signal-architecture/">Signal Architecture</a></li>
+                <li><a href="/resources/how-it-works/">How It Works</a></li>
+                <li><a href="#faq">FAQ</a></li>
+              </ul>
+            </section>
+            <section>
+              <h3>Pricing</h3>
+              <ul>
+                <li><a href="/pricing/">Plans</a></li>
+                <li><a href="/enterprise-contact/">For Institutions</a></li>
+                <li><a href="#faq">FAQ</a></li>
+              </ul>
+            </section>
+            <section>
+              <h3>Company</h3>
+              <ul>
+                <li><a href="/about/">About</a></li>
+                <li><a href="/contact/">Contact</a></li>
+                <li><a href="/legal/">Legal</a></li><li><a href="/acceptable-use/">Acceptable Use</a></li><li><a href="/terms/">Terms</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/refund-policy/">Refund</a></li><li><a href="/cookie-policy/">Cookies</a></li><li><a href="/cookie-policy/" data-cookie-preferences>Cookie preferences</a></li>
+              </ul>
+            </section>
+          </div>
+          <p class="footer-operator">Clasr is operated by HİLAL ŞENÇELİK (sole proprietor) · Bursa, Türkiye · © 2026</p>
+          <ul class="social-list">
+            <li><a href="https://www.instagram.com/clasr.ai/" target="_blank" rel="noopener noreferrer" aria-label="Clasr on Instagram"><img src="/assets/icons/social-instagram.svg" alt=""></a></li>
+            <li><a href="https://www.linkedin.com/company/clasrai/" target="_blank" rel="noopener noreferrer" aria-label="Clasr on LinkedIn"><img src="/assets/icons/social-linkedin.svg" alt=""></a></li>
+            <li><a href="https://x.com/clasr_ai" target="_blank" rel="noopener noreferrer" aria-label="Clasr on X"><img src="/assets/icons/social-x.svg" alt=""></a></li>
+            <li><a href="https://github.com/clasrai" target="_blank" rel="noopener noreferrer" aria-label="Clasr on GitHub"><img src="/assets/icons/social-github.svg" alt=""></a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

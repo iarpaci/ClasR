@@ -1,0 +1,389 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Clasr is a non-decisional signal layer for academic manuscripts.">
+    <meta property="og:title" content="Clasr — Manuscript Signal Layer">
+    <meta property="og:description" content="Clasr is a non-decisional signal layer for academic manuscripts. Surface behavioral signals in your work before submission.">
+    <meta property="og:url" content="https://clasr.ai/">
+    <meta property="og:type" content="website">
+    <link rel="canonical" href="https://clasr.ai/">
+    <title>Clasr | Manuscript Signal Layer</title>
+    <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/styles.css?v=compliance-1">
+    <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+    <script src="/script.js?v=paddle-retain-1" defer></script>
+  </head>
+  <body class="home-page">
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a href="/" aria-label="Clasr home"><img class="logo" src="/assets/brand/logo-primary.svg?v=clean-final-1" alt="Clasr"></a>
+        <nav class="nav-links nav-links--mega" aria-label="Primary navigation">
+          <div class="nav-item">
+            <a href="/features/">Features</a>
+            <div class="nav-menu" aria-label="Features menu">
+              <a href="/features/" class="nav-menu__item">
+                <span class="nav-menu__title">Signal Mapping</span>
+                <span class="nav-menu__desc">Behavioral signal reports across 11 report sections</span>
+              </a>
+              <a href="/features/#argument-chain" class="nav-menu__item">
+                <span class="nav-menu__title">Argument Chain</span>
+                <span class="nav-menu__desc">Track the central claim from framing to conclusion</span>
+              </a>
+              <a href="/features/#desk-reject" class="nav-menu__item">
+                <span class="nav-menu__title">Desk-Reject Profile</span>
+                <span class="nav-menu__desc">See editorial risk patterns before an editor does</span>
+              </a>
+              <a href="/features/#q-calibration" class="nav-menu__item">
+                <span class="nav-menu__title">Q-Variant Calibration</span>
+                <span class="nav-menu__desc">Adjust sensitivity for Q1, Q2, or Q3 targets</span>
+              </a>
+              <a href="/features/#output-modes" class="nav-menu__item">
+                <span class="nav-menu__title">Output Modes</span>
+                <span class="nav-menu__desc">Author, Reviewer, or Advisor reading formats</span>
+              </a>
+            </div>
+          </div>
+          <div class="nav-item">
+            <a href="/resources/signal-architecture/">Resources</a>
+            <div class="nav-menu" aria-label="Resources menu">
+              <a href="/resources/signal-architecture/" class="nav-menu__item">
+              <span class="nav-menu__title">Signal Architecture</span>
+              <span class="nav-menu__desc">Reading perspectives, study types, and Q-profiles</span>
+            </a>
+              <a href="/resources/how-it-works/" class="nav-menu__item">
+              <span class="nav-menu__title">How It Works</span>
+                <span class="nav-menu__desc">A walkthrough of the full reading process</span>
+              </a>
+              <a href="/faq/" class="nav-menu__item">
+                <span class="nav-menu__title">FAQ</span>
+                <span class="nav-menu__desc">Common questions about Clasr</span>
+              </a>
+            </div>
+          </div>
+          <div class="nav-item">
+            <a href="/pricing/">Pricing</a>
+            <div class="nav-menu" aria-label="Pricing menu">
+              <a href="/pricing/" class="nav-menu__item">
+                <span class="nav-menu__title">Plans</span>
+                <span class="nav-menu__desc">Individual and team pricing options</span>
+              </a>
+              <a href="/enterprise-contact/" class="nav-menu__item">
+                <span class="nav-menu__title">For Institutions</span>
+                <span class="nav-menu__desc">University and research group licensing</span>
+              </a>
+              <a href="/pricing/#faq" class="nav-menu__item">
+                <span class="nav-menu__title">FAQ</span>
+                <span class="nav-menu__desc">Billing and subscription questions</span>
+              </a>
+            </div>
+          </div>
+          <div class="nav-item">
+            <a href="/about/">Company</a>
+            <div class="nav-menu" aria-label="Company menu">
+              <a href="/about/" class="nav-menu__item">
+                <span class="nav-menu__title">About</span>
+                <span class="nav-menu__desc">The team and mission behind Clasr</span>
+              </a>
+              <a href="/contact/" class="nav-menu__item">
+                <span class="nav-menu__title">Contact</span>
+                <span class="nav-menu__desc">Get in touch with us</span>
+              </a>
+              <a href="/legal/" class="nav-menu__item">
+                <span class="nav-menu__title">Legal</span>
+                <span class="nav-menu__desc">Terms, privacy, and data commitments</span>
+              </a>
+            </div>
+          </div>
+        </nav>
+        <div class="nav-actions">
+          <a class="button button--small" href="/login/">Log In</a>
+          <a class="button button--primary button--small" href="/register/">Register</a>
+        </div>
+        <button class="mobile-toggle" type="button" aria-label="Open menu" aria-expanded="false"><span></span></button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero container" aria-labelledby="hero-title">
+        <p class="eyebrow">Manuscript Signal Layer</p>
+        <h1 id="hero-title" class="hero-title">
+          <span class="hero-title__line">&ldquo;READ BEFORE</span>
+          <span class="hero-title__line">YOU&rsquo;RE READ.&rdquo;</span>
+        </h1>
+        <p class="hero-copy">Clasr shows you what a manuscript is already signaling before anyone reviews it.</p>
+
+        <div class="hero-upload-wrap">
+          <div class="hero-card">
+
+            <div class="hero-card__options">
+              <div class="hero-config-group">
+                <span class="hero-role-label">Reading as</span>
+                <div class="hero-roles">
+                  <button class="hero-role is-active" type="button">Author</button>
+                  <button class="hero-role" type="button">Reviewer</button>
+                  <button class="hero-role" type="button">Advisor</button>
+                </div>
+              </div>
+              <div class="hero-config-group">
+                <span class="hero-role-label">Study type</span>
+                <div class="hero-roles">
+                  <button class="hero-role is-active" type="button">Quantitative</button>
+                  <button class="hero-role" type="button">Qualitative</button>
+                </div>
+              </div>
+              <div class="hero-config-group">
+                <span class="hero-role-label">Q-profile</span>
+                <div class="hero-roles">
+                  <button class="hero-role is-active" type="button">Q1</button>
+                  <button class="hero-role" type="button">Q2</button>
+                  <button class="hero-role" type="button">Q3</button>
+                  <button class="hero-role hero-role--auto" type="button">Auto</button>
+                </div>
+              </div>
+            </div>
+
+            <label class="hero-card__drop" aria-label="Upload manuscript" data-landing-upload-drop>
+              <input type="file" accept=".pdf,.docx" hidden data-landing-upload-input>
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 16V8M12 8l-3 3M12 8l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M6 18h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              <p class="hero-drop-label" data-landing-upload-name>Drop manuscript here</p>
+              <p class="hero-drop-sub" data-landing-upload-status>PDF or DOCX &middot; <u>browse</u></p>
+            </label>
+
+            <a class="hero-card__cta" href="/register/" data-landing-start>
+              <span>Start Signal Reading</span>
+            </a>
+
+          </div>
+        </div>
+      </section>
+
+      <section id="signal-report" class="signal-preview" aria-labelledby="signal-title">
+        <div class="signal-layout">
+          <div class="signal-intro">
+            <p class="section-eyebrow">SIGNAL REPORT</p>
+            <h2 id="signal-title">See what <br><span>Clasr sees.</span></h2>
+            <p class="signal-tagline"><span>Structured signals mapped into a traceable report.</span><span>Non-decisional. Yours.</span></p>
+          </div>
+
+          <div class="landing-report-frame landing-mode-preview" aria-label="Example Clasr signal report modes" data-landing-mode-preview>
+            <div class="landing-mode-selector">
+              <span class="landing-mode-label">Select Mode:</span>
+              <div class="landing-mode-toggle" role="group" aria-label="Choose report mode">
+                <button class="is-active" type="button" data-report-mode-option="author" aria-pressed="true">Author</button>
+                <button type="button" data-report-mode-option="reviewer" aria-pressed="false">Reviewer</button>
+                <button type="button" data-report-mode-option="advisor" aria-pressed="false">Advisor</button>
+              </div>
+            </div>
+
+            <div class="reading-report-top" data-q="q1">
+              <div class="report-topline">
+                <span class="section-eyebrow">READING COMPLETED</span>
+                <span>Quantitative</span>
+                <span>Q1</span>
+                <span data-report-mode-label>Author Mode</span>
+                <h1>Clasr Signal Report</h1>
+              </div>
+            </div>
+
+            <div class="signal-demo reading-signal-demo">
+              <div class="signal-summary" aria-label="Manuscript signal summary">
+                <div class="paper-card" data-q="q1">
+                  <span class="paper-label">Manuscript</span>
+                  <h3>Polarization metrics in online discourse</h3>
+                  <p>Quantitative · Q1 target · Same manuscript, three reading modes</p>
+                </div>
+                <div class="signal-metrics" aria-label="Signal counts">
+                  <div><strong>5</strong><span>critical</span></div>
+                  <div><strong>6</strong><span>major</span></div>
+                  <div><strong>4</strong><span>minor</span></div>
+                </div>
+              </div>
+
+              <div class="landing-mode-panels">
+                <article class="landing-mode-panel is-active" data-report-mode-panel="author">
+                  <section class="mode-report-section">
+                    <span class="section-eyebrow">Author Mode</span>
+                    <h2 class="landing-author-title">Plain-language findings</h2>
+                    <p>This version explains what surfaced, why a reviewer may notice it, and what you could consider before submission.</p>
+                  </section>
+                  <div class="mode-report-grid">
+                    <article class="mode-finding-card">
+                      <div class="mode-finding-card__meta"><span>3 · Methodological visibility</span><span class="severity severity--critical">Critical</span></div>
+                      <strong>A load-bearing assumption for the network-based metric is declared but never checked against the dataset.</strong>
+                      <dl><dt>Why it surfaces</dt><dd>A prerequisite assumption that's stated but untested is one of the first things a careful read looks for.</dd><dt>Consider</dt><dd>Report a graph-stability statistic for the sampling window.</dd></dl>
+                    </article>
+                  </div>
+                  <a class="button button--small signal-samples-link" href="/example-reports/author/">Open Author example</a>
+                </article>
+
+                <article class="landing-mode-panel" data-report-mode-panel="reviewer" hidden>
+                  <section class="mode-report-section">
+                    <span class="section-eyebrow">Reviewer Mode</span>
+                    <h2>Labels and locations</h2>
+                    <p>The explanatory layer is removed. Signal vocabulary, evidence, inference type, and surfacing rationale stay visible in one scan.</p>
+                  </section>
+                  <section class="mode-report-section mode-table-wrap" aria-label="Reviewer signal example">
+                    <table class="mode-reviewer-table">
+                      <thead><tr><th>Section</th><th>Severity</th><th>Label</th><th>Inference</th><th>Evidence</th><th>Why it surfaces</th></tr></thead>
+                      <tbody>
+                        <tr><td>3</td><td>Critical</td><td class="mode-label">NETWORK_STABILITY_ASSUMPTION_DECLARED_NOT_TESTED</td><td>Obs.</td><td>"Assumes a stable interaction graph"; no stability statistic reported.</td><td>A prerequisite assumption is stated but not tested.</td></tr>
+                        <tr><td>4</td><td>Critical</td><td class="mode-label">CROSS-METRIC_DISCREPANCY_DESCRIBED_AS_CONVERGENCE</td><td>Obs.</td><td>Affective 0.61, issue-based 0.34, network-based 0.58.</td><td>The numerical pattern and prose characterization conflict.</td></tr>
+                        <tr><td>10</td><td>Critical</td><td class="mode-label">DATA_AVAILABILITY</td><td>Obs.</td><td>No repository, sharing statement, or on-request clause.</td><td>One verification route is absent.</td></tr>
+                      </tbody>
+                    </table>
+                  </section>
+                  <a class="button button--small signal-samples-link" href="/example-reports/reviewer/">Open Reviewer example</a>
+                </article>
+
+                <article class="landing-mode-panel" data-report-mode-panel="advisor" hidden>
+                  <section class="mode-report-section">
+                    <span class="section-eyebrow">Advisor Mode</span>
+                    <h2>Global priority order</h2>
+                    <p>Signals are ranked across the whole manuscript so a supervisor or support team can see what needs attention first.</p>
+                  </section>
+                  <section class="mode-report-section">
+                    <div class="advisor-group">
+                      <div class="advisor-group__title"><span class="severity severity--critical">Critical</span><span>Address first</span></div>
+                      <article class="advisor-row"><strong>A load-bearing assumption for the network-based metric is declared but never checked against the dataset.</strong><span>Sec. 3 · Methodological visibility</span></article>
+                      <article class="advisor-row"><strong>Three polarization scores disagree, and the text describes this as convergence.</strong><span>Sec. 4 · Argumentation</span></article>
+                      <article class="advisor-row"><strong>A single-platform, single-window dataset is not carried into the conclusion as an explicit boundary.</strong><span>Sec. 8 · Limits &amp; uncertainties</span></article>
+                    </div>
+                  </section>
+                  <a class="button button--small signal-samples-link" href="/example-reports/advisor/">Open Advisor example</a>
+                </article>
+              </div>
+            </div>
+          </div>
+        </div><!-- /.signal-layout -->
+      </section>
+
+      <section class="landing-showcase container" aria-labelledby="landing-showcase-title">
+        <div class="landing-showcase__head landing-showcase__head--glance">
+          <p class="section-eyebrow">WHAT CLASR SURFACES</p>
+          <h2 id="landing-showcase-title">The patterns a careful reader would catch.</h2>
+          <p>Clasr makes manuscript behavior visible before submission. No score, no verdict.</p>
+        </div>
+
+        <div class="landing-showcase__body">
+          <ul class="landing-signal-list" aria-label="Signals Clasr surfaces">
+            <li><span>Claims</span><small>Overreach, argument drift, conclusion scope</small></li>
+            <li><span>Evidence</span><small>Method visibility, figure/text mismatch, numerical behavior</small></li>
+            <li><span>Traceability</span><small>Reproducibility gaps, missing data, absent code</small></li>
+          </ul>
+
+          <div class="landing-reader-card" aria-label="Report modes">
+            <p class="landing-reader-card__label">THREE OUTPUT MODES</p>
+            <div class="landing-reader-row">
+              <p><span>Author</span><small>Plain-language explanation</small></p>
+              <p><span>Reviewer</span><small>Labels and locations</small></p>
+              <p><span>Advisor</span><small>Priority order</small></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="landing-boundary" aria-label="Clasr boundaries">
+          <p>Clasr does not score, predict, rewrite, or impersonate reviewers.</p>
+          <a class="button button--small" href="/pricing/">View plans</a>
+        </div>
+      </section>
+
+      <section class="landing-compare container" aria-labelledby="landing-compare-title">
+        <div class="landing-compare__head">
+          <p class="section-eyebrow">WHY CLASR IS DIFFERENT</p>
+          <h2 id="landing-compare-title">Not a chat answer. A structured reading.</h2>
+        </div>
+        <div class="landing-compare__grid">
+          <article class="landing-compare__card landing-compare__card--muted">
+            <h3>A general chat model</h3>
+            <ul>
+              <li><span class="landing-compare__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 13.6-5.7"/><path d="M18 3v5h-5"/><path d="M20 12a8 8 0 0 1-13.6 5.7"/><path d="M6 21v-5h5"/></svg></span><span>May answer differently each time</span></li>
+              <li><span class="landing-compare__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 4 7l8 4 8-4-8-4Z"/><path d="m4 12 8 4 8-4"/><path d="m4 17 8 4 8-4"/></svg></span><span>Follows the shape of the prompt</span></li>
+              <li><span class="landing-compare__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 6h14v10H8l-3 3V6Z"/><path d="M9 10h6"/><path d="M9 13h4"/></svg></span><span>Blends explanation with opinion</span></li>
+              <li><span class="landing-compare__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h6v6H4z"/><path d="M14 5h6v6h-6z"/><path d="M4 15h6v4H4z"/><path d="M14 15h6v4h-6z"/></svg></span><span>No fixed report structure</span></li>
+              <li><span class="landing-compare__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v5h5"/><path d="M11 12a2 2 0 1 1 3 1.7c-.8.5-1 .9-1 1.8"/><path d="M13 18h.01"/></svg></span><span>Manuscript handling depends on product and account settings</span></li>
+            </ul>
+          </article>
+          <article class="landing-compare__card landing-compare__card--clasr">
+            <h3>Clasr</h3>
+            <ul>
+              <li><span class="landing-compare__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 7h12"/><path d="M8 12h12"/><path d="M8 17h12"/><path d="m3 7 1.2 1.2L6.5 5.8"/><path d="m3 12 1.2 1.2 2.3-2.4"/><path d="m3 17 1.2 1.2 2.3-2.4"/></svg></span><span>Same eleven sections, same order</span></li>
+              <li><span class="landing-compare__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 4v16"/><path d="M12 4v16"/><path d="M18 4v16"/><path d="M4 8h4"/><path d="M10 14h4"/><path d="M16 10h4"/></svg></span><span>Severity calibrated to tier and field</span></li>
+              <li><span class="landing-compare__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s6-5.2 6-11a6 6 0 0 0-12 0c0 5.8 6 11 6 11Z"/><path d="M12 10.5h.01"/></svg></span><span>Signals tied to manuscript locations</span></li>
+              <li><span class="landing-compare__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Z"/><path d="m6.5 6.5 11 11"/><path d="M9 10h6"/><path d="M9 14h4"/></svg></span><span>No score, verdict, or reviewer impersonation</span></li>
+              <li><span class="landing-compare__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 10V8a5 5 0 0 1 10 0v2"/><path d="M5 10h14v10H5z"/><path d="M12 14v2"/></svg></span><span>Manuscript deleted once the report is generated</span></li>
+            </ul>
+          </article>
+        </div>
+        <p class="landing-compare__note">Same underlying technology. The difference is that Clasr is built to read the same way every time, and to forget your manuscript when it is done.</p>
+      </section>
+
+      <section class="trust-bar container">
+        <p><strong>We don&rsquo;t train AI models on your manuscripts. Ever.</strong></p>
+        <p>Your work stays private. Manuscripts are processed only to provide Clasr&rsquo;s reading and analysis features.</p>
+        <div>
+          <a href="/legal/">Clasr Legal</a>
+        </div>
+      </section>
+    </main>
+
+    <footer id="company" class="footer">
+      <div class="footer__inner">
+        <div class="footer__top">
+          <div>
+            <a class="footer-logo-link" href="/" aria-label="Clasr home"><img class="logo" src="/assets/brand/footer-logo.svg?v=clean-final-1" alt="Clasr"></a>
+            <p class="footer-tag">Manuscript Signal Layer</p>
+          </div>
+          <div class="footer-columns">
+            <section>
+              <h3>Features</h3>
+              <ul>
+                <li><a href="/features/">Signal Mapping</a></li>
+                <li><a href="/features/#argument-chain">Argument Chain</a></li>
+                <li><a href="/features/#desk-reject">Desk-Reject Profile</a></li>
+                <li><a href="/features/#q-calibration">Q-Variant Calibration</a></li>
+                <li><a href="/features/#output-modes">Output Modes</a></li>
+              </ul>
+            </section>
+            <section>
+              <h3>Resources</h3>
+              <ul>
+                
+                <li><a href="/resources/signal-architecture/">Signal Architecture</a></li>
+                <li><a href="/resources/how-it-works/">How It Works</a></li>
+                <li><a href="/faq/">FAQ</a></li>
+              </ul>
+            </section>
+            <section>
+              <h3>Pricing</h3>
+              <ul>
+                <li><a href="/pricing/">Plans</a></li>
+                <li><a href="/enterprise-contact/">For Institutions</a></li>
+                <li><a href="/pricing/#faq">FAQ</a></li>
+              </ul>
+            </section>
+            <section>
+              <h3>Company</h3>
+              <ul>
+                <li><a href="/about/">About</a></li>
+                <li><a href="/contact/">Contact</a></li>
+                <li><a href="/legal/">Legal</a></li><li><a href="/acceptable-use/">Acceptable Use</a></li><li><a href="/terms/">Terms</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/refund-policy/">Refund</a></li><li><a href="/cookie-policy/">Cookies</a></li>
+              </ul>
+            </section>
+          </div>
+          <p class="footer-operator">Clasr is operated by HİLAL ŞENÇELİK (sole proprietor) · Bursa, Türkiye · © 2026</p>
+          <ul class="social-list">
+            <li><a href="https://www.instagram.com/clasr.ai/" target="_blank" rel="noopener noreferrer" aria-label="Clasr on Instagram"><img src="/assets/icons/social-instagram.svg" alt=""></a></li>
+            <li><a href="https://www.linkedin.com/company/clasrai/" target="_blank" rel="noopener noreferrer" aria-label="Clasr on LinkedIn"><img src="/assets/icons/social-linkedin.svg" alt=""></a></li>
+            <li><a href="https://x.com/clasr_ai" target="_blank" rel="noopener noreferrer" aria-label="Clasr on X"><img src="/assets/icons/social-x.svg" alt=""></a></li>
+            <li><a href="https://github.com/clasrai" target="_blank" rel="noopener noreferrer" aria-label="Clasr on GitHub"><img src="/assets/icons/social-github.svg" alt=""></a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

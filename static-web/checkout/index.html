@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Checkout Preview | Clasr</title>
+    <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/styles.css?v=privacy-cookie-1">
+    <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+    <script src="/script.js?v=paddle-retain-1" defer></script>
+  </head>
+  <body class="setup-page">
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a href="/" aria-label="Clasr home"><img class="logo" src="/assets/brand/logo-primary.svg?v=clean-final-1" alt="Clasr"></a>
+        <div class="nav-actions">
+          <a class="button button--small" href="/pricing/">View plans</a>
+          <a class="button button--primary button--small" href="/register/">Register</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="checkout-page" aria-labelledby="checkout-title">
+      <section class="checkout-head">
+        <p class="flow-panel__step">Checkout preview</p>
+        <h1 id="checkout-title">Choose a plan.</h1>
+        <p>Select a plan to continue to secure checkout. Applicable taxes are calculated at checkout and shown before payment.</p>
+        <div class="pricing-choice__controls checkout-billing-controls" aria-label="Billing options">
+          <div class="billing-toggle" role="group" aria-label="Billing period">
+            <button class="is-active" type="button" data-billing-option="monthly" aria-pressed="true">Monthly</button>
+            <button type="button" data-billing-option="annual" aria-pressed="false">Annual</button>
+          </div>
+          <span class="annual-save">Save up to 17% annually</span>
+        </div>
+      </section>
+
+      <section class="checkout-layout">
+        <div class="checkout-plans" aria-label="Plan selection">
+          <article class="checkout-plan is-selected" role="button" tabindex="0" data-checkout-plan="trial-pack" data-checkout-price="$25" data-checkout-label="Trial Pack">
+            <span>Trial Pack</span>
+            <strong>$25</strong>
+            <small>1 manuscript reading · valid 30 days</small>
+          </article>
+          <article class="checkout-plan" role="button" tabindex="0" data-checkout-plan="researcher" data-checkout-price="$59" data-checkout-annual-price="$590" data-checkout-label="Researcher" data-checkout-monthly-copy="5 readings / month" data-checkout-annual-copy="5 readings / month · billed yearly">
+            <span>Researcher</span>
+            <strong>$59</strong>
+            <small>5 readings / month</small>
+          </article>
+          <article class="checkout-plan" role="button" tabindex="0" data-checkout-plan="professional" data-checkout-price="$119" data-checkout-annual-price="$1,190" data-checkout-label="Professional" data-checkout-monthly-copy="12 readings / month" data-checkout-annual-copy="12 readings / month · billed yearly">
+            <span>Professional</span>
+            <strong>$119</strong>
+            <small>12 readings / month</small>
+          </article>
+        </div>
+
+        <aside class="checkout-preview" aria-label="Checkout availability">
+          <div class="checkout-preview__top">
+            <span>Selected plan</span>
+            <strong data-checkout-selected-plan>Trial Pack</strong>
+          </div>
+          <div class="checkout-preview__amount">
+            <span>Preview total</span>
+            <strong data-checkout-selected-price>$25</strong>
+          </div>
+          <div class="checkout-launch-placeholder">
+            <span class="section-eyebrow">Secure checkout</span>
+            <h2>Continue when ready.</h2>
+            <p>Your selected plan, billing period, and any applicable taxes will be confirmed before payment. Clasr never stores complete card details.</p>
+          </div>
+          <p class="checkout-preview__note">Listed prices do not include taxes. Applicable taxes may apply and will be calculated at checkout. Available payment methods, buyer terms, and any required consumer acknowledgements are shown before payment.</p>
+          <div class="checkout-actions">
+            <a class="button button--primary checkout-complete" href="/register/" data-checkout-register>Continue to checkout</a>
+            <a class="button checkout-pass" href="/pricing/">Back to pricing</a>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <footer class="app-footer" aria-label="Checkout footer">
+      <div class="app-footer__inner">
+        <strong>Clasr is operated by HİLAL ŞENÇELİK (sole proprietor) · Bursa, Türkiye · © 2026</strong>
+        <nav aria-label="Checkout footer links">
+          <a href="/terms/">Terms</a>
+          <a href="/privacy/">Privacy</a>
+          <a href="/refund-policy/">Refund</a>
+          <a href="/cookie-policy/">Cookies</a>
+          <a href="/cookie-policy/" data-cookie-preferences>Cookie preferences</a>          <a href="/legal/">Legal</a>
+          <a href="/acceptable-use/">Acceptable Use</a>          <a href="/contact/">Contact</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>
