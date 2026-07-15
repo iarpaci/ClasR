@@ -1728,7 +1728,13 @@ setupResponsiveReports();
           }
           var hasPreupload = localStorage.getItem('clasr:preuploadName');
           var hasConfig = localStorage.getItem('clasr:landingConfigComplete') === 'true';
-          window.location.href = (hasPreupload && hasConfig) ? '/checkout/' : (result.data.nextUrl || '/dashboard/');
+          var pendPlan = null;
+          try { pendPlan = localStorage.getItem('clasr:pendingPlan'); } catch (ex) {}
+          if (pendPlan) {
+            window.location.href = '/checkout/?plan=' + encodeURIComponent(pendPlan) + '&autoopen=1';
+          } else {
+            window.location.href = (hasPreupload && hasConfig) ? '/checkout/' : (result.data.nextUrl || '/dashboard/');
+          }
         })
         .catch(function(err) {
           errEl.textContent = err.message;
@@ -1876,6 +1882,9 @@ setupResponsiveReports();
         saveStoredProfile({ firstName: data.user.firstName || '', lastName: data.user.lastName || '', email: data.user.email, plan: data.user.plan, user_id: data.user.id || data.user.user_id || '' });
       }
       if (typeof applyAccountProfile === 'function') applyAccountProfile();
+      if (typeof window._clasrAutoOpenCheckout === 'function') {
+        window._clasrAutoOpenCheckout(data.user.id || data.user.user_id || '');
+      }
       var checkoutRegisterBtn = document.querySelector('[data-checkout-register]');
       if (checkoutRegisterBtn) {
         checkoutRegisterBtn.href = '/dashboard/';
@@ -2106,6 +2115,24 @@ setupResponsiveReports();
   // whether the user clicks a plan button. The static <script> tag in the
   // page <head> lets Paddle's Retain checker detect the snippet at scan time.
   if (onPublic) { loadPaddle(function () {}); }
+
+  // Auto-open Paddle when redirected here after auth with a pending plan.
+  // Session bootstrap (above) calls window._clasrAutoOpenCheckout(userId)
+  // once the user's session is confirmed, triggering Paddle immediately.
+  if (onCheckout) {
+    var autoOpenParam = (new URL(window.location.href)).searchParams.get('autoopen');
+    if (autoOpenParam === '1') {
+      window._clasrAutoOpenCheckout = function (userId) {
+        if (!userId) return;
+        try { localStorage.removeItem('clasr:pendingPlan'); } catch (ex) {}
+        var planEl = document.querySelector('.checkout-plan.is-selected');
+        var plan = planEl ? planEl.dataset.checkoutPlan : 'trial-pack';
+        var priceKey = plan === 'trial-pack' ? 'trial-pack' : plan + '-' + (getBilling() === 'annual' ? 'annual' : 'monthly');
+        var priceId = PADDLE_PRICES[priceKey];
+        if (priceId) loadPaddle(function () { openCheckout(priceId, plan, userId); });
+      };
+    }
+  }
 
   if (!onPricing && !onCheckout) return;
 
