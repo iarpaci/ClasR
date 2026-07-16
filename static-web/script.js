@@ -1278,6 +1278,11 @@ if (checkoutUploadCopy) {
   }
 }
 
+const checkoutPaidNotice = document.querySelector("[data-checkout-paid-notice]");
+if (checkoutPaidNotice && new URLSearchParams(window.location.search).get("checkout") === "complete") {
+  checkoutPaidNotice.hidden = false;
+}
+
 const registerUploadNote = document.querySelector("[data-register-upload]");
 
 if (registerUploadNote) {
@@ -2173,8 +2178,7 @@ setupResponsiveReports();
     // Pricing page: plan CTA buttons
     var planBtn = e.target.closest('a.plan-card__cta');
     if (planBtn) {
-      var userId = getUserId();
-      if (!userId) return; // not logged in — let href go to /register/?plan=xxx
+      var userId = getUserId(); // null if not logged in — openCheckout handles it
       var rawHref = planBtn.getAttribute('href') || '';
       var match = rawHref.match(/[?&]plan=([^&]+)/);
       if (match) {
