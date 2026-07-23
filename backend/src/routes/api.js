@@ -66,6 +66,7 @@ async function getUserSub(userId) {
     .eq('user_id', userId)
     .single();
   if (error || !data) {
+    console.error('[getUserSub] SELECT failed:', error?.code, error?.message, error?.details, 'userId:', userId);
     const { error: insertErr } = await supabase.from('user_subscriptions').insert({
       user_id: userId, plan: 'free',
       lifetime_count: 0, monthly_count: 0, chat_count: 0,
