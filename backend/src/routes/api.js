@@ -4,7 +4,15 @@ const express = require('express');
 const multer = require('multer');
 const rateLimit = require('express-rate-limit');
 const { v4: uuidv4 } = require('uuid');
+const { createClient } = require('@supabase/supabase-js');
 const { supabase, requireAuth } = require('../middleware/auth');
+
+// Isolated DB client for read operations — avoids any auth session state from the shared client
+const dbReadClient = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY,
+  { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } }
+);
 const { analyzeManuscript } = require('../services/claude');
 const { extractText } = require('../services/fileParser');
 const {
@@ -60,13 +68,13 @@ function isNewMonth(periodStart) {
 }
 
 async function getUserSub(userId) {
-  const { data, error } = await supabase
+  const { data, error } = await dbReadClient
     .from('user_subscriptions')
     .select('*')
     .eq('user_id', userId)
     .single();
   if (error || !data) {
-    console.error('[getUserSub] SELECT failed:', error?.code, error?.message, 'userId:', userId, 'supabaseUrl:', process.env.SUPABASE_URL?.substring(0,40));
+    console.error('[getUserSub] SELECT failed:', error?.code, error?.message, 'userId:', userId);
     const { error: insertErr } = await supabase.from('user_subscriptions').insert({
       user_id: userId, plan: 'free',
       lifetime_count: 0, monthly_count: 0, chat_count: 0,
