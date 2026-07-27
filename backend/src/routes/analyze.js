@@ -1,72 +1,19 @@
 const express = require('express');
-const multer = require('multer');
 const { extractText } = require('../services/fileParser');
 const { z } = require('zod');
 const { v4: uuidv4 } = require('uuid');
 const { requireAuth } = require('../middleware/auth');
 const { analyzeManuscript } = require('../services/claude');
 const { supabase } = require('../middleware/auth');
-
-const PLAN_CREDITS = {
-  'free': 5, 'basic': 40, 'pro': 150,
-  'trial-pack': 1, 'researcher': 5, 'professional': 12, 'enterprise': 9999,
-};
-
-async function atomicConsumeCredit(userId) {
-  const { data: sub, error: subErr } = await supabase
-    .from('user_subscriptions')
-    .select('plan, lifetime_count, monthly_count, period_start')
-    .eq('user_id', userId)
-    .single();
-  if (subErr || !sub) return { ok: false, reason: 'no_subscription' };
-  const plan = sub.plan || 'free';
-  const limit = PLAN_CREDITS[plan] ?? 0;
-  const isMonthly = !['free', 'trial-pack', 'gift'].includes(plan);
-  if (isMonthly) {
-    const s = new Date(sub.period_start); const n = new Date();
-    if (s.getMonth() !== n.getMonth() || s.getFullYear() !== n.getFullYear()) {
-      await supabase.from('user_subscriptions')
-        .update({ monthly_count: 0, period_start: n.toISOString() }).eq('user_id', userId);
-    }
-  }
-  const { data: consumed, error: rpcErr } = await supabase.rpc('check_and_consume_credit', {
-    p_user_id: userId, p_limit: limit, p_is_monthly: isMonthly,
-  });
-  if (rpcErr) throw new Error(`Credit check failed: ${rpcErr.message}`);
-  if (!consumed) return { ok: false, reason: isMonthly ? 'monthly_limit_reached' : 'free_limit_reached', plan, limit };
-  return { ok: true, plan };
-}
+const { atomicConsumeCredit } = require('../services/credits');
+const { handleUpload } = require('../middleware/upload');
 
 const router = express.Router();
-const upload = multer({
-  storage: multer.memoryStorage(),
-  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
-  fileFilter: (_req, file, cb) => {
-    const ext = file.originalname.split('.').pop().toLowerCase();
-    const allowedExts = ['pdf', 'docx', 'txt'];
-    const allowedMimes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain'];
-    if (allowedExts.includes(ext) && allowedMimes.includes(file.mimetype)) return cb(null, true);
-    cb(new Error('Only PDF, DOCX, or TXT files are supported'));
-  },
-});
 
 const analyzeSchema = z.object({
   q_variant: z.enum(['Q1', 'Q2', 'Q3']).optional(),
   mode: z.enum(['R1', 'R2', 'revision', 'resubmission', 'summary']).optional(),
 });
-
-// Multer error handler
-function handleUpload(req, res, next) {
-  upload.single('file')(req, res, (err) => {
-    if (err instanceof multer.MulterError) {
-      return res.status(400).json({ error: `Upload error: ${err.message}` });
-    }
-    if (err) {
-      return res.status(400).json({ error: err.message });
-    }
-    next();
-  });
-}
 
 // POST /analyze
 router.post('/', requireAuth, handleUpload, async (req, res, next) => {

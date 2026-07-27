@@ -7,6 +7,7 @@ const rateLimit = require('express-rate-limit');
 
 const authRoutes = require('./routes/auth');
 const analyzeRoutes = require('./routes/analyze');
+const analyzeV2Routes = require('./routes/analyze-v2');
 const chatRoutes = require('./routes/chat');
 const subscriptionRoutes = require('./routes/subscription');
 const apiRoutes = require('./routes/api');
@@ -48,6 +49,8 @@ const analyzeLimiter = rateLimit({ windowMs: 60 * 1000, max: isDev ? 50 : 5, sta
 
 app.use(globalLimiter);
 app.use('/auth', authLimiter, authRoutes);
+// Mounted before /analyze so it isn't shadowed by analyzeRoutes' GET /:id route.
+app.use('/analyze/v2', analyzeLimiter, analyzeV2Routes);
 app.use('/analyze', analyzeLimiter, analyzeRoutes);
 app.use('/chat', analyzeLimiter, chatRoutes);
 app.use('/subscription', subscriptionRoutes);

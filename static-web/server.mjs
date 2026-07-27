@@ -145,6 +145,14 @@ const setDemoSessionCookie = (res) => {
   );
 };
 
+// Local-dev-only CSP relaxation (2026-07-27): the /dashboard/v2-preview/
+// internal test page needs to fetch() a locally-run backend
+// (http://localhost:3000) that isn't in the production connect-src
+// allowlist and never should be — this is gated on !isProduction so the
+// deployed CSP is completely unaffected. Remove alongside v2-preview once
+// that page is no longer needed.
+const devConnectSrcExtra = isProduction ? "" : " http://localhost:3000";
+
 const securityHeaders = () => ({
   "x-content-type-options": "nosniff",
   "x-frame-options": "SAMEORIGIN",
@@ -157,7 +165,7 @@ const securityHeaders = () => ({
     "style-src 'self' https://use.typekit.net 'unsafe-inline'",
     "font-src 'self' https://use.typekit.net https://p.typekit.net data:",
     "img-src 'self' data: blob: https:",
-    "connect-src 'self' https://clasr-production.up.railway.app https://yocebpchsvubixpxiclg.supabase.co https://checkout-service.paddle.com https://checkout.paddle.com https://buy.paddle.com https://sandbox-checkout.paddle.com https://api.paddle.com https://events.paddle.com",
+    `connect-src 'self' https://clasr-production.up.railway.app https://yocebpchsvubixpxiclg.supabase.co https://checkout-service.paddle.com https://checkout.paddle.com https://buy.paddle.com https://sandbox-checkout.paddle.com https://api.paddle.com https://events.paddle.com${devConnectSrcExtra}`,
     "frame-src https://buy.paddle.com https://sandbox-buy.paddle.com https://checkout.paddle.com https://sandbox-checkout.paddle.com",
     "object-src 'none'",
     "base-uri 'self'",

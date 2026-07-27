@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Signal Report (v2 preview) | Clasr</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
+    <!--
+      INTERNAL TEST PAGE — real-report layout (site header/footer copied from
+      dashboard/reading/index.html) but wired to the hybrid-architecture JSON
+      pipeline instead of static demo content. Reached only via
+      dashboard/v2-preview/'s job-queue button, or by pasting a reading id
+      here directly. Uses its own token/API-base fields (same convention as
+      v2-preview) rather than the global script.js, whose API_BASE is
+      hardcoded to the production Railway backend — see v2-preview's header
+      comment for the full reasoning. Not linked from site navigation.
+    -->
+    <link rel="stylesheet" href="/styles.css?v=compliance-1">
+    <style>
+      .v2r-bar { max-width: 1100px; margin: 0 auto; padding: 14px 20px; display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end; background: var(--cream, #faf8f4); border-bottom: 1px solid #e6ddd0; }
+      .v2r-field { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 160px; }
+      .v2r-field label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: #6b6055; }
+      .v2r-field input { padding: 7px 9px; border: 1px solid #d8d0c4; border-radius: 4px; font-size: 13px; }
+      .v2r-btn { background: var(--petrol, #2c2620); color: #fff; border: none; padding: 8px 18px; border-radius: 999px; font-size: 13px; cursor: pointer; }
+      .v2r-status { font-size: 13px; color: #6b6055; padding: 0 20px; max-width: 1100px; margin: 8px auto 0; }
+      .v2r-error { color: var(--red, #A32642); font-size: 14px; padding: 0 20px; max-width: 1100px; margin: 8px auto; white-space: pre-wrap; }
+      .v2p-section { margin-top: 32px; }
+      .v2p-section h2 { font-size: 16px; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #e6ddd0; padding-bottom: 8px; margin-bottom: 14px; }
+      .v2p-summary-row { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 8px; }
+      .v2p-summary-card { background: var(--cream, #faf8f4); border: 1px solid #e6ddd0; border-radius: 6px; padding: 12px 16px; min-width: 140px; }
+      .v2p-summary-card .label { font-size: 11px; text-transform: uppercase; color: #6b6055; letter-spacing: 0.04em; }
+      .v2p-summary-card .value { font-size: 20px; font-weight: 600; margin-top: 2px; }
+      .v2p-card { border: 1px solid #e6ddd0; border-radius: 6px; padding: 12px 16px; margin-bottom: 10px; background: #fff; }
+      .v2p-card-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+      .v2p-card-head strong { font-size: 14px; }
+      .v2p-card-meta { font-size: 12px; color: #6b6055; }
+      .v2p-card blockquote { margin: 8px 0 4px; padding: 6px 10px; background: var(--cream, #faf8f4); border-left: 3px solid #d8d0c4; font-size: 13px; font-style: italic; }
+      .v2p-card .inference { font-size: 13px; margin-top: 4px; }
+      .v2p-empty { color: #6b6055; font-size: 14px; font-style: italic; }
+      .v2p-json-toggle { font-size: 12px; color: #6b6055; cursor: pointer; text-decoration: underline; }
+      .v2p-json-raw { white-space: pre-wrap; font-family: monospace; font-size: 12px; background: #1c1a17; color: #d8d0c4; padding: 14px; border-radius: 6px; max-height: 500px; overflow: auto; margin-top: 8px; }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a href="/dashboard/" aria-label="Clasr dashboard"><img class="logo" src="/assets/brand/logo-primary.svg?v=clean-final-1" alt="Clasr"></a>
+        <nav class="nav-links app-nav" aria-label="Workspace navigation">
+          <a class="app-nav__primary" href="/dashboard/">New reading</a>
+          <a href="/dashboard/readings/">Readings</a>
+          <a href="/dashboard/pricing/">Plans</a>
+          <a href="/dashboard/help/">Help</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="v2r-bar">
+      <div class="v2r-field" style="flex: 2;">
+        <label for="v2r-token">Access token</label>
+        <input id="v2r-token" type="text" placeholder="Paste your clasr:at token">
+      </div>
+      <div class="v2r-field">
+        <label for="v2r-api-base">API base</label>
+        <input id="v2r-api-base" type="text" value="http://localhost:3000">
+      </div>
+      <div class="v2r-field">
+        <label for="v2r-id">Reading id</label>
+        <input id="v2r-id" type="text" placeholder="uuid">
+      </div>
+      <button id="v2r-load" class="v2r-btn" type="button">Load</button>
+    </div>
+    <p class="v2r-status" id="v2r-status"></p>
+    <div class="v2r-error" id="v2r-error" hidden></div>
+
+    <main class="account-shell">
+      <section class="dashboard-content dashboard-content--report" aria-labelledby="dashboard-title">
+        <div class="dashboard-inner">
+          <div class="reading-report-top">
+            <div class="report-topline">
+              <span class="section-eyebrow">READING COMPLETED (v2 pipeline)</span>
+              <h1 id="dashboard-title" style="margin:0;">Clasr Signal Report</h1>
+            </div>
+          </div>
+          <div class="reading-report-body">
+            <div id="v2r-results"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="app-footer" aria-label="Workspace footer">
+      <div class="app-footer__inner">
+        <strong>Clasr is operated by HİLAL ŞENÇELİK (sole proprietor) · Bursa, Türkiye · © 2026</strong>
+      </div>
+    </footer>
+
+    <script src="script.js" defer></script>
+  </body>
+</html>

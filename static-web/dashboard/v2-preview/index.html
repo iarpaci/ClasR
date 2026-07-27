@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>/analyze/v2 preview (internal) | Clasr</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
+    <!--
+      INTERNAL TEST PAGE — not linked from site navigation, not part of the
+      real product flow. Built to visually validate /analyze/v2's structured
+      JSON report shape before deciding how (or whether) to wire it into the
+      real dashboard (job-queue integration, "Option A" from the session that
+      built this). Reuses styles.css for base look + severity classes;
+      everything specific to this page (layout, script) is self-contained
+      here rather than touching the global styles.css/script.js, since this
+      page is disposable and the global files are not.
+    -->
+    <link rel="stylesheet" href="/styles.css?v=compliance-1">
+    <style>
+      .v2p-shell { max-width: 920px; margin: 0 auto; padding: 32px 20px 80px; font-family: var(--body, sans-serif); }
+      .v2p-shell h1 { font-family: var(--display, serif); margin-bottom: 4px; }
+      .v2p-note { color: #6b6055; font-size: 14px; margin-bottom: 24px; }
+      .v2p-config { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 20px; }
+      .v2p-field { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 180px; }
+      .v2p-field label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; color: #6b6055; }
+      .v2p-field input, .v2p-field select { padding: 8px 10px; border: 1px solid #d8d0c4; border-radius: 4px; font-size: 14px; }
+      .v2p-textarea { width: 100%; min-height: 220px; padding: 12px; border: 1px solid #d8d0c4; border-radius: 6px; font-family: monospace; font-size: 13px; margin-bottom: 12px; }
+      .v2p-actions { display: flex; gap: 10px; align-items: center; margin-bottom: 24px; }
+      .v2p-btn { background: var(--petrol, #2c2620); color: #fff; border: none; padding: 10px 22px; border-radius: 999px; font-size: 14px; cursor: pointer; }
+      .v2p-btn:disabled { opacity: 0.5; cursor: default; }
+      .v2p-status { font-size: 13px; color: #6b6055; }
+      .v2p-error { color: var(--red, #A32642); font-size: 14px; margin-bottom: 16px; white-space: pre-wrap; }
+      .v2p-login-gate { padding: 40px; text-align: center; border: 1px dashed #d8d0c4; border-radius: 8px; }
+      .v2p-section { margin-top: 32px; }
+      .v2p-section h2 { font-size: 16px; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #e6ddd0; padding-bottom: 8px; margin-bottom: 14px; }
+      .v2p-summary-row { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 8px; }
+      .v2p-summary-card { background: var(--cream, #faf8f4); border: 1px solid #e6ddd0; border-radius: 6px; padding: 12px 16px; min-width: 140px; }
+      .v2p-summary-card .label { font-size: 11px; text-transform: uppercase; color: #6b6055; letter-spacing: 0.04em; }
+      .v2p-summary-card .value { font-size: 20px; font-weight: 600; margin-top: 2px; }
+      .v2p-card { border: 1px solid #e6ddd0; border-radius: 6px; padding: 12px 16px; margin-bottom: 10px; background: #fff; }
+      .v2p-card-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+      .v2p-card-head strong { font-size: 14px; }
+      .v2p-card-meta { font-size: 12px; color: #6b6055; }
+      .v2p-card blockquote { margin: 8px 0 4px; padding: 6px 10px; background: var(--cream, #faf8f4); border-left: 3px solid #d8d0c4; font-size: 13px; font-style: italic; }
+      .v2p-card .inference { font-size: 13px; margin-top: 4px; }
+      .v2p-empty { color: #6b6055; font-size: 14px; font-style: italic; }
+      .v2p-json-toggle { font-size: 12px; color: #6b6055; cursor: pointer; text-decoration: underline; }
+      .v2p-json-raw { white-space: pre-wrap; font-family: monospace; font-size: 12px; background: #1c1a17; color: #d8d0c4; padding: 14px; border-radius: 6px; max-height: 500px; overflow: auto; margin-top: 8px; }
+    </style>
+  </head>
+  <body>
+    <main class="v2p-shell">
+      <h1>/analyze/v2 preview</h1>
+      <p class="v2p-note">Internal test page — validates the structured JSON report shape from the new hybrid-architecture pipeline (extract → verify → score → PAS → categorical resolution). Not part of the real product flow.</p>
+
+      <div id="v2p-app">
+        <div class="v2p-config">
+          <div class="v2p-field" style="flex: 2;">
+            <label for="v2p-token">Access token</label>
+            <input id="v2p-token" type="text" placeholder="Paste your clasr:at token here (from browser devtools on the logged-in site)">
+          </div>
+          <div class="v2p-field">
+            <label for="v2p-api-base">API base</label>
+            <input id="v2p-api-base" type="text" value="http://localhost:3000">
+          </div>
+          <div class="v2p-field" style="flex: 0 0 120px;">
+            <label for="v2p-runs">Runs</label>
+            <input id="v2p-runs" type="number" min="1" max="5" value="1">
+          </div>
+        </div>
+        <p class="v2p-note" style="margin-top: -8px;">
+          Token auto-filled from this page's own localStorage if present (works if you're serving/logged into this
+          site locally on the same origin). If empty: log into clasr.ai in your browser, open DevTools →
+          Application → Local Storage → clasr.ai → copy the value of <code>clasr:at</code> → paste it above.
+        </p>
+
+        <textarea id="v2p-text" class="v2p-textarea" placeholder="Paste manuscript text here...">Title: Effects of a Novel Compound on Cellular Growth Rates
+
+Abstract: We investigated the effects of Compound X on cellular growth in vitro.
+Our results demonstrate a statistically significant increase in growth rate.
+
+Methods: Cells were cultured under standard conditions and treated with Compound X
+at varying concentrations. We did not pre-register an analysis plan for this study.
+No data or code availability statement is provided in this manuscript.
+
+Results: We observed increased growth rates across all treatment groups. However,
+we do not report the specific statistical test used, nor do we report p-values,
+confidence intervals, or effect sizes anywhere in this section.
+
+Discussion: These findings strongly suggest that Compound X could be used to
+treat a wide range of diseases affecting human cellular metabolism, extending
+far beyond what our narrow in vitro results actually support.
+
+Conclusion: Compound X is a promising therapeutic candidate.</textarea>
+
+        <div class="v2p-actions">
+          <button id="v2p-run" class="v2p-btn" type="button">Run analysis (direct)</button>
+          <button id="v2p-run-async" class="v2p-btn" type="button" style="background: #6b6055;">Run via job queue (real flow)</button>
+          <span id="v2p-status" class="v2p-status"></span>
+        </div>
+        <p class="v2p-note" style="margin-top: -14px;">
+          "Direct" hits /analyze/v2 synchronously and renders inline, same as before. "Job queue" hits
+          /api/readings/start-v2 (the same async job-queue pattern the real dashboard uses), polls
+          /api/processing/:jobId, then links to the real-layout report page at dashboard/reading-v2/.
+        </p>
+
+        <div id="v2p-error" class="v2p-error" hidden></div>
+        <div id="v2p-results"></div>
+      </div>
+    </main>
+
+    <script src="script.js" defer></script>
+  </body>
+</html>

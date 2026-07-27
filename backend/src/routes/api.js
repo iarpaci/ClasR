@@ -15,6 +15,8 @@ const dbReadClient = createClient(
 );
 const { analyzeManuscript } = require('../services/claude');
 const { extractText } = require('../services/fileParser');
+const { runConsistent } = require('../services/clasr-engine/consistency');
+const { atomicConsumeCredit } = require('../services/credits');
 const {
   sendWelcomeEmail,
   sendReportReadyEmail,
@@ -29,9 +31,13 @@ const router = express.Router();
 // ── In-memory job queue ────────────────────────────────────────────────────
 const jobs = new Map();
 
-function createJob(userId) {
+// version: 'v1' (prose pipeline, dashboard/reading/) or 'v2' (JSON hybrid
+// pipeline, dashboard/reading-v2/ — internal test page, not linked from the
+// live UI yet). Only affects which report page /api/processing/:jobId points
+// completed jobs at.
+function createJob(userId, version = 'v1') {
   const jobId = uuidv4();
-  jobs.set(jobId, { jobId, userId, status: 'processing', readingId: null, error: null, createdAt: Date.now() });
+  jobs.set(jobId, { jobId, userId, version, status: 'processing', readingId: null, error: null, createdAt: Date.now() });
   return jobId;
 }
 
@@ -415,6 +421,79 @@ router.post('/readings/start', requireAuth, handleUpload, async (req, res, next)
   } catch (err) { next(err); }
 });
 
+// ── POST /api/readings/start-v2 ─────────────────────────────────────────────
+// Internal test route (2026-07-27): async job-queue wrapper around the
+// hybrid-architecture JSON pipeline (/analyze/v2's runConsistent()), mirroring
+// /readings/start's job-queue shape so the real processing/polling UI pattern
+// can be validated before this is wired into the live "New reading" flow.
+// Not linked from any live page — reached only by the internal test pages
+// under dashboard/v2-preview/ and dashboard/reading-v2/. Uses
+// services/credits.js's atomicConsumeCredit (same credit path /analyze/v2
+// already uses) rather than this file's own checkAndConsumeCredit, so credit
+// behavior here matches what's already been tested — note the two
+// implementations disagree on the free-plan limit (0 here vs 5 in
+// services/credits.js), a pre-existing inconsistency, not something this
+// route introduces or resolves.
+router.post('/readings/start-v2', requireAuth, handleUpload, async (req, res, next) => {
+  try {
+    if (!req.file && !req.body.text) {
+      return res.status(400).json({ error: 'A manuscript file (PDF/DOCX/TXT) is required' });
+    }
+
+    const creditCheck = await atomicConsumeCredit(req.user.id);
+    if (!creditCheck.ok) {
+      return res.status(403).json({ error: creditCheck.reason, plan: creditCheck.plan, limit: creditCheck.limit });
+    }
+
+    const filename = req.file?.originalname || 'paste.txt';
+    const runsRaw = Number(req.body.runs);
+    const runs = Number.isInteger(runsRaw) && runsRaw >= 1 && runsRaw <= 5 ? runsRaw : undefined;
+
+    const jobId = createJob(req.user.id, 'v2');
+
+    (async () => {
+      try {
+        let manuscriptText = req.file
+          ? await extractText(req.file.buffer, filename)
+          : String(req.body.text || '');
+
+        manuscriptText = manuscriptText.trim();
+        if (!manuscriptText) throw new Error('Document appears to be empty');
+        if (manuscriptText.length > 80000) throw new Error('Document too long (max ~80,000 characters / ~60 pages)');
+
+        const report = await runConsistent(manuscriptText, runs ? { runs } : {});
+
+        const severityCounts = { critical: 0, major: 0, minor: 0 };
+        for (const s of report.scored_signals || []) {
+          if (s.severity === 4) severityCounts.critical++;
+          else if (s.severity === 3) severityCounts.major++;
+          else if (s.severity === 2 || s.severity === 1) severityCounts.minor++;
+        }
+
+        const readingId = uuidv4();
+        const { error: insertErr } = await supabase.from('analyses').insert({
+          id: readingId,
+          user_id: req.user.id,
+          filename,
+          input_length: manuscriptText.length,
+          report: JSON.stringify(report),
+          critical_count: severityCounts.critical,
+          major_count: severityCounts.major,
+          minor_count: severityCounts.minor,
+        });
+        if (insertErr) console.error('[api] v2 insert error:', insertErr.message);
+
+        updateJob(jobId, { status: 'complete', readingId });
+      } catch (err) {
+        console.error('[api] v2 processing error:', err.message);
+        updateJob(jobId, { status: 'failed', error: 'Analysis failed. Please try again.' });
+      }
+    })();
+
+    res.status(202).json({ jobId, status: 'processing', estimatedMinutes: '2–5', processingUrl: `/dashboard/processing/?job=${jobId}` });
+  } catch (err) { next(err); }
+});
+
 // ── GET /api/processing/:jobId ──────────────────────────────────────────────
 router.get('/processing/:jobId', requireAuth, (req, res) => {
   const job = jobs.get(req.params.jobId);
@@ -426,13 +505,14 @@ router.get('/processing/:jobId', requireAuth, (req, res) => {
     : job.status === 'failed' ? 0
     : Math.min(90, 5 + Math.floor(elapsed / 1000));
 
+  const reportBase = job.version === 'v2' ? '/dashboard/reading-v2/' : '/dashboard/reading/';
   res.json({
     job: {
       jobId: job.jobId,
       status: job.status,
       progress,
       readingId: job.readingId || null,
-      reportUrl: job.readingId ? `/dashboard/reading/?id=${job.readingId}` : null,
+      reportUrl: job.readingId ? `${reportBase}?id=${job.readingId}` : null,
       error: job.error || null,
     },
   });
