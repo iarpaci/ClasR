@@ -1,0 +1,12 @@
+[
+  {
+    "id": "example-file-case",
+    "file": "C:\\Users\\USER\\Dropbox\\Works-Projects\\2026\\37.Cyber-Omer\\Manuscript.docx",
+    "humanBand": "ELEVATED"
+  },
+  {
+    "id": "example-inline-text-case",
+    "text": "Paste manuscript text directly here for a quick case that doesn't need a file.",
+    "humanBand": "LOW"
+  }
+]
