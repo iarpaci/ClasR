@@ -2073,7 +2073,7 @@ setupResponsiveReports();
 
 // ── Paddle Checkout overlay ───────────────────────
 (function () {
-  var PADDLE_CLIENT_TOKEN = 'live_7d279f61a3499fed520f7cd8c08';
+  var PADDLE_CLIENT_TOKEN = 'live_5e676fb00dad38d72a99a6f04f5';
 
   var PADDLE_PRICES = {
     'trial-pack':           'pri_01kwwh5epwyphhpce1nw23d30z',
