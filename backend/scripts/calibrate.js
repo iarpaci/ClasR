@@ -95,20 +95,28 @@ async function main() {
         predictedBand: report.risk_band,
         rawScore: report.raw_score,
         signals: report.scored_signals.length,
+        // Kit 03 §8b's narrow 3-dimension ceiling — apples-to-apples against
+        // an old report's "INTEGRATED RISK POSTURE" line, unlike risk_band
+        // (a broad arithmetic sum across all 11 sections). See resolution.js.
+        posture: report.integrated_posture.level,
       });
-      console.log(`done (${elapsed}s) — predicted ${report.risk_band}, human ${c.humanBand}`);
+      console.log(`done (${elapsed}s) — risk_band ${report.risk_band}, posture ${report.integrated_posture.level}, human ${c.humanBand}`);
     } catch (err) {
       console.log(`FAILED: ${err.message}`);
-      results.push({ id: c.id, humanBand: c.humanBand, predictedBand: 'ERROR', rawScore: null, signals: null, error: err.message });
+      results.push({ id: c.id, humanBand: c.humanBand, predictedBand: 'ERROR', rawScore: null, signals: null, posture: null, error: err.message });
     }
   }
 
   console.log('\n--- RESULTS (sorted by raw_score) ---');
+  console.log('NOTE: "posture" is Kit 03\'s narrow 3-level (LOW/MEDIUM/HIGH) ceiling — the field to');
+  console.log('compare against an old report\'s "INTEGRATED RISK POSTURE" line. "predicted" (risk_band)');
+  console.log('is the broad 4-level arithmetic score and is a DIFFERENT metric — do not conflate the two.');
   const sorted = [...results].filter((r) => r.rawScore !== null).sort((a, b) => a.rawScore - b.rawScore);
-  console.log(pad('id', 24) + pad('human', 10) + pad('predicted', 10) + pad('raw_score', 10) + 'signals');
+  console.log(pad('id', 24) + pad('human', 10) + pad('predicted', 10) + pad('posture', 10) + pad('raw_score', 10) + 'signals');
   for (const r of sorted) {
     const mark = r.humanBand === r.predictedBand ? '  ' : '<<';
-    console.log(pad(r.id, 24) + pad(r.humanBand, 10) + pad(r.predictedBand, 10) + pad(r.rawScore, 10) + `${r.signals} ${mark}`);
+    const postureMark = r.humanBand === r.posture ? '~~' : '  ';
+    console.log(pad(r.id, 24) + pad(r.humanBand, 10) + pad(r.predictedBand, 10) + pad(r.posture, 10) + pad(r.rawScore, 10) + `${r.signals} ${mark}${postureMark}`);
   }
   const errored = results.filter((r) => r.rawScore === null);
   if (errored.length) {

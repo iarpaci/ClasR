@@ -5,3 +5,9 @@ node_modules/
 __MACOSX/
 *.log
 NODE_ENV=production.txt
+
+# Calibration source material (copyrighted manuscripts + real case data) —
+# never committed. backend/scripts/calibration-cases.example.json (template,
+# no real data) stays tracked.
+backend/scripts/calibration-data/
+backend/scripts/calibration-cases.json

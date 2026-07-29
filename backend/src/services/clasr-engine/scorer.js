@@ -44,12 +44,29 @@ const METHOD_WEIGHT = { exact: 1.00, anchored: 0.90, scanned: 0.80 };
 const COOCCURRENCE_RULES = [];
 
 // Weighted-score cut points -> risk band. Ordered highest cut first; the
-// first entry whose cut the score clears wins. TODO calibrate against
-// 15-20 historical CLASR reports.
+// first entry whose cut the score clears wins.
+//
+// FIRST-PASS CALIBRATION (2026-07-29, backend/scripts/calibrate.js), ROUGH —
+// NOT the full 15-20 case, band-balanced calibration trialfiles/README.md §3
+// asks for. Ran against 12 real manuscripts whose "human" band was read off
+// each one's pre-existing CLASR report (INTEGRATED RISK POSTURE line), not a
+// fresh independent judgment. That set skewed heavily HIGH (9 HIGH, 2 MEDIUM,
+// 1 ELEVATED, 0 LOW) and raw_score did NOT rank-order cleanly within it — the
+// single ELEVATED case (48.2) scored higher than 8 of the 9 HIGH cases, and
+// the two MEDIUM cases (35.5, 39.1) sat inside the HIGH range (21-64), not
+// below it. No monotonic threshold set can satisfy that ordering; the values
+// below are the best available compromise (anchor MEDIUM under the observed
+// MEDIUM cluster, ELEVATED between that cluster and the one ELEVATED point,
+// HIGH just above it), not a solved calibration. The old thresholds (HIGH>=12
+// etc.) were worse in a more basic way: every single one of the 12 cases
+// scored above 12, so risk_band was HIGH regardless of truth — that specific
+// floor problem is fixed here. Revisit with a genuinely human-judged,
+// band-balanced set (LOW examples especially — this run had none) before
+// trusting this further; see backend/scripts/calibration-cases.example.json.
 const BAND_THRESHOLDS = [
-  [12.0, 'HIGH'],
-  [7.0, 'ELEVATED'],
-  [3.0, 'MEDIUM'],
+  [50.0, 'HIGH'],
+  [40.0, 'ELEVATED'],
+  [18.0, 'MEDIUM'],
   [0.0, 'LOW'],
 ];
 
