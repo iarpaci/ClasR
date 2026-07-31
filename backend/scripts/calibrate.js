@@ -82,6 +82,7 @@ async function main() {
   console.log(`Running ${cases.length} case(s) at runs=${runs}. This calls the real API — expect real cost and ~${runs === 1 ? '~90s' : `${runs}x~90s`} per case.\n`);
 
   const results = [];
+  const rawReports = [];
   for (const c of cases) {
     process.stdout.write(`[${c.id}] extracting + running... `);
     try {
@@ -100,12 +101,21 @@ async function main() {
         // (a broad arithmetic sum across all 11 sections). See resolution.js.
         posture: report.integrated_posture.level,
       });
+      // Full per-signal detail (section, severity, contribution,
+      // section_rank_decay) is only in `report`, never in the console
+      // summary — persisted below so a formula/taxonomy investigation after
+      // the fact doesn't need to re-run (and re-pay for) extraction.
+      rawReports.push({ id: c.id, humanBand: c.humanBand, report });
       console.log(`done (${elapsed}s) — risk_band ${report.risk_band}, posture ${report.integrated_posture.level}, human ${c.humanBand}`);
     } catch (err) {
       console.log(`FAILED: ${err.message}`);
       results.push({ id: c.id, humanBand: c.humanBand, predictedBand: 'ERROR', rawScore: null, signals: null, posture: null, error: err.message });
     }
   }
+
+  const dumpPath = path.join(__dirname, `calibration-results-${Date.now()}.json`);
+  fs.writeFileSync(dumpPath, JSON.stringify(rawReports, null, 2));
+  console.log(`\nFull per-case reports (signal-level detail) written to ${dumpPath}`);
 
   console.log('\n--- RESULTS (sorted by raw_score) ---');
   console.log('NOTE: "posture" is Kit 03\'s narrow 3-level (LOW/MEDIUM/HIGH) ceiling — the field to');

@@ -44,34 +44,92 @@ const METHOD_WEIGHT = { exact: 1.00, anchored: 0.90, scanned: 0.80 };
 const COOCCURRENCE_RULES = [];
 
 // Weighted-score cut points -> risk band. Ordered highest cut first; the
-// first entry whose cut the score clears wins.
-//
-// FIRST-PASS CALIBRATION (2026-07-29, backend/scripts/calibrate.js), ROUGH —
-// NOT the full 15-20 case, band-balanced calibration trialfiles/README.md §3
-// asks for. Ran against 12 real manuscripts whose "human" band was read off
-// each one's pre-existing CLASR report (INTEGRATED RISK POSTURE line), not a
-// fresh independent judgment. That set skewed heavily HIGH (9 HIGH, 2 MEDIUM,
-// 1 ELEVATED, 0 LOW) and raw_score did NOT rank-order cleanly within it — the
-// single ELEVATED case (48.2) scored higher than 8 of the 9 HIGH cases, and
-// the two MEDIUM cases (35.5, 39.1) sat inside the HIGH range (21-64), not
-// below it. No monotonic threshold set can satisfy that ordering; the values
-// below are the best available compromise (anchor MEDIUM under the observed
-// MEDIUM cluster, ELEVATED between that cluster and the one ELEVATED point,
-// HIGH just above it), not a solved calibration. The old thresholds (HIGH>=12
-// etc.) were worse in a more basic way: every single one of the 12 cases
-// scored above 12, so risk_band was HIGH regardless of truth — that specific
-// floor problem is fixed here. Revisit with a genuinely human-judged,
-// band-balanced set (LOW examples especially — this run had none) before
-// trusting this further; see backend/scripts/calibration-cases.example.json.
+// first entry whose cut the score clears wins. STALE placeholders — held
+// over unchanged since the per-section rank decay in computeRawScore()
+// (2026-07-30, see its comment) is itself unvalidated. Do not tune these
+// until a real scripts/calibrate.js --runs=3 run against that formula
+// exists; fitting these to old data would just be fitting noise.
 const BAND_THRESHOLDS = [
-  [50.0, 'HIGH'],
-  [40.0, 'ELEVATED'],
-  [18.0, 'MEDIUM'],
+  [12.0, 'HIGH'],
+  [7.0, 'ELEVATED'],
+  [3.0, 'MEDIUM'],
   [0.0, 'LOW'],
 ];
 
 function round4(n) {
   return Math.round(n * 10000) / 10000;
+}
+
+/**
+ * SEVERITY WEIGHTING — linear (2026-07-30). Three different global
+ * aggregation shapes were tried against the 17-case human-judged calibration
+ * set: (1) flat linear sum, (2) rank-discounted harmonic decay, (3) squared
+ * ("quadratic") severity. All three landed at the *same* ~24-31% band
+ * agreement even with consensus-filtered (runs=3) extraction, and (3)
+ * actually inverted the LOW/HIGH mean raw_score ordering. Three structurally
+ * different per-signal formulas converging on the same failure rate is
+ * evidence the bottleneck wasn't the per-signal severity curve at all.
+ */
+function severityWeight(severity) {
+  return severity;
+}
+
+/**
+ * PER-SECTION RANK DECAY (2026-07-30, UNVALIDATED — see below).
+ *
+ * A taxonomy.js audit (backend's severity distribution across all 264 signal
+ * types) found the real driver of the four failed calibration runs: severity
+ * itself barely varies inside the sections that produce most hits.
+ * SECTION_9_FIGURE_TABLE_INTEGRITY (41 signal types) has ZERO types below
+ * severity 3 — every single Section-9 signal is MAJOR or CRITICAL.
+ * SECTION_10_REPRODUCIBILITY is 88% severity 3-4, SECTION_4_ARGUMENTATION is
+ * 82%. So no per-signal severity transform (linear, squared, decayed by
+ * global rank) can discriminate within those sections — severity there is
+ * nearly a constant, and raw_score ends up tracking how many signals a
+ * section produces, which tracks manuscript SHAPE (a paper with more tables
+ * draws more Section-9 hits, a paper with more explicit claims draws more
+ * Section-4 hits) more than true risk.
+ *
+ * Fix: dampen repeated hits WITHIN a single section (not globally — that's
+ * what over-corrected in the rejected harmonic-decay attempt, which erased
+ * genuine cross-section volume signal by discounting the WHOLE report's
+ * ranking, section boundaries included). Scoping the same harmonic decay
+ * (1/(rank+1)) to only fire between signals that share a section keeps it
+ * from touching cross-section volume at all: a manuscript with issues
+ * spread across several sections still accumulates each section's top hit
+ * at full weight, while a single over-triggering section (e.g. ten
+ * Section-9 figure hits on a table-heavy but otherwise sound paper) gets
+ * throttled hard. A gentler sqrt(rank+1) decay was tried first and didn't
+ * throttle enough — a synthetic sanity check (10 same-severity Section-9-only
+ * hits vs. 3 genuinely cross-section severity-4 hits) still scored the
+ * single-section case higher under sqrt decay; switching to harmonic decay
+ * flips that, as intended (backend scratch test, 2026-07-30, not committed).
+ *
+ * UNVALIDATED against real data: Anthropic API credit balance ran out (see
+ * runs=3 calibration run, 2026-07-30) before this could be tested against
+ * the 17-case human-judged set. The synthetic check above only confirms the
+ * formula does what it's designed to do on a toy example, not that it
+ * predicts real editorial risk. Rerun scripts/calibrate.js --runs=3 once
+ * credits are restored and re-tune BAND_THRESHOLDS off real output before
+ * relying on this in production.
+ */
+function withinSectionDecay(rank) {
+  return round4(1 / (rank + 1));
+}
+
+function computeRawScore(scored) {
+  const bySection = new Map();
+  for (const s of scored) {
+    if (!bySection.has(s.section)) bySection.set(s.section, []);
+    bySection.get(s.section).push(s);
+  }
+  for (const group of bySection.values()) {
+    group.sort((a, b) => b.contribution - a.contribution);
+    group.forEach((s, rank) => {
+      s.section_rank_decay = withinSectionDecay(rank);
+    });
+  }
+  return scored.reduce((sum, s) => sum + s.contribution * s.section_rank_decay, 0);
 }
 
 /**
@@ -91,14 +149,16 @@ function score(verified, droppedCount = 0, taxonomyGap = false) {
       section: sectionOf(sid),
       severity,
       weight: round4(weight),
-      contribution: round4(severity * weight),
+      // Per-signal contribution before section-rank decay is applied in
+      // computeRawScore(). `severity` itself stays 0-4 for display.
+      contribution: round4(severityWeight(severity) * weight),
       evidence_quote: vs.signal.evidence_quote,
       basis: vs.signal.basis,
       verification_method: vs.verification.method,
     });
   }
 
-  let total = scored.reduce((sum, s) => sum + s.contribution, 0);
+  let total = computeRawScore(scored);
   const present = new Set(scored.map((s) => s.signal_id));
 
   const applied = [];
@@ -130,4 +190,4 @@ function score(verified, droppedCount = 0, taxonomyGap = false) {
   };
 }
 
-module.exports = { score, BASIS_WEIGHT, METHOD_WEIGHT, COOCCURRENCE_RULES, BAND_THRESHOLDS };
+module.exports = { score, computeRawScore, severityWeight, BASIS_WEIGHT, METHOD_WEIGHT, COOCCURRENCE_RULES, BAND_THRESHOLDS };

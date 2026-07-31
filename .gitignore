@@ -11,3 +11,4 @@ NODE_ENV=production.txt
 # no real data) stays tracked.
 backend/scripts/calibration-data/
 backend/scripts/calibration-cases.json
+backend/scripts/calibration-results-*.json
