@@ -1,4 +1,4 @@
-﻿# 55 CLASR — HTML REPORT KIT v1.1
+# 55 CLASR — HTML REPORT KIT v1.1
 # Kit: EN_HTML-REPORT-KIT_v1.1
 # Position: Project Files
 # STATUS: v1.1
@@ -308,7 +308,10 @@ It defines visual presentation only.
 ## VERSION DEPENDENCY
 
 This kit depends on:
-  CLASR CORE v1.4
+  CLASR CORE v1.4  [⚠ likely stale — sibling kits 52/53/54 in the same
+                    delivered set all cite "CLASR CORE v1.9"; left
+                    as-is rather than silently changed, since this
+                    reconciliation cannot confirm which is intended]
   EN_MASTER_SECTION_KIT v1.2
   EN_EXECUTIVE-SUMMARY-BLOCK v1.0
   EN_CITATION-INTEGRITY-MODULE M17 v1.0
@@ -317,4 +320,9 @@ Brand tokens are fixed and version-independent.
 
 ---
 
-# EN_HTML-REPORT-KIT_v1.0 — END
+# CLASR — HTML REPORT KIT v1.1 — END
+# NOTE: closing tag corrected from stale "v1.0" to match header/STATUS (v1.1).
+# OPEN QUESTION (flagged, not resolved here): Kit 53 and Kit 54's own
+# VERSION DEPENDENCY blocks both cite this kit at v1.2, while the
+# delivered file is v1.1 with no v1.2 in hand. Needs the actual v1.2
+# file or confirmation that v1.1 is in fact current.

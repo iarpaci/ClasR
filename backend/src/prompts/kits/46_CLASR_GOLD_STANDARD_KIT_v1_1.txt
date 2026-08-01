@@ -1,7 +1,12 @@
-﻿# 46 CLASR — GOLD STANDARD KIT v1.0
+# 46 CLASR — GOLD STANDARD KIT v1.1
 # Added to Project Files. Does not modify CORE.
 # Tier: 2 — Governance
 # Activation: User-triggered — explicit command required
+# PATCH v1.1: § 6 "GOLD STANDARD + OUTPUT LANGUAGE INTERACTION" removed —
+#          it described a "gold standard — türkçe" Turkish-output command
+#          that directly contradicted CORE v1.9.0's hard lock ("Language
+#          switching is not supported"). System is English-only end to
+#          end; no such interaction can exist. Previous: v1.0
 
 ---
 
@@ -160,13 +165,19 @@ Both may be active simultaneously:
 
 ---
 
-## 6. GOLD STANDARD + OUTPUT LANGUAGE INTERACTION
+## 6. GOLD STANDARD + OUTPUT LANGUAGE — REMOVED (v1.1)
 
-Gold Standard and language switching are independent.
-Both may be active simultaneously:
-
-  "gold standard — türkçe"
-  → Full depth reading + Turkish prose output
+This section previously described a "gold standard — türkçe" command
+producing Turkish prose output. That contradicted CORE v1.9.0's
+explicit hard lock: "All output is produced in English... No other
+output language is available. Language switching is not supported."
+The system is English-only end to end. This section is removed
+rather than corrected in place, since no language-switching
+interaction can exist for Gold Standard (or anything else) to
+describe. Section number retained as a placeholder (not renumbered)
+so no other document's reference to this kit's section numbers
+breaks — consistent with how retired kit 22's number was kept
+rather than reused elsewhere in this project.
 
 ---
 
@@ -224,7 +235,8 @@ system's "map, don't judge" identity.
 
 ---
 
-# GOLD STANDARD KIT v1.0 — END
+# GOLD STANDARD KIT v1.1 — END
+# PATCH v1.0 -> v1.1: Turkish output-language section removed (English-only)
 # Tier 2 — Governance
 # Activation: User-triggered
 # Interacts with: all kits; all output modes; revision round

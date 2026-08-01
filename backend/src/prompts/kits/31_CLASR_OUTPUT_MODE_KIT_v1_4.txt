@@ -1,8 +1,15 @@
-﻿# 31 CLASR — OUTPUT MODE KIT v1.3
+# 31 CLASR — OUTPUT MODE KIT v1.4
 # Added to Project Files. Does not modify CORE.
-# STATUS: v1.3
-# Previous: v1.2.2
-# Changes:
+# STATUS: v1.4
+# Previous: v1.3
+# Changes (v1.4):
+#   § 3 Activation commands table: Turkish command aliases
+#        ("yazar modu", "sinyal modu", "danışman modu") removed.
+#        English-only, per user directive and CORE v1.9.0's explicit
+#        hard lock: "No other output language is available.
+#        Language switching is not supported." System is English-only
+#        end to end — including trigger commands, not just output.
+# Previous (v1.3):
 #   § 4 AUTHOR MODE — fully redefined:
 #          zero data loss rule added (non-negotiable);
 #          Section 10 full module walkthrough mandatory;
@@ -94,13 +101,16 @@ UNIFIED-OUTPUT KIT v1.3 label enforcement remains active in all modes.
 Output Mode Kit is inactive by default.
 Standard CLASR behavior applies unless a mode command is given.
 
-Activation commands (case-insensitive, Turkish and English):
+Activation commands (case-insensitive, English only —
+Turkish aliases removed per CORE's English-only hard lock;
+CORE v1.9.0: "No other output language is available.
+Language switching is not supported."):
 
-| Command (TR)    | Command (EN)   | Mode activated | Use when |
-|-----------------|----------------|----------------|----------|
-| `yazar modu`    | `author mode`  | AUTHOR MODE    | Author needs plain-language walkthrough of every signal with structural visibility framing |
-| `sinyal modu`   | `signal mode`  | SIGNAL MODE    | Fluent CLASR reader needs full content in maximum-density fragment form |
-| `danışman modu` | `advisor mode` | ADVISOR MODE   | Supervisor / research support staff needs risk-ordered triage view across all signals |
+| Command        | Mode activated | Use when |
+|----------------|----------------|----------|
+| `author mode`  | AUTHOR MODE    | Author needs plain-language walkthrough of every signal with structural visibility framing |
+| `signal mode`  | SIGNAL MODE    | Fluent CLASR reader needs full content in maximum-density fragment form |
+| `advisor mode` | ADVISOR MODE   | Supervisor / research support staff needs risk-ordered triage view across all signals |
 
 Command may appear:
 - Before the manuscript ("author mode: [manuscript]")
@@ -502,4 +512,5 @@ role simulation. All decisions rest with the user.
 
 ---
 
-# OUTPUT MODE KIT v1.3 — END
+# OUTPUT MODE KIT v1.4 — END
+# PATCH v1.3 -> v1.4: Turkish command aliases removed (English-only system)

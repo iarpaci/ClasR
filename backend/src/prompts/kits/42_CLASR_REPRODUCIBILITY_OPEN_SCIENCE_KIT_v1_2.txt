@@ -1,7 +1,14 @@
-﻿# 42 CLASR — REPRODUCIBILITY # CLASR — REPRODUCIBILITY & OPEN SCIENCE KIT v1.1 OPEN SCIENCE KIT v1.1
+# 42 CLASR — REPRODUCIBILITY & OPEN SCIENCE KIT v1.2
+# NOTE: title line was corrupted — it previously read a garbled
+#       splice of an old v1.1 title merged into the v1.2 title
+#       ("...REPRODUCIBILITY # CLASR — REPRODUCIBILITY & OPEN SCIENCE
+#       KIT v1.1 OPEN SCIENCE KIT v1.1"). Cleaned to a single title
+#       matching STATUS (v1.2) and the filename.
 # Added to Project Files. Does not modify CORE.
 # STATUS: v1.2 — M02 simulation checklist added; M10 large-collaboration priority note added
-# Previous: v1.0
+# Previous: v1.1 (NOTE: corrected from "v1.0" — the immediate predecessor
+#           was v1.1, per the M11 scope-note changes listed directly below,
+#           which document the v1.0→v1.1 step; v1.0 is two steps back)
 # Changes:
 #   M11: Scope note added — text-layer boundary clarified
 #   M11: Signal label FUNDING_NOT_VISIBLE_IN_TEXT
@@ -752,7 +759,8 @@ This kit:
 
 ---
 
-# REPRODUCIBILITY & OPEN SCIENCE KIT v1.0 — END
+# REPRODUCIBILITY & OPEN SCIENCE KIT v1.2 — END
+# NOTE: closing tag corrected from stale "v1.0" to match STATUS (v1.2).
 # Tier 3 — Extension
 # Primary: SECTION 10
 # Secondary: SECTION 3, SECTION 7

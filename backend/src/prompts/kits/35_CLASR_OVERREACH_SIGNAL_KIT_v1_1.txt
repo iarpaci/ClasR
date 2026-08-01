@@ -1,6 +1,10 @@
-﻿# 35 CLASR — OVERREACH-SIGNAL KIT v1.0
+# 35 CLASR — OVERREACH-SIGNAL KIT v1.1
 # Kit 35 — Unified Overreach Profile
 # CLASR Tier 3 Extension
+# PATCH v1.1: footer Lens-Bridge references updated v2.0 -> v3.0
+#          (Lens-Bridge-Core / Lens-Bridge-Collision reached v3.0
+#          at CLASR v3.0; footer had not been updated to match)
+# Previous: v1.0
 # Compatible with: CLASR v2.1
 
 ---
@@ -335,7 +339,7 @@ This kit must never:
 
 ## 9. CANONICAL DEFINITION
 
-OVERREACH-SIGNAL-KIT v1.0 classifies overreach instances
+OVERREACH-SIGNAL-KIT v1.1 classifies overreach instances
 across 8 types (CAUSAL, GENERALIZATION, POLICY, NOVELTY,
 CONTRIBUTION, TEMPORAL, TRANSLATIONAL, DISCIPLINARY),
 assigns severity (MINOR / MODERATE / MAJOR) per instance,
@@ -347,7 +351,8 @@ or modifying any other system behavior.
 
 ---
 
-# OVERREACH-SIGNAL-KIT v1.0 — END
+# OVERREACH-SIGNAL-KIT v1.1 — END
+# PATCH v1.0 -> v1.1: Lens-Bridge version reference corrected v2.0 -> v3.0
 # Compatible with: CLASR v2.1
 # Tier 3 Extension
-# Coordinates with: Calibration-Deep §1.6 · Lens-Bridge-Core v2.0 · Lens-Bridge-Collision v2.0
+# Coordinates with: Calibration-Deep §1.6 · Lens-Bridge-Core v3.0 · Lens-Bridge-Collision v3.0

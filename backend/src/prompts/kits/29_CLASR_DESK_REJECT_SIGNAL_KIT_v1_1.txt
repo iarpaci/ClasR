@@ -1,6 +1,10 @@
-﻿# 29 CLASR — DESK-REJECT SIGNAL KIT v1.0
+# 29 CLASR — DESK-REJECT SIGNAL KIT v1.0
 # Added to Project Files. Does not modify CORE.
-# STATUS: v1.0 — Multi-signal desk-reject risk synthesis overlay
+# PATCH v1.1: dangling references to retired "Replication Signal Kit" (kit 22)
+#          corrected to Reproducibility & Open Science Kit (kit 42),
+#          per Unified-Output Kit v1.3 retirement record.
+# Previous: v1.0
+# STATUS: v1.1 — Multi-signal desk-reject risk synthesis overlay
 
 ---
 
@@ -106,7 +110,7 @@ Signal co-occurrence indicators:
 - SECTION 8 absent or under 3 lines
   (Calibration-Deep §1.3)
 - REPLICATION STRUCTURE GAP in data-heavy manuscript
-  (Replication Signal Kit)
+  (Reproducibility & Open Science Kit, Kit 42)
 - DEPENDENCY_BREAK in methods chain
   (Structural QA Kit)
 
@@ -145,7 +149,7 @@ Signal co-occurrence indicators:
 - STRUCTURAL_NULL_ABSENCE in confirmatory design
   (Negative Result Visibility Kit)
 - PRE-REGISTRATION SIGNAL ABSENT
-  in clinical or experimental design (Replication Signal Kit)
+  in clinical or experimental design (Reproducibility & Open Science Kit, Kit 42)
 
 Label: INTEGRITY_TRANSPARENCY_RISK
 
@@ -361,7 +365,7 @@ This kit must never:
 
 ## 15. CANONICAL DEFINITION
 
-DESK-REJECT SIGNAL KIT v1.0 synthesizes behavioral signals
+DESK-REJECT SIGNAL KIT v1.1 synthesizes behavioral signals
 from across the CLASR system into a five-zone desk-reject
 risk profile — mapping scope-journal fit, abstract posture,
 structural completeness, language posture, and integrity
@@ -370,4 +374,5 @@ without producing verdict, prediction, or recommendation.
 
 ---
 
-# DESK-REJECT SIGNAL KIT v1.0 — END
+# DESK-REJECT SIGNAL KIT v1.1 — END
+# PATCH v1.0 -> v1.1: retired-kit reference corrected (Replication Signal Kit -> Kit 42)

@@ -1,6 +1,8 @@
-﻿# 36 CLASR — UNCERTAINTY-VISIBILITY KIT v1.0
+# 36 CLASR — UNCERTAINTY-VISIBILITY KIT v1.1
 # Kit 36 — Uncertainty Positioning and Visibility Profile
 # CLASR Tier 3 Extension
+# PATCH v1.1: footer Lens-Bridge-Core reference updated v2.0 -> v3.0
+# Previous: v1.0
 # Compatible with: CLASR v2.1
 
 ---
@@ -245,7 +247,7 @@ This kit must never:
 
 ## 8. CANONICAL DEFINITION
 
-UNCERTAINTY-VISIBILITY-KIT v1.0 reads uncertainty positioning
+UNCERTAINTY-VISIBILITY-KIT v1.1 reads uncertainty positioning
 across five dimensions (POSITION, DISTRIBUTION, SCOPE MATCH,
 STRUCTURAL INTEGRATION, LANGUAGE REGISTER),
 assigns a composite visibility profile
@@ -258,7 +260,8 @@ or replacing SECTION 8's mandatory function.
 
 ---
 
-# UNCERTAINTY-VISIBILITY-KIT v1.0 — END
+# UNCERTAINTY-VISIBILITY-KIT v1.1 — END
+# PATCH v1.0 -> v1.1: Lens-Bridge-Core version reference corrected v2.0 -> v3.0
 # Compatible with: CLASR v2.1
 # Tier 3 Extension
-# Coordinates with: Calibration-Deep §1.7 · Hedging-Calibration Kit · Lens-Bridge-Core v2.0
+# Coordinates with: Calibration-Deep §1.7 · Hedging-Calibration Kit · Lens-Bridge-Core v3.0

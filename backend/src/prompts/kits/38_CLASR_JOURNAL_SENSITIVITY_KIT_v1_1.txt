@@ -1,6 +1,10 @@
-﻿# 38 CLASR — JOURNAL-SENSITIVITY KIT v1.0
+# 38 CLASR — JOURNAL-SENSITIVITY KIT v1.1
 # Added to Project Files. Does not modify CORE.
-# STATUS: v1.0 — Field-specific signal calibration and terminology overlay
+# STATUS: v1.1 — Field-specific signal calibration and terminology overlay
+# PATCH v1.1: 7 dangling references to retired "Replication Signal Kit"
+#          (kit 22) corrected to Reproducibility & Open Science Kit
+#          (kit 42), per Unified-Output Kit v1.3 retirement record.
+# Previous: v1.0
 
 ---
 
@@ -114,7 +118,7 @@ they do not replace or override Q-Gate thresholds.
 
 ### 4.1 FIELD-NAT — Natural Sciences
 
-**Replication Signal Kit adjustments:**
+**Reproducibility & Open Science Kit (42) adjustments:**
   Pre-registration: LOW concern (not field norm)
   Data availability: MEDIUM concern (field-dependent)
   Code availability: HIGH concern for computational studies
@@ -141,7 +145,7 @@ they do not replace or override Q-Gate thresholds.
 
 ### 4.2 FIELD-MED — Medical and Health Sciences
 
-**Replication Signal Kit adjustments:**
+**Reproducibility & Open Science Kit (42) adjustments:**
   Pre-registration: HIGH concern — clinical norm
   Data availability: HIGH concern
   Reporting standard (CONSORT/STROBE): HIGH concern
@@ -180,7 +184,7 @@ they do not replace or override Q-Gate thresholds.
 
 ### 4.3 FIELD-SOC — Social Sciences
 
-**Replication Signal Kit adjustments:**
+**Reproducibility & Open Science Kit (42) adjustments:**
   Pre-registration: MEDIUM concern (growing norm)
   Data availability: MEDIUM concern (field-variable)
   Code availability: MEDIUM concern for quantitative studies
@@ -209,7 +213,7 @@ they do not replace or override Q-Gate thresholds.
 
 ### 4.4 FIELD-HUM — Humanities
 
-**Replication Signal Kit adjustments:**
+**Reproducibility & Open Science Kit (42) adjustments:**
   All dimensions: NOT APPLICABLE (field norm)
   No signal produced for absent replication elements
 
@@ -248,7 +252,7 @@ they do not replace or override Q-Gate thresholds.
 
 ### 4.5 FIELD-LAW — Legal and Regulatory
 
-**Replication Signal Kit adjustments:**
+**Reproducibility & Open Science Kit (42) adjustments:**
   All dimensions: NOT APPLICABLE (field norm)
 
 **Uncertainty-Visibility Kit adjustments:**
@@ -279,7 +283,7 @@ they do not replace or override Q-Gate thresholds.
 
 ### 4.6 FIELD-ENG — Engineering and Applied Sciences
 
-**Replication Signal Kit adjustments:**
+**Reproducibility & Open Science Kit (42) adjustments:**
   Code availability: HIGH concern
   Data availability: MEDIUM-HIGH concern
   Reporting standard: MEDIUM concern
@@ -305,7 +309,7 @@ they do not replace or override Q-Gate thresholds.
 
 ### 4.7 FIELD-EDU — Education Sciences
 
-**Replication Signal Kit adjustments:**
+**Reproducibility & Open Science Kit (42) adjustments:**
   Pre-registration: LOW-MEDIUM concern
   Data availability: MEDIUM concern (privacy constraints noted)
 
@@ -546,7 +550,7 @@ This kit must never:
 
 ## 16. CANONICAL DEFINITION
 
-JOURNAL-SENSITIVITY KIT v1.0 calibrates CLASR signal sensitivity
+JOURNAL-SENSITIVITY KIT v1.1 calibrates CLASR signal sensitivity
 to field-specific publication norms across eight field categories —
 adjusting signal thresholds for replication expectations,
 uncertainty conventions, overreach sensitivity, and terminology —
@@ -558,4 +562,5 @@ or producing field quality verdicts.
 
 ---
 
-# JOURNAL-SENSITIVITY KIT v1.0 — END
+# JOURNAL-SENSITIVITY KIT v1.1 — END
+# PATCH v1.0 -> v1.1: retired-kit references corrected (Replication Signal Kit -> Kit 42)

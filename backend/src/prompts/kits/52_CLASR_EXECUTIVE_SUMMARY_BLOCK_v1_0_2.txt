@@ -1,9 +1,13 @@
-﻿# 52 CLASR — EXECUTIVE SUMMARY BLOCK v1.0
-# Kit: 52_CLASR_EXECUTIVE_SUMMARY_BLOCK_v1_0
+# 52 CLASR — EXECUTIVE SUMMARY BLOCK v1.0.2
+# NOTE: title/Kit-id line and STATUS line previously said "v1.0" while
+#       the filename (and 00_CLASR_INSTALLATION_GUIDE_v4_13's own
+#       manifest, which explicitly documents "v1_0 -> replaced by
+#       v1_0_2") confirm v1.0.2 is current. Corrected to match.
+# Kit: 52_CLASR_EXECUTIVE_SUMMARY_BLOCK_v1_0_2
 # Position: Project Files — Tier 2 (Governance)
 #           Report position: Before PRIORITY ACTION SIGNALS,
 #           after identity header
-# STATUS: v1.0
+# STATUS: v1.0.2
 
 ---
 
@@ -158,4 +162,5 @@ is systematically structured.
 
 ---
 
-# 52_CLASR_EXECUTIVE_SUMMARY_BLOCK_v1_0 — END
+# 52_CLASR_EXECUTIVE_SUMMARY_BLOCK_v1_0_2 — END
+# NOTE: closing tag corrected from stale "v1_0" to match STATUS (v1.0.2).

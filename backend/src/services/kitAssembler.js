@@ -1,6 +1,16 @@
 const fs = require('fs');
 const path = require('path');
 
+// KIT_ORDER reconciled 2026-08-01 against Design/CLASR 260801.zip (a kit-
+// registry audit, partly done in an earlier session): kits 29/31/35/36/38/46
+// bumped to their current versions (reference-only fixes except 31 and 46,
+// which drop a Turkish-language command path that contradicted CORE
+// v1.9.0's English-only lock), kit 14 replaced with a reconciled snapshot,
+// and 5 kit files removed that had been in the live prompt by mistake (kit
+// 22, retired; INPUT_VALIDATION/OUTPUT_LANGUAGE/OUTPUT_SCOPE/
+// SESSION_CONTINUITY kits, which belong to a different sibling product).
+// See inline comments below for per-kit detail.
+
 const PROMPTS_DIR = path.join(__dirname, '..', 'prompts');
 
 const KIT_ORDER = [
@@ -18,14 +28,18 @@ const KIT_ORDER = [
   '09_CLASR_CALIBRATION_DEEP_KIT_v1_5.txt',
   '12a_CLASR_LENS_BRIDGE_CORE_v3_0.txt',
   '12b_CLASR_LENS_BRIDGE_COLLISION_v3_0.txt',
-  '14_CLASR_VERSION_FREEZE_v3_2.txt',
+  '14_CLASR_VERSION_FREEZE_v3_2_RECONCILED.txt',
   '17_CLASR_PARTIAL_INPUT_KIT_v1_1.txt',
   '18_CLASR_REVISION_ROUND_KIT_v1_0.txt',
-  '31_CLASR_OUTPUT_MODE_KIT_v1_3.txt',
-  'INPUT_VALIDATION_KIT_v1_0.txt',
-  'OUTPUT_LANGUAGE_KIT_v1_0.txt',
-  'OUTPUT_SCOPE_KIT_v1_0.txt',
-  'SESSION_CONTINUITY_KIT_v1_0.txt',
+  '31_CLASR_OUTPUT_MODE_KIT_v1_4.txt',
+  // INPUT_VALIDATION_KIT / OUTPUT_LANGUAGE_KIT / OUTPUT_SCOPE_KIT /
+  // SESSION_CONTINUITY_KIT removed 2026-08-01: a kit-registry reconciliation
+  // (Design/CLASR 260801.zip, 14_CLASR_VERSION_FREEZE_v3_2_RECONCILED's own
+  // correction note) traced these four to a sibling product (V-CLASR
+  // GLOBAL), not this project — they don't appear anywhere in
+  // 00_CLASR_INSTALLATION_GUIDE_v4_13's own Tier 2 manifest (independently
+  // verified against that file). They'd been in the live system prompt by
+  // mistake.
 
   // Tier 3 — Extensions (kits 10–39)
   '10_CLASR_VERBAL_LENS_KIT_v1_1.txt',
@@ -36,38 +50,41 @@ const KIT_ORDER = [
   '19_CLASR_INTEGRITY_SIGNAL_KIT_v1_0.txt',
   '20_CLASR_CITATION_BEHAVIOR_KIT_v1_0.txt',
   '21_CLASR_ABSTRACT_BODY_COHERENCE_KIT_v1_0.txt',
-  '22_EN_REPLICATION_SIGNAL_KIT_v1_0.txt',
+  // 22_EN_REPLICATION_SIGNAL_KIT removed 2026-08-01: retired, replaced by
+  // kit 42 (per 00_CLASR_INSTALLATION_GUIDE_v4_13's own "FILES THAT MUST
+  // NOT BE PRESENT" list) — it had been left in KIT_ORDER by mistake and
+  // was actively part of the live system prompt.
   '23_CLASR_CONTRIBUTION_FRAMING_KIT_v1_0.txt',
   '24_CLASR_DISCUSSION_SCOPE_DRIFT_KIT_v1_1.txt',
   '25_CLASR_ARGUMENT_SYMMETRY_KIT_v1_1.txt',
   '26_CLASR_NEGATIVE_RESULT_VISIBILITY_KIT_v1_0.txt',
   '27_CLASR_INTERDISCIPLINARY_TENSION_KIT_v1_0.txt',
   '28_CLASR_READER_MODEL_KIT_v1_0.txt',
-  '29_CLASR_DESK_REJECT_SIGNAL_KIT_v1_0.txt',
+  '29_CLASR_DESK_REJECT_SIGNAL_KIT_v1_1.txt',
   '30_CLASR_ARGUMENT_CHAIN_KIT_v1_0.txt',
   '32_CLASR_ARGUMENT_LOAD_KIT_v1_0.txt',
   '33_CLASR_CONCEPT_EVIDENCE_BRIDGE_KIT_v1_0.txt',
   '34_CLASR_CONCLUSION_INTEGRITY_KIT_v1_0.txt',
-  '35_CLASR_OVERREACH_SIGNAL_KIT_v1_0.txt',
-  '36_CLASR_UNCERTAINTY_VISIBILITY_KIT_v1_0.txt',
+  '35_CLASR_OVERREACH_SIGNAL_KIT_v1_1.txt',
+  '36_CLASR_UNCERTAINTY_VISIBILITY_KIT_v1_1.txt',
   '37_CLASR_HEDGING_CALIBRATION_KIT_v1_0.txt',
-  '38_CLASR_JOURNAL_SENSITIVITY_KIT_v1_0.txt',
+  '38_CLASR_JOURNAL_SENSITIVITY_KIT_v1_1.txt',
   '39_CLASR_METHODOLOGICAL_RHETORIC_KIT_v1_0.txt',
 
   // Tier 4 — Extended kits v1.9.0 (kits 40–57)
   '40_CLASR_ARGUMENT_INTEGRITY_KIT_v1_2.txt',
   '41_CLASR_FIGURE_TABLE_INTEGRITY_KIT_v1_1.txt',
-  '42_CLASR_REPRODUCIBILITY_OPEN_SCIENCE_KIT_v1_2_.txt',
+  '42_CLASR_REPRODUCIBILITY_OPEN_SCIENCE_KIT_v1_2.txt',
   '42b_CLASR_REPRODUCIBILITY_FIELD_TYPE_SEVERITY_PATCH_v1_0.txt',
   '43_CLASR_SOURCE_INTEGRITY_KIT_v1_1.txt',
   '44_CLASR_ACTION_PRIORITY_BLOCK_KIT_v1_7.txt',
   '45_CLASR_REPORTING_STANDARD_KIT_v1_0.txt',
-  '46_CLASR_GOLD_STANDARD_KIT_v1_0.txt',
+  '46_CLASR_GOLD_STANDARD_KIT_v1_1.txt',
   '47_CLASR_EPISTEMIC_FRAME_KIT_v1_0.txt',
   '48_CLASR_CONCEPT_LIFECYCLE_KIT_v1_0.txt',
   '49_CLASR_METHODOLOGICAL_VERBAL_RISK_KIT_v1_0.txt',
   '50_CLASR_CROSS_CONSISTENCY_KIT_v1_0.txt',
-  '51_CLASR_CITATION_INTEGRITY_MODULE_M17_v1_0_.txt',
+  '51_CLASR_CITATION_INTEGRITY_MODULE_M17_v1_0.txt',
   '52_CLASR_EXECUTIVE_SUMMARY_BLOCK_v1_0_2.txt',
   '53_CLASR_LAYER_CONVERGENCE_KIT_v1_0.txt',
   '54_CLASR_REPORT_MODE_KIT_v1_0_2.txt',

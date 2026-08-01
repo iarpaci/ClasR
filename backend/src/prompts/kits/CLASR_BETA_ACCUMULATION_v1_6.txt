@@ -1,14 +1,17 @@
-﻿# CLASR_BETA_ACCUMULATION_v1
+# CLASR_BETA_ACCUMULATION_v1_6
 # Support File — Project Files alanına eklenir.
 # Kit değildir. CORE'u değiştirmez.
 # Beta serisi bulguları ve kalibrasyon referansı.
-# STATUS: v1 — 2026-06 / 10 rapor / 6 alan
+# STATUS: v1.6 — 2026-06 / 9 tamamlanmış rapor + 1 rezerv slot / 6 alan
+# NOT: başlık satırı "v1" olarak kalmıştı, footer'daki v1.6 ile
+#      eşitlendi. "10 rapor" ifadesi 9 dolu + 1 rezerv olarak
+#      netleştirildi (bkz. §2 manuscript listesi, ID 10).
 
 ---
 
 ## 1. BETA SERİSİ — GENEL BİLGİ
 
-Rapor sayısı   : 10
+Rapor sayısı   : 9 tamamlanmış + 1 rezerv slot (ID 10 — bkz. §2)
 Tarih          : 2026-06-20
 Sistem versiyonu: CLASR CORE v1.8.x → v1.9.0 geçiş dönemi
 Alan dağılımı  : Fizik, astronomi, hematoloji, halk sağlığı,

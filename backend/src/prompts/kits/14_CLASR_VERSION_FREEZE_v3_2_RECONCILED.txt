@@ -1,0 +1,689 @@
+# 14 CLASR — OPERATIONAL TIERING v3.2-RECONCILED
+# (Kit Layer Classification)
+# STATUS: v3.2-RECONCILED — interim registry sync, NOT the vendor's
+#         canonical v3.3 (00_CLASR_INSTALLATION_GUIDE_v4_13 §STEP 2
+#         calls for 14_CLASR_VERSION_FREEZE_v3_3.txt; that file was
+#         not available at reconciliation time — see METAFACTORY
+#         trace-break note below).
+#
+# WHY THIS RECONCILIATION EXISTS:
+#   This v3.2 document's own internal registry (Tier tables + Canonical
+#   Source Table below) had fallen multiple versions behind the actual
+#   files in hand: CORE was tracked at v1.4 while the delivered CORE
+#   is v1.9.0; several kits (03, 02, 09, 31, 41, 42, 44) were tracked
+#   at stale version numbers; and six kits that now exist in the
+#   delivered set (42b, 51, 52, 53, 54, 55, 57) were entirely absent
+#   from this registry. That gap spans an unknown number of real
+#   vendor releases (v3.3 through whatever is current) whose actual
+#   patch content is not available here.
+#
+#   Rather than invent a fictional patch history to bridge that gap,
+#   this reconciliation replaces the TIER TABLES and CANONICAL SOURCE
+#   TABLE with a verified snapshot of the files actually delivered
+#   (read and confirmed line-by-line), and leaves the pre-existing
+#   v2.2→v3.0, v3.1, and v3.2 change logs below untouched as historical
+#   record. It does NOT reconstruct the missing v3.3+ change log entries.
+#
+#   ACTION NEEDED: replace this file with the vendor's real current
+#   VERSION_FREEZE the next time it is available, and diff it against
+#   this reconciliation to confirm nothing here was assumed incorrectly.
+#
+# Previous acknowledged state: v3.2 (original, un-reconciled)
+
+---
+
+## 0. IDENTITY
+
+This document classifies all CLASR kits into three tiers
+by functional importance and maintenance priority.
+
+This document:
+  Does not modify kit content
+  Does not modify operational order
+  Is a classification and maintenance guide only
+
+---
+
+## 1. TIER 1 — CORE (UNTOUCHABLE)
+
+Changes require → new version (v2.0 of CORE, or equivalent MAJOR bump).
+
+VERIFIED SNAPSHOT (files read and confirmed; ← RECONCILED marks entries
+corrected from the stale v3.2 registry):
+
+```
+00_CLASR_CORE_v1_9_0                          ← RECONCILED (was tracked v1_4)
+01_CLASR_MASTER_SECTION_KIT_v1_2               (unchanged — already correct)
+02_CLASR_SECTION_DEPTH_KIT_v1_2                ← RECONCILED (was tracked v1_1)
+03_CLASR_UNIFIED_OUTPUT_KIT_v1_3               ← RECONCILED (was tracked v1_2)
+04_CLASR_Q1_GATE_KIT_v1_0                      (unchanged)
+05_CLASR_Q2_GATE_KIT_v1_0                      (unchanged)
+06_CLASR_Q3_GATE_KIT_v1_0                      (unchanged)
+```
+
+Note: CORE progressed v1.4 → v1.9.0 across an unknown number of
+intermediate releases not documented in this file. The actual
+intermediate change content (v1.5 through v1.8.6) is not reconstructed
+here — see 00_CLASR_INSTALLATION_GUIDE_v4_13 §"FILES THAT MUST NOT BE
+PRESENT" for the list of superseded CORE filenames, which confirms
+the progression but not the content of each step.
+
+---
+
+## 2. TIER 2 — GOVERNANCE (MANDATORY)
+
+VERIFIED SNAPSHOT:
+
+```
+07_CLASR_Q_VARIANT_ADDENDUM_v1_0               (unchanged)
+08_CLASR_AUTO_Q_DETECTION_KIT_v1_0              (unchanged)
+09_CLASR_CALIBRATION_DEEP_KIT_v1_5             ← RECONCILED (was tracked v1_3)
+12a_CLASR_LENS_BRIDGE_CORE_v3_0                 (unchanged — already correct)
+12b_CLASR_LENS_BRIDGE_COLLISION_v3_0            (unchanged — already correct)
+14_CLASR_VERSION_FREEZE_v3_2-RECONCILED         ← this document (see disclaimer above;
+                                                   installation guide expects v3_3)
+17_CLASR_PARTIAL_INPUT_KIT_v1_1                 (unchanged)
+18_CLASR_REVISION_ROUND_KIT_v1_0.txt            ← VERIFIED (was ⚠ NOT VERIFIED;
+                                                   content now confirmed — v1.0
+                                                   matches guide's manifest exactly.
+                                                   Cross-checked against every other
+                                                   kit's "Revision Round Interaction"
+                                                   section (24, 25, 27–30, 32–38, 50,
+                                                   46); all consistent, no conflicts,
+                                                   no dangling references found.)
+31_CLASR_OUTPUT_MODE_KIT_v1_4                  ← RECONCILED TWICE (was tracked
+                                                   v1_1 originally; corrected to
+                                                   v1_3 in this reconciliation's
+                                                   first pass; then the delivered
+                                                   file itself was patched to v1_4
+                                                   in this same session — Turkish
+                                                   command aliases removed for
+                                                   CORE's English-only lock — and
+                                                   this registry entry was not
+                                                   updated to match until now.
+                                                   This is itself a small live
+                                                   example of the exact problem
+                                                   this whole document exists to
+                                                   fix: a registry falling one
+                                                   step behind its own tracked file.)
+44_CLASR_ACTION_PRIORITY_BLOCK_KIT_v1_7        ← RECONCILED (was tracked v1_0;
+                                                   guide's v4.x changelog shows
+                                                   progression through v1_7)
+46_CLASR_GOLD_STANDARD_KIT_v1_1                 ← RECONCILED (was tracked v1_0;
+                                                   patched in this same session —
+                                                   § 6 "gold standard — türkçe"
+                                                   removed for CORE's English-only
+                                                   lock. Same registry-lag pattern
+                                                   as kit 31 above.)
+52_CLASR_EXECUTIVE_SUMMARY_BLOCK_v1_0_2        ← ADDED (absent from v3.2 registry;
+                                                   confirmed present in delivered set.
+                                                   Also RECONCILED: was tracked v1_0,
+                                                   delivered file's own header/footer
+                                                   also said v1_0 despite filename and
+                                                   guide manifest confirming v1_0_2 —
+                                                   patched in this same session.)
+53_CLASR_LAYER_CONVERGENCE_KIT_v1_0            ← ADDED (absent from v3.2 registry)
+54_CLASR_REPORT_MODE_KIT_v1_0_2                ← ADDED (absent from v3.2 registry;
+                                                   same v1_0/v1_0_2 header-lag issue
+                                                   as kit 52 above — patched)
+```
+
+CORRECTION (post-delivery): the original version of this reconciliation
+carried forward five additional Tier 2 entries from the stale v3.2
+registry — INPUT_VALIDATION_KIT, OUTPUT_LANGUAGE_KIT, OUTPUT_SCOPE_KIT,
+SESSION_CONTINUITY_KIT, CLASR_SIGNAL_CONFIDENCE_LAYER — marked
+"⚠ NOT VERIFIED." That was an error: those five names do not appear
+anywhere in 00_CLASR_INSTALLATION_GUIDE_v4_13's own Tier 2 manifest,
+which was already cross-checked file-by-file in this session and is
+the actual current source of truth. Historical conversation records
+indicate these five were shared with a sibling system, V-CLASR GLOBAL
+(noted there explicitly as "shared with V-CLASR GLOBAL") — from an
+earlier naming generation when this project's own files carried an
+"EN_" prefix (e.g. "01_EN_MASTER_SECTION_KIT") before being renamed
+to the current "CLASR_" convention. CORRECTION: an earlier version
+of this reconciliation called this sibling system "CLASR-EN," which
+was wrong — CLASR-EN is a distinct, separate product (v2.3, with its
+own standalone Python QA validator), not related to the old "EN_"
+filename prefix on this project's own files. This project's system
+name is CLASR — full stop, no suffix, no variant, no language tag
+(per CORE v1.9.0's own identity lock). The sibling sharing these five
+kits was V-CLASR GLOBAL, not CLASR-EN. Not part of this project's
+current 58-file package either way.
+They have been removed from this table rather than left as false gaps.
+18_CLASR_REVISION_ROUND_KIT_v1_0 was the last remaining unverified
+Tier 2 file at the time this correction note was first written; it
+has since been delivered and verified (see the ← VERIFIED entry
+above, in § 2's Tier 2 table). This sentence is left here only to
+show the correction trail — do not read it as a current gap.
+
+Note: 44_CLASR_ACTION_PRIORITY_BLOCK_KIT is delivered as v1.7 — five
+minor patches ahead of what this registry tracked (v1.0). The content
+of those five patches is not reconstructed here; only the version
+number is corrected so the registry stops contradicting the file itself.
+
+---
+
+## 3. TIER 3 — EXTENSION (REMOVABLE)
+
+VERIFIED SNAPSHOT:
+
+```
+10_CLASR_VERBAL_LENS_KIT_v1_1                   (unchanged)
+11_CLASR_LENS_EXT_KITS_v1_0                     (unchanged)
+13_CLASR_STRUCTURAL_QA_KITS_v1_0                 (unchanged)
+15_CLASR_SILENCE_LENS_KIT_v1_0                   (unchanged)
+16_CLASR_ORIENTATION_LENS_KIT_v1_0               (unchanged)
+19_CLASR_INTEGRITY_SIGNAL_KIT_v1_0               (unchanged)
+20_CLASR_CITATION_BEHAVIOR_KIT_v1_0              (unchanged)
+21_CLASR_ABSTRACT_BODY_COHERENCE_KIT_v1_0        (unchanged)
+~~22_CLASR_REPLICATION_SIGNAL_KIT~~             RETIRED (replaced by kit 42)
+                                                  ⚠ two downstream kits (29, 38)
+                                                  still referenced this retired
+                                                  kit by name — corrected to v1.1
+                                                  patches in this same session
+23_CLASR_CONTRIBUTION_FRAMING_KIT_v1_0           (unchanged)
+24_CLASR_DISCUSSION_SCOPE_DRIFT_KIT_v1_1         (unchanged)
+25_CLASR_ARGUMENT_SYMMETRY_KIT_v1_1              (unchanged)
+26_CLASR_NEGATIVE_RESULT_VISIBILITY_KIT_v1_0     (unchanged)
+27_CLASR_INTERDISCIPLINARY_TENSION_KIT_v1_0      (unchanged)
+28_CLASR_READER_MODEL_KIT_v1_0                   (unchanged)
+29_CLASR_DESK_REJECT_SIGNAL_KIT_v1_1            ← RECONCILED (patched this session:
+                                                    retired-kit references corrected)
+30_CLASR_ARGUMENT_CHAIN_KIT_v1_0                 (unchanged)
+32_CLASR_ARGUMENT_LOAD_KIT_v1_0                  (unchanged)
+33_CLASR_CONCEPT_EVIDENCE_BRIDGE_KIT_v1_0        (unchanged)
+34_CLASR_CONCLUSION_INTEGRITY_KIT_v1_0           (unchanged)
+35_CLASR_OVERREACH_SIGNAL_KIT_v1_1              ← RECONCILED (patched this session:
+                                                    Lens-Bridge footer version fixed)
+36_CLASR_UNCERTAINTY_VISIBILITY_KIT_v1_1        ← RECONCILED (patched this session:
+                                                    Lens-Bridge footer version fixed)
+37_CLASR_HEDGING_CALIBRATION_KIT_v1_0            (unchanged)
+38_CLASR_JOURNAL_SENSITIVITY_KIT_v1_1           ← RECONCILED (patched this session:
+                                                    7 retired-kit references corrected)
+39_CLASR_METHODOLOGICAL_RHETORIC_KIT_v1_0        (unchanged)
+40_CLASR_ARGUMENT_INTEGRITY_KIT_v1_2              (unchanged — already correct)
+41_CLASR_FIGURE_TABLE_INTEGRITY_KIT_v1_1        ← RECONCILED (was tracked v1_0;
+                                                    delivered file is v1.1 —
+                                                    adds DECIMAL_INCONSISTENCY,
+                                                    FORMAT_INVERSION)
+42_CLASR_REPRODUCIBILITY_OPEN_SCIENCE_KIT_v1_2  ← RECONCILED (was tracked v1_1;
+                                                   also: delivered file's own title
+                                                   line was corrupted — a garbled
+                                                   splice of an old v1.1 title into
+                                                   the v1.2 title — and its closing
+                                                   tag still said v1.0; both fixed
+                                                   this session, version number
+                                                   itself unchanged at v1.2)
+42b_CLASR_REPRODUCIBILITY_FIELD_TYPE_SEVERITY_PATCH_v1_0
+                                                 ← ADDED (patches kit 42 §2;
+                                                    absent from v3.2 registry)
+43_CLASR_SOURCE_INTEGRITY_KIT_v1_1               (unchanged — already correct)
+45_CLASR_REPORTING_STANDARD_KIT_v1_0             (unchanged)
+47_CLASR_EPISTEMIC_FRAME_KIT_v1_0                (unchanged)
+48_CLASR_CONCEPT_LIFECYCLE_KIT_v1_0              (unchanged)
+49_CLASR_METHODOLOGICAL_VERBAL_RISK_KIT_v1_0     (unchanged)
+50_CLASR_CROSS_CONSISTENCY_KIT_v1_0              (unchanged)
+51_CLASR_CITATION_INTEGRITY_MODULE_M17_v1_0     ← ADDED (absent from v3.2 registry)
+55_CLASR_HTML_REPORT_KIT_v1_1                   ← ADDED (was absent; delivered
+                                                    file is v1.1, not v1.0/v1.2 as
+                                                    referenced elsewhere — see
+                                                    open question below)
+57_CLASR_BETA_SIGNAL_KIT_v1_1                   ← ADDED (absent from v3.2 registry)
+```
+
+OPEN QUESTION FLAGGED FOR THE DEVELOPER (not resolved here):
+Several delivered files' own "VERSION DEPENDENCY" footers cite
+55_CLASR_HTML_REPORT_KIT at v1.2 (e.g. kit 53, kit 54's dependency
+block), while the delivered file itself is v1.1 and its own footer
+says it depends on "CLASR CORE v1.4" — three different reference
+points (v1.1 file / v1.2 expected-by-dependents / v1.4 CORE dependency)
+that do not resolve to one consistent picture from what is in hand.
+This needs the actual v1.2 file or confirmation of which is current —
+not something this reconciliation can resolve by inference.
+
+---
+
+## 4. CANONICAL SOURCE TABLE
+
+| Principle | Canonical Source |
+|-----------|-----------------|
+| SECTION order (0–10) | MASTER_SECTION_KIT_v1_2 + CORE_v1_9_0 (RECONCILED, was CORE_v1_4) |
+| SECTION content depth (0–8) | SECTION-DEPTH_KIT_v1_2 (RECONCILED, was v1_1) |
+| SECTION 9 structure | FIGURE_TABLE_INTEGRITY_KIT_v1_1 (RECONCILED, was v1_0) |
+| SECTION 10 structure | REPRODUCIBILITY_OPEN_SCIENCE_KIT_v1_2 (RECONCILED, was v1_0) |
+| Q-variant thresholds | Q1/Q2/Q3-GATE KITs |
+| Field detection (unified layer) | AUTO-Q + JOURNAL_SENSITIVITY + CORE |
+| Manuscript type detection | CORE_v1_4 (FIELD DETECTION LAYER) |
+| Verbal-primary mode activation | CORE_v1_4 → VERBAL_LENS_KIT_v1_1 |
+| Verbal overlay signals (quant) | VERBAL_LENS_KIT_v1_1 (Overlay Mode) |
+| Verbal independent signals (verbal) | VERBAL_LENS_KIT_v1_1 (Independent Mode) |
+| Discipline calibration | ARGUMENT_INTEGRITY_KIT_v1_2 |
+| Subsample scope mismatch | ARGUMENT_INTEGRITY_KIT_v1_2 (A3) |
+| Ordinal/Pearson mismatch | ARGUMENT_INTEGRITY_KIT_v1_2 (A3) |
+| Effect size / predictor claim gap | ARGUMENT_INTEGRITY_KIT_v1_2 (A3) |
+| Multivariate absent claim | ARGUMENT_INTEGRITY_KIT_v1_2 (A3) |
+| Reporting standard selection | REPORTING_STANDARD_KIT_v1_0 |
+| Lens-SECTION connections | LENS-BRIDGE-CORE_v3_0 |
+| Collision management | LENS-BRIDGE-COLLISION_v3_0 |
+| Output format | UNIFIED-OUTPUT_KIT_v1_3 (RECONCILED, was v1_2) |
+| Label enforcement | UNIFIED-OUTPUT_KIT_v1_3 § 6 (RECONCILED, was v1_2) |
+| Structured block enforcement | UNIFIED-OUTPUT_KIT_v1_3 § 7 (RECONCILED, was v1_2) |
+| Output mode switching | OUTPUT_MODE_KIT_v1_4 (RECONCILED, was v1_1, then v1_3) |
+| Output mode "use when" guidance | OUTPUT_MODE_KIT_v1_4 § 3 (RECONCILED, was v1_1, then v1_3) |
+| Output scope filtering | OUTPUT_SCOPE_KIT_v1_1 ⚠ SEE CORRECTION NOTE, § 2 above —
+  this kit does not appear in 00_CLASR_INSTALLATION_GUIDE_v4_13's
+  manifest; row kept for historical trace only, not confirmed current |
+| Output language switching | OUTPUT_LANGUAGE_KIT_v1_0 ⚠ SEE CORRECTION NOTE, § 2 above —
+  same status as row above |
+| Priority action signals | ACTION_PRIORITY_BLOCK_KIT_v1_7 (RECONCILED, was v1_0) |
+| Gold Standard mode | GOLD_STANDARD_KIT_v1_1 (RECONCILED, was v1_0) |
+| Input validation | INPUT_VALIDATION_KIT_v1_0 ⚠ SEE CORRECTION NOTE, § 2 above —
+  same status |
+| Session continuity | SESSION_CONTINUITY_KIT_v1_0 ⚠ SEE CORRECTION NOTE, § 2 above —
+  same status |
+| Deviation detection | CALIBRATION-DEEP_KIT_v1_5 (RECONCILED, was v1_3) |
+| Model fit threshold violation | CALIBRATION-DEEP_KIT_v1_5 (§1.5) (RECONCILED, was v1_3) |
+| Ordinal method / large-N normality | CALIBRATION-DEEP_KIT_v1_5 (§1.9) (RECONCILED, was v1_3) |
+| Effect size / CI / multivariate | CALIBRATION-DEEP_KIT_v1_5 (§1.10) (RECONCILED, was v1_3) |
+| Signal confidence levels | SIGNAL_CONFIDENCE_LAYER_v1_0 ⚠ SEE CORRECTION NOTE, § 2 above —
+  same status |
+| Version record | VERSION_FREEZE_v3_2-RECONCILED (this document) |
+| "Map is not evidence" | MASTER_SECTION_KIT_v1_2 (Section 5) |
+| "No decisions produced" | CLASR_CORE_v1_9_0 (RECONCILED, was v1_4) |
+| Silence detection | SILENCE_LENS_KIT_v1_0 |
+| Orientation signals | ORIENTATION_LENS_KIT_v1_0 |
+| Partial input behavior | PARTIAL_INPUT_KIT_v1_1 |
+| Revision round behavior | REVISION_ROUND_KIT_v1_0 |
+| Competing interests signals | INTEGRITY_SIGNAL_KIT_v1_0 |
+| Citation pattern signals | CITATION_BEHAVIOR_KIT_v1_0 |
+| Abstract–body coherence gaps | ABSTRACT_BODY_COHERENCE_KIT_v1_0 |
+| Contribution framing | CONTRIBUTION_FRAMING_KIT_v1_0 |
+| Discussion scope drift | DISCUSSION_SCOPE_DRIFT_KIT_v1_1 |
+| Argument symmetry | ARGUMENT_SYMMETRY_KIT_v1_1 |
+| Negative result visibility | NEGATIVE_RESULT_VISIBILITY_KIT_v1_0 |
+| Interdisciplinary tension | INTERDISCIPLINARY_TENSION_KIT_v1_0 |
+| Reader model signals | READER_MODEL_KIT_v1_0 |
+| Desk-reject risk profile | DESK_REJECT_SIGNAL_KIT_v1_0 |
+| Argument chain | ARGUMENT_CHAIN_KIT_v1_0 |
+| Argument load profile | ARGUMENT_LOAD_KIT_v1_0 |
+| Concept–evidence bridge | CONCEPT_EVIDENCE_BRIDGE_KIT_v1_0 |
+| Conclusion integrity | CONCLUSION_INTEGRITY_KIT_v1_0 |
+| Overreach profile | OVERREACH_SIGNAL_KIT_v1_0 |
+| Uncertainty visibility profile | UNCERTAINTY_VISIBILITY_KIT_v1_0 |
+| Hedging calibration profile | HEDGING_CALIBRATION_KIT_v1_0 |
+| Journal sensitivity | JOURNAL_SENSITIVITY_KIT_v1_1 (RECONCILED, was v1_0; patched this session) |
+| Methodological rhetoric | METHODOLOGICAL_RHETORIC_KIT_v1_0 |
+| Figure/table integrity (SECTION 9) | FIGURE_TABLE_INTEGRITY_KIT_v1_1 (RECONCILED, was v1_0) |
+| Reproducibility/open science (SECTION 10) | REPRODUCIBILITY_OPEN_SCIENCE_KIT_v1_2 + 42b patch (RECONCILED, was v1_1) |
+| Funding text-layer visibility | REPRODUCIBILITY_OPEN_SCIENCE_KIT_v1_2 (M11) |
+| Source integrity / claim-source fit | SOURCE_INTEGRITY_KIT_v1_1 |
+| Source integrity scope declaration | SOURCE_INTEGRITY_KIT_v1_1 (§ 7) |
+| Epistemic frame detection | EPISTEMIC_FRAME_KIT_v1_0 |
+| Frame-method alignment | EPISTEMIC_FRAME_KIT_v1_0 (§ 3) |
+| Frame-contribution alignment | EPISTEMIC_FRAME_KIT_v1_0 (§ 4) |
+| Frame universalization | EPISTEMIC_FRAME_KIT_v1_0 (§ 5) |
+| Structural normative depth | EPISTEMIC_FRAME_KIT_v1_0 (§ 6) |
+| Concept lifecycle tracking | CONCEPT_LIFECYCLE_KIT_v1_0 |
+| Epistemic carrier detection | CONCEPT_LIFECYCLE_KIT_v1_0 (§ 5) |
+| Concept transformation events | CONCEPT_LIFECYCLE_KIT_v1_0 (§ 4) |
+| Concept behavior patterns | CONCEPT_LIFECYCLE_KIT_v1_0 (§ 6) |
+| Methodological verbal risk | METHODOLOGICAL_VERBAL_RISK_KIT_v1_0 |
+| Procedural opacity detection | METHODOLOGICAL_VERBAL_RISK_KIT_v1_0 (§ 2.1) |
+| Saturation claim grounding | METHODOLOGICAL_VERBAL_RISK_KIT_v1_0 (§ 2.2) |
+| Legitimation by label | METHODOLOGICAL_VERBAL_RISK_KIT_v1_0 (§ 2.3) |
+| Long-range consistency | CROSS_CONSISTENCY_KIT_v1_0 |
+| Zone pair consistency states | CROSS_CONSISTENCY_KIT_v1_0 (§ 3) |
+| Structurally unstable profile | CROSS_CONSISTENCY_KIT_v1_0 (§ 5) |
+| Reproducibility field-type severity modulation | 42b_REPRODUCIBILITY_FIELD_TYPE_SEVERITY_PATCH_v1_0 (ADDED) |
+| Citation integrity (SECTION 10 / M17) | CITATION_INTEGRITY_MODULE_M17_v1_0 (ADDED) |
+| Single-source dependency signal | CITATION_INTEGRITY_MODULE_M17_v1_0 (M17-S1) (ADDED) |
+| Executive Summary block | EXECUTIVE_SUMMARY_BLOCK_v1_0_2 (ADDED, RECONCILED from v1_0) |
+| Layer convergence counting | LAYER_CONVERGENCE_KIT_v1_0 (ADDED) |
+| Partial report modes | REPORT_MODE_KIT_v1_0_2 (ADDED, RECONCILED from v1_0) |
+| HTML/PDF report rendering | HTML_REPORT_KIT_v1_1 (ADDED — see open question, § 3 above,
+  on v1.1 vs. v1.2 dependency mismatch) |
+| Beta signal / review-as-advocacy pattern | BETA_SIGNAL_KIT_v1_1 (ADDED) |
+
+---
+
+## 5. KIT COUNT — RECONCILED (corrected twice — see note at end)
+
+Counted directly from 00_CLASR_INSTALLATION_GUIDE_v4_13's own manifest
+(not estimated): Tier 1 = 6, Tier 2 = 14, Tier 3 = 37, Support file = 1.
+
+```
+Tier 1                    :  6 kits   (all 6 verified — full content read)
+Tier 2                    : 14 kits   (all 14 verified — full content read,
+                                       including 18_REVISION_ROUND_KIT,
+                                       confirmed in a follow-up delivery)
+Tier 3                    : 37 kits   (all 37 verified — full content read
+                                       across this session, including 42b
+                                       as a patch to kit 42)
+Support file (not a kit)  :  1        (CLASR_BETA_ACCUMULATION_v1_6 — verified)
+─────────────────────────────────────
+Total (kits + support)    : 58 — ALL VERIFIED
+```
+
+Minor discrepancy noted, not resolved: the guide's own summary line
+("60 PROJECT FILES → Kits + support files") does not match its own
+detailed manifest, which totals 58. This is a small internal
+inconsistency in the guide itself — flagged for the developer, not
+corrected here, since this reconciliation cannot determine whether
+the guide's "60" or its manifest's "58" is the intended figure.
+
+Token estimate not re-derived here — the v3.2 estimate (~73–78K for
+53 kits) is stale given 5 more kits are now confirmed present; a fresh
+estimate should come from whoever holds the actual v3.3+ package,
+not from this reconciliation.
+
+CORRECTION LOG FOR THIS SECTION:
+  First pass (this session): claimed 15 Tier-2 entries, 6 unverified,
+    total "60 PROJECT FILES + 1 CORE + 1 guide" — based on carrying
+    forward stale v3.2 Tier-2 entries without cross-checking against
+    the guide's own manifest.
+  Second pass (this correction): recounted directly from the guide's
+    manifest via script, not by hand. 14 Tier-2 entries confirmed;
+    only kit 18 is a genuine gap. Total corrected to 58.
+
+---
+
+## 6. PENDING UPDATES
+
+| Kit | Update needed | Status |
+|-----|--------------|--------|
+| UNIFIED-OUTPUT KIT v1.2 (kit 03) | ✅ Completed — SECTION 9/10 registered | DONE |
+| PARTIAL_INPUT_KIT v1.1 (kit 17) | ✅ Completed — SECTION 9 partial input case added | DONE |
+| OUTPUT_SCOPE_KIT v1.1 | ✅ Completed — SECTION 9/10 scope targets added | DONE |
+| MASTER_SECTION_KIT v1.1 (kit 01) | ✅ Completed — SECTION 9/10 definitions added | DONE |
+| SECTION-DEPTH_KIT v1.0 | SECTION 9 and 10 depth definitions | LOW |
+| CALIBRATION-DEEP v1.3 | ✅ Completed — §1.9 and §1.10 added | DONE |
+
+---
+
+## 7. CHANGE LOG
+
+### v2.2 → v3.0
+
+**Major changes:**
+- Two new SECTIONs added (SECTION 9, SECTION 10)
+- Kit set restructured beyond 50% threshold
+- Four independent systems absorbed and retired
+
+**New kits:**
+
+  40_EN_ARGUMENT_INTEGRITY_KIT_v1_2
+    Sources CLASR-ARGUE v1.0. 5 axes, 31 signals, discipline calibration.
+    Tier 3. Primary: SECTION 4/0.
+    v1.1 (A3): SUBSAMPLE_SCOPE_MISMATCH [HIGH]
+      Full-sample framing + subsample practice measure mismatch.
+    v1.2 (A3): ORDINAL_PEARSON_APPLICATION [MEDIUM]
+      Pearson on ordinal variables without justification.
+    v1.2 (A3): LARGE_SAMPLE_NORMALITY_TEST [LOW]
+      K-S/Shapiro-Wilk at n>300. Hypersensitive; weak justification.
+    v1.2 (A3): MULTIVARIATE_ANALYSIS_ABSENT [HIGH/MEDIUM]
+      Bivariate-only analysis when predictor claims present.
+    v1.2 (A4): EFFECT_SIZE_ABSENT_FROM_SIGNIFICANCE [MEDIUM/HIGH]
+      p-value alone; no Cramér's V, OR, Cohen's d, r².
+    v1.2 (A4): CI_ABSENT_FROM_PRIMARY_ANALYSIS [MEDIUM/HIGH]
+      Primary estimates without 95% CI. STROBE/APA 7 applicable.
+
+  41_CLASR-FIGURE-TABLE_INTEGRITY_KIT_v1_0
+    Sources CLASR-FIGTAB v2.1. 5 modules, 38 signals, standard anchoring.
+    Tier 3. Primary: SECTION 9 (defines section).
+
+  42_EN_REPRODUCIBILITY_OPEN_SCIENCE_KIT_v1_0
+    Sources CLASR-ROS v1.2. 16 modules, synthesis rules.
+    Tier 3. Primary: SECTION 10 (defines section).
+    Replaces Replication Signal Kit (22).
+
+  43_EN_SOURCE_INTEGRITY_KIT_v1_0
+    Sources RefCheck v5.1.1 signal logic. 5 categories.
+    Tier 3. Primary: SECTION 3.
+
+  44_EN_ACTION_PRIORITY_BLOCK_KIT_v1_0
+    New kit. Priority signal header block.
+    Tier 2. Position: before SECTION 0.
+
+  45_EN_REPORTING_STANDARD_KIT_v1_0
+    New kit. Item-by-item compliance profile.
+    STROBE / CONSORT / PRISMA / APA 7th.
+    Tier 3. Primary: SECTION 10.
+
+  46_EN_GOLD_STANDARD_KIT_v1_0
+    New kit. Maximum-depth reading configuration.
+    Tier 2. User-triggered. Activates all kits at maximum
+    sensitivity; suspends output scope restrictions;
+    preserves content-driven suppression and system identity.
+
+**Updated:**
+  CORE v1.2 → v1.3
+  LENS-BRIDGE-CORE v2.0 → v3.0
+  LENS-BRIDGE-COLLISION v2.0 → v3.0
+  MASTER_SECTION_KIT v1.0 → v1.1
+  UNIFIED-OUTPUT_KIT v1.1 → v1.2
+  PARTIAL_INPUT_KIT v1.0 → v1.1
+  OUTPUT_SCOPE_KIT v1.0 → v1.1
+
+**Retired:**
+  22_EN_REPLICATION_SIGNAL_KIT_v1_0
+    Fully absorbed by REPRODUCIBILITY_OPEN_SCIENCE_KIT (kit 42).
+
+---
+
+**Next version trigger:**
+  New extension kit → v3.x
+  New SECTION or CORE modification → v4.0
+
+---
+
+## v3.2 PATCH LOG
+
+**CORE v1.3 → v1.4**
+  FIELD DETECTION LAYER extended:
+    Manuscript type classification added:
+      QUANTITATIVE-PRIMARY / VERBAL-PRIMARY / HYBRID
+    Detection signals defined per type.
+    Manuscript type drives:
+      Verbal Lens Kit mode activation
+      SECTION 5 scope note for verbal-primary
+      SECTION 3 calibration norms for interpretive design
+  Trigger: verbal coverage gap analysis — theoretical manuscripts
+    underserved by overlay-only verbal detection.
+  Date: 2026-06
+
+**Kit 10 — VERBAL_LENS_KIT v1.0 → v1.1**
+  Two-mode architecture added:
+    OVERLAY MODE — default; quantitative-primary manuscripts;
+      unchanged behavior from v1.0.
+    INDEPENDENT MODE — verbal-primary manuscripts;
+      activates when CORE flags VERBAL-PRIMARY.
+    Three signal types active in Independent Mode:
+      Type 1: Epistemic overreach signals
+        (certainty escalation without empirical base)
+      Type 2: Normative leakage signals
+        (should / must / requires in analytical framing)
+      Type 3: Generalization scope signals
+        (universal claims from conceptual evidence base)
+    Impact inflation and rhetorical bridging remain
+      overlay-only in both modes.
+  Trigger: verbal coverage gap — same as CORE v1.4.
+  Date: 2026-06
+
+**Kit 31 — OUTPUT_MODE_KIT v1.0 → v1.1**
+  § 3 activation table extended with "Use when" column.
+  One-sentence contextual guidance per mode.
+  No behavioral change.
+  Trigger: white paper analysis — output mode guidance absent.
+  Date: 2026-06
+
+**Kit 43 — SOURCE_INTEGRITY_KIT v1.0 → v1.1**
+  § 7 updated: SOURCE INTEGRITY SCOPE block added as mandatory output.
+  Produced in every report regardless of signal detection.
+  Format: Citations flagged / Signal categories active /
+    External verification: NONE.
+  Prevents "silence = no problem" misreading.
+  Trigger: white paper analysis — RefCheck coverage signal gap.
+  Date: 2026-06
+
+**MASTER_SECTION_KIT v1.1 → v1.2**
+  SECTION 5 definition updated: verbal-primary behavior added.
+  SECTION 0 header updated: manuscript type field added.
+  Trigger: CORE v1.4 manuscript type detection requires
+    downstream SECTION behavior definition.
+  Date: 2026-06
+
+**Kit 50 — CROSS_CONSISTENCY_KIT v1.0 — NEW**
+  New Tier 3 extension kit.
+  Adapted from CLASR-V CROSS-CONSISTENCY-KIT v1.0.
+  Purpose: long-range zone-pair consistency detection;
+    distinct from Abstract-Body Coherence Kit (21),
+    Conclusion Integrity Kit (34), Discussion Scope Drift Kit (24).
+  Six zone pairs: Abstract↔Conclusion, Introduction↔Contribution,
+    Literature↔Methodology, Theory↔Findings,
+    Methodology↔Discussion, Contribution↔Limitation.
+  States per pair: CONSISTENT / MODIFIED / TENSION /
+    DIVERGENT / SILENT_SHIFT.
+  Manuscript profiles: FULLY CONSISTENT / LOCALLY INCONSISTENT /
+    STRUCTURALLY TENSE / STRUCTURALLY UNSTABLE.
+  Primary: SECTION 4. Secondary: SECTION 0, 2, 3, 8.
+  Collision rules: kit 21, 24, 25, 27, 34, 47, 48.
+  Trigger: verbal coverage expansion — long-range structural
+    consistency not detectable from zone-level kits.
+  Date: 2026-06
+
+**Kit 49 — METHODOLOGICAL_VERBAL_RISK_KIT v1.0 — NEW**
+  New Tier 3 extension kit.
+  Adapted from CLASR-V READING-KIT v2.0 (Axis 4) +
+    GATE-KIT v2.0 (Methodological Verbal Risk thresholds).
+  Purpose: verbal behavior detection in methodology sections
+    of qualitative, interpretive, mixed-method, and critical manuscripts.
+  Five signals: PROCEDURAL_OPACITY, SATURATION_CLAIM_WITHOUT_GROUNDING,
+    LEGITIMATION_BY_LABEL, RIGOR_VOCABULARY_WITHOUT_PRACTICE,
+    SAMPLING_CIRCULARITY.
+  Primary: SECTION 3. Secondary: SECTION 4, 6, 8.
+  Activation: qualitative / interpretive / mixed-method / critical;
+    conditional for verbal-primary and quantitative-primary.
+  Collision rules: kit 09, 27, 37, 40, 47.
+  Trigger: verbal coverage expansion — qualitative methodology
+    sections systematically underread by existing kits.
+  Date: 2026-06
+
+**Kit 48 — CONCEPT_LIFECYCLE_KIT v1.0 — NEW**
+  New Tier 3 extension kit.
+  Adapted from CLASR-V CONCEPT-LIFECYCLE-KIT v1.0.
+  Purpose: longitudinal concept tracking for verbal/theoretical
+    manuscripts; distinct from static Concept-Evidence Bridge Kit (33).
+  Signals:
+    7-stage lifecycle: INTRODUCTION → DEFINITION → APPLICATION →
+      EXTENSION → METAPHORIZATION → EPISTEMIC CARRIER → CONCLUSION ROLE
+    5 transformation events: SEMANTIC_DRIFT, SCOPE_INFLATION,
+      AUTHORITY_TRANSFER, REIFICATION, EPISTEMIC_LOADING
+    5 final epistemic roles: GROUNDED / PARTIALLY_GROUNDED /
+      UNGROUNDED CARRIER / DECORATIVE / STABLE
+    3 manuscript-level patterns: CONCEPT_LOADING,
+      CONCEPT_DECORATION, SEMANTIC_DRIFT_PATTERN
+  Primary: SECTION 2. Secondary: SECTION 4, SECTION 6.
+  Activation: VERBAL-PRIMARY and HYBRID (full);
+    QUANTITATIVE-PRIMARY (framing zone only).
+  Collision rules: kit 33, 47, 11, 30, 10.
+  Trigger: verbal coverage expansion — theoretical manuscripts
+    require longitudinal concept behavior tracking.
+  Date: 2026-06
+
+**Kit 47 — EPISTEMIC_FRAME_KIT v1.0 — NEW**
+  New Tier 3 extension kit.
+  Adapted from CLASR-V EPISTEMIC-KIT v1.0.
+  Purpose: epistemic frame detection for all manuscript types;
+    verbal-primary coverage expansion.
+  Signals:
+    Frame type detection (6 types: post-positivist, interpretivist,
+      critical, post-structuralist, pragmatist, mixed/unspecified)
+    Frame visibility (EXPLICIT / IMPLICIT / INVISIBLE)
+    Frame-method alignment (ALIGNED / PARTIAL_TENSION / MISALIGNED)
+    Frame-contribution alignment (ALIGNED / PARTIAL_TENSION / MISALIGNED)
+    FRAME_UNIVERSALIZATION [LOW / MEDIUM / HIGH]
+    ALTERNATIVE_ERASURE (structural normative depth)
+    INEVITABILITY_ARCHITECTURE (structural normative depth)
+    EPISTEMIC_PRIVILEGE (structural normative depth)
+  Primary: SECTION 2. Secondary: SECTION 3, SECTION 4.
+  Activation: all manuscript types; VERBAL-PRIMARY at full depth.
+  Collision rules defined for: kit 16, 15, 27, 37, 10.
+  Trigger: verbal coverage expansion — theoretical manuscripts
+    require epistemic frame visibility.
+  Date: 2026-06
+
+**SECTION-DEPTH_KIT v1.0 → v1.1**
+  SECTION 5 deep definition updated:
+    Verbal-primary manuscript behavior defined separately.
+  Trigger: CORE v1.4 + MASTER_SECTION_KIT v1.2 require
+    depth-level definition for new manuscript type.
+  Date: 2026-06
+
+---
+
+## v3.1 PATCH LOG
+
+**Kit 40 — ARGUMENT_INTEGRITY_KIT v1.0 → v1.2**
+  v1.1 — A3: SUBSAMPLE_SCOPE_MISMATCH [HIGH]
+    Full-sample framing claims + subsample-based practice measure
+    without scope acknowledgment. KAP studies primary target.
+    Trigger: live manuscript test (n=1056 vs n=95 asymmetry).
+  v1.2 — A3 additions:
+    ORDINAL_PEARSON_APPLICATION [MEDIUM]
+      Pearson applied to ordinal variables (age group, education,
+      income, Likert) without justification. Spearman defensible.
+    LARGE_SAMPLE_NORMALITY_TEST [LOW]
+      K-S/Shapiro-Wilk cited at n>300. Hypersensitive at large N;
+      CLT or visual inspection more defensible.
+    MULTIVARIATE_ANALYSIS_ABSENT [HIGH/MEDIUM]
+      Bivariate-only analysis when multiple predictor claims present.
+      HIGH: explicit predictor claims. MEDIUM: association only.
+  v1.2 — A4 additions:
+    EFFECT_SIZE_ABSENT_FROM_SIGNIFICANCE [MEDIUM/HIGH]
+      p-value as sole significance indicator; no Cramér's V, OR,
+      Cohen's d. HIGH when association strength claimed.
+    CI_ABSENT_FROM_PRIMARY_ANALYSIS [MEDIUM/HIGH]
+      Primary estimates without 95% CI. STROBE/APA 7 applicable.
+      HIGH for primary outcome claims.
+  Total signals: A1(6) + A2(6) + A3(9) + A4(7) + A5(7) = 35
+  Trigger: live manuscript testing + external analytical review.
+  Date: 2026-06
+
+**Kit 09 — CALIBRATION-DEEP_KIT v1.2 → v1.3**
+  §1.9 added — Statistical Method–Design Mismatch Detection:
+    ORDINAL_PEARSON_APPLICATION [MEDIUM]
+      Pearson on ordinal variables. Coordinate with kit 40 A3.
+    LARGE_SAMPLE_NORMALITY_TEST [LOW]
+      K-S or Shapiro-Wilk cited as normality justification
+      at n > 300. CLT or visual inspection more defensible.
+  §1.10 added — Inferential Reporting Incompleteness Detection:
+    EFFECT_SIZE_ABSENT_FROM_SIGNIFICANCE [MEDIUM/LOW]
+      Significance without effect size on primary analyses.
+    CI_ABSENT_FROM_PRIMARY_ANALYSIS [MEDIUM/LOW]
+      Primary results without 95% CI. Text-layer detection;
+      distinct from kit 41 figure/table layer detection.
+    MULTIVARIATE_ANALYSIS_ABSENT [HIGH/MEDIUM]
+      Bivariate-only analysis when predictor claims present.
+  Trigger: live manuscript testing + external analytical review.
+  Date: 2026-06
+
+**Kit 42 — REPRODUCIBILITY_OPEN_SCIENCE_KIT v1.0 → v1.1**
+  M11 scope note added:
+    Signal label updated: FUNDING_NOT_VISIBLE_IN_TEXT
+    (replaces implicit FUNDING_ABSENT)
+    Rationale: in double-blind peer review workflows, funding
+    declarations may be submitted separately to the editorial
+    management system (ScholarOne, Editorial Manager, etc.)
+    and not appear in the manuscript body. ABSENT from text ≠
+    ABSENT from submission. Signal now reflects text-layer
+    boundary explicitly.
+  Trigger: external workflow critique — editorial process mismatch.
+  Date: 2026-06
+
+---
+
+# OPERATIONAL TIERING v3.2-RECONCILED — END
+# VERSION FREEZE DOCUMENT v3.2-RECONCILED — END
+# This is an interim registry sync, not the vendor's canonical v3.3.
+# Replace with the real v3.3+ file and diff against this reconciliation
+# when it becomes available.
