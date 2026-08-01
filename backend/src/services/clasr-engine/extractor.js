@@ -113,7 +113,20 @@ async function extract(manuscriptText, opts = {}) {
     model,
     max_tokens: MAX_TOKENS,
     temperature: 0.0, // necessary, NOT sufficient for determinism — see trialfiles/README.md
-    system: buildSystemPrompt(),
+    // Ephemeral cache on the system prompt (2026-08-02): buildSystemPrompt()
+    // returns the identical ~264-signal catalogue on every call — the
+    // taxonomy doesn't change at runtime. runConsistent() calls extract()
+    // N times per manuscript back-to-back, and calibrate.js runs many
+    // manuscripts through it in one process, so every call after the first
+    // was re-paying full input price for an unchanged prefix. Matches the
+    // pattern already used in services/claude.js for the legacy pipeline.
+    system: [
+      {
+        type: 'text',
+        text: buildSystemPrompt(),
+        cache_control: { type: 'ephemeral' },
+      },
+    ],
     messages: [{ role: 'user', content: manuscriptText }],
     output_config: {
       format: { type: 'json_schema', schema: extractionJsonSchema() },

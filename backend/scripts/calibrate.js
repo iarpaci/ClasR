@@ -106,7 +106,9 @@ async function main() {
       // summary — persisted below so a formula/taxonomy investigation after
       // the fact doesn't need to re-run (and re-pay for) extraction.
       rawReports.push({ id: c.id, humanBand: c.humanBand, report });
-      console.log(`done (${elapsed}s) — risk_band ${report.risk_band}, posture ${report.integrated_posture.level}, human ${c.humanBand}`);
+      const u = report.usage;
+      const cacheNote = u ? ` [cache read ${u.cache_read_input_tokens} / write ${u.cache_creation_input_tokens} / fresh ${u.input_tokens}]` : '';
+      console.log(`done (${elapsed}s) — risk_band ${report.risk_band}, posture ${report.integrated_posture.level}, human ${c.humanBand}${cacheNote}`);
     } catch (err) {
       console.log(`FAILED: ${err.message}`);
       results.push({ id: c.id, humanBand: c.humanBand, predictedBand: 'ERROR', rawScore: null, signals: null, posture: null, error: err.message });
@@ -136,6 +138,17 @@ async function main() {
 
   const agree = sorted.filter((r) => r.humanBand === r.predictedBand).length;
   console.log(`\nAgreement: ${agree}/${sorted.length} (${sorted.length ? ((agree / sorted.length) * 100).toFixed(0) : 0}%)`);
+
+  const usageTotals = rawReports.reduce((acc, r) => {
+    const u = r.report.usage;
+    if (u) { acc.read += u.cache_read_input_tokens; acc.write += u.cache_creation_input_tokens; acc.fresh += u.input_tokens; }
+    return acc;
+  }, { read: 0, write: 0, fresh: 0 });
+  const totalPrefixTokens = usageTotals.read + usageTotals.write;
+  console.log(`\nCache totals across this run: ${usageTotals.read} read, ${usageTotals.write} write, ${usageTotals.fresh} fresh (uncached) input tokens.`);
+  if (totalPrefixTokens > 0) {
+    console.log(`Cache hit rate on the system-prompt prefix: ${((usageTotals.read / totalPrefixTokens) * 100).toFixed(0)}%.`);
+  }
 
   console.log('\n--- raw_score range per human-assigned band (use this to place BAND_THRESHOLDS cuts) ---');
   for (const band of BANDS) {

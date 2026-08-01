@@ -46,12 +46,25 @@ function jaccard(a, b) {
 
 async function singlePass(text, model) {
   const outcome = await extract(text, model ? { model } : {});
-  if (!outcome.extraction) return { result: null, rejected: 0 };
+  if (!outcome.extraction) return { result: null, rejected: 0, usage: outcome.usage };
   const { kept, rejected } = verifySignals(outcome.extraction.signals, text);
   return {
     result: { kept, gap: outcome.extraction.noApplicableSignal },
     rejected: rejected.length,
+    usage: outcome.usage,
   };
+}
+
+function emptyUsageTotals() {
+  return { input_tokens: 0, output_tokens: 0, cache_read_input_tokens: 0, cache_creation_input_tokens: 0 };
+}
+
+function addUsage(totals, usage) {
+  if (!usage) return;
+  totals.input_tokens += usage.input_tokens || 0;
+  totals.output_tokens += usage.output_tokens || 0;
+  totals.cache_read_input_tokens += usage.cache_read_input_tokens || 0;
+  totals.cache_creation_input_tokens += usage.cache_creation_input_tokens || 0;
 }
 
 /**
@@ -131,9 +144,11 @@ async function runConsistent(manuscriptText, opts = {}) {
 
   const perRun = [];
   let rejectedTotal = 0, gaps = 0, successful = 0;
+  const usageTotals = emptyUsageTotals();
 
   for (let i = 0; i < runs; i++) {
-    const { result, rejected } = await singlePass(manuscriptText, model);
+    const { result, rejected, usage } = await singlePass(manuscriptText, model);
+    addUsage(usageTotals, usage);
     if (!result) continue;
     const { kept, gap } = result;
     successful += 1;
@@ -173,6 +188,7 @@ async function runConsistent(manuscriptText, opts = {}) {
 
   const bestSignals = [...best.values()];
   const report = score(bestSignals, rejectedTotal, gaps > successful / 2);
+  report.usage = usageTotals;
   report.stability = {
     runs: successful,
     consensus_threshold: CONSENSUS_THRESHOLD,
