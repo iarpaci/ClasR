@@ -105,13 +105,34 @@ function severityWeight(severity) {
  * single-section case higher under sqrt decay; switching to harmonic decay
  * flips that, as intended (backend scratch test, 2026-07-30, not committed).
  *
- * UNVALIDATED against real data: Anthropic API credit balance ran out (see
- * runs=3 calibration run, 2026-07-30) before this could be tested against
- * the 17-case human-judged set. The synthetic check above only confirms the
- * formula does what it's designed to do on a toy example, not that it
- * predicts real editorial risk. Rerun scripts/calibrate.js --runs=3 once
- * credits are restored and re-tune BAND_THRESHOLDS off real output before
- * relying on this in production.
+ * VALIDATED AND FOUND INSUFFICIENT (2026-08-06, calibrate.js --runs=3,
+ * 17-case human-judged set, caching confirmed working — 100% cache hit
+ * rate, so this run wasn't confounded by single-pass noise or partial
+ * consensus filtering). Result: 5/17 (29%) band agreement, and the mean
+ * raw_score per human band still doesn't separate (LOW 18.7, MEDIUM 24.9,
+ * ELEVATED 22.0, HIGH 19.0 -- LOW and HIGH are nearly identical, MEDIUM
+ * scores above both ELEVATED and HIGH).
+ *
+ * This is the FOURTH structurally different aggregation shape tried against
+ * this dataset -- flat linear sum, global harmonic rank decay, squared
+ * severity, and this per-section harmonic decay -- and all four land at the
+ * same ~24-31% agreement with the same LOW/HIGH overlap pattern. Four
+ * independent formula shapes converging on identical failure is strong
+ * evidence the aggregation formula was never the actual bottleneck. The
+ * real cause is upstream of this function -- most likely which signals the
+ * extractor surfaces for a given manuscript, or how taxonomy.js's
+ * base_severity values map to real editorial risk -- and needs a different
+ * kind of investigation (extraction-quality audit, or a genuinely different
+ * feature set) before a fifth formula guess would be worth the API spend.
+ *
+ * BAND_THRESHOLDS below is deliberately left at its stale placeholder
+ * values rather than fit to this run's numbers -- tuning cut points against
+ * a ranking that doesn't separate would just be fitting noise. risk_band is
+ * NOT reliable right now. This is acceptable only because /analyze/v2 is
+ * not wired into the live "New reading" button (still on the legacy
+ * prompt-only pipeline) -- nothing customer-facing depends on this value's
+ * accuracy yet. Do not flip that button to the new engine until this is
+ * actually solved.
  */
 function withinSectionDecay(rank) {
   return round4(1 / (rank + 1));
