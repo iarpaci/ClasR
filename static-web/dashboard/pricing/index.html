@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Compare Plans | Clasr</title>
+    <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/styles.css?v=privacy-cookie-1">
+    <script src="/script.js?v=privacy-cookie-1" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a href="/dashboard/" aria-label="Clasr dashboard"><img class="logo" src="/assets/brand/logo-primary.svg?v=clean-final-1" alt="Clasr"></a>
+        <nav class="nav-links app-nav" aria-label="Workspace navigation">
+          <a class="app-nav__primary" href="/dashboard/">New reading</a>
+          <a href="/dashboard/readings/">Readings</a>
+          <a href="/dashboard/pricing/">Plans</a>
+          <a href="/dashboard/help/">Help</a>
+        </nav>
+        <div class="account-menu">
+          <button class="user-menu" type="button" aria-expanded="false" aria-haspopup="menu">
+            <span>Michael Carter</span>
+            <img src="/assets/icons/chevron-down.svg" alt="">
+          </button>
+          <div class="account-dropdown" role="menu" aria-label="Michael Carter account menu">
+            <a class="account-dropdown__item" href="/dashboard/" role="menuitem"><span>My dashboard</span><small>Recent manuscripts and new readings</small></a>
+            <a class="account-dropdown__item" href="/dashboard/readings/" role="menuitem"><span>Readings</span><small>Your past signal reports</small></a>
+            <a class="account-dropdown__item" href="/dashboard/settings/" role="menuitem"><span>Account settings</span><small>Reading role, export, and profile preferences</small></a>
+            <a class="account-dropdown__item" href="/dashboard/billing/" role="menuitem"><span>Plan and billing</span><small>Usage, invoices, and plan options</small></a>
+            <a class="account-dropdown__item" href="/dashboard/help/" role="menuitem"><span>Help</span><small>FAQ, quick answers, and contact</small></a>
+            <a class="account-dropdown__item account-dropdown__item--logout" href="/login/" role="menuitem"><span>Log out</span></a>
+          </div>
+        </div>
+        <button class="mobile-toggle" type="button" aria-label="Open menu" aria-expanded="false"><span></span></button>
+      </div>
+    </header>
+
+    <main class="account-shell">
+      <section class="dashboard-content account-pricing" aria-labelledby="account-pricing-title">
+        <div class="dashboard-inner">
+          <div class="dash-header">
+            <h1 id="account-pricing-title" class="dashboard-greeting">Compare plans</h1>
+            <p class="dashboard-status" data-account-pricing-status>Michael, your $25 Trial Pack credit is available for 30 days and can be applied to Researcher or Professional.</p>
+          </div>
+
+          <section class="account-credit-banner" aria-label="Trial Pack credit" data-trial-only hidden>
+            <div>
+              <span class="settings-panel__label">Trial credit</span>
+              <strong>$25 credit available</strong>
+              <p>Use it toward a monthly or yearly Researcher or Professional plan before the 30-day window closes.</p>
+            </div>
+            <a class="button button--small" href="/dashboard/billing/">Back to billing</a>
+          </section>
+
+          <section class="account-pricing-grid" aria-label="Plans">
+            <article class="plan-card account-plan-card" data-account-plan="trial-pack">
+              <h2>Trial Pack</h2>
+              <p class="plan-kicker">Try Clasr before committing</p>
+              <div class="plan-price-row">
+                <p class="price">$25</p>
+                <p class="plan-meta">one-time</p>
+              </div>
+              <p class="plan-submeta">Valid 30 days &middot; No subscription</p>
+              <ul>
+                <li class="plan-reading-count">1 manuscript reading</li>
+                <li>Full signal report, all 11 sections</li>
+                <li>Q-variant calibration, field detection</li>
+                <li>Author, Reviewer, or Advisor mode</li>
+                <li>PDF, DOCX, TXT export</li>
+                <li>$25 credited toward any upgrade</li>
+              </ul>
+            </article>
+            <article class="plan-card account-plan-card" data-account-plan="researcher">
+              <h2>Researcher</h2>
+              <p class="plan-kicker">For regular submissions</p>
+              <div class="plan-price-row">
+                <p class="price">$34 today</p>
+                <p class="plan-meta">$59/month after credit</p>
+              </div>
+              <p class="plan-meta plan-divider-meta">Annual: $565 today, then $590/year</p>
+              <ul>
+                <li class="plan-reading-count">5 readings / month</li>
+                <li>Full signal report on every reading</li>
+                <li>Subscriber rate on extra readings: $29 each</li>
+                <li>Reading history saved 7 days</li>
+                <li>All output modes included</li>
+                <li>Cancel anytime</li>
+              </ul>
+              <a class="button button--primary button--small plan-card__cta" href="/checkout/?plan=researcher">Choose Researcher</a>
+            </article>
+            <article class="plan-card account-plan-card" data-account-plan="professional">
+              <h2>Professional</h2>
+              <p class="plan-kicker">For high-output researchers</p>
+              <div class="plan-price-row">
+                <p class="price">$94 today</p>
+                <p class="plan-meta">$119/month after credit</p>
+              </div>
+              <p class="plan-meta plan-divider-meta">Annual: $1,165 today, then $1,190/year</p>
+              <ul>
+                <li class="plan-reading-count">12 readings / month</li>
+                <li>Everything in Researcher</li>
+                <li>Priority processing, no queue</li>
+                <li>Cross-manuscript comparison</li>
+                <li>Advisor mode included</li>
+                <li>Cancel anytime</li>
+              </ul>
+              <a class="button button--primary button--small plan-card__cta" href="/checkout/?plan=professional">Choose Professional</a>
+            </article>
+          </section>
+
+          <section class="account-credit-banner" aria-label="Enterprise pricing" id="institutions">
+            <div>
+              <span class="settings-panel__label">Enterprise</span>
+              <strong>For labs, departments, journals, and institutions.</strong>
+              <p>Custom pricing for teams that need volume readings, all 11 report sections, PDF/DOCX/TXT export, reading history, onboarding, and priority support.</p>
+            </div>
+            <a class="button button--small" href="/enterprise-contact/">Contact Us</a>
+          </section>
+
+          <section class="account-pricing-help" id="faq" aria-labelledby="account-pricing-faq">
+            <h2 id="account-pricing-faq">Plan notes</h2>
+            <div class="settings-row" data-trial-only hidden><span>Can Michael use the Trial Pack credit on yearly plans?</span><strong>Yes, the $25 credit is applied at checkout.</strong></div>
+            <div class="settings-row" data-trial-only hidden><span>When does the credit expire?</span><strong>30 days from Trial Pack purchase.</strong></div>
+            <div class="settings-row"><span>Are taxes included?</span><strong>No. Applicable taxes are calculated based on your location and shown before payment at checkout.</strong></div>
+            <div class="settings-row"><span>Do unused monthly readings carry over?</span><strong>Yes, unused readings carry over for up to 2 months on individual subscriptions.</strong></div>
+            <div class="settings-row"><span>What if Michael needs more readings?</span><strong>Subscriber extra readings are $29 each.</strong></div>
+          </section>
+        </div>
+      </section>
+    </main>
+    <footer class="app-footer" aria-label="Workspace footer">
+      <div class="app-footer__inner">
+        <strong>Clasr is operated by HİLAL ŞENÇELİK (sole proprietor) · Bursa, Türkiye · © 2026</strong>
+        <nav aria-label="Workspace footer links">
+          <a href="/terms/">Terms</a>
+          <a href="/privacy/">Privacy</a>
+          <a href="/refund-policy/">Refund</a>
+          <a href="/cookie-policy/">Cookies</a>
+          <a href="/cookie-policy/" data-cookie-preferences>Cookie preferences</a>          <a href="/legal/">Legal</a>
+          <a href="/acceptable-use/">Acceptable Use</a>          <a href="/dashboard/help/">Help</a>
+          <a href="/contact/">Contact</a>
+        </nav>
+      </div>
+    </footer>
+
+  </body>
+</html>

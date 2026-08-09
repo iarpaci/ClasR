@@ -1,0 +1,29 @@
+CLASR Signal Report
+
+Demo manuscript:
+Self-Regulated Learning Strategies and Academic Achievement: A Cross-Sectional Study
+
+Reading configuration:
+Q1 profile, Author Mode, quantitative manuscript
+
+Integrated risk posture:
+HIGH
+
+Signal summary:
+2 critical signals
+5 major signals
+4 minor signals
+
+Structural Review:
+MAJOR - Aim-Result Gap
+Hypothesis 3 is stated in Introduction section 1.4, absent from Results entirely, and not explained.
+
+MAJOR - Structural Disproportion
+Discussion is 2,847 words while Methods is 612 words, a 4.6x interpretation-to-procedure ratio.
+
+Methodological Visibility:
+CRITICAL - N:k Ratio Violation
+14 predictors entered with n=47 participants. N:k = 3.4:1, below the minimum 10:1 stability threshold.
+
+Final Integrated Review:
+This is a signal map. It is not a verdict, score, or acceptance prediction. Human judgment remains final.

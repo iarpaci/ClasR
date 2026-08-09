@@ -1,0 +1,169 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Author Mode Example Report | Clasr</title>
+    <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/styles.css?v=compliance-1">
+    <script src="/script.js?v=compliance-1" defer></script>
+  </head>
+  <body class="public-example-report">
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a href="/" aria-label="Clasr home"><img class="logo" src="/assets/brand/logo-primary.svg?v=clean-final-1" alt="Clasr"></a>
+        <nav class="nav-links nav-links--mega" aria-label="Primary navigation">
+          <div class="nav-item"><a href="/features/">Features</a></div>
+          <div class="nav-item"><a href="/resources/signal-architecture/">Resources</a></div>
+          <div class="nav-item"><a href="/pricing/">Pricing</a></div>
+          <div class="nav-item"><a href="/about/">Company</a></div>
+        </nav>
+        <div class="nav-actions">
+          <a class="button button--small" href="/login/">Log In</a>
+          <a class="button button--primary button--small" href="/register/">Register</a>
+        </div>
+        <button class="mobile-toggle" type="button" aria-label="Open menu" aria-expanded="false"><span></span></button>
+      </div>
+    </header>
+
+    <main class="public-report-shell">
+      <section class="dashboard-content dashboard-content--report author-mode-report" aria-labelledby="dashboard-title">
+        <div class="dashboard-inner">
+          <div class="reading-report-top" data-q="q1">
+            <div class="report-topline">
+              <span class="section-eyebrow">READING COMPLETED</span>
+              <span>Quantitative</span><span>Q1</span><span>Author Mode</span>
+              <h1 id="dashboard-title">Clasr Signal Report</h1>
+            </div>
+            <div class="reading-report-actions" aria-label="Download report">
+              <span class="download-label">Export</span>
+              <a class="download-chip download-chip--primary" href="/assets/reports/clasr-demo-signal-report.pdf" download>PDF</a>
+              <a class="download-chip" href="/assets/reports/clasr-demo-signal-report.docx" download>DOCX</a>
+              <a class="download-chip" href="/assets/reports/clasr-demo-signal-report.txt" download>TXT</a>
+            </div>
+          </div>
+
+          <div class="mode-report-shell">
+            <div class="signal-summary mode-report-summary" aria-label="Manuscript signal summary">
+              <div class="paper-card" data-q="q1">
+                <span class="paper-label">Manuscript</span>
+                <h3>Polarization metrics in online discourse</h3>
+                <p>Quantitative · Q1 target · Author mode</p>
+              </div>
+              <div class="risk-card">
+                <span>Integrated risk posture</span>
+                <strong>HIGH</strong>
+                <p>Risk concentrates around untested metric assumptions, disagreement described as convergence, and absent data and code availability.</p>
+              </div>
+              <div class="signal-metrics" aria-label="Signal counts">
+                <div><strong>5</strong><span>critical</span></div>
+                <div><strong>6</strong><span>major</span></div>
+                <div><strong>4</strong><span>minor</span></div>
+              </div>
+            </div>
+
+            <section class="mode-report-section mode-report-intro">
+              <div class="mode-intro-heading">
+                <span class="section-eyebrow">Author Mode</span>
+                <h2>Plain-language findings</h2>
+              </div>
+              <p>This version explains what surfaced, why a reviewer may notice it, and what you could consider before submission. It is not a verdict.</p>
+            </section>
+
+            <section class="mode-report-grid" aria-label="Author findings">
+              <article class="mode-finding-card">
+                <div class="mode-finding-card__meta"><span>1 · Aim &amp; scope</span><span class="severity severity--minor">LOW</span></div>
+                <strong>A single-platform, single-window scope is stated in methods but not repeated near the conclusion's broader claims.</strong>
+                <dl><dt>Why it surfaces</dt><dd>A boundary stated once but not echoed near the claim it bounds is easy to miss on a single read.</dd><dt>Consider</dt><dd>Add a one-clause reminder scoping the conclusion.</dd></dl>
+              </article>
+              <article class="mode-finding-card">
+                <div class="mode-finding-card__meta"><span>2 · Theoretical framework</span><span class="severity severity--major">MEDIUM</span></div>
+                <strong>Each metric's core assumption is defined in a separate subsection instead of compared directly.</strong>
+                <dl><dt>Why it surfaces</dt><dd>Distributed assumptions make it hard to see where the three constructs actually diverge.</dd><dt>Consider</dt><dd>Consolidate into one comparison table.</dd></dl>
+              </article>
+              <article class="mode-finding-card">
+                <div class="mode-finding-card__meta"><span>3 · Methodological visibility</span><span class="severity severity--critical">CRITICAL</span></div>
+                <strong>A load-bearing assumption for the network-based metric is declared but never checked against the dataset.</strong>
+                <dl><dt>Why it surfaces</dt><dd>A prerequisite assumption that's stated but untested is one of the first things a careful read looks for.</dd><dt>Consider</dt><dd>Report a graph-stability statistic for the sampling window.</dd></dl>
+              </article>
+              <article class="mode-finding-card">
+                <div class="mode-finding-card__meta"><span>3 · Methodological visibility</span><span class="severity severity--major">MEDIUM</span></div>
+                <strong>A fixed activity-rate cutoff for bot filtering has no stated basis.</strong>
+                <dl><dt>Why it surfaces</dt><dd>Without a stated basis, a reader can't tell if the threshold is conservative, liberal, or tuned to the data.</dd><dt>Consider</dt><dd>Connect the threshold to a cited bot-detection benchmark.</dd></dl>
+              </article>
+              <article class="mode-finding-card">
+                <div class="mode-finding-card__meta"><span>3 · Methodological visibility</span><span class="severity severity--minor">LOW</span></div>
+                <strong>The four-month sampling window isn't connected to a seasonal or event-driven rationale.</strong>
+                <dl><dt>Why it surfaces</dt><dd>A window choice without stated rationale leaves a reader unable to judge representativeness.</dd></dl>
+              </article>
+              <article class="mode-finding-card">
+                <div class="mode-finding-card__meta"><span>4 · Argumentation</span><span class="severity severity--critical">CRITICAL</span></div>
+                <strong>Three polarization scores disagree, and the text describes this as convergence.</strong>
+                <dl><dt>Why it surfaces</dt><dd>When a paper's own numbers show disagreement but the prose says convergence, the two need reconciling. Right now no criterion is offered.</dd><dt>Consider</dt><dd>State an explicit convergence criterion and address the outlier directly.</dd></dl>
+              </article>
+              <article class="mode-finding-card">
+                <div class="mode-finding-card__meta"><span>4 · Argumentation</span><span class="severity severity--major">MEDIUM</span></div>
+                <strong>A convergence claim leads the sentence while its largest exception follows as an afterthought.</strong>
+                <dl><dt>Why it surfaces</dt><dd>The rhetorical structure makes the exception sound secondary, while the numbers make it primary.</dd><dt>Consider</dt><dd>State the divergence and its size directly alongside the claim.</dd></dl>
+              </article>
+              <article class="mode-finding-card">
+                <div class="mode-finding-card__meta"><span>5 · Numerical behavior</span><span class="severity severity--major">MEDIUM</span></div>
+                <strong>Confidence interval conventions change across tables with no single governing statement.</strong>
+                <dl><dt>Why it surfaces</dt><dd>A reader cross-referencing values across tables has to first figure out if the conventions are even comparable.</dd><dt>Consider</dt><dd>Define one interval convention in methods.</dd></dl>
+              </article>
+              <article class="mode-finding-card">
+                <div class="mode-finding-card__meta"><span>6 · Language &amp; hedging</span><span class="severity severity--major">MEDIUM</span></div>
+                <strong>An unhedged convergence claim sits beside the paper's largest internal disagreement.</strong>
+                <dl><dt>Why it surfaces</dt><dd>This is the one major claim left unhedged, despite sitting directly beside the biggest outlier in the comparison.</dd><dt>Consider</dt><dd>Hedge the claim or state the exception within the same sentence.</dd></dl>
+              </article>
+              <article class="mode-finding-card">
+                <div class="mode-finding-card__meta"><span>7 · Structural integrity</span><span class="severity severity--minor">LOW</span></div>
+                <strong>A policy-relevant claim in the abstract is separated from the reasoning that supports it.</strong>
+                <dl><dt>Why it surfaces</dt><dd>An abstract-only reader receives a claim without its supporting evidence.</dd><dt>Consider</dt><dd>Add a brief signpost to where the reasoning appears.</dd></dl>
+              </article>
+              <article class="mode-finding-card">
+                <div class="mode-finding-card__meta"><span>8 · Limits &amp; uncertainties</span><span class="severity severity--critical">CRITICAL</span></div>
+                <strong>A single-platform, single-window dataset is not carried into the conclusion as an explicit boundary.</strong>
+                <dl><dt>Why it surfaces</dt><dd>Generalizability beyond the studied platform is undeclared despite an acknowledged mid-window confound. Cross-platform inference can't be supported from this data.</dd><dt>Consider</dt><dd>State the platform-specific boundary directly in the conclusion.</dd></dl>
+              </article>
+              <article class="mode-finding-card">
+                <div class="mode-finding-card__meta"><span>8 · Limits &amp; uncertainties</span><span class="severity severity--minor">LOW</span></div>
+                <strong>A named confound from a mid-window platform change is never given an estimated effect size.</strong>
+                <dl><dt>Why it surfaces</dt><dd>A factor identified as a likely confound but left unquantified limits how the result can be interpreted.</dd></dl>
+              </article>
+              <article class="mode-finding-card">
+                <div class="mode-finding-card__meta"><span>9 · Figure / table integrity</span><span class="severity severity--major">MEDIUM</span></div>
+                <strong>A visual element central to the combined indicator is never defined.</strong>
+                <dl><dt>Why it surfaces</dt><dd>The shaded region is exactly where a reader would look to judge the indicator's uncertainty, but it carries no stated definition.</dd><dt>Consider</dt><dd>Define the region and its relationship to the reported scores.</dd></dl>
+              </article>
+              <article class="mode-finding-card">
+                <div class="mode-finding-card__meta"><span>10 · Reproducibility</span><span class="severity severity--critical">CRITICAL</span></div>
+                <strong>No data availability statement is present anywhere in the manuscript.</strong>
+                <dl><dt>Why it surfaces</dt><dd>For a study whose contribution is the metric comparison itself, this removes one of two paths to independent verification.</dd><dt>Consider</dt><dd>Add a data availability statement consistent with platform terms.</dd></dl>
+              </article>
+              <article class="mode-finding-card">
+                <div class="mode-finding-card__meta"><span>10 · Reproducibility</span><span class="severity severity--critical">CRITICAL</span></div>
+                <strong>No code availability statement is present for any of the three metric implementations.</strong>
+                <dl><dt>Why it surfaces</dt><dd>Combined with absent data, this removes both routes for independently checking the comparison.</dd><dt>Consider</dt><dd>Link a repository or state a release timeline.</dd></dl>
+              </article>
+            </section>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="app-footer" aria-label="Clasr footer">
+      <div class="app-footer__inner">
+        <strong>Clasr is operated by HİLAL ŞENÇELİK (sole proprietor) · Bursa, Türkiye · © 2026</strong>
+        <nav aria-label="Footer links">
+          <a href="/terms/">Terms</a>
+          <a href="/privacy/">Privacy</a>
+          <a href="/refund-policy/">Refund</a>
+          <a href="/cookie-policy/">Cookies</a>
+          <a href="/acceptable-use/">Acceptable Use</a>
+          <a href="/legal/">Legal</a>
+          <a href="/contact/">Contact</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>

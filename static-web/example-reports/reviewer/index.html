@@ -1,0 +1,102 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Reviewer Mode Example Report | Clasr</title>
+    <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/styles.css?v=compliance-1">
+    <script src="/script.js?v=compliance-1" defer></script>
+  </head>
+  <body class="public-example-report">
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a href="/" aria-label="Clasr home"><img class="logo" src="/assets/brand/logo-primary.svg?v=clean-final-1" alt="Clasr"></a>
+        <nav class="nav-links nav-links--mega" aria-label="Primary navigation">
+          <div class="nav-item"><a href="/features/">Features</a></div>
+          <div class="nav-item"><a href="/resources/signal-architecture/">Resources</a></div>
+          <div class="nav-item"><a href="/pricing/">Pricing</a></div>
+          <div class="nav-item"><a href="/about/">Company</a></div>
+        </nav>
+        <div class="nav-actions">
+          <a class="button button--small" href="/login/">Log In</a>
+          <a class="button button--primary button--small" href="/register/">Register</a>
+        </div>
+        <button class="mobile-toggle" type="button" aria-label="Open menu" aria-expanded="false"><span></span></button>
+      </div>
+    </header>
+
+    <main class="public-report-shell">
+      <section class="dashboard-content dashboard-content--report" aria-labelledby="dashboard-title">
+        <div class="dashboard-inner">
+          <div class="reading-report-top" data-q="q1">
+            <div class="report-topline">
+              <span class="section-eyebrow">READING COMPLETED</span>
+              <span>Quantitative</span><span>Q1</span><span>Reviewer Mode</span>
+              <h1 id="dashboard-title">Clasr Signal Report</h1>
+            </div>
+            <div class="reading-report-actions" aria-label="Download report">
+              <span class="download-label">Export</span>
+              <a class="download-chip download-chip--primary" href="/assets/reports/clasr-demo-signal-report.pdf" download>PDF</a>
+              <a class="download-chip" href="/assets/reports/clasr-demo-signal-report.docx" download>DOCX</a>
+              <a class="download-chip" href="/assets/reports/clasr-demo-signal-report.txt" download>TXT</a>
+            </div>
+          </div>
+
+          <div class="mode-report-shell">
+            <div class="signal-summary mode-report-summary" aria-label="Manuscript signal summary">
+              <div class="paper-card" data-q="q1"><span class="paper-label">Manuscript</span><h3>Polarization metrics in online discourse</h3><p>Quantitative · Q1 target · Reviewer mode</p></div>
+              <div class="risk-card"><span>Integrated risk posture</span><strong>HIGH</strong><p>Dense signal view for cross-metric disagreement, methodological visibility, generalizability, and reproducibility gaps.</p></div>
+              <div class="signal-metrics" aria-label="Signal counts"><div><strong>5</strong><span>critical</span></div><div><strong>6</strong><span>major</span></div><div><strong>4</strong><span>minor</span></div></div>
+            </div>
+
+            <section class="mode-report-section mode-report-intro">
+              <div class="mode-intro-heading">
+                <span class="section-eyebrow">Reviewer Mode</span>
+                <h2>Labels and locations</h2>
+              </div>
+              <p>Reviewer mode removes the explanatory layer and keeps the signal vocabulary, evidence location, inference type, and surfacing rationale visible in one scan.</p>
+            </section>
+
+            <section class="mode-report-section mode-table-wrap" aria-label="Reviewer signal table">
+              <table class="mode-reviewer-table">
+                <thead><tr><th>Section</th><th>Severity</th><th>Label</th><th>Inference</th><th>Evidence</th><th>Why it surfaces</th></tr></thead>
+                <tbody>
+                  <tr><td>1</td><td>Low</td><td class="mode-label">PLATFORM_SCOPE_CONCLUSION_GAP</td><td>Obs.</td><td>Methods: one platform, four-month window; conclusion discusses "online discourse" generally.</td><td>Scope boundary stated once but not repeated near the claim it bounds.</td></tr>
+                  <tr><td>2</td><td>Medium</td><td class="mode-label">CONSTRUCT_ASSUMPTION_STACKING_VISIBILITY</td><td>Obs.</td><td>Three metric definitions, each in its own subsection, no shared comparison table.</td><td>Distributed assumptions obscure where the constructs diverge.</td></tr>
+                  <tr><td>3</td><td>Critical</td><td class="mode-label">NETWORK_STABILITY_ASSUMPTION_DECLARED_NOT_TESTED</td><td>Obs.</td><td>"Assumes a stable interaction graph"; no edge-turnover or stability statistic reported.</td><td>A prerequisite assumption is stated but not tested.</td></tr>
+                  <tr><td>3</td><td>Medium</td><td class="mode-label">BOT_FILTERING_THRESHOLD_UNDERJUSTIFIED</td><td>Obs.</td><td>Fixed cutoff used; no cited benchmark or sensitivity check.</td><td>The threshold cannot be read as conservative, liberal, or externally justified.</td></tr>
+                  <tr><td>3</td><td>Low</td><td class="mode-label">SAMPLE_WINDOW_JUSTIFICATION_BRIEF</td><td>Obs.</td><td>Window stated; no justification for why that period was chosen.</td><td>Representativeness cannot be assessed from the manuscript alone.</td></tr>
+                  <tr><td>4</td><td>Critical</td><td class="mode-label">CROSS-METRIC_DISCREPANCY_DESCRIBED_AS_CONVERGENCE</td><td>Obs.</td><td>Affective 0.61, issue-based 0.34, network-based 0.58; "converge on a consistent picture."</td><td>The numerical pattern and prose characterization conflict.</td></tr>
+                  <tr><td>4</td><td>Medium</td><td class="mode-label">CONVERGENCE_CLAIM_PRECEDES_LARGEST_EXCEPTION</td><td>Obs.</td><td>"Converge" stated first; the 0.34 outlier appears after as secondary detail.</td><td>The sentence structure downplays the largest exception.</td></tr>
+                  <tr><td>5</td><td>Medium</td><td class="mode-label">CONFIDENCE_INTERVAL_REPORTING_INCONSISTENT</td><td>Obs.</td><td>Bootstrap 95% CI in one table, standard error in another, neither in a third.</td><td>Cross-table comparison requires knowing whether interval conventions match.</td></tr>
+                  <tr><td>6</td><td>Medium</td><td class="mode-label">HEDGING_ASYMMETRY_CONVERGENCE_CLAIM</td><td>Obs.</td><td>"Converge" stated flatly; all other claims in the section carry qualifiers.</td><td>The least qualified claim sits beside the largest internal disagreement.</td></tr>
+                  <tr><td>7</td><td>Low</td><td class="mode-label">ABSTRACT_BODY_COHERENCE</td><td>Obs.</td><td>Policy claim stated in abstract; reasoning appears only in the final discussion paragraph.</td><td>An abstract-only reader receives the claim without its support.</td></tr>
+                  <tr><td>8</td><td>Critical</td><td class="mode-label">SINGLE_PLATFORM_WINDOW_GENERALIZABILITY_UNDECLARED</td><td>Obs.</td><td>Single platform, four-month window; conclusion claims about "social media discourse" generally.</td><td>The conclusion travels beyond what the dataset can support.</td></tr>
+                  <tr><td>8</td><td>Low</td><td class="mode-label">PLATFORM_ALGORITHM_CHANGE_CONFOUND_UNQUANTIFIED</td><td>Obs.</td><td>Algorithm change mid-window noted as "likely confound"; no effect estimate given.</td><td>A named confound remains interpretively open.</td></tr>
+                  <tr><td>9</td><td>Medium</td><td class="mode-label">FIGURE_3_SHADED_REGION_UNDEFINED</td><td>Obs.</td><td>Shaded band around the combined indicator; no caption or legend defines what it represents.</td><td>The visual uncertainty cue is not defined.</td></tr>
+                  <tr><td>10</td><td>Critical</td><td class="mode-label">DATA_AVAILABILITY</td><td>Obs.</td><td>No repository, platform-data-sharing statement, or on-request clause for the underlying dataset.</td><td>One verification route is absent.</td></tr>
+                  <tr><td>10</td><td>Critical</td><td class="mode-label">CODE_AVAILABILITY</td><td>Obs.</td><td>Three metric-computation pipelines described, none linked to a repository.</td><td>The metric comparison cannot be independently reconstructed from code.</td></tr>
+                </tbody>
+              </table>
+            </section>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="app-footer" aria-label="Clasr footer">
+      <div class="app-footer__inner">
+        <strong>Clasr is operated by HİLAL ŞENÇELİK (sole proprietor) · Bursa, Türkiye · © 2026</strong>
+        <nav aria-label="Footer links">
+          <a href="/terms/">Terms</a>
+          <a href="/privacy/">Privacy</a>
+          <a href="/refund-policy/">Refund</a>
+          <a href="/cookie-policy/">Cookies</a>
+          <a href="/acceptable-use/">Acceptable Use</a>
+          <a href="/legal/">Legal</a>
+          <a href="/contact/">Contact</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>

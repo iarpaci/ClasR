@@ -1,0 +1,152 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Plan and Billing | Clasr</title>
+    <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/styles.css?v=compliance-1">
+    <script src="/script.js?v=compliance-1" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a href="/dashboard/" aria-label="Clasr dashboard"><img class="logo" src="/assets/brand/logo-primary.svg?v=clean-final-1" alt="Clasr"></a>
+        <nav class="nav-links app-nav" aria-label="Workspace navigation">
+          <a class="app-nav__primary" href="/dashboard/">New reading</a>
+          <a href="/dashboard/readings/">Readings</a>
+          <a href="/dashboard/pricing/">Plans</a>
+          <a href="/dashboard/help/">Help</a>
+        </nav>
+        <div class="account-menu">
+          <button class="user-menu" type="button" aria-expanded="false" aria-haspopup="menu">
+            <span>Michael Carter</span>
+            <img src="/assets/icons/chevron-down.svg" alt="">
+          </button>
+          <div class="account-dropdown" role="menu" aria-label="Michael Carter account menu">
+            <a class="account-dropdown__item" href="/dashboard/" role="menuitem"><span>My dashboard</span><small>Recent manuscripts and new readings</small></a>
+            <a class="account-dropdown__item" href="/dashboard/readings/" role="menuitem"><span>Readings</span><small>Your past signal reports</small></a>
+            <a class="account-dropdown__item" href="/dashboard/settings/" role="menuitem"><span>Account settings</span><small>Reading role, export, and profile preferences</small></a>
+            <a class="account-dropdown__item" href="/dashboard/billing/" role="menuitem"><span>Plan and billing</span><small>Usage, invoices, and plan options</small></a>
+            <a class="account-dropdown__item" href="/dashboard/help/" role="menuitem"><span>Help</span><small>FAQ, quick answers, and contact</small></a>
+            <a class="account-dropdown__item account-dropdown__item--logout" href="/login/" role="menuitem"><span>Log out</span></a>
+          </div>
+        </div>
+        <button class="mobile-toggle" type="button" aria-label="Open menu" aria-expanded="false"><span></span></button>
+      </div>
+    </header>
+
+    <main class="account-shell">
+      <section class="dashboard-content account-screen" aria-labelledby="billing-title">
+        <div class="dashboard-inner">
+          <div class="dash-header">
+            <h1 id="billing-title" class="dashboard-greeting">Plan and billing</h1>
+            <p class="dashboard-status">Track manuscript usage, plan limits, and upgrade options for Michael's Clasr workspace.</p>
+          </div>
+
+          <div class="account-settings-layout">
+            <aside class="account-settings-nav" aria-label="Billing sections">
+              <a href="/dashboard/settings/">Reading defaults</a>
+              <a href="/dashboard/settings/#reports">Report output</a>
+              <a href="/dashboard/settings/#profile">Profile</a>
+              <a href="/dashboard/billing/">Plan and billing</a>
+              <a href="/dashboard/settings/#security">Security and data</a>
+              <a href="/dashboard/billing/">Current plan</a>
+              <a href="#invoices">Invoices</a>
+              <a href="#credit" data-trial-only>Upgrade credit</a>
+              <a href="#enterprise">Enterprise</a>
+            </aside>
+
+            <div class="account-settings-stack">
+              <section class="account-summary" id="plan">
+                <div>
+                  <span class="settings-panel__label">Current plan</span>
+                  <strong data-billing-plan-name>Trial Pack</strong>
+                  <p data-billing-plan-summary>2 of 5 manuscript readings used. Credit window: 30 days from purchase.</p>
+                </div>
+                <a class="button button--primary" href="/dashboard/pricing/">Compare all plans</a>
+              </section>
+
+              <section class="settings-section" id="invoices">
+                <div class="settings-section__head">
+                  <div>
+                    <span class="settings-panel__label">Invoices</span>
+                    <h2>Receipts and billing records</h2>
+                  </div>
+                  <span class="button button--small" aria-disabled="true">Payment portal unavailable</span>
+                </div>
+                <p class="settings-panel__copy">Paid checkout is not currently enabled. Payment methods, receipts, subscription controls, and provider terms will appear here when billing becomes available.</p>
+                <div class="invoice-list" aria-label="Invoice history" data-invoice-list>
+                  <article class="invoice-row">
+                    <div>
+                      <span>Jun 12, 2026</span>
+                      <strong>Trial Pack</strong>
+                    </div>
+                    <span>$25.00</span>
+                    <span class="invoice-status">Demo</span>
+                    <span>Demo record</span>
+                  </article>
+                  <article class="invoice-row">
+                    <div>
+                      <span>May 12, 2026</span>
+                      <strong>Researcher plan</strong>
+                    </div>
+                    <span>$59.00</span>
+                    <span class="invoice-status">Demo</span>
+                    <span>Demo record</span>
+                  </article>
+                </div>
+              </section>
+
+              <section class="settings-section" id="credit" data-trial-only>
+                <div class="settings-section__head">
+                  <span class="settings-panel__label">Upgrade credit</span>
+                  <h2>Your $25 Trial Pack credit is available</h2>
+                </div>
+                <p class="settings-panel__copy">Apply the full Trial Pack payment toward a monthly or yearly Researcher or Professional plan before the 30-day window closes. Yearly plan credit is applied at checkout.</p>
+                <div class="upgrade-credit-grid">
+                  <article class="upgrade-credit-card" data-upgrade-plan="researcher">
+                    <span>Researcher</span>
+                    <strong>$34 today</strong>
+                    <small>$59 monthly plan minus $25 Trial Pack credit.</small>
+                    <a class="button button--small" href="/dashboard/pricing/?plan=researcher&credit=trial-pack">Upgrade to Researcher</a>
+                  </article>
+                  <article class="upgrade-credit-card" data-upgrade-plan="professional">
+                    <span>Professional</span>
+                    <strong>$94 today</strong>
+                    <small>$119 monthly plan minus $25 Trial Pack credit.</small>
+                    <a class="button button--small" href="/dashboard/pricing/?plan=professional&credit=trial-pack">Upgrade to Professional</a>
+                  </article>
+                </div>
+              </section>
+
+              <section class="settings-section" id="enterprise">
+                <div class="settings-section__head">
+                  <span class="settings-panel__label">Enterprise</span>
+                  <h2>Need team access or API processing?</h2>
+                </div>
+                <p class="settings-panel__copy">Enterprise plans support shared workspaces, custom volume, batch workflows, and direct editorial-system integration. Plan terms can be discussed as part of the setup.</p>
+                <a class="button button--small" href="/enterprise-contact/">Contact enterprise</a>
+              </section>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="app-footer" aria-label="Workspace footer">
+      <div class="app-footer__inner">
+        <strong>Clasr is operated by HİLAL ŞENÇELİK (sole proprietor) · Bursa, Türkiye · © 2026</strong>
+        <nav aria-label="Workspace footer links">
+          <a href="/terms/">Terms</a>
+          <a href="/privacy/">Privacy</a>
+          <a href="/refund-policy/">Refund</a>
+          <a href="/cookie-policy/">Cookies</a>
+          <a href="/legal/">Legal</a>
+          <a href="/acceptable-use/">Acceptable Use</a>          <a href="/dashboard/help/">Help</a>
+          <a href="/contact/">Contact</a>
+        </nav>
+      </div>
+    </footer>
+
+  </body>
+</html>

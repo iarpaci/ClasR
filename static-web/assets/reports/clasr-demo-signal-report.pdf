@@ -1,0 +1,54 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+5 0 obj
+<< /Length 990 >>
+stream
+BT
+/F1 16 Tf
+72 750 Td
+(CLASR Signal Report) Tj
+/F1 10 Tf
+0 -18 Td (Demo manuscript:) Tj
+0 -18 Td (Self-Regulated Learning Strategies and Academic Achievement: A Cross-Sectional Study) Tj
+0 -18 Td () Tj
+0 -18 Td (Reading configuration: Q1 profile, Author Mode, quantitative manuscript) Tj
+0 -18 Td () Tj
+0 -18 Td (Integrated risk posture: HIGH) Tj
+0 -18 Td () Tj
+0 -18 Td (Signal summary: 2 critical, 5 major, 4 minor) Tj
+0 -18 Td () Tj
+0 -18 Td (Structural Review:) Tj
+0 -18 Td (MAJOR - Aim-Result Gap. Hypothesis 3 is stated in Introduction section 1.4, absent from Results entirely, and not explained.) Tj
+0 -18 Td () Tj
+0 -18 Td (Methodological Visibility:) Tj
+0 -18 Td (CRITICAL - N:k Ratio Violation. 14 predictors entered with n=47 participants. N:k = 3.4:1, below the minimum 10:1 stability threshold.) Tj
+0 -18 Td () Tj
+0 -18 Td (Final Integrated Review:) Tj
+0 -18 Td (This is a signal map. It is not a verdict, score, or acceptance prediction. Human judgment remains final.) Tj
+ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000241 00000 n 
+0000000311 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+1352
+%%EOF

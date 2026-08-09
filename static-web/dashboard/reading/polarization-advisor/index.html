@@ -1,0 +1,115 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Advisor Mode Report | Clasr</title>
+    <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/styles.css?v=compliance-1">
+    <script src="/script.js?v=compliance-1" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a href="/dashboard/" aria-label="Clasr dashboard"><img class="logo" src="/assets/brand/logo-primary.svg?v=clean-final-1" alt="Clasr"></a>
+        <nav class="nav-links app-nav" aria-label="Workspace navigation">
+          <a class="app-nav__primary" href="/dashboard/">New reading</a>
+          <a href="/dashboard/readings/">Readings</a>
+          <a href="/dashboard/pricing/">Plans</a>
+          <a href="/dashboard/help/">Help</a>
+        </nav>
+        <div class="account-menu">
+          <button class="user-menu" type="button" aria-expanded="false" aria-haspopup="menu"><span>Michael Carter</span><img src="/assets/icons/chevron-down.svg" alt=""></button>
+          <div class="account-dropdown" role="menu" aria-label="Michael Carter account menu">
+            <a class="account-dropdown__item" href="/dashboard/" role="menuitem"><span>My dashboard</span><small>Recent manuscripts and new readings</small></a>
+            <a class="account-dropdown__item" href="/dashboard/readings/" role="menuitem"><span>Readings</span><small>Your past signal reports</small></a>
+            <a class="account-dropdown__item" href="/dashboard/settings/" role="menuitem"><span>Account settings</span><small>Reading role, export, and profile preferences</small></a>
+            <a class="account-dropdown__item" href="/dashboard/billing/" role="menuitem"><span>Plan and billing</span><small>Usage, invoices, and plan options</small></a>
+            <a class="account-dropdown__item" href="/dashboard/help/" role="menuitem"><span>Help</span><small>FAQ, quick answers, and contact</small></a>
+            <a class="account-dropdown__item account-dropdown__item--logout" href="/login/" role="menuitem"><span>Log out</span></a>
+          </div>
+        </div>
+        <button class="mobile-toggle" type="button" aria-label="Open menu" aria-expanded="false"><span></span></button>
+      </div>
+    </header>
+
+    <main class="account-shell">
+      <section class="dashboard-content dashboard-content--report" aria-labelledby="dashboard-title">
+        <div class="dashboard-inner">
+          <div class="reading-report-top" data-q="q1">
+            <div class="report-topline">
+              <span class="section-eyebrow">READING COMPLETED</span>
+              <span>Quantitative</span><span>Q1</span><span>Advisor Mode</span>
+              <h1 id="dashboard-title">Clasr Signal Report</h1>
+            </div>
+            <div class="reading-report-actions" aria-label="Download report">
+              <span class="download-label">Export</span>
+              <a class="download-chip download-chip--primary" href="/assets/reports/clasr-demo-signal-report.pdf" download>PDF</a>
+              <a class="download-chip" href="/assets/reports/clasr-demo-signal-report.docx" download>DOCX</a>
+              <a class="download-chip" href="/assets/reports/clasr-demo-signal-report.txt" download>TXT</a>
+            </div>
+          </div>
+
+          <div class="mode-report-shell">
+            <div class="signal-summary mode-report-summary" aria-label="Manuscript signal summary">
+              <div class="paper-card" data-q="q1"><span class="paper-label">Manuscript</span><h3>Polarization metrics in online discourse</h3><p>Quantitative · Q1 target · Advisor mode</p></div>
+              <div class="risk-card"><span>Integrated risk posture</span><strong>HIGH</strong><p>Five critical items should be addressed before polishing lower-priority language, structure, or presentation issues.</p></div>
+              <div class="signal-metrics" aria-label="Signal counts"><div><strong>5</strong><span>critical</span></div><div><strong>6</strong><span>major</span></div><div><strong>4</strong><span>minor</span></div></div>
+            </div>
+
+            <section class="mode-report-section mode-report-intro">
+              <div class="mode-intro-heading">
+                <span class="section-eyebrow">Advisor Mode</span>
+                <h2>Global priority order</h2>
+              </div>
+              <p>Advisor mode ranks the signals across the whole manuscript, so a supervisor or support team can see what needs attention first.</p>
+            </section>
+
+            <section class="mode-report-section" aria-label="Advisor priority list">
+              <div class="advisor-group">
+                <div class="advisor-group__title"><span class="severity severity--critical">Critical</span><span>Address first</span></div>
+                <article class="advisor-row"><strong>A load-bearing assumption for the network-based metric is declared but never checked against the dataset.</strong><span>Sec. 3 · Methodological visibility</span></article>
+                <article class="advisor-row"><strong>Three polarization scores disagree, and the text describes this as convergence.</strong><span>Sec. 4 · Argumentation</span></article>
+                <article class="advisor-row"><strong>A single-platform, single-window dataset is not carried into the conclusion as an explicit boundary.</strong><span>Sec. 8 · Limits &amp; uncertainties</span></article>
+                <article class="advisor-row"><strong>No data availability statement is present anywhere in the manuscript.</strong><span>Sec. 10 · Reproducibility</span></article>
+                <article class="advisor-row"><strong>No code availability statement is present for any of the three metric implementations.</strong><span>Sec. 10 · Reproducibility</span></article>
+              </div>
+
+              <div class="advisor-group">
+                <div class="advisor-group__title"><span class="severity severity--major">Medium</span><span>Resolve next</span></div>
+                <article class="advisor-row"><strong>Each metric's core assumption is defined in a separate subsection instead of compared directly.</strong><span>Sec. 2 · Theoretical framework</span></article>
+                <article class="advisor-row"><strong>A fixed activity-rate cutoff for bot filtering has no stated basis.</strong><span>Sec. 3 · Methodological visibility</span></article>
+                <article class="advisor-row"><strong>A convergence claim leads the sentence while its largest exception follows as an afterthought.</strong><span>Sec. 4 · Argumentation</span></article>
+                <article class="advisor-row"><strong>Confidence interval conventions change across tables with no single governing statement.</strong><span>Sec. 5 · Numerical behavior</span></article>
+                <article class="advisor-row"><strong>An unhedged convergence claim sits beside the paper's largest internal disagreement.</strong><span>Sec. 6 · Language &amp; hedging</span></article>
+                <article class="advisor-row"><strong>A visual element central to the combined indicator is never defined.</strong><span>Sec. 9 · Figure / table integrity</span></article>
+              </div>
+
+              <div class="advisor-group">
+                <div class="advisor-group__title"><span class="severity severity--minor">Low</span><span>Clean-up items</span></div>
+                <article class="advisor-row"><strong>A single-platform, single-window scope is stated in methods but not repeated near the conclusion's broader claims.</strong><span>Sec. 1 · Aim &amp; scope</span></article>
+                <article class="advisor-row"><strong>The four-month sampling window isn't connected to a seasonal or event-driven rationale.</strong><span>Sec. 3 · Methodological visibility</span></article>
+                <article class="advisor-row"><strong>A policy-relevant claim in the abstract is separated from the reasoning that supports it.</strong><span>Sec. 7 · Structural integrity</span></article>
+                <article class="advisor-row"><strong>A named confound from a mid-window platform change is never given an estimated effect size.</strong><span>Sec. 8 · Limits &amp; uncertainties</span></article>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="app-footer" aria-label="Clasr footer">
+      <div class="app-footer__inner">
+        <strong>Clasr is operated by HİLAL ŞENÇELİK (sole proprietor) · Bursa, Türkiye · © 2026</strong>
+        <nav aria-label="Footer links">
+          <a href="/terms/">Terms</a>
+          <a href="/privacy/">Privacy</a>
+          <a href="/refund-policy/">Refund</a>
+          <a href="/cookie-policy/">Cookies</a>
+          <a href="/acceptable-use/">Acceptable Use</a>
+          <a href="/legal/">Legal</a>
+          <a href="/contact/">Contact</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>

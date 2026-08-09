@@ -1,0 +1,287 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="The full anatomy of Clasr, signal mapping, argument chain, desk-reject profile, Q-variant calibration, and output modes.">
+    <meta property="og:title" content="Features | Clasr">
+    <meta property="og:description" content="Signal mapping, argument chain, desk-reject profile, Q-variant calibration, and output modes — all 11 report sections explained.">
+    <meta property="og:url" content="https://clasr.ai/features/">
+    <meta property="og:type" content="website">
+    <link rel="canonical" href="https://clasr.ai/features/">
+    <title>Features | Clasr</title>
+    <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/styles.css?v=compliance-1">
+    <script src="/script.js?v=compliance-1" defer></script>
+  </head>
+  <body class="features-page">
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a href="/" aria-label="Clasr home"><img class="logo" src="/assets/brand/logo-primary.svg?v=clean-final-1" alt="Clasr"></a>
+        <nav class="nav-links nav-links--mega" aria-label="Primary navigation">
+          <div class="nav-item">
+            <a href="/features/">Features</a>
+            <div class="nav-menu" aria-label="Features menu">
+              <a href="/features/" class="nav-menu__item">
+                <span class="nav-menu__title">Signal Mapping</span>
+                <span class="nav-menu__desc">Behavioral signal reports across 11 report sections</span>
+              </a>
+              <a href="/features/#argument-chain" class="nav-menu__item">
+                <span class="nav-menu__title">Argument Chain</span>
+                <span class="nav-menu__desc">Track the central claim from framing to conclusion</span>
+              </a>
+              <a href="/features/#desk-reject" class="nav-menu__item">
+                <span class="nav-menu__title">Desk-Reject Profile</span>
+                <span class="nav-menu__desc">See editorial risk patterns before an editor does</span>
+              </a>
+              <a href="/features/#q-calibration" class="nav-menu__item">
+                <span class="nav-menu__title">Q-Variant Calibration</span>
+                <span class="nav-menu__desc">Adjust sensitivity for Q1, Q2, or Q3 targets</span>
+              </a>
+              <a href="/features/#output-modes" class="nav-menu__item">
+                <span class="nav-menu__title">Output Modes</span>
+                <span class="nav-menu__desc">Author, Reviewer, or Advisor reading formats</span>
+              </a>
+            </div>
+          </div>
+          <div class="nav-item">
+            <a href="/resources/signal-architecture/">Resources</a>
+            <div class="nav-menu" aria-label="Resources menu">
+              <a href="/resources/signal-architecture/" class="nav-menu__item">
+              <span class="nav-menu__title">Signal Architecture</span>
+              <span class="nav-menu__desc">Reading perspectives, study types, and Q-profiles</span>
+            </a>
+              <a href="/resources/how-it-works/" class="nav-menu__item">
+              <span class="nav-menu__title">How It Works</span>
+                <span class="nav-menu__desc">A walkthrough of the full reading process</span>
+              </a>
+              <a href="/faq/" class="nav-menu__item">
+                <span class="nav-menu__title">FAQ</span>
+                <span class="nav-menu__desc">Common questions about Clasr</span>
+              </a>
+            </div>
+          </div>
+          <div class="nav-item">
+            <a href="/pricing/">Pricing</a>
+            <div class="nav-menu" aria-label="Pricing menu">
+              <a href="/pricing/" class="nav-menu__item">
+                <span class="nav-menu__title">Plans</span>
+                <span class="nav-menu__desc">Individual and team pricing options</span>
+              </a>
+              <a href="/enterprise-contact/" class="nav-menu__item">
+                <span class="nav-menu__title">For Institutions</span>
+                <span class="nav-menu__desc">University and research group licensing</span>
+              </a>
+              <a href="/pricing/#faq" class="nav-menu__item">
+                <span class="nav-menu__title">FAQ</span>
+                <span class="nav-menu__desc">Billing and subscription questions</span>
+              </a>
+            </div>
+          </div>
+          <div class="nav-item">
+            <a href="/about/">Company</a>
+            <div class="nav-menu" aria-label="Company menu">
+              <a href="/about/" class="nav-menu__item">
+                <span class="nav-menu__title">About</span>
+                <span class="nav-menu__desc">The team and mission behind Clasr</span>
+              </a>
+              <a href="/contact/" class="nav-menu__item">
+                <span class="nav-menu__title">Contact</span>
+                <span class="nav-menu__desc">Get in touch with us</span>
+              </a>
+              <a href="/legal/" class="nav-menu__item">
+                <span class="nav-menu__title">Legal</span>
+                <span class="nav-menu__desc">Terms, privacy, and data commitments</span>
+              </a>
+            </div>
+          </div>
+        </nav>
+        <div class="nav-actions">
+          <a class="button button--small" href="/login/">Log In</a>
+          <a class="button button--primary button--small" href="/register/">Register</a>
+        </div>
+        <button class="mobile-toggle" type="button" aria-label="Open menu" aria-expanded="false"><span></span></button>
+      </div>
+    </header>
+
+    <main>
+      <div class="cp-page">
+
+        <div class="cp-hero cp-hero--features">
+          <div class="cp-hero__copy">
+            <span class="cp-hero__label">What Clasr Reads For</span>
+            <h1 class="cp-hero__title">Reviewers read for patterns. So does Clasr.</h1>
+            <p class="cp-hero__sub">The gap between what a paper claims and what its evidence actually supports. That&rsquo;s what Clasr finds.</p>
+          </div>
+
+          <aside class="feature-signal-card" aria-label="Example signal report">
+            <div class="feature-signal-card__head">
+              <span>Signal report</span>
+              <strong>Non-decisional</strong>
+            </div>
+            <div class="feature-signal-card__paper">
+              <span>Manuscript behavior</span>
+              <p>Claims, evidence, methods, figures, uncertainty.</p>
+            </div>
+            <div class="feature-signal-card__rows">
+              <div><span>Evidence</span><strong>Located</strong></div>
+              <div><span>Inference type</span><strong>Observation</strong></div>
+              <div><span>Severity</span><strong>Moderate</strong></div>
+            </div>
+            <p class="feature-signal-card__note">Your judgment remains final.</p>
+          </aside>
+        </div>
+
+        <div id="signal-mapping" class="cp-section cp-section--signal-map">
+          <div class="signal-map-layout">
+            <div>
+              <span class="cp-section__label">Signal Mapping</span>
+              <h2 class="cp-section__title">The core function.</h2>
+              <div class="cp-section__body">
+                <p>Clasr reads the whole manuscript; how the topic gets framed, what the methods actually show, where the figures land, what&rsquo;s left uncertain. Eleven sections, each read the same disciplined way.</p>
+                <p>What comes back isn&rsquo;t a summary. It&rsquo;s every observation, labeled: where it&rsquo;s located, what kind of read it is, how serious it looks. You get the map, not someone&rsquo;s opinion of the map.</p>
+              </div>
+            </div>
+
+            <div class="signal-map-rail" aria-label="11 report sections">
+              <span><em>01</em> Macro framing</span>
+              <span><em>02</em> Aim and scope</span>
+              <span><em>03</em> Conceptual framework</span>
+              <span><em>04</em> Methodological visibility</span>
+              <span><em>05</em> Argumentation</span>
+              <span><em>06</em> Numerical behavior</span>
+              <span><em>07</em> Academic language</span>
+              <span><em>08</em> Structural integrity</span>
+              <span><em>09</em> Limits and uncertainties</span>
+              <span><em>10</em> Figure and table integrity</span>
+              <span><em>11</em> Reproducibility</span>
+            </div>
+          </div>
+        </div>
+
+        <div id="argument-chain" class="cp-section">
+          <span class="cp-section__label">Argument Chain</span>
+          <h2 class="cp-section__title">Every manuscript opens with a promise. The question is whether that promise survives.</h2>
+          <div class="cp-section__body">
+            <p>The Argument Chain follows the central claim from introduction to conclusion, watching whether the manuscript stays inside the argument it set up, or quietly redefines it once it reaches the discussion.</p>
+          </div>
+          <div class="cp-steps cp-steps--five">
+            <div class="cp-step"><h3 class="cp-step__title">Claim scope</h3><p class="cp-step__body">What&rsquo;s being claimed, where, and at what level.</p></div>
+            <div class="cp-step"><h3 class="cp-step__title">Premise visibility</h3><p class="cp-step__body">Are the argument&rsquo;s foundations shown, or just assumed?</p></div>
+            <div class="cp-step"><h3 class="cp-step__title">Method-claim fit</h3><p class="cp-step__body">Can the design actually carry the claim being made?</p></div>
+            <div class="cp-step"><h3 class="cp-step__title">Finding alignment</h3><p class="cp-step__body">Do the reported findings match how they&rsquo;re framed?</p></div>
+            <div class="cp-step"><h3 class="cp-step__title">Conclusion scope</h3><p class="cp-step__body">Does the conclusion stay inside what the evidence allows?</p></div>
+          </div>
+          <div class="cp-section__body cp-section__body--after-grid">
+            <p>A pattern this catches often: a manuscript that&rsquo;s correct section by section, but quietly redefines its claim by the time it reaches the discussion. Reviewers notice this. So does the Argument Chain.</p>
+          </div>
+        </div>
+
+        <div id="desk-reject" class="cp-section">
+          <span class="cp-section__label">Desk-Reject Profile</span>
+          <h2 class="cp-section__title">Editorial concern rarely comes from a single flaw.</h2>
+          <div class="cp-section__body">
+            <p>It comes from clusters: a scope mismatch next to an over-promising abstract, opaque methods, a thin reproducibility profile. Any one might pass alone. Together, they often don&rsquo;t.</p>
+            <p>The Desk-Reject Profile maps where these risks cluster before submission happens, and flags it when two critical gaps combine into something worse than either alone.</p>
+            <p>This is visibility, not prediction. Clasr doesn&rsquo;t estimate whether a manuscript gets rejected, since that depends on things no system can see, like journal strategy or submission load. It surfaces the patterns that tend to show up together right before one does.</p>
+          </div>
+        </div>
+
+        <div id="q-calibration" class="cp-section">
+          <span class="cp-section__label">Q-Variant Calibration</span>
+          <h2 class="cp-section__title">A Q1 journal reads differently than a Q3 journal.</h2>
+          <div class="cp-section__body">
+            <p>You choose the tier you&rsquo;re targeting, and Clasr reads accordingly. If you&rsquo;d rather not choose, Auto is there as a backup, not the default. Most manuscript tools skip this step. They apply the same scrutiny no matter the target, so a borderline paper gets graded too harshly and a strong one gets let off too easy.</p>
+          </div>
+          <div class="cp-q-chips">
+            <div class="cp-q-chip"><span class="cp-q-chip__tag">Q1</span><span class="cp-q-chip__desc"><strong>Maximum restraint.</strong> Sensitivity rises for over-claiming, scope overflow, methodological opacity, weak uncertainty boundaries, and reproducibility gaps.</span></div>
+            <div class="cp-q-chip"><span class="cp-q-chip__tag">Q2</span><span class="cp-q-chip__desc"><strong>Controlled flexibility.</strong> Claims can be discussable when they&rsquo;re explicitly bounded, scope-marked, and contextualized.</span></div>
+            <div class="cp-q-chip"><span class="cp-q-chip__tag">Q3</span><span class="cp-q-chip__desc"><strong>Narrative allowance.</strong> More interpretation is permitted, though unsupported causal claims and unbounded generalization still get flagged.</span></div>
+            <div class="cp-q-chip"><span class="cp-q-chip__tag">Auto</span><span class="cp-q-chip__desc"><strong>Estimated.</strong> When no tier is specified, the system estimates one from methodological sophistication, claim density, reference density, and structural completeness.</span></div>
+          </div>
+          <div class="cp-section__body">
+            <p>Tier and field work together too: a Q1 legal manuscript isn&rsquo;t read by the same criteria as a Q1 clinical trial, because their review cultures don&rsquo;t share the same criteria. Reporting standards like CONSORT, STROBE, PRISMA, STARD, ARRIVE, COREQ, and APA 7 are applied where relevant.</p>
+          </div>
+        </div>
+
+        <div id="output-modes" class="cp-section">
+          <span class="cp-section__label">Output Modes</span>
+          <h2 class="cp-section__title">One detection engine. Three audiences.</h2>
+          <div class="output-mode-list">
+            <div class="output-mode-row">
+              <h3 class="cp-col__title">Author Mode</h3>
+              <p class="cp-col__body">Plain-language explanations, plus a sense of what a reviewer might ask. Built for authors who don&rsquo;t speak the full signal vocabulary yet, and don&rsquo;t need to.</p>
+            </div>
+            <div class="output-mode-row">
+              <h3 class="cp-col__title">Reviewer Mode</h3>
+              <p class="cp-col__body">Just labels and locations. No explanation, no prose. Built for readers who want density, not context.</p>
+            </div>
+            <div class="output-mode-row">
+              <h3 class="cp-col__title">Advisor Mode</h3>
+              <p class="cp-col__body">Signals ranked globally, for supervisors, writing centers, and institutional support teams. Built for triage, not deep reading.</p>
+            </div>
+          </div>
+          <div class="cp-section__body cp-section__body--after-grid">
+            <p>Detection doesn&rsquo;t change between modes. The signal layer underneath stays the same. Only the presentation does.</p>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <footer id="company" class="footer">
+      <div class="footer__inner">
+        <div class="footer__top">
+          <div>
+            <a class="footer-logo-link" href="/" aria-label="Clasr home"><img class="logo" src="/assets/brand/footer-logo.svg?v=clean-final-1" alt="Clasr"></a>
+            <p class="footer-tag">Manuscript Signal Layer</p>
+          </div>
+          <div class="footer-columns">
+            <section>
+              <h3>Features</h3>
+              <ul>
+                <li><a href="/features/">Signal Mapping</a></li>
+                <li><a href="/features/#argument-chain">Argument Chain</a></li>
+                <li><a href="/features/#desk-reject">Desk-Reject Profile</a></li>
+                <li><a href="/features/#q-calibration">Q-Variant Calibration</a></li>
+                <li><a href="/features/#output-modes">Output Modes</a></li>
+              </ul>
+            </section>
+            <section>
+              <h3>Resources</h3>
+              <ul>
+                
+                <li><a href="/resources/signal-architecture/">Signal Architecture</a></li>
+                <li><a href="/resources/how-it-works/">How It Works</a></li>
+                <li><a href="/faq/">FAQ</a></li>
+              </ul>
+            </section>
+            <section>
+              <h3>Pricing</h3>
+              <ul>
+                <li><a href="/pricing/">Plans</a></li>
+                <li><a href="/enterprise-contact/">For Institutions</a></li>
+                <li><a href="/pricing/#faq">FAQ</a></li>
+              </ul>
+            </section>
+            <section>
+              <h3>Company</h3>
+              <ul>
+                <li><a href="/about/">About</a></li>
+                <li><a href="/contact/">Contact</a></li>
+                <li><a href="/legal/">Legal</a></li><li><a href="/acceptable-use/">Acceptable Use</a></li><li><a href="/terms/">Terms</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/refund-policy/">Refund</a></li><li><a href="/cookie-policy/">Cookies</a></li>
+              </ul>
+            </section>
+          </div>
+          <p class="footer-operator">Clasr is operated by HİLAL ŞENÇELİK (sole proprietor) · Bursa, Türkiye · © 2026</p>
+          <ul class="social-list">
+            <li><a href="https://www.instagram.com/clasr.ai/" target="_blank" rel="noopener noreferrer" aria-label="Clasr on Instagram"><img src="/assets/icons/social-instagram.svg" alt=""></a></li>
+            <li><a href="https://www.linkedin.com/company/clasrai/" target="_blank" rel="noopener noreferrer" aria-label="Clasr on LinkedIn"><img src="/assets/icons/social-linkedin.svg" alt=""></a></li>
+            <li><a href="https://x.com/clasr_ai" target="_blank" rel="noopener noreferrer" aria-label="Clasr on X"><img src="/assets/icons/social-x.svg" alt=""></a></li>
+            <li><a href="https://github.com/clasrai" target="_blank" rel="noopener noreferrer" aria-label="Clasr on GitHub"><img src="/assets/icons/social-github.svg" alt=""></a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

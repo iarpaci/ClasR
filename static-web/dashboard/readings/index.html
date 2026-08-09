@@ -1,0 +1,171 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Readings | Clasr</title>
+    <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/styles.css?v=compliance-1">
+    <script src="/script.js?v=compliance-1" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a href="/dashboard/" aria-label="Clasr dashboard"><img class="logo" src="/assets/brand/logo-primary.svg?v=clean-final-1" alt="Clasr"></a>
+        <nav class="nav-links app-nav" aria-label="Workspace navigation">
+          <a class="app-nav__primary" href="/dashboard/">New reading</a>
+          <a href="/dashboard/readings/">Readings</a>
+          <a href="/dashboard/pricing/">Plans</a>
+          <a href="/dashboard/help/">Help</a>
+        </nav>
+        <div class="account-menu">
+          <button class="user-menu" type="button" aria-expanded="false" aria-haspopup="menu">
+            <span>Michael Carter</span>
+            <img src="/assets/icons/chevron-down.svg" alt="">
+          </button>
+          <div class="account-dropdown" role="menu" aria-label="Michael Carter account menu">
+            <a class="account-dropdown__item" href="/dashboard/" role="menuitem"><span>My dashboard</span><small>Recent manuscripts and new readings</small></a>
+            <a class="account-dropdown__item" href="/dashboard/readings/" role="menuitem"><span>Readings</span><small>Your past signal reports</small></a>
+            <a class="account-dropdown__item" href="/dashboard/settings/" role="menuitem"><span>Account settings</span><small>Reading role, export, and profile preferences</small></a>
+            <a class="account-dropdown__item" href="/dashboard/billing/" role="menuitem"><span>Plan and billing</span><small>Usage, invoices, and plan options</small></a>
+            <a class="account-dropdown__item" href="/dashboard/help/" role="menuitem"><span>Help</span><small>FAQ, quick answers, and contact</small></a>
+            <a class="account-dropdown__item account-dropdown__item--logout" href="/login/" role="menuitem"><span>Log out</span></a>
+          </div>
+        </div>
+        <button class="mobile-toggle" type="button" aria-label="Open menu" aria-expanded="false"><span></span></button>
+      </div>
+    </header>
+
+    <main class="account-shell">
+      <section class="dashboard-content account-screen" aria-labelledby="readings-title">
+        <div class="dashboard-inner">
+          <div class="dash-header">
+            <h1 id="readings-title" class="dashboard-greeting">Readings</h1>
+            <p class="dashboard-status">Michael's completed manuscript readings would appear here when history is enabled.</p>
+          </div>
+
+          <section class="readings-empty-state" aria-label="History disabled" data-history-empty>
+            <div class="readings-history__head readings-history__head--control">
+              <span class="settings-panel__label">History is off</span>
+              <div class="history-state-toggle" aria-label="Reading history setting">
+                <button type="button" data-history-enable>On</button>
+                <button class="is-active" type="button" data-history-disable>Off</button>
+              </div>
+            </div>
+            <p>Turn history on to keep completed signal reports in this workspace.</p>
+            <div class="support-actions">
+              <a class="button button--small" href="/dashboard/">Start new reading</a>
+            </div>
+          </section>
+
+          <section class="readings-history" aria-label="Reading history" data-history-list hidden>
+            <div class="readings-history__head readings-history__head--control">
+              <span class="settings-panel__label">History is on</span>
+              <div class="history-state-toggle" aria-label="Reading history setting">
+                <button class="is-active" type="button" data-history-enable>On</button>
+                <button type="button" data-history-disable>Off</button>
+              </div>
+            </div>
+
+            <div class="readings-history__list" data-readings-history-list>
+              <article class="reading-history-card" data-q="q1">
+                <span class="reading-history-card__date">Today</span>
+                <div>
+                  <h3>Polarization metrics manuscript, Author Mode</h3>
+                  <span class="reading-history-card__metrics">5 critical · 6 major · 4 minor</span>
+                  <p>Q1 · Author mode · Quantitative · Plain-language findings with reviewer-facing context and revision considerations.</p>
+                </div>
+                <div class="reading-history-card__actions">
+                  <a class="reading-history-card__action" href="/dashboard/reading/polarization-author/">Open report</a>
+                  <span class="reading-history-card__downloads" aria-label="Download report">
+                    <a href="/assets/reports/clasr-demo-signal-report.pdf" download>PDF</a>
+                    <a href="/assets/reports/clasr-demo-signal-report.docx" download>DOCX</a>
+                    <a href="/assets/reports/clasr-demo-signal-report.txt" download>TXT</a>
+                  </span>
+                </div>
+              </article>
+
+              <article class="reading-history-card" data-q="q1">
+                <span class="reading-history-card__date">Today</span>
+                <div>
+                  <h3>Polarization metrics manuscript, Reviewer Mode</h3>
+                  <span class="reading-history-card__metrics">5 critical · 6 major · 4 minor</span>
+                  <p>Q1 · Reviewer mode · Quantitative · Dense labels, evidence locations, inference type, and surfacing rationale.</p>
+                </div>
+                <div class="reading-history-card__actions">
+                  <a class="reading-history-card__action" href="/dashboard/reading/polarization-reviewer/">Open report</a>
+                  <span class="reading-history-card__downloads" aria-label="Download report">
+                    <a href="/assets/reports/clasr-demo-signal-report.pdf" download>PDF</a>
+                    <a href="/assets/reports/clasr-demo-signal-report.docx" download>DOCX</a>
+                    <a href="/assets/reports/clasr-demo-signal-report.txt" download>TXT</a>
+                  </span>
+                </div>
+              </article>
+
+              <article class="reading-history-card" data-q="q1">
+                <span class="reading-history-card__date">Today</span>
+                <div>
+                  <h3>Polarization metrics manuscript, Advisor Mode</h3>
+                  <span class="reading-history-card__metrics">5 critical · 6 major · 4 minor</span>
+                  <p>Q1 · Advisor mode · Quantitative · Signals ranked globally for methods, argumentation, limits, and reproducibility triage.</p>
+                </div>
+                <div class="reading-history-card__actions">
+                  <a class="reading-history-card__action" href="/dashboard/reading/polarization-advisor/">Open report</a>
+                  <span class="reading-history-card__downloads" aria-label="Download report">
+                    <a href="/assets/reports/clasr-demo-signal-report.pdf" download>PDF</a>
+                    <a href="/assets/reports/clasr-demo-signal-report.docx" download>DOCX</a>
+                    <a href="/assets/reports/clasr-demo-signal-report.txt" download>TXT</a>
+                  </span>
+                </div>
+              </article>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+    <script>
+      (function () {
+        const emptyState = document.querySelector("[data-history-empty]");
+        const historyList = document.querySelector("[data-history-list]");
+        const enableButton = document.querySelector("[data-history-enable]");
+        const disableButton = document.querySelector("[data-history-disable]");
+
+        if (!emptyState || !historyList) return;
+
+        const setHistoryState = (isEnabled) => {
+          try {
+            localStorage.setItem("clasr:readingHistoryEnabled", String(isEnabled));
+          } catch {}
+
+          emptyState.hidden = isEnabled;
+          historyList.hidden = !isEnabled;
+        };
+
+        let savedState = true;
+        try {
+          const storedState = localStorage.getItem("clasr:readingHistoryEnabled");
+          savedState = storedState === null ? true : storedState === "true";
+        } catch {}
+
+        setHistoryState(savedState);
+        enableButton?.addEventListener("click", () => setHistoryState(true));
+        disableButton?.addEventListener("click", () => setHistoryState(false));
+      })();
+    </script>
+    <footer class="app-footer" aria-label="Workspace footer">
+      <div class="app-footer__inner">
+        <strong>Clasr is operated by HİLAL ŞENÇELİK (sole proprietor) · Bursa, Türkiye · © 2026</strong>
+        <nav aria-label="Workspace footer links">
+          <a href="/terms/">Terms</a>
+          <a href="/privacy/">Privacy</a>
+          <a href="/refund-policy/">Refund</a>
+          <a href="/cookie-policy/">Cookies</a>
+          <a href="/legal/">Legal</a>
+          <a href="/acceptable-use/">Acceptable Use</a>          <a href="/dashboard/help/">Help</a>
+          <a href="/contact/">Contact</a>
+        </nav>
+      </div>
+    </footer>
+
+  </body>
+</html>

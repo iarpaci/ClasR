@@ -1,0 +1,191 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Account Settings | Clasr</title>
+    <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/styles.css?v=compliance-1">
+    <script src="/script.js?v=compliance-1" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a href="/dashboard/" aria-label="Clasr dashboard"><img class="logo" src="/assets/brand/logo-primary.svg?v=clean-final-1" alt="Clasr"></a>
+        <nav class="nav-links app-nav" aria-label="Workspace navigation">
+          <a class="app-nav__primary" href="/dashboard/">New reading</a>
+          <a href="/dashboard/readings/">Readings</a>
+          <a href="/dashboard/pricing/">Plans</a>
+          <a href="/dashboard/help/">Help</a>
+        </nav>
+        <div class="account-menu">
+          <button class="user-menu" type="button" aria-expanded="false" aria-haspopup="menu">
+            <span>Michael Carter</span>
+            <img src="/assets/icons/chevron-down.svg" alt="">
+          </button>
+          <div class="account-dropdown" role="menu" aria-label="Michael Carter account menu">
+            <a class="account-dropdown__item" href="/dashboard/" role="menuitem"><span>My dashboard</span><small>Recent manuscripts and new readings</small></a>
+            <a class="account-dropdown__item" href="/dashboard/readings/" role="menuitem"><span>Readings</span><small>Your past signal reports</small></a>
+            <a class="account-dropdown__item" href="/dashboard/settings/" role="menuitem"><span>Account settings</span><small>Reading role, export, and profile preferences</small></a>
+            <a class="account-dropdown__item" href="/dashboard/billing/" role="menuitem"><span>Plan and billing</span><small>Usage, invoices, and plan options</small></a>
+            <a class="account-dropdown__item" href="/dashboard/help/" role="menuitem"><span>Help</span><small>FAQ, quick answers, and contact</small></a>
+            <a class="account-dropdown__item account-dropdown__item--logout" href="/login/" role="menuitem"><span>Log out</span></a>
+          </div>
+        </div>
+        <button class="mobile-toggle" type="button" aria-label="Open menu" aria-expanded="false"><span></span></button>
+      </div>
+    </header>
+
+    <main class="account-shell">
+      <section class="dashboard-content account-screen" aria-labelledby="settings-title">
+        <div class="dashboard-inner">
+          <div class="dash-header">
+            <h1 id="settings-title" class="dashboard-greeting">Account settings</h1>
+            <p class="dashboard-status">Set the defaults Clasr should use when Michael starts a new manuscript reading.</p>
+          </div>
+
+          <div class="account-settings-layout">
+            <aside class="account-settings-nav" aria-label="Account settings sections">
+              <a href="/dashboard/settings/">Reading defaults</a>
+              <a href="#reports">Report output</a>
+              <a href="#profile">Profile</a>
+              <a href="/dashboard/billing/">Plan and billing</a>
+              <a href="#security">Security and data</a>
+              <a href="/dashboard/billing/">Current plan</a>
+              <a href="/dashboard/billing/#invoices">Invoices</a>
+              <a href="/dashboard/billing/#credit" data-trial-only>Upgrade credit</a>
+              <a href="/dashboard/billing/#enterprise">Enterprise</a>
+            </aside>
+
+            <div class="account-settings-stack">
+              <section class="account-summary">
+                <div>
+                  <span class="settings-panel__label">Signed in as</span>
+                  <strong>Michael Carter</strong>
+                </div>
+                <div class="account-summary__workspace">
+                  <span class="settings-panel__label">Workspace</span>
+                  <strong>Clasr Research Workspace</strong>
+                </div>
+              </section>
+
+              <section class="settings-section" id="reading">
+                <div class="settings-section__head">
+                  <div>
+                    <span class="settings-panel__label">Reading defaults</span>
+                    <h2>Manuscript reading</h2>
+                  </div>
+                  <button class="settings-action" type="button">Edit</button>
+                </div>
+                <div class="settings-row"><span>Default role</span><strong>Author</strong></div>
+                <div class="settings-row"><span>Study type</span><strong>Quantitative</strong></div>
+                <div class="settings-row"><span>Q-profile</span><strong>Q1 with Auto available</strong></div>
+                <div class="settings-row"><span>Default sections</span><strong>All signal sections</strong></div>
+              </section>
+
+              <section class="settings-section" id="reports">
+                <div class="settings-section__head">
+                  <div>
+                    <span class="settings-panel__label">Reports</span>
+                    <h2>Signal report output</h2>
+                  </div>
+                  <button class="settings-action" type="button">Edit</button>
+                </div>
+                <div class="settings-row"><span>Export formats</span><strong>PDF, DOCX, TXT</strong></div>
+                <div class="settings-row"><span>Report tone</span><strong>Author-facing</strong></div>
+                <div class="settings-row settings-row--action">
+                  <span>Save recent readings</span>
+                  <strong data-history-status>On</strong>
+                  <div class="settings-toggle" role="group" aria-label="Reading history">
+                    <button class="is-active" type="button" aria-pressed="true">On</button>
+                    <button type="button" aria-pressed="false">Off</button>
+                  </div>
+                </div>
+                <div class="settings-row"><span>References</span><strong>Include trace notes</strong></div>
+              </section>
+
+              <section class="settings-section" id="profile">
+                <div class="settings-section__head">
+                  <div>
+                    <span class="settings-panel__label">Profile</span>
+                    <h2>Account details</h2>
+                  </div>
+                  <button class="settings-action" type="button">Edit</button>
+                </div>
+                <div class="settings-row"><span>Name</span><strong>Michael Carter</strong></div>
+                <div class="settings-row"><span>Email</span><strong>michael.carter@university.edu</strong></div>
+                <div class="settings-row"><span>Workspace</span><strong>Clasr Research Workspace</strong></div>
+              </section>
+
+              <section class="settings-section" id="security">
+                <div class="settings-section__head">
+                  <div>
+                    <span class="settings-panel__label">Security and data</span>
+                    <h2>Workspace controls</h2>
+                  </div>
+                </div>
+                <div class="settings-row settings-row--action"><span>Password</span><strong>Last changed recently</strong><button class="settings-action" type="button">Change password</button></div>
+                <div class="settings-row settings-row--action"><span>Email updates</span><strong>Reading completion only</strong><button class="settings-action" type="button">Edit</button></div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script>
+      (function () {
+        const historyToggle = document.querySelector('.settings-toggle[aria-label="Reading history"]');
+        const historyStatus = document.querySelector("[data-history-status]");
+
+        if (!historyToggle) return;
+
+        const renderHistoryToggle = (isEnabled) => {
+          historyToggle.querySelectorAll("button").forEach((button) => {
+            const isActive = button.textContent.trim().toLowerCase() === (isEnabled ? "on" : "off");
+            button.classList.toggle("is-active", isActive);
+            button.setAttribute("aria-pressed", String(isActive));
+          });
+
+          if (historyStatus) {
+            historyStatus.textContent = isEnabled ? "On" : "Off";
+          }
+        };
+
+        const setHistory = (isEnabled) => {
+          try {
+            localStorage.setItem("clasr:readingHistoryEnabled", String(isEnabled));
+          } catch {}
+          renderHistoryToggle(isEnabled);
+        };
+
+        let savedState = true;
+        try {
+          const storedState = localStorage.getItem("clasr:readingHistoryEnabled");
+          savedState = storedState === null ? true : storedState === "true";
+        } catch {}
+
+        renderHistoryToggle(savedState);
+        historyToggle.querySelectorAll("button").forEach((button) => {
+          button.addEventListener("click", () => {
+            setHistory(button.textContent.trim().toLowerCase() === "on");
+          });
+        });
+      })();
+    </script>
+    <footer class="app-footer" aria-label="Workspace footer">
+      <div class="app-footer__inner">
+        <strong>Clasr is operated by HİLAL ŞENÇELİK (sole proprietor) · Bursa, Türkiye · © 2026</strong>
+        <nav aria-label="Workspace footer links">
+          <a href="/terms/">Terms</a>
+          <a href="/privacy/">Privacy</a>
+          <a href="/refund-policy/">Refund</a>
+          <a href="/cookie-policy/">Cookies</a>
+          <a href="/legal/">Legal</a>
+          <a href="/acceptable-use/">Acceptable Use</a>          <a href="/dashboard/help/">Help</a>
+          <a href="/contact/">Contact</a>
+        </nav>
+      </div>
+    </footer>
+
+  </body>
+</html>

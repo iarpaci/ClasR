@@ -1,0 +1,281 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard | Clasr</title>
+    <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/styles.css?v=compliance-1">
+    <script src="/script.js?v=compliance-1" defer></script>
+    <script>
+      // Dynamic greeting, runs before paint to avoid flash
+      (function () {
+        let name = "Michael";
+        try {
+          const profile = JSON.parse(localStorage.getItem("clasr:userProfile") || "{}");
+          name = profile.firstName || name;
+        } catch {}
+        const hour = new Date().getHours();
+        const visits = parseInt(localStorage.getItem("clasr:visits") || "0", 10);
+        localStorage.setItem("clasr:visits", String(visits + 1));
+
+        const isReturning = visits > 0;
+
+        const morningLines = [
+          `Good morning, ${name}.`,
+          `Morning, ${name}, ready to read?`,
+          `Rise and read, ${name}.`,
+          `A new manuscript awaits!`,
+          `Fresh signals for today!`,
+        ];
+        const afternoonLines = [
+          `Good afternoon, ${name}.`,
+          `A good afternoon to you, ${name}.`,
+          `Afternoon, ${name}, let's get to work.`,
+        ];
+        const eveningLines = [
+          `Good evening, ${name}.`,
+          `Evening, ${name}.`,
+          `Ready for one more reading, ${name}?`,
+        ];
+        const nightLines = [
+          `Have a good night, ${name}.`,
+          `Late session, ${name}.`,
+          `Ready when you are, ${name}.`,
+        ];
+        const welcomeBackLines = [
+          `Welcome back, ${name}.`,
+          `Good to see you again, ${name}.`,
+          `Back to reading, ${name}.`,
+        ];
+        const brandLines = [
+          `Read before you're read.`,
+          `Signals before decisions.`,
+          `Reading, augmented.`,
+          `Read deeper.`,
+        ];
+
+        let pool;
+        if (Math.random() < 0.16) {
+          pool = brandLines;
+        } else if (isReturning && Math.random() < 0.35) {
+          pool = welcomeBackLines;
+        } else if (hour >= 5 && hour < 12) {
+          pool = morningLines;
+        } else if (hour >= 12 && hour < 17) {
+          pool = afternoonLines;
+        } else if (hour >= 17 && hour < 21) {
+          pool = eveningLines;
+        } else {
+          pool = nightLines;
+        }
+
+        const greeting = pool[Math.floor(Math.random() * pool.length)];
+
+        document.addEventListener("DOMContentLoaded", () => {
+          const el = document.getElementById("dashboard-greeting");
+          if (el) el.textContent = greeting;
+        });
+      })();
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a href="/dashboard/" aria-label="Clasr dashboard"><img class="logo" src="/assets/brand/logo-primary.svg?v=clean-final-1" alt="Clasr"></a>
+        <nav class="nav-links app-nav" aria-label="Workspace navigation">
+          <a class="app-nav__primary" href="/dashboard/">New reading</a>
+          <a href="/dashboard/readings/">Readings</a>
+          <a href="/dashboard/pricing/">Plans</a>
+          <a href="/dashboard/help/">Help</a>
+        </nav>
+        <div class="account-menu">
+          <button class="user-menu" type="button" aria-expanded="false" aria-haspopup="menu">
+            <span>Michael Carter</span>
+            <img src="/assets/icons/chevron-down.svg" alt="" class="user-menu__chevron">
+          </button>
+          <div class="account-dropdown" role="menu" aria-label="Michael Carter account menu">
+            <a class="account-dropdown__item" href="/dashboard/" role="menuitem"><span>My dashboard</span><small>Recent manuscripts and new readings</small></a>
+            <a class="account-dropdown__item" href="/dashboard/readings/" role="menuitem"><span>Readings</span><small>Your past signal reports</small></a>
+            <a class="account-dropdown__item" href="/dashboard/settings/" role="menuitem"><span>Account settings</span><small>Reading role, export, and profile preferences</small></a>
+            <a class="account-dropdown__item" href="/dashboard/billing/" role="menuitem"><span>Plan and billing</span><small>Usage, invoices, and plan options</small></a>
+            <a class="account-dropdown__item" href="/dashboard/help/" role="menuitem"><span>Help</span><small>FAQ, quick answers, and contact</small></a>
+            <a class="account-dropdown__item account-dropdown__item--logout" href="/login/" role="menuitem"><span>Log out</span></a>
+          </div>
+        </div>
+        <button class="mobile-toggle" type="button" aria-label="Open menu" aria-expanded="false"><span></span></button>
+      </div>
+    </header>
+
+    <main class="dashboard-shell dashboard-shell--no-sidebar">
+      <!-- Main content -->
+      <section class="dashboard-content" aria-labelledby="dashboard-greeting">
+        <div class="dashboard-inner">
+
+          <!-- Greeting -->
+          <div class="dash-header">
+            <h1 id="dashboard-greeting" class="dashboard-greeting">Good morning, Michael.</h1>
+            <p class="dashboard-status">I'm Clasr. Set your preferences below and start reading.</p>
+          </div>
+
+          <section class="preupload-ready" data-preupload-ready hidden>
+            <div>
+              <span class="settings-panel__label">Report ready</span>
+              <h2>Your uploaded manuscript is ready to review.</h2>
+              <p><strong data-preupload-file>Uploaded manuscript</strong> has been processed with your selected plan and reading preferences.</p>
+            </div>
+            <a class="button button--primary button--small" href="/dashboard/reading/">Open report</a>
+          </section>
+
+          <!-- Upload card -->
+          <div class="hero-card" role="region" aria-label="New reading">
+
+            <div class="hero-card__options">
+              <div class="hero-config-group">
+                <span class="hero-role-label">Reading as</span>
+                <div class="hero-roles">
+                  <button class="hero-role is-active" type="button">Author</button>
+                  <button class="hero-role" type="button">Reviewer</button>
+                  <button class="hero-role" type="button">Advisor</button>
+                </div>
+              </div>
+              <div class="hero-config-group">
+                <span class="hero-role-label">Study type</span>
+                <div class="hero-roles">
+                  <button class="hero-role is-active" type="button">Quantitative</button>
+                  <button class="hero-role" type="button">Qualitative</button>
+                </div>
+              </div>
+              <div class="hero-config-group">
+                <span class="hero-role-label">Q-profile</span>
+                <div class="hero-roles">
+                  <button class="hero-role is-active" type="button">Q1</button>
+                  <button class="hero-role" type="button">Q2</button>
+                  <button class="hero-role" type="button">Q3</button>
+                  <button class="hero-role hero-role--auto" type="button">Auto</button>
+                </div>
+              </div>
+            </div>
+
+            <label class="hero-card__drop" aria-label="Upload manuscript" data-landing-upload-drop>
+              <input type="file" accept=".pdf,.docx" hidden data-landing-upload-input>
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 16V8M12 8l-3 3M12 8l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M6 18h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              <p class="hero-drop-label" data-landing-upload-name>Drop manuscript here</p>
+              <p class="hero-drop-sub" data-landing-upload-status>PDF or DOCX &middot; <u>browse</u></p>
+            </label>
+
+            <a class="hero-card__cta" href="/checkout/" role="button" data-dashboard-start>
+              <span>Start Signal Reading</span>
+            </a>
+
+          </div>
+
+          <p class="dash-credit-text"><span>Credit left</span> <strong data-credit-left>0/0</strong></p>
+
+          <!-- Recent readings -->
+          <section class="recent-section dash-recent" aria-labelledby="recent-heading" data-history-dashboard-recent>
+            <h2 id="recent-heading" class="recent-heading">Recent readings</h2>
+            <div class="readings-history__list" data-recent-grid>
+
+              <article class="reading-history-card" data-q="q1">
+                <span class="reading-history-card__date">Today</span>
+                <div>
+                  <h3>Polarization metrics manuscript, Author Mode</h3>
+                  <span class="reading-history-card__metrics">5 critical · 6 major · 4 minor</span>
+                  <p>Q1 · Author mode · Quantitative · Plain-language findings with reviewer-facing context and revision considerations.</p>
+                </div>
+                <div class="reading-history-card__actions">
+                  <a class="reading-history-card__action" href="/dashboard/reading/polarization-author/">Open report</a>
+                  <span class="reading-history-card__downloads" aria-label="Download report">
+                    <a href="/assets/reports/clasr-demo-signal-report.pdf" download>PDF</a>
+                    <a href="/assets/reports/clasr-demo-signal-report.docx" download>DOCX</a>
+                    <a href="/assets/reports/clasr-demo-signal-report.txt" download>TXT</a>
+                  </span>
+                </div>
+              </article>
+
+              <article class="reading-history-card" data-q="q1">
+                <span class="reading-history-card__date">Today</span>
+                <div>
+                  <h3>Polarization metrics manuscript, Reviewer Mode</h3>
+                  <span class="reading-history-card__metrics">5 critical · 6 major · 4 minor</span>
+                  <p>Q1 · Reviewer mode · Quantitative · Dense labels, evidence locations, inference type, and surfacing rationale.</p>
+                </div>
+                <div class="reading-history-card__actions">
+                  <a class="reading-history-card__action" href="/dashboard/reading/polarization-reviewer/">Open report</a>
+                  <span class="reading-history-card__downloads" aria-label="Download report">
+                    <a href="/assets/reports/clasr-demo-signal-report.pdf" download>PDF</a>
+                    <a href="/assets/reports/clasr-demo-signal-report.docx" download>DOCX</a>
+                    <a href="/assets/reports/clasr-demo-signal-report.txt" download>TXT</a>
+                  </span>
+                </div>
+              </article>
+
+              <article class="reading-history-card" data-q="q1">
+                <span class="reading-history-card__date">Today</span>
+                <div>
+                  <h3>Polarization metrics manuscript, Advisor Mode</h3>
+                  <span class="reading-history-card__metrics">5 critical · 6 major · 4 minor</span>
+                  <p>Q1 · Advisor mode · Quantitative · Signals ranked globally for methods, argumentation, limits, and reproducibility triage.</p>
+                </div>
+                <div class="reading-history-card__actions">
+                  <a class="reading-history-card__action" href="/dashboard/reading/polarization-advisor/">Open report</a>
+                  <span class="reading-history-card__downloads" aria-label="Download report">
+                    <a href="/assets/reports/clasr-demo-signal-report.pdf" download>PDF</a>
+                    <a href="/assets/reports/clasr-demo-signal-report.docx" download>DOCX</a>
+                    <a href="/assets/reports/clasr-demo-signal-report.txt" download>TXT</a>
+                  </span>
+                </div>
+              </article>
+
+            </div>
+          </section>
+
+        </div>
+      </section>
+    </main>
+
+    <footer class="app-footer" aria-label="Workspace footer">
+      <div class="app-footer__inner">
+        <strong>Clasr is operated by HİLAL ŞENÇELİK (sole proprietor) · Bursa, Türkiye · © 2026</strong>
+        <nav aria-label="Workspace footer links">
+          <a href="/terms/">Terms</a>
+          <a href="/privacy/">Privacy</a>
+          <a href="/refund-policy/">Refund</a>
+          <a href="/cookie-policy/">Cookies</a>
+          <a href="/legal/">Legal</a>
+          <a href="/acceptable-use/">Acceptable Use</a>          <a href="/dashboard/help/">Help</a>
+          <a href="/contact/">Contact</a>
+        </nav>
+      </div>
+    </footer>
+
+    <script>
+      // Paste panel toggle
+      const pasteToggle = document.querySelector(".paste-toggle-btn");
+      const pastePanel = document.getElementById("paste-panel");
+      if (pasteToggle && pastePanel) {
+        pasteToggle.addEventListener("click", () => {
+          const isOpen = pastePanel.hidden === false;
+          pastePanel.hidden = isOpen;
+          pasteToggle.setAttribute("aria-expanded", String(!isOpen));
+          pasteToggle.textContent = isOpen ? "paste text" : "hide paste";
+        });
+      }
+
+      // Drag-over visual feedback
+      const dropZone = document.querySelector(".drop-zone-new");
+      if (dropZone) {
+        ["dragenter", "dragover"].forEach(evt =>
+          dropZone.addEventListener(evt, (e) => { e.preventDefault(); dropZone.classList.add("is-over"); })
+        );
+        ["dragleave", "drop"].forEach(evt =>
+          dropZone.addEventListener(evt, () => dropZone.classList.remove("is-over"))
+        );
+      }
+    </script>
+  </body>
+</html>

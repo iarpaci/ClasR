@@ -1,0 +1,146 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Help | Clasr</title>
+    <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/styles.css?v=compliance-1">
+    <script src="/script.js?v=compliance-1" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a href="/dashboard/" aria-label="Clasr dashboard"><img class="logo" src="/assets/brand/logo-primary.svg?v=clean-final-1" alt="Clasr"></a>
+        <nav class="nav-links app-nav" aria-label="Workspace navigation">
+          <a class="app-nav__primary" href="/dashboard/">New reading</a>
+          <a href="/dashboard/readings/">Readings</a>
+          <a href="/dashboard/pricing/">Plans</a>
+          <a href="/dashboard/help/">Help</a>
+        </nav>
+        <div class="account-menu">
+          <button class="user-menu" type="button" aria-expanded="false" aria-haspopup="menu">
+            <span>Michael Carter</span>
+            <img src="/assets/icons/chevron-down.svg" alt="">
+          </button>
+          <div class="account-dropdown" role="menu" aria-label="Michael Carter account menu">
+            <a class="account-dropdown__item" href="/dashboard/" role="menuitem"><span>My dashboard</span><small>Recent manuscripts and new readings</small></a>
+            <a class="account-dropdown__item" href="/dashboard/settings/" role="menuitem"><span>Account settings</span><small>Reading role, export, and profile preferences</small></a>
+            <a class="account-dropdown__item" href="/dashboard/billing/" role="menuitem"><span>Plan and billing</span><small>Usage, invoices, and plan options</small></a>
+            <a class="account-dropdown__item" href="/dashboard/help/" role="menuitem"><span>Help</span><small>FAQ, quick answers, and contact</small></a>
+            <a class="account-dropdown__item account-dropdown__item--logout" href="/login/" role="menuitem"><span>Log out</span></a>
+          </div>
+        </div>
+        <button class="mobile-toggle" type="button" aria-label="Open menu" aria-expanded="false"><span></span></button>
+      </div>
+    </header>
+
+    <main class="account-shell">
+      <section class="dashboard-content account-screen" aria-labelledby="help-title">
+        <div class="dashboard-inner">
+          <div class="dash-header">
+            <h1 id="help-title" class="dashboard-greeting">Help</h1>
+            <p class="dashboard-status">Answers for reading manuscripts, understanding reports, exports, history, and billing.</p>
+          </div>
+
+          <div class="help-center">
+            <section class="help-quick" aria-label="Quick actions">
+              <a href="/dashboard/">
+                <span>Start a new reading</span>
+                <strong>Upload PDF or DOCX, choose mode, run Clasr.</strong>
+              </a>
+              <a href="/dashboard/readings/">
+                <span>Find previous readings</span>
+                <strong>View saved reports when history is on.</strong>
+              </a>
+              <a href="/dashboard/billing/">
+                <span>Plan and usage</span>
+                <strong>Check readings left, credit, and upgrade options.</strong>
+              </a>
+            </section>
+
+            <section class="help-section" aria-labelledby="common-topics-title">
+              <div class="help-section__head">
+                <span class="settings-panel__label">Common help topics</span>
+                <h2 id="common-topics-title">What can we help with?</h2>
+              </div>
+              <div class="help-topic-grid">
+                <article class="help-topic">
+                  <h3>Upload formats</h3>
+                  <p>Clasr accepts PDF and DOCX manuscripts. For pasted text, use the paste option on the new reading screen.</p>
+                </article>
+                <article class="help-topic">
+                  <h3>Reading modes</h3>
+                  <p>Author mode explains signals clearly, Reviewer mode is denser, and Advisor mode adds academic context.</p>
+                </article>
+                <article class="help-topic">
+                  <h3>Q-profile</h3>
+                  <p>Q1 is strict, Q2 is balanced, Q3 is more flexible, and Auto estimates the best calibration.</p>
+                </article>
+                <article class="help-topic">
+                  <h3>Signal reports</h3>
+                  <p>A report shows manuscript behavior patterns. It is not a score, verdict, or acceptance prediction.</p>
+                </article>
+                <article class="help-topic">
+                  <h3>Exports</h3>
+                  <p>Completed readings can be downloaded as PDF, DOCX, or TXT from the report page.</p>
+                </article>
+                <article class="help-topic">
+                  <h3>History</h3>
+                  <p>If history is off, Clasr will not keep completed readings. Turn it on from Account settings.</p>
+                </article>
+              </div>
+            </section>
+
+            <section class="help-section help-faq" aria-labelledby="faq-title">
+              <div class="help-section__head">
+                <span class="settings-panel__label">Simple questions</span>
+                <h2 id="faq-title">Quick answers</h2>
+              </div>
+              <details open>
+                <summary>Why does my report say “high risk”?</summary>
+                <p>It means several manuscript behaviors need attention, such as claim drift, unclear methods, inconsistency, or weak evidence alignment.</p>
+              </details>
+              <details>
+                <summary>Can Clasr rewrite my manuscript?</summary>
+                <p>No. Clasr makes behavioral signals visible. It does not rewrite, score, or decide for you.</p>
+              </details>
+              <details>
+                <summary>Where do I change default reading mode?</summary>
+                <p>Go to Account settings and update Reading defaults.</p>
+              </details>
+              <details>
+                <summary>Why can’t I see reading history?</summary>
+                <p>History may be turned off. Open Readings to see the status, or turn history on in Account settings.</p>
+              </details>
+            </section>
+
+            <section class="help-contact" aria-label="Contact Clasr">
+              <div>
+                <span class="settings-panel__label">Still need help?</span>
+                <h2>Contact Clasr</h2>
+                <p>For account, reading, export, or billing questions, email us and include the manuscript title or report name if relevant.</p>
+              </div>
+              <a class="help-email" href="mailto:support@clasr.ai">support@clasr.ai</a>
+            </section>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="app-footer" aria-label="Workspace footer">
+      <div class="app-footer__inner">
+        <strong>Clasr is operated by HİLAL ŞENÇELİK (sole proprietor) · Bursa, Türkiye · © 2026</strong>
+        <nav aria-label="Workspace footer links">
+          <a href="/terms/">Terms</a>
+          <a href="/privacy/">Privacy</a>
+          <a href="/refund-policy/">Refund</a>
+          <a href="/cookie-policy/">Cookies</a>
+          <a href="/legal/">Legal</a>
+          <a href="/acceptable-use/">Acceptable Use</a>          <a href="/dashboard/help/">Help</a>
+          <a href="/contact/">Contact</a>
+        </nav>
+      </div>
+    </footer>
+
+  </body>
+</html>

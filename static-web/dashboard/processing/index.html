@@ -1,0 +1,96 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Reading in Progress | Clasr</title>
+    <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/styles.css?v=compliance-1">
+    <script src="/script.js?v=compliance-1" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a href="/dashboard/" aria-label="Clasr dashboard"><img class="logo" src="/assets/brand/logo-primary.svg?v=clean-final-1" alt="Clasr"></a>
+        <nav class="nav-links app-nav" aria-label="Workspace navigation">
+          <a class="app-nav__primary" href="/dashboard/">New reading</a>
+          <a href="/dashboard/readings/">Readings</a>
+          <a href="/dashboard/pricing/">Plans</a>
+          <a href="/dashboard/help/">Help</a>
+        </nav>
+        <div class="account-menu">
+          <button class="user-menu" type="button" aria-expanded="false" aria-haspopup="menu">
+            <span>Michael Carter</span>
+            <img src="/assets/icons/chevron-down.svg" alt="">
+          </button>
+          <div class="account-dropdown" role="menu" aria-label="Michael Carter account menu">
+            <a class="account-dropdown__item" href="/dashboard/" role="menuitem"><span>My dashboard</span><small>Recent manuscripts and new readings</small></a>
+            <a class="account-dropdown__item" href="/dashboard/readings/" role="menuitem"><span>Readings</span><small>Your past signal reports</small></a>
+            <a class="account-dropdown__item" href="/dashboard/settings/" role="menuitem"><span>Account settings</span><small>Reading role, export, and profile preferences</small></a>
+            <a class="account-dropdown__item" href="/dashboard/billing/" role="menuitem"><span>Plan and billing</span><small>Usage, invoices, and plan options</small></a>
+            <a class="account-dropdown__item" href="/dashboard/help/" role="menuitem"><span>Help</span><small>FAQ, quick answers, and contact</small></a>
+            <a class="account-dropdown__item account-dropdown__item--logout" href="/login/" role="menuitem"><span>Log out</span></a>
+          </div>
+        </div>
+        <button class="mobile-toggle" type="button" aria-label="Open menu" aria-expanded="false"><span></span></button>
+      </div>
+    </header>
+
+    <main class="account-shell">
+      <section class="dashboard-content processing-screen" aria-labelledby="processing-title">
+        <div class="dashboard-inner">
+          <div class="processing-panel">
+            <div class="processing-panel__main">
+              <span class="section-eyebrow">READING IN PROGRESS</span>
+              <h1 id="processing-title">Clasr is reading your manuscript.</h1>
+              <p>Most signal reports are ready in 5-15 minutes. You can leave this page open; we will email you when the report is ready.</p>
+              <div class="processing-loader" role="status" aria-label="Reading in progress">
+                <span></span>
+              </div>
+              <dl class="processing-meta">
+                <div>
+                  <dt>Selected mode</dt>
+                  <dd data-processing-mode>Author Mode</dd>
+                </div>
+                <div>
+                  <dt>Module stack</dt>
+                  <dd>60+ analytical modules</dd>
+                </div>
+                <div>
+                  <dt>Status</dt>
+                  <dd>Waiting for API response</dd>
+                </div>
+              </dl>
+            </div>
+
+            <ol class="processing-steps" aria-label="Reading progress">
+              <li class="is-active"><span></span><strong>Upload received</strong><p>The manuscript is queued for reading.</p></li>
+              <li class="is-active"><span></span><strong>Calibration</strong><p>Field, Q-profile, and reader mode are being applied.</p></li>
+              <li><span></span><strong>Signal extraction</strong><p>Argument, evidence, methods, figures, and reproducibility are checked.</p></li>
+              <li><span></span><strong>Report assembly</strong><p>The final signal report will appear when the API returns.</p></li>
+            </ol>
+          </div>
+
+          <div class="processing-actions">
+            <a class="button" href="/dashboard/">Back to dashboard</a>
+            <span>Report delivery continues in the background.</span>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="app-footer" aria-label="Clasr footer">
+      <div class="app-footer__inner">
+        <strong>Clasr is operated by HİLAL ŞENÇELİK (sole proprietor) · Bursa, Türkiye · © 2026</strong>
+        <nav aria-label="Footer links">
+          <a href="/terms/">Terms</a>
+          <a href="/privacy/">Privacy</a>
+          <a href="/refund-policy/">Refund</a>
+          <a href="/cookie-policy/">Cookies</a>
+          <a href="/acceptable-use/">Acceptable Use</a>
+          <a href="/legal/">Legal</a>
+          <a href="/contact/">Contact</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>
