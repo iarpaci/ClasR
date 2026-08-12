@@ -1,4 +1,26 @@
-﻿const header = document.querySelector(".site-header");
+﻿// Frontend error tracking (2026-08-12): a Sentry DSN was provisioned for
+// this site but never actually wired in — no frontend errors have ever been
+// captured. Dynamic script injection (not a static <head> tag) so this is a
+// one-file change instead of touching 50+ HTML pages; same pattern this file
+// already uses elsewhere for Paddle's loader. Fails silently if the CDN
+// bundle can't load (e.g. ad blocker) — monitoring, not a page dependency.
+(function initSentry() {
+  const script = document.createElement("script");
+  script.src = "https://browser.sentry-cdn.com/10.70.0/bundle.min.js";
+  script.crossOrigin = "anonymous";
+  script.onload = function () {
+    if (window.Sentry) {
+      window.Sentry.init({
+        dsn: "https://b456a6fcc0e1f0519e65adc30b0ee2e2@o4511299097985024.ingest.de.sentry.io/4511299120136272",
+        environment: "production",
+        tracesSampleRate: 0,
+      });
+    }
+  };
+  document.head.appendChild(script);
+})();
+
+const header = document.querySelector(".site-header");
 const toggle = document.querySelector(".mobile-toggle");
 
 const themeParams = new URLSearchParams(window.location.search);

@@ -161,11 +161,11 @@ const securityHeaders = () => ({
   "strict-transport-security": "max-age=63072000; includeSubDomains",
   "content-security-policy": [
     "default-src 'self'",
-    "script-src 'self' https://use.typekit.net https://cdn.paddle.com https://sandbox-cdn.paddle.com",
+    "script-src 'self' https://use.typekit.net https://cdn.paddle.com https://sandbox-cdn.paddle.com https://browser.sentry-cdn.com",
     "style-src 'self' https://use.typekit.net 'unsafe-inline'",
     "font-src 'self' https://use.typekit.net https://p.typekit.net data:",
     "img-src 'self' data: blob: https:",
-    `connect-src 'self' https://clasr-production.up.railway.app https://yocebpchsvubixpxiclg.supabase.co https://checkout-service.paddle.com https://checkout.paddle.com https://buy.paddle.com https://sandbox-checkout.paddle.com https://api.paddle.com https://events.paddle.com${devConnectSrcExtra}`,
+    `connect-src 'self' https://clasr-production.up.railway.app https://yocebpchsvubixpxiclg.supabase.co https://checkout-service.paddle.com https://checkout.paddle.com https://buy.paddle.com https://sandbox-checkout.paddle.com https://api.paddle.com https://events.paddle.com https://o4511299097985024.ingest.de.sentry.io${devConnectSrcExtra}`,
     "frame-src https://buy.paddle.com https://sandbox-buy.paddle.com https://checkout.paddle.com https://sandbox-checkout.paddle.com",
     "object-src 'none'",
     "base-uri 'self'",
