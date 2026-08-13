@@ -194,6 +194,11 @@ const planPrices = {
 };
 
 const getActivePlan = () => {
+  const profilePlan = getStoredProfile().plan;
+  if (profilePlan) {
+    return profilePlan === "free" ? null : profilePlan;
+  }
+
   if (localStorage.getItem("clasr:checkoutComplete") !== "true") {
     return null;
   }
@@ -615,7 +620,9 @@ if (planCards.length) {
   }
 }
 
-if (accountPlanCards.length) {
+const renderAccountPlanCards = () => {
+  if (!accountPlanCards.length) return;
+
   const currentPlan = getActivePlan();
   const shouldShowTrialCredit = currentPlan === "trial-pack";
 
@@ -642,10 +649,16 @@ if (accountPlanCards.length) {
     }
 
     if (isCurrentPlan && action) {
+      action.textContent = "Current plan";
       action.setAttribute("href", "/dashboard/billing/");
+      action.classList.add("is-disabled-cta");
+    } else if (action) {
+      action.classList.remove("is-disabled-cta");
     }
   });
-}
+};
+
+renderAccountPlanCards();
 
 const signalDemos = Array.from(document.querySelectorAll("[data-signal-demo]"));
 
@@ -1466,63 +1479,68 @@ const billingPlanName = document.querySelector("[data-billing-plan-name]");
 const billingPlanSummary = document.querySelector("[data-billing-plan-summary]");
 const invoiceList = document.querySelector("[data-invoice-list]");
 const accountPricingStatus = document.querySelector("[data-account-pricing-status]");
-const activePlan = getActivePlan();
 
-document.querySelectorAll("[data-trial-only]").forEach((item) => {
-  item.hidden = activePlan !== "trial-pack";
-});
+const renderAccountBillingPanel = () => {
+  const activePlan = getActivePlan();
 
-if (billingPlanName && billingPlanSummary) {
-  if (!activePlan) {
-    billingPlanName.textContent = "No active plan";
-    billingPlanSummary.textContent = "Choose a plan or apply a gift code before starting manuscript readings.";
-  } else if (activePlan === "enterprise") {
-    billingPlanName.textContent = "Enterprise";
-    billingPlanSummary.textContent = "Custom volume and team access are managed through the enterprise agreement.";
-  } else {
-    const total = planCredits[activePlan] || 0;
-    const used = localStorage.getItem("clasr:preuploadName") ? 1 : 0;
-    billingPlanName.textContent = planLabels[activePlan] || "Current plan";
-    billingPlanSummary.textContent = `${used} of ${total} manuscript readings used.`;
+  document.querySelectorAll("[data-trial-only]").forEach((item) => {
+    item.hidden = activePlan !== "trial-pack";
+  });
+
+  if (billingPlanName && billingPlanSummary) {
+    if (!activePlan) {
+      billingPlanName.textContent = "No active plan";
+      billingPlanSummary.textContent = "Choose a plan or apply a gift code before starting manuscript readings.";
+    } else if (activePlan === "enterprise") {
+      billingPlanName.textContent = "Enterprise";
+      billingPlanSummary.textContent = "Custom volume and team access are managed through the enterprise agreement.";
+    } else {
+      const total = planCredits[activePlan] || 0;
+      const used = localStorage.getItem("clasr:preuploadName") ? 1 : 0;
+      billingPlanName.textContent = planLabels[activePlan] || "Current plan";
+      billingPlanSummary.textContent = `${used} of ${total} manuscript readings used.`;
+    }
   }
-}
 
-if (invoiceList) {
-  if (!activePlan) {
-    invoiceList.innerHTML = `
-      <article class="invoice-row">
-        <div>
-          <span>No payments yet</span>
-          <strong>No invoice available</strong>
-        </div>
-        <span>$0.00</span>
-        <a href="/checkout/" class="button button--small">Choose plan</a>
-      </article>
-    `;
-  } else {
-    invoiceList.innerHTML = `
-      <article class="invoice-row">
-        <div>
-          <span>Jun 12, 2026</span>
-          <strong>${planLabels[activePlan] || "Plan"}</strong>
-        </div>
-        <span>${planPrices[activePlan] || ""}</span>
-        <span class="invoice-status">Demo</span>
-        <span>Demo record</span>
-      </article>
-    `;
+  if (invoiceList) {
+    if (!activePlan) {
+      invoiceList.innerHTML = `
+        <article class="invoice-row">
+          <div>
+            <span>No payments yet</span>
+            <strong>No invoice available</strong>
+          </div>
+          <span>$0.00</span>
+          <a href="/checkout/" class="button button--small">Choose plan</a>
+        </article>
+      `;
+    } else {
+      invoiceList.innerHTML = `
+        <article class="invoice-row">
+          <div>
+            <span>Jun 12, 2026</span>
+            <strong>${planLabels[activePlan] || "Plan"}</strong>
+          </div>
+          <span>${planPrices[activePlan] || ""}</span>
+          <span class="invoice-status">Demo</span>
+          <span>Demo record</span>
+        </article>
+      `;
+    }
   }
-}
 
-if (accountPricingStatus) {
-  if (!activePlan) {
-    accountPricingStatus.textContent = "Choose a plan when you are ready to unlock manuscript readings.";
-  } else if (activePlan === "trial-pack") {
-    accountPricingStatus.textContent = "Your $25 Trial Pack credit is available for 30 days and can be applied to Researcher or Professional.";
-  } else {
-    accountPricingStatus.textContent = `${planLabels[activePlan]} is active. Billing controls will appear here when payment processing becomes available.`;
+  if (accountPricingStatus) {
+    if (!activePlan) {
+      accountPricingStatus.textContent = "Choose a plan when you are ready to unlock manuscript readings.";
+    } else if (activePlan === "trial-pack") {
+      accountPricingStatus.textContent = "Your $25 Trial Pack credit is available for 30 days and can be applied to Researcher or Professional.";
+    } else {
+      accountPricingStatus.textContent = `${planLabels[activePlan]} is active. Billing controls will appear here when payment processing becomes available.`;
+    }
   }
-}
+};
+
+renderAccountBillingPanel();
 
 const dashboardRecentBlocks = Array.from(document.querySelectorAll("[data-history-dashboard-recent]"));
 const renderDashboardRecentBlocks = (isEnabled = getReadingHistoryEnabled()) => {
@@ -1909,6 +1927,8 @@ setupResponsiveReports();
         saveStoredProfile({ firstName: data.user.firstName || '', lastName: data.user.lastName || '', email: data.user.email, plan: data.user.plan, user_id: data.user.id || data.user.user_id || '' });
       }
       if (typeof applyAccountProfile === 'function') applyAccountProfile();
+      if (typeof renderAccountPlanCards === 'function') renderAccountPlanCards();
+      if (typeof renderAccountBillingPanel === 'function') renderAccountBillingPanel();
       if (typeof window._clasrAutoOpenCheckout === 'function') {
         window._clasrAutoOpenCheckout(data.user.id || data.user.user_id || '');
       }

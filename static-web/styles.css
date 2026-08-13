@@ -25367,7 +25367,7 @@ body.theme-night .site-header.is-open .nav-item > a:focus-visible {
 .account-pricing .account-pricing-grid {
   width: min(1080px, 100%) !important;
   max-width: 1080px !important;
-  margin: 0 auto !important;
+  margin: 0 0 24px !important;
   display: grid !important;
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   gap: 18px !important;
@@ -25560,6 +25560,19 @@ body.theme-night .account-pricing .account-plan-card .plan-card__cta,
 body.theme-night .account-pricing .account-plan-card .button.plan-card__cta {
   border-color: #f3a8b6 !important;
   color: #f3a8b6 !important;
+}
+
+.account-pricing .account-plan-card .button.is-disabled-cta {
+  border-color: rgba(44, 38, 32, 0.28) !important;
+  background: rgba(44, 38, 32, 0.06) !important;
+  color: rgba(44, 38, 32, 0.6) !important;
+  cursor: default !important;
+}
+
+body.theme-night .account-pricing .account-plan-card .button.is-disabled-cta {
+  border-color: rgba(239, 231, 220, 0.28) !important;
+  background: rgba(239, 231, 220, 0.06) !important;
+  color: rgba(239, 231, 220, 0.6) !important;
 }
 
 @media (max-width: 980px) {
