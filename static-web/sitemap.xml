@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://clasr.ai/</loc><priority>1.0</priority></url>
+  <url><loc>https://clasr.ai/about/</loc><priority>0.6</priority></url>
+  <url><loc>https://clasr.ai/features/</loc><priority>0.8</priority></url>
+  <url><loc>https://clasr.ai/pricing/</loc><priority>0.9</priority></url>
+  <url><loc>https://clasr.ai/faq/</loc><priority>0.6</priority></url>
+  <url><loc>https://clasr.ai/contact/</loc><priority>0.5</priority></url>
+  <url><loc>https://clasr.ai/enterprise-contact/</loc><priority>0.5</priority></url>
+  <url><loc>https://clasr.ai/terms/</loc><priority>0.3</priority></url>
+  <url><loc>https://clasr.ai/privacy/</loc><priority>0.3</priority></url>
+  <url><loc>https://clasr.ai/refund-policy/</loc><priority>0.3</priority></url>
+  <url><loc>https://clasr.ai/cookie-policy/</loc><priority>0.3</priority></url>
+  <url><loc>https://clasr.ai/data-processing/</loc><priority>0.3</priority></url>
+  <url><loc>https://clasr.ai/acceptable-use/</loc><priority>0.3</priority></url>
+  <url><loc>https://clasr.ai/legal/</loc><priority>0.3</priority></url>
+</urlset>

@@ -104,6 +104,7 @@ const mimeTypes = new Map([
   [".docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"],
   [".txt", "text/plain; charset=utf-8"],
   [".md", "text/markdown; charset=utf-8"],
+  [".xml", "application/xml; charset=utf-8"],
 ]);
 
 const sendJson = (res, status, body) => {
