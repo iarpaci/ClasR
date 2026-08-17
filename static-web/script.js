@@ -1952,6 +1952,7 @@ setupResponsiveReports();
     if (recentGrid || readingsHistoryList || sidebarRecentList) {
       apiJson('/api/readings').then(function(data) {
         if (!data || !data.readings || !data.readings.length) return;
+        document.querySelectorAll('[data-example-note]').forEach(function(el) { el.hidden = true; });
         var esc = function(s) { return String(s).replace(/[&<>"']/g, function(c) { return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); };
         var fmtDate = function(iso) { try { var d = new Date(iso), diff = Math.floor((Date.now()-d)/86400000); return diff===0?'Today':diff===1?'Yesterday':d.toLocaleDateString('en-US',{month:'short',day:'numeric'}); } catch(e){return'';} };
         var cardHtml = function(r) { return '<article class="reading-history-card"><span class="reading-history-card__date">'+fmtDate(r.createdAt)+'</span><div><h3>'+esc(r.title)+'</h3><span class="reading-history-card__metrics">'+r.severity.critical+' critical \xb7 '+r.severity.major+' major \xb7 '+r.severity.minor+' minor</span><p>'+esc(r.qProfile)+' \xb7 '+esc(r.mode)+' mode</p></div><div class="reading-history-card__actions"><a class="reading-history-card__action" href="'+esc(r.reportUrl)+'">Open report</a></div></article>'; };
