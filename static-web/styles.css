@@ -3051,10 +3051,13 @@ body.theme-night .checkout-launch-placeholder p {
   border-radius: 999px;
   background: rgba(250, 248, 244, 0.58);
   color: var(--petrol);
+  font-family: inherit;
   font-size: 13px;
   font-weight: 700;
   line-height: 1;
   text-decoration: none;
+  cursor: pointer;
+  appearance: none;
 }
 
 .download-chip:hover,
@@ -26225,6 +26228,104 @@ mark.sev {
 mark.sev--critical { background: #A32642; color: #fff; }
 mark.sev--major { background: #fce5e7; border: 1px solid #A32642; color: #A32642; }
 mark.sev--minor { background: var(--cream); border: 1px solid #5C8C8C; color: #2c5c5c; }
+
+/* ── Real reading report layout ───────────────────────────────── */
+.api-report { max-width: 100%; }
+
+.risk-card--report { max-width: 420px; margin: 0 0 28px; }
+
+.risk-label--low { color: #2c5c5c; }
+.risk-label--medium { color: #b46a1a; }
+.risk-label--high,
+.risk-label--critical { color: var(--red); }
+
+.report-block {
+  margin: 0 0 28px;
+  padding: 18px 20px;
+  border: 1px solid var(--mist);
+  border-radius: 4px;
+  background: rgba(245, 240, 229, 0.4);
+}
+
+.report-block h2 {
+  margin: 0 0 10px;
+  font-family: var(--display);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.report-block__body p { margin: 0 0 0.9em; font-size: 14px; line-height: 1.6; }
+.report-block__body p:last-child { margin-bottom: 0; }
+
+.report-section-card {
+  margin: 0 0 22px;
+  padding: 20px 22px;
+  border: 1px solid var(--mist);
+  border-radius: 4px;
+  background: var(--cream);
+}
+
+.report-section-card__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--mist);
+}
+
+.report-section-card__number {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(44, 38, 32, 0.55);
+}
+
+.report-section-card__head h3 {
+  flex: 1;
+  margin: 0;
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.report-section-card__body p { margin: 0 0 1em; }
+.report-section-card__body p:last-child { margin-bottom: 0; }
+
+.report-closing-note {
+  max-width: 60ch;
+  margin: 8px 0 0;
+  padding: 16px 0 0;
+  border-top: 1px solid var(--mist);
+  color: rgba(44, 38, 32, 0.65);
+  font-size: 13px;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+@media print {
+  .site-header,
+  .app-footer,
+  .reading-report-actions,
+  .account-menu,
+  .mobile-toggle,
+  .cookie-notice { display: none !important; }
+
+  body { background: #fff !important; }
+
+  .dashboard-content--report .dashboard-inner { max-width: 100% !important; }
+
+  .report-section-card,
+  .report-block,
+  .risk-card--report {
+    break-inside: avoid;
+    border-color: #ccc !important;
+    background: #fff !important;
+  }
+}
 
 /* ── Cookie notice ─────────────────────────────── */
 .cookie-notice {

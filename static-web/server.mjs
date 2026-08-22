@@ -162,7 +162,7 @@ const securityHeaders = () => ({
   "strict-transport-security": "max-age=63072000; includeSubDomains",
   "content-security-policy": [
     "default-src 'self'",
-    "script-src 'self' https://use.typekit.net https://cdn.paddle.com https://sandbox-cdn.paddle.com https://browser.sentry-cdn.com",
+    "script-src 'self' https://use.typekit.net https://cdn.paddle.com https://sandbox-cdn.paddle.com https://browser.sentry-cdn.com https://cdn.jsdelivr.net",
     "style-src 'self' https://use.typekit.net 'unsafe-inline'",
     "font-src 'self' https://use.typekit.net https://p.typekit.net data:",
     "img-src 'self' data: blob: https:",
