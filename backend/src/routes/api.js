@@ -46,6 +46,13 @@ function updateJob(jobId, patch) {
   if (job) jobs.set(jobId, { ...job, ...patch });
 }
 
+// Shared tail for "the report was generated but nothing was persisted" —
+// keeps the user-facing message identical across every insert-failure path
+// instead of three independently-typed copies that could drift apart.
+function failJobUnsaved(jobId) {
+  updateJob(jobId, { status: 'failed', error: 'Your report was generated but could not be saved. Please try again.' });
+}
+
 // Clean up jobs older than 2 hours
 setInterval(() => {
   const cutoff = Date.now() - 2 * 60 * 60 * 1000;
@@ -412,9 +419,15 @@ router.post('/readings/start', requireAuth, handleUpload, async (req, res, next)
             // Neither insert persisted the row — never report success with a
             // readingId nothing actually saved under. Surface a real failure
             // instead of a job that "completes" into a 404.
-            updateJob(jobId, { status: 'failed', error: 'Your report was generated but could not be saved. Please try again.' });
+            failJobUnsaved(jobId);
             return;
           }
+          // Fallback succeeded, so the reading itself is safe, but this run
+          // silently dropped output_mode/study_type/severity counts — that
+          // only happens if the DB schema is missing columns the code expects.
+          // Warn so schema drift doesn't stay invisible just because the
+          // reading itself didn't fail.
+          console.warn('[api] analyses row saved via fallback (basic columns only) for reading', readingId, '— check for missing DB columns');
         }
 
         updateJob(jobId, { status: 'complete', readingId });
@@ -492,7 +505,7 @@ router.post('/readings/start-v2', requireAuth, handleUpload, async (req, res, ne
         });
         if (insertErr) {
           console.error('[api] v2 insert error:', insertErr.message, insertErr.details || '');
-          updateJob(jobId, { status: 'failed', error: 'Your report was generated but could not be saved. Please try again.' });
+          failJobUnsaved(jobId);
           return;
         }
 
