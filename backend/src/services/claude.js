@@ -3,7 +3,13 @@ const { assembleSystemPrompt } = require('./kitAssembler');
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 const MODEL = 'claude-sonnet-4-6';
-const MAX_TOKENS = 4000;
+// The full CLASR output (executive summary, priority signals, ~9 sections,
+// argument density, confidence profile, closing risk posture) routinely
+// runs well past 4000 tokens for a real manuscript — that ceiling was
+// silently truncating reports mid-section with no error, no stop_reason
+// check, nothing. claude-sonnet-4-6 supports up to 128k output tokens on
+// the synchronous Messages API, no beta header needed.
+const MAX_TOKENS = 16000;
 
 const OUTPUT_MODES = { author: 'author mode', reviewer: 'reviewer mode', advisor: 'advisor mode' };
 
@@ -35,8 +41,13 @@ async function analyzeManuscript({ manuscriptText, qVariant = null, mode = null,
     messages: [{ role: 'user', content: userMessage }],
   });
 
+  if (response.stop_reason === 'max_tokens') {
+    console.warn('[claude] response truncated at max_tokens — report is incomplete. Consider raising MAX_TOKENS further.');
+  }
+
   return {
     report: response.content[0].text,
+    truncated: response.stop_reason === 'max_tokens',
     usage: {
       input_tokens: response.usage.input_tokens,
       output_tokens: response.usage.output_tokens,

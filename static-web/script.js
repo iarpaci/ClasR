@@ -2054,8 +2054,20 @@ setupResponsiveReports();
   var clasrParseReport = function(raw) {
     var lines = String(raw || '').replace(/\r\n/g, '\n').split('\n');
     var isRule = function(l) { return /^[━=\-]{5,}$/.test(l.trim()); };
-    var result = { priorityBlock: '', sections: [], confidenceProfile: '', argumentDensity: '', riskPosture: null, closing: '', calibrationNote: '' };
+    var result = { executiveSummary: '', priorityBlock: '', sections: [], confidenceProfile: '', argumentDensity: '', riskPosture: null, closing: '', calibrationNote: '' };
     var n = lines.length;
+
+    // Index of the first ▸-prefixed marker (first real section/block start).
+    // Top-level header blocks (title, EXECUTIVE SUMMARY, PRIORITY ACTION
+    // SIGNALS, etc.) only ever appear before this point in the live kit
+    // output — bounding the search here keeps later same-named-looking
+    // rule-boxes nested inside a section (there are none today, but this
+    // stays robust if a future kit revision reuses a title) from being
+    // mistaken for the top-level block.
+    var firstMarkerIdx = n;
+    for (var m = 0; m < n; m++) {
+      if (/^▸\s*(SECTION\s+\d+|PRIORITY ACTION SIGNALS|SIGNAL CONFIDENCE PROFILE|ARGUMENT DENSITY)/i.test(lines[m].trim())) { firstMarkerIdx = m; break; }
+    }
 
     // 1. INTEGRATED RISK POSTURE: rule, title, rule, LABEL, sentence(s), rule — find wherever it occurs.
     //    LABEL may carry a trailing partial-input note (kit §8b), e.g.
@@ -2081,45 +2093,62 @@ setupResponsiveReports();
       }
     }
 
-    // 2. CLOSING BLOCK: the last rule-delimited block in the document — but
-    //    never the RISK POSTURE block's own closing rule, so a report with
-    //    no separate closing disclaimer doesn't re-show the posture text a
-    //    second time as if it were the closing note.
-    var lastRuleIdx = -1;
-    for (var r = n - 1; r >= 0; r--) {
-      if (r === riskPostureEndIdx) continue;
-      if (isRule(lines[r].trim())) { lastRuleIdx = r; break; }
-    }
-    if (lastRuleIdx > -1 && lastRuleIdx > riskPostureEndIdx) {
-      var openIdx = -1;
-      for (var o = lastRuleIdx - 1; o >= 0; o--) { if (isRule(lines[o].trim())) { openIdx = o; break; } }
-      if (openIdx > -1 && openIdx !== riskPostureEndIdx) {
-        var closingLines = [];
-        for (var c = openIdx + 1; c < lastRuleIdx; c++) { if (lines[c].trim()) closingLines.push(lines[c].trim()); }
-        if (closingLines.length) result.closing = closingLines.join(' ');
+    // 2. Other top-level "rule, TITLE, rule, content..., rule" blocks that
+    //    the live kit emits WITHOUT a ▸ prefix (only ▸ SECTION/PRIORITY
+    //    ACTION SIGNALS/etc. carry one) — EXECUTIVE SUMMARY in particular,
+    //    plus PRIORITY ACTION SIGNALS/SIGNAL CONFIDENCE PROFILE/ARGUMENT
+    //    DENSITY as a fallback for whichever of those also arrive bare.
+    //    Bounded to before firstMarkerIdx so a same-named nested box
+    //    inside a section (there are none observed today) can't collide.
+    var findTopBlock = function(titleRe) {
+      for (var t = 0; t < firstMarkerIdx; t++) {
+        if (isRule(lines[t].trim()) && titleRe.test((lines[t + 1] || '').trim())) {
+          var bq = t + 2;
+          if (isRule((lines[bq] || '').trim())) bq++;
+          var bodyLines = [];
+          var bClose = bq;
+          while (bClose < n && !isRule((lines[bClose] || '').trim())) { bodyLines.push(lines[bClose]); bClose++; }
+          return bodyLines.join('\n').trim();
+        }
       }
-    }
+      return '';
+    };
+    result.executiveSummary = findTopBlock(/^EXECUTIVE SUMMARY$/i);
+    var barePriority = findTopBlock(/^PRIORITY ACTION SIGNALS$/i);
+    var bareConfidence = findTopBlock(/^SIGNAL CONFIDENCE PROFILE$/i);
+    var bareDensity = findTopBlock(/^ARGUMENT DENSITY$/i);
 
-    // 3. Bucket-scan for ▸-prefixed section/block markers. Any rule line ends
-    //    the current bucket (header/risk-posture/closing content is handled
-    //    above and never has an open bucket to join here). Section headers
+    // 3. Bucket-scan for ▸-prefixed section/block markers. Section headers
     //    accept a dash or colon between number and title (kit spec uses a
-    //    dash, but a colon is plausible model drift worth tolerating).
-    //    A bare "[Calibration: ...]" line (kit §9) belongs to no bucket and
-    //    is captured separately so it isn't silently lost.
+    //    dash, but a colon is plausible model drift worth tolerating). A
+    //    bare "[Calibration: ...]" line (kit §9) belongs to no bucket and is
+    //    captured separately so it isn't silently lost.
+    //
+    //    Rule lines do NOT end a 'section' bucket — the live kit nests
+    //    rule-delimited sub-boxes (OVERREACH PROFILE, DESK-REJECT RISK
+    //    PROFILE, SOURCE INTEGRITY SCOPE, ...) inside section bodies, using
+    //    the same ━━━ rule characters as decorative borders. Previously any
+    //    rule line reset the bucket to null, silently dropping everything
+    //    from that sub-box onward until the next ▸ marker — an entire
+    //    section's tail (often its most detailed content) vanished. A
+    //    section only really ends at the next ▸ marker or end of document;
+    //    the rule characters themselves are stripped so they don't render
+    //    as literal ━━━ runs inside a paragraph.
     var buckets = [];
     var current = null;
-    for (var i = 0; i < n; i++) {
+    var lastConsumedIdx = firstMarkerIdx - 1;
+    for (var i = firstMarkerIdx; i < n; i++) {
       var trimmed = lines[i].trim();
       var mSection = trimmed.match(/^▸\s*SECTION\s+(\d+)\s*[—–:-]\s*(.+)$/i);
 
-      if (mSection) { current = { type: 'section', number: mSection[1], name: mSection[2].trim(), lines: [] }; buckets.push(current); continue; }
-      if (/^▸\s*PRIORITY ACTION SIGNALS/i.test(trimmed)) { current = { type: 'priority', lines: [] }; buckets.push(current); continue; }
-      if (/^▸\s*SIGNAL CONFIDENCE PROFILE/i.test(trimmed)) { current = { type: 'confidence', lines: [] }; buckets.push(current); continue; }
-      if (/^▸\s*ARGUMENT DENSITY/i.test(trimmed)) { current = { type: 'density', lines: [] }; buckets.push(current); continue; }
-      if (isRule(trimmed)) { current = null; continue; }
+      if (mSection) { current = { type: 'section', number: mSection[1], name: mSection[2].trim(), lines: [] }; buckets.push(current); lastConsumedIdx = i; continue; }
+      if (/^▸\s*PRIORITY ACTION SIGNALS/i.test(trimmed)) { current = { type: 'priority', lines: [] }; buckets.push(current); lastConsumedIdx = i; continue; }
+      if (/^▸\s*SIGNAL CONFIDENCE PROFILE/i.test(trimmed)) { current = { type: 'confidence', lines: [] }; buckets.push(current); lastConsumedIdx = i; continue; }
+      if (/^▸\s*ARGUMENT DENSITY/i.test(trimmed)) { current = { type: 'density', lines: [] }; buckets.push(current); lastConsumedIdx = i; continue; }
+      if (current && current.type !== 'section' && isRule(trimmed)) { current = null; continue; }
+      if (isRule(trimmed)) continue; // nested sub-box divider inside a section — drop, keep the bucket open
       if (!current && /^\[Calibration:.*\]$/i.test(trimmed)) { result.calibrationNote = trimmed; continue; }
-      if (trimmed && current) current.lines.push(lines[i]);
+      if (trimmed && current) { current.lines.push(lines[i]); lastConsumedIdx = i; }
     }
 
     buckets.forEach(function(b) {
@@ -2137,6 +2166,34 @@ setupResponsiveReports();
         result.sections.push({ number: b.number, name: b.name, severity: sevMatch ? sevMatch[1] : null, body: text });
       }
     });
+
+    if (!result.priorityBlock) result.priorityBlock = barePriority;
+    if (!result.confidenceProfile) result.confidenceProfile = bareConfidence;
+    if (!result.argumentDensity) result.argumentDensity = bareDensity;
+
+    // 4. CLOSING BLOCK: the last rule-delimited block in the document, but
+    //    only if it falls strictly after all real content already claimed
+    //    above (sections/priority/etc.) — otherwise a nested sub-box inside
+    //    the final section (which no longer ends that section's bucket,
+    //    per the fix above) could still be misread as the closing note.
+    //    Also never the RISK POSTURE block's own closing rule, so a report
+    //    with no separate closing disclaimer doesn't re-show the posture
+    //    text a second time as if it were the closing note.
+    var closingFloor = Math.max(riskPostureEndIdx, lastConsumedIdx);
+    var lastRuleIdx = -1;
+    for (var r = n - 1; r >= 0; r--) {
+      if (r === riskPostureEndIdx) continue;
+      if (isRule(lines[r].trim())) { lastRuleIdx = r; break; }
+    }
+    if (lastRuleIdx > -1 && lastRuleIdx > closingFloor) {
+      var openIdx = -1;
+      for (var o = lastRuleIdx - 1; o >= 0; o--) { if (isRule(lines[o].trim())) { openIdx = o; break; } }
+      if (openIdx > -1 && openIdx !== riskPostureEndIdx && openIdx >= closingFloor) {
+        var closingLines = [];
+        for (var c = openIdx + 1; c < lastRuleIdx; c++) { if (lines[c].trim()) closingLines.push(lines[c].trim()); }
+        if (closingLines.length) result.closing = closingLines.join(' ');
+      }
+    }
 
     return result;
   };
@@ -2164,6 +2221,10 @@ setupResponsiveReports();
         '<strong class="risk-label' + (levelClass ? ' risk-label--' + levelClass : '') + '">' + escapeHtml(parsed.riskPosture.label) + '</strong>' +
         (parsed.riskPosture.sentence ? '<p>' + escapeHtml(parsed.riskPosture.sentence) + '</p>' : '') +
         '</div>';
+    }
+
+    if (parsed.executiveSummary) {
+      html += '<section class="report-block report-block--summary"><h2>Executive summary</h2><div class="report-block__body">' + clasrParagraphize(parsed.executiveSummary) + '</div></section>';
     }
 
     if (parsed.priorityBlock) {
@@ -2251,6 +2312,7 @@ setupResponsiveReports();
           children.push(new docx.Paragraph({ children: [new docx.TextRun(p.replace(/\n/g, ' ').trim())] }));
         });
       };
+      if (parsed.executiveSummary) addBlock('Executive summary', parsed.executiveSummary);
       if (parsed.priorityBlock) addBlock('Priority action signals', parsed.priorityBlock);
       parsed.sections.forEach(function(sec) {
         addBlock('Section ' + sec.number + ' — ' + sec.name + (sec.severity ? ' [' + sec.severity + ']' : ''), sec.body);
