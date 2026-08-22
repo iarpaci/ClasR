@@ -12,6 +12,20 @@ const authClient = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
+// signInWithPassword/refreshSession/signInWithOAuth mutate the calling
+// client's internal session, which then silently overrides that client's
+// Authorization header on every later .from()/.rpc() call — swapping the
+// service-role identity for whichever user last signed in. A fresh, one-shot
+// client per call keeps that mutation from ever touching `supabase` (used
+// everywhere else for service-role DB access).
+function createAuthFlowClient() {
+  return createClient(
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_SERVICE_ROLE_KEY,
+    { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } }
+  );
+}
+
 async function requireAuth(req, res, next) {
   const auth = req.headers.authorization;
   if (!auth?.startsWith('Bearer ')) {
@@ -26,4 +40,4 @@ async function requireAuth(req, res, next) {
   next();
 }
 
-module.exports = { requireAuth, supabase };
+module.exports = { requireAuth, supabase, createAuthFlowClient };

@@ -5,7 +5,7 @@ const multer = require('multer');
 const rateLimit = require('express-rate-limit');
 const { v4: uuidv4 } = require('uuid');
 const { createClient } = require('@supabase/supabase-js');
-const { supabase, requireAuth } = require('../middleware/auth');
+const { supabase, requireAuth, createAuthFlowClient } = require('../middleware/auth');
 
 // Isolated DB client for read operations — avoids any auth session state from the shared client
 const dbReadClient = createClient(
@@ -203,7 +203,7 @@ router.post('/auth/register', async (req, res, next) => {
       return res.status(400).json({ error: 'Registration failed. Please try again.' });
     }
 
-    const { data: session } = await supabase.auth.signInWithPassword({
+    const { data: session } = await createAuthFlowClient().auth.signInWithPassword({
       email: email.toLowerCase().trim(), password,
     });
 
@@ -225,7 +225,7 @@ router.post('/auth/login', async (req, res, next) => {
     const { email, password } = req.body || {};
     if (!email || !password) return res.status(400).json({ error: 'Email and password are required' });
 
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await createAuthFlowClient().auth.signInWithPassword({
       email: email.toLowerCase().trim(), password,
     });
     if (error || !data?.session) return res.status(401).json({ error: 'Invalid email or password' });
@@ -286,7 +286,7 @@ router.post('/auth/refresh', async (req, res, next) => {
   try {
     const { refresh_token } = req.body || {};
     if (!refresh_token) return res.status(400).json({ error: 'refresh_token required' });
-    const { data, error } = await supabase.auth.refreshSession({ refresh_token });
+    const { data, error } = await createAuthFlowClient().auth.refreshSession({ refresh_token });
     if (error) return res.status(401).json({ error: 'Invalid or expired refresh token' });
     res.json({ access_token: data.session.access_token, refresh_token: data.session.refresh_token, expires_at: data.session.expires_at });
   } catch (err) { next(err); }
@@ -295,7 +295,7 @@ router.post('/auth/refresh', async (req, res, next) => {
 // ── GET /api/auth/google/start ─────────────────────────────────────────────
 router.get('/auth/google/start', async (_req, res, next) => {
   try {
-    const { data, error } = await supabase.auth.signInWithOAuth({
+    const { data, error } = await createAuthFlowClient().auth.signInWithOAuth({
       provider: 'google',
       options: {
         redirectTo: 'https://clasr.ai/callback/',
