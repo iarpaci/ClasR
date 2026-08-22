@@ -2270,7 +2270,18 @@ setupResponsiveReports();
 
   var reportId = new URLSearchParams(window.location.search).get('id');
   if (reportId) {
-    apiJson('/api/readings/' + reportId).then(function(data) {
+    apiFetch('/api/readings/' + reportId).then(function(res) {
+      if (res && res.status === 429) {
+        clasrShowReportError('This page is refreshing too quickly and hit a rate limit. Please wait a moment, then reload this page.');
+        return 'handled';
+      }
+      if (!res) {
+        clasrShowReportError('Could not reach the server. Please check your connection and reload this page.');
+        return 'handled';
+      }
+      return res.json().catch(function() { return null; });
+    }).then(function(data) {
+      if (data === 'handled') return;
       if (!data || data.error) {
         clasrShowReportError('This reading could not be found for your account. If you followed a link from another account, log in as that account to view it.');
         return;

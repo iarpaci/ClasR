@@ -42,7 +42,16 @@ app.use(express.json({ limit: '100kb' }));
 // Rate limiting
 const isDev = process.env.NODE_ENV !== 'production';
 const jsonRateHandler = (req, res) => res.status(429).json({ error: 'Too many requests. Please wait a moment and try again.' });
-const globalLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100, standardHeaders: true, legacyHeaders: false, handler: jsonRateHandler });
+// 900/15min (~60/min sustained) — high enough that the processing page's
+// 2s-interval polling (up to ~450 requests over a 15-minute analysis) plus
+// normal session/readings traffic never trips this, while still bounding
+// any real abuse. Previously 100/15min AND double-applied (once globally,
+// once again on /api below) — the double-count alone cut real budget on
+// every /api/* request in half, so legitimate polling during a single
+// longer-than-a-few-minutes analysis reliably got 429'd mid-flight, which
+// the frontend then showed as "reading could not be found for your account"
+// (apiJson surfaces any non-2xx body's .error the same way as a real 404).
+const globalLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 900, standardHeaders: true, legacyHeaders: false, handler: jsonRateHandler });
 const analyzeLimiter = rateLimit({ windowMs: 60 * 1000, max: isDev ? 50 : 5, standardHeaders: true, legacyHeaders: false, handler: jsonRateHandler });
 
 app.use(globalLimiter);
@@ -51,7 +60,7 @@ app.use('/analyze/v2', analyzeLimiter, analyzeV2Routes);
 app.use('/analyze', analyzeLimiter, analyzeRoutes);
 app.use('/chat', analyzeLimiter, chatRoutes);
 app.use('/subscription', subscriptionRoutes);
-app.use('/api', globalLimiter, apiRoutes);
+app.use('/api', apiRoutes);
 
 app.get('/', (req, res) => res.json({ name: 'CLASR API', version: '1.0.0', status: 'ok' }));
 app.get('/health', (req, res) => res.json({ status: 'ok', version: '1.0.0' }));
