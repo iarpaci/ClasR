@@ -2038,10 +2038,243 @@ setupResponsiveReports();
   }
 
   // ── Reading report render ──────────────────────────────────────────────────
+  // Parses the fixed report structure locked by UNIFIED-OUTPUT KIT v1.3:
+  // header block, ▸ PRIORITY ACTION SIGNALS, ▸ SECTION [N] — [NAME] (0-10),
+  // ▸ SIGNAL CONFIDENCE PROFILE, ▸ ARGUMENT DENSITY, an INTEGRATED RISK
+  // POSTURE rule-delimited block, then a closing rule-delimited disclaimer.
+  var clasrParseReport = function(raw) {
+    var lines = String(raw || '').replace(/\r\n/g, '\n').split('\n');
+    var isRule = function(l) { return /^[━=\-]{5,}$/.test(l.trim()); };
+    var result = { priorityBlock: '', sections: [], confidenceProfile: '', argumentDensity: '', riskPosture: null, closing: '', calibrationNote: '' };
+    var n = lines.length;
+
+    // 1. INTEGRATED RISK POSTURE: rule, title, rule, LABEL, sentence(s), rule — find wherever it occurs.
+    //    LABEL may carry a trailing partial-input note (kit §8b), e.g.
+    //    "HIGH [Partial input — posture based on available dimensions]" —
+    //    split off just the leading LOW/MEDIUM/HIGH/CRITICAL token for the
+    //    CSS class while keeping the full text for display.
+    var riskPostureEndIdx = -1;
+    for (var p = 0; p < n; p++) {
+      if (isRule(lines[p].trim()) && /^INTEGRATED RISK POSTURE$/i.test((lines[p + 1] || '').trim())) {
+        var q = p + 2;
+        if (isRule((lines[q] || '').trim())) q++;
+        var label = (lines[q] || '').trim(); q++;
+        var sentenceLines = [];
+        var closeIdx = q;
+        while (closeIdx < n && !isRule((lines[closeIdx] || '').trim())) { if (lines[closeIdx].trim()) sentenceLines.push(lines[closeIdx].trim()); closeIdx++; }
+        var levelMatch = label.match(/^(LOW|MEDIUM|HIGH|CRITICAL)\b/i);
+        result.riskPosture = { label: label, level: levelMatch ? levelMatch[1].toUpperCase() : '', sentence: sentenceLines.join(' ') };
+        // closeIdx now points at the rule line that closes this block (the
+        // loop stopped there because isRule() was true) — record it so the
+        // closing-block search below can skip past it.
+        riskPostureEndIdx = closeIdx;
+        break;
+      }
+    }
+
+    // 2. CLOSING BLOCK: the last rule-delimited block in the document — but
+    //    never the RISK POSTURE block's own closing rule, so a report with
+    //    no separate closing disclaimer doesn't re-show the posture text a
+    //    second time as if it were the closing note.
+    var lastRuleIdx = -1;
+    for (var r = n - 1; r >= 0; r--) {
+      if (r === riskPostureEndIdx) continue;
+      if (isRule(lines[r].trim())) { lastRuleIdx = r; break; }
+    }
+    if (lastRuleIdx > -1 && lastRuleIdx > riskPostureEndIdx) {
+      var openIdx = -1;
+      for (var o = lastRuleIdx - 1; o >= 0; o--) { if (isRule(lines[o].trim())) { openIdx = o; break; } }
+      if (openIdx > -1 && openIdx !== riskPostureEndIdx) {
+        var closingLines = [];
+        for (var c = openIdx + 1; c < lastRuleIdx; c++) { if (lines[c].trim()) closingLines.push(lines[c].trim()); }
+        if (closingLines.length) result.closing = closingLines.join(' ');
+      }
+    }
+
+    // 3. Bucket-scan for ▸-prefixed section/block markers. Any rule line ends
+    //    the current bucket (header/risk-posture/closing content is handled
+    //    above and never has an open bucket to join here). Section headers
+    //    accept a dash or colon between number and title (kit spec uses a
+    //    dash, but a colon is plausible model drift worth tolerating).
+    //    A bare "[Calibration: ...]" line (kit §9) belongs to no bucket and
+    //    is captured separately so it isn't silently lost.
+    var buckets = [];
+    var current = null;
+    for (var i = 0; i < n; i++) {
+      var trimmed = lines[i].trim();
+      var mSection = trimmed.match(/^▸\s*SECTION\s+(\d+)\s*[—–:-]\s*(.+)$/i);
+
+      if (mSection) { current = { type: 'section', number: mSection[1], name: mSection[2].trim(), lines: [] }; buckets.push(current); continue; }
+      if (/^▸\s*PRIORITY ACTION SIGNALS/i.test(trimmed)) { current = { type: 'priority', lines: [] }; buckets.push(current); continue; }
+      if (/^▸\s*SIGNAL CONFIDENCE PROFILE/i.test(trimmed)) { current = { type: 'confidence', lines: [] }; buckets.push(current); continue; }
+      if (/^▸\s*ARGUMENT DENSITY/i.test(trimmed)) { current = { type: 'density', lines: [] }; buckets.push(current); continue; }
+      if (isRule(trimmed)) { current = null; continue; }
+      if (!current && /^\[Calibration:.*\]$/i.test(trimmed)) { result.calibrationNote = trimmed; continue; }
+      if (trimmed && current) current.lines.push(lines[i]);
+    }
+
+    buckets.forEach(function(b) {
+      var text = b.lines.join('\n').trim();
+      if (!text) return;
+      if (b.type === 'priority') result.priorityBlock = text;
+      else if (b.type === 'confidence') result.confidenceProfile = text;
+      else if (b.type === 'density') result.argumentDensity = text;
+      else if (b.type === 'section') {
+        // Prefer a severity tag on the section's own first line (the primary
+        // finding) over one that might appear later in prose referencing a
+        // different section's severity.
+        var firstLine = b.lines[0] || '';
+        var sevMatch = firstLine.match(/\[(CRITICAL|MAJOR|MINOR)\]/) || text.match(/\[(CRITICAL|MAJOR|MINOR)\]/);
+        result.sections.push({ number: b.number, name: b.name, severity: sevMatch ? sevMatch[1] : null, body: text });
+      }
+    });
+
+    return result;
+  };
+
+  var clasrMarkTags = function(s) {
+    return escapeHtml(s)
+      .replace(/\[CRITICAL\]/g, '<mark class="sev sev--critical">CRITICAL</mark>')
+      .replace(/\[MAJOR\]/g, '<mark class="sev sev--major">MAJOR</mark>')
+      .replace(/\[MINOR\]/g, '<mark class="sev sev--minor">MINOR</mark>')
+      .replace(/\n/g, '<br>');
+  };
+  var clasrParagraphize = function(text) {
+    return text.split(/\n\s*\n/).filter(function(p) { return p.trim(); }).map(function(p) {
+      return '<p>' + clasrMarkTags(p.trim()) + '</p>';
+    }).join('');
+  };
+
+  var clasrRenderReportHtml = function(parsed, data) {
+    var html = '<div class="api-report">';
+
+    if (parsed.riskPosture && parsed.riskPosture.label) {
+      var levelClass = parsed.riskPosture.level ? parsed.riskPosture.level.toLowerCase() : '';
+      html += '<div class="risk-card risk-card--report">' +
+        '<span>Integrated risk posture</span>' +
+        '<strong class="risk-label' + (levelClass ? ' risk-label--' + levelClass : '') + '">' + escapeHtml(parsed.riskPosture.label) + '</strong>' +
+        (parsed.riskPosture.sentence ? '<p>' + escapeHtml(parsed.riskPosture.sentence) + '</p>' : '') +
+        '</div>';
+    }
+
+    if (parsed.priorityBlock) {
+      html += '<section class="report-block report-block--priority"><h2>Priority action signals</h2><div class="report-block__body">' + clasrParagraphize(parsed.priorityBlock) + '</div></section>';
+    }
+
+    parsed.sections.forEach(function(sec) {
+      html += '<article class="report-section-card">' +
+        '<div class="report-section-card__head">' +
+          '<span class="report-section-card__number">Section ' + escapeHtml(sec.number) + '</span>' +
+          '<h3>' + escapeHtml(sec.name) + '</h3>' +
+          (sec.severity ? '<span class="severity severity--' + sec.severity.toLowerCase() + '">' + escapeHtml(sec.severity) + '</span>' : '') +
+        '</div>' +
+        '<div class="report-section-card__body">' + clasrParagraphize(sec.body) + '</div>' +
+      '</article>';
+    });
+
+    if (parsed.argumentDensity) {
+      html += '<section class="report-block report-block--density"><h2>Argument density</h2><div class="report-block__body">' + clasrParagraphize(parsed.argumentDensity) + '</div></section>';
+    }
+    if (parsed.confidenceProfile) {
+      html += '<section class="report-block report-block--confidence"><h2>Signal confidence profile</h2><div class="report-block__body">' + clasrParagraphize(parsed.confidenceProfile) + '</div></section>';
+    }
+    if (parsed.calibrationNote) {
+      html += '<p class="report-closing-note">' + escapeHtml(parsed.calibrationNote) + '</p>';
+    }
+    if (parsed.closing) {
+      html += '<p class="report-closing-note">' + escapeHtml(parsed.closing) + '</p>';
+    }
+
+    html += '</div>';
+
+    // Fallback: parsing found nothing structured — never show a blank report.
+    if (!parsed.riskPosture && !parsed.sections.length && !parsed.priorityBlock) {
+      html = '<div class="api-report">' + clasrParagraphize(data.report || '') + '</div>';
+    }
+
+    return html;
+  };
+
+  var clasrDocxLoaded = null;
+  var clasrLoadDocxLib = function() {
+    if (window.docx) return Promise.resolve(window.docx);
+    if (clasrDocxLoaded) return clasrDocxLoaded;
+    clasrDocxLoaded = new Promise(function(resolve, reject) {
+      var s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/docx@9.7.1/dist/index.umd.cjs';
+      s.onload = function() { window.docx ? resolve(window.docx) : reject(new Error('docx failed to load')); };
+      s.onerror = function() { reject(new Error('docx failed to load')); };
+      document.head.appendChild(s);
+    }).catch(function(err) {
+      // Don't cache a failed load — a transient network/CDN hiccup shouldn't
+      // permanently block DOCX export for the rest of the page session.
+      clasrDocxLoaded = null;
+      throw err;
+    });
+    return clasrDocxLoaded;
+  };
+
+  var clasrDownloadBlob = function(blob, filename) {
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  var clasrSlugify = function(s) { return String(s || 'clasr-signal-report').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 'clasr-signal-report'; };
+
+  var clasrExportTxt = function(data) {
+    clasrDownloadBlob(new Blob([data.report || ''], { type: 'text/plain;charset=utf-8' }), clasrSlugify(data.title) + '.txt');
+  };
+
+  var clasrExportDocx = function(data, parsed) {
+    return clasrLoadDocxLib().then(function(docx) {
+      var children = [];
+      children.push(new docx.Paragraph({ text: data.title || 'Clasr Signal Report', heading: docx.HeadingLevel.TITLE }));
+      if (parsed.riskPosture && parsed.riskPosture.label) {
+        children.push(new docx.Paragraph({ text: 'Integrated risk posture: ' + parsed.riskPosture.label, heading: docx.HeadingLevel.HEADING_2 }));
+        if (parsed.riskPosture.sentence) children.push(new docx.Paragraph({ children: [new docx.TextRun(parsed.riskPosture.sentence)] }));
+      }
+      var addBlock = function(title, text) {
+        children.push(new docx.Paragraph({ text: title, heading: docx.HeadingLevel.HEADING_2 }));
+        text.split(/\n\s*\n/).filter(Boolean).forEach(function(p) {
+          children.push(new docx.Paragraph({ children: [new docx.TextRun(p.replace(/\n/g, ' ').trim())] }));
+        });
+      };
+      if (parsed.priorityBlock) addBlock('Priority action signals', parsed.priorityBlock);
+      parsed.sections.forEach(function(sec) {
+        addBlock('Section ' + sec.number + ' — ' + sec.name + (sec.severity ? ' [' + sec.severity + ']' : ''), sec.body);
+      });
+      if (parsed.argumentDensity) addBlock('Argument density', parsed.argumentDensity);
+      if (parsed.confidenceProfile) addBlock('Signal confidence profile', parsed.confidenceProfile);
+      if (parsed.calibrationNote) children.push(new docx.Paragraph({ children: [new docx.TextRun({ text: parsed.calibrationNote, italics: true })] }));
+      if (parsed.closing) children.push(new docx.Paragraph({ children: [new docx.TextRun({ text: parsed.closing, italics: true })] }));
+
+      var doc = new docx.Document({ sections: [{ children: children }] });
+      return docx.Packer.toBlob(doc);
+    }).then(function(blob) {
+      clasrDownloadBlob(blob, clasrSlugify(data.title) + '.docx');
+    }).catch(function() {
+      // Library failed to load (network/CDN issue) — fall back to plain text
+      // rather than leaving the click with no result.
+      clasrExportTxt(data);
+    });
+  };
+
+  var clasrShowReportError = function(message) {
+    var rb = document.querySelector('.reading-report-body');
+    if (rb) rb.innerHTML = '<div class="api-report"><p class="report-closing-note">' + escapeHtml(message) + '</p></div>';
+    document.querySelectorAll('[data-export-report]').forEach(function(btn) { btn.disabled = true; });
+  };
+
   var reportId = new URLSearchParams(window.location.search).get('id');
   if (reportId) {
     apiJson('/api/readings/' + reportId).then(function(data) {
-      if (!data || data.error) return;
+      if (!data || data.error) {
+        clasrShowReportError('This reading could not be found for your account. If you followed a link from another account, log in as that account to view it.');
+        return;
+      }
       document.title = (data.title || 'Signal Report') + ' — Clasr';
       var tl = document.querySelector('.report-topline');
       if (tl) {
@@ -2052,15 +2285,24 @@ setupResponsiveReports();
       }
       var ms = document.querySelectorAll('.signal-metrics div strong');
       if (ms.length >= 3 && data.severity) { ms[0].textContent=String(data.severity.critical||0); ms[1].textContent=String(data.severity.major||0); ms[2].textContent=String(data.severity.minor||0); }
+
+      var parsed = clasrParseReport(data.report || '');
       var rb = document.querySelector('.reading-report-body');
       if (rb && data.report) {
-        var esc = function(s) { return String(s).replace(/[&<>"']/g, function(c) { return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); };
-        var html = data.report.split(/\n\n+/).filter(Boolean).map(function(p) {
-          return '<p>' + esc(p).replace(/\n/g,'<br>').replace(/\[CRITICAL\]/g,'<mark class="sev sev--critical">CRITICAL</mark>').replace(/\[MAJOR\]/g,'<mark class="sev sev--major">MAJOR</mark>').replace(/\[MINOR\]/g,'<mark class="sev sev--minor">MINOR</mark>') + '</p>';
-        }).join('\n');
-        rb.innerHTML = '<div class="api-report">' + html + '</div>';
+        rb.innerHTML = clasrRenderReportHtml(parsed, data);
       }
-    }).catch(function() {});
+
+      document.querySelectorAll('[data-export-report]').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var kind = btn.getAttribute('data-export-report');
+          if (kind === 'txt') clasrExportTxt(data);
+          else if (kind === 'pdf') window.print();
+          else if (kind === 'docx') clasrExportDocx(data, parsed);
+        });
+      });
+    }).catch(function() {
+      clasrShowReportError('This reading could not be loaded. Please try again in a moment.');
+    });
   }
 
 }());
