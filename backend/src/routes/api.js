@@ -404,8 +404,17 @@ router.post('/readings/start', requireAuth, handleUpload, async (req, res, next)
           minor_count: minor,
         });
         if (insertErr) {
-          // Fall back to basic columns if new columns don't exist yet
-          await supabase.from('analyses').insert(baseInsert);
+          console.error('[api] analyses insert error (full columns):', insertErr.message, insertErr.details || '');
+          // Fall back to basic columns in case the newer columns don't exist yet
+          const { error: fallbackErr } = await supabase.from('analyses').insert(baseInsert);
+          if (fallbackErr) {
+            console.error('[api] analyses insert error (fallback columns):', fallbackErr.message, fallbackErr.details || '');
+            // Neither insert persisted the row — never report success with a
+            // readingId nothing actually saved under. Surface a real failure
+            // instead of a job that "completes" into a 404.
+            updateJob(jobId, { status: 'failed', error: 'Your report was generated but could not be saved. Please try again.' });
+            return;
+          }
         }
 
         updateJob(jobId, { status: 'complete', readingId });
@@ -481,7 +490,11 @@ router.post('/readings/start-v2', requireAuth, handleUpload, async (req, res, ne
           major_count: severityCounts.major,
           minor_count: severityCounts.minor,
         });
-        if (insertErr) console.error('[api] v2 insert error:', insertErr.message);
+        if (insertErr) {
+          console.error('[api] v2 insert error:', insertErr.message, insertErr.details || '');
+          updateJob(jobId, { status: 'failed', error: 'Your report was generated but could not be saved. Please try again.' });
+          return;
+        }
 
         updateJob(jobId, { status: 'complete', readingId });
       } catch (err) {
