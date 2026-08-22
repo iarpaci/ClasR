@@ -129,7 +129,15 @@ async function checkAndConsumeCredit(userId) {
     const reason = isMonthly ? 'monthly_limit_reached' : 'lifetime_limit_reached';
     return { ok: false, reason, plan, limit };
   }
-  return { ok: true, plan };
+  return { ok: true, plan, isMonthly };
+}
+
+// Mirrors checkAndConsumeCredit's increment in reverse — used when a credit
+// was consumed for a reading but the reading's row then failed to save, so
+// the user isn't charged a credit for a report they never received.
+async function refundCredit(userId, isMonthly) {
+  const { error } = await supabase.rpc('refund_credit', { p_user_id: userId, p_is_monthly: isMonthly });
+  if (error) console.error('[api] refund_credit RPC failed:', error.message, '— user', userId, 'was not refunded');
 }
 
 // ── File upload ────────────────────────────────────────────────────────────
@@ -418,8 +426,10 @@ router.post('/readings/start', requireAuth, handleUpload, async (req, res, next)
             console.error('[api] analyses insert error (fallback columns):', fallbackErr.message, fallbackErr.details || '');
             // Neither insert persisted the row — never report success with a
             // readingId nothing actually saved under. Surface a real failure
-            // instead of a job that "completes" into a 404.
+            // instead of a job that "completes" into a 404, and give back the
+            // credit consumed for a reading the user never received.
             failJobUnsaved(jobId);
+            refundCredit(req.user.id, creditCheck.isMonthly).catch(() => {});
             return;
           }
           // Fallback succeeded, so the reading itself is safe, but this run
@@ -436,6 +446,7 @@ router.post('/readings/start', requireAuth, handleUpload, async (req, res, next)
       } catch (err) {
         console.error('[api] processing error:', err.message);
         updateJob(jobId, { status: 'failed', error: 'Analysis failed. Please try again.' });
+        refundCredit(req.user.id, creditCheck.isMonthly).catch(() => {});
       }
     })();
 
@@ -506,6 +517,7 @@ router.post('/readings/start-v2', requireAuth, handleUpload, async (req, res, ne
         if (insertErr) {
           console.error('[api] v2 insert error:', insertErr.message, insertErr.details || '');
           failJobUnsaved(jobId);
+          refundCredit(req.user.id, creditCheck.isMonthly).catch(() => {});
           return;
         }
 
@@ -513,6 +525,7 @@ router.post('/readings/start-v2', requireAuth, handleUpload, async (req, res, ne
       } catch (err) {
         console.error('[api] v2 processing error:', err.message);
         updateJob(jobId, { status: 'failed', error: 'Analysis failed. Please try again.' });
+        refundCredit(req.user.id, creditCheck.isMonthly).catch(() => {});
       }
     })();
 

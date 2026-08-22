@@ -32,7 +32,7 @@ async function atomicConsumeCredit(userId) {
   });
   if (rpcErr) throw new Error(`Credit check failed: ${rpcErr.message}`);
   if (!consumed) return { ok: false, reason: isMonthly ? 'monthly_limit_reached' : 'free_limit_reached', plan, limit };
-  return { ok: true, plan };
+  return { ok: true, plan, isMonthly };
 }
 
 module.exports = { atomicConsumeCredit, PLAN_CREDITS };
