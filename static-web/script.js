@@ -1950,7 +1950,16 @@ setupResponsiveReports();
     var readingsHistoryList = document.querySelector('[data-readings-history-list]');
     var sidebarRecentList = document.querySelector('[data-sidebar-recent-list]');
     if (recentGrid || readingsHistoryList || sidebarRecentList) {
-      apiJson('/api/readings').then(function(data) {
+      apiFetch('/api/readings').then(function(res) {
+        if (!res || !res.ok) {
+          // Fetch genuinely failed (network error, rate limit, server error) —
+          // leave the example/demo cards up but flag them as unloaded rather
+          // than letting them silently pass as the user's real reading list.
+          document.querySelectorAll('[data-example-note]').forEach(function(el) { el.hidden = false; });
+          return null;
+        }
+        return res.json().catch(function() { return null; });
+      }).then(function(data) {
         if (!data || !data.readings || !data.readings.length) return;
         document.querySelectorAll('[data-example-note]').forEach(function(el) { el.hidden = true; });
         var esc = function(s) { return String(s).replace(/[&<>"']/g, function(c) { return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); };
