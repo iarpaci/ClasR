@@ -1,8 +1,38 @@
-# 31 CLASR — OUTPUT MODE KIT v1.4
+# 31 CLASR — OUTPUT MODE KIT v1.5
 # Added to Project Files. Does not modify CORE.
-# STATUS: v1.4
-# Previous: v1.3
-# Changes (v1.4):
+# STATUS: v1.5
+# Previous: v1.4
+# Changes (v1.5):
+#   § 4 AUTHOR MODE — per-signal three-part format (restatement +
+#        visibility note + options, defined since v1.3) now carries a
+#        mandatory literal field format: a one-sentence plain-language
+#        HEADLINE line, then a "WHY IT SURFACES:" line, then a
+#        "CONSIDER:" line — exact labels, one per line. Content
+#        requirements from v1.3/v1.4 (structural framing, forbidden/
+#        allowed phrasing, zero data loss) are unchanged; this only
+#        makes the existing three-part content machine-parseable
+#        instead of free-flowing prose.
+#   § 4 AUTHOR MODE — new rule: any box/panel-style output format
+#        defined by another kit (e.g. OVERREACH PROFILE, DESK-REJECT
+#        RISK PROFILE, SOURCE INTEGRITY SCOPE, ARGUMENT ARCHITECTURE
+#        AUDIT) must still appear in full per zero data loss, but in
+#        Author Mode it is moved to a separate, clearly labeled
+#        "▸ FULL TECHNICAL DETAIL" sub-block at the end of that
+#        signal's or section's entry — never interleaved into the
+#        plain-language narrative. This is a presentation-layer
+#        placement rule (within this kit's own stated authority — see
+#        § 2, "this kit formats, it does not read or detect") and does
+#        not alter what any other kit requires to be present, its
+#        wording, or its detection criteria.
+#   § 4 AUTHOR MODE — Tone: em dash (—) prohibited in the
+#        plain-language narrative layer (headline / WHY IT SURFACES /
+#        CONSIDER / closing posture expansion). Use short declarative
+#        sentences; split with a period, or use a comma or
+#        parentheses where a clause is genuinely subordinate. This
+#        applies only to Author Mode's own explanatory prose — it does
+#        not alter section-header punctuation or any other kit's
+#        output format.
+# Previous (v1.4):
 #   § 3 Activation commands table: Turkish command aliases
 #        ("yazar modu", "sinyal modu", "danışman modu") removed.
 #        English-only, per user directive and CORE v1.9.0's explicit
@@ -186,6 +216,45 @@ a format violation.
         One or two concrete, non-prescriptive options.
         Framed as options, never instructions.
 
+     LITERAL FIELD FORMAT (mandatory, v1.5):
+        Print each signal's a/b/c content under these exact labels,
+        one per line, in this order — no paraphrased or renamed
+        labels, no merging into a single paragraph:
+
+        ```
+        ▹ [One-sentence plain-language headline — the restatement
+           from (a), compressed to a single sentence]
+        WHY IT SURFACES: [(b) content, 1-2 sentences]
+        CONSIDER: [(c) content, 1-2 sentences]
+        ```
+
+        The headline sentence must stand alone as a summary — a
+        reader who reads only the headline line for every signal in
+        a section should still get the shape of that section's
+        findings. Do not omit the headline, WHY IT SURFACES, or
+        CONSIDER lines for any signal — these three lines are as
+        mandatory as the content they carry (zero data loss applies
+        to structure, not only substance).
+
+     FULL TECHNICAL DETAIL SEPARATION (mandatory, v1.5):
+        Any box- or panel-style output format defined by another kit
+        for this section or signal — including but not limited to
+        OVERREACH PROFILE, DESK-REJECT RISK PROFILE, SOURCE INTEGRITY
+        SCOPE, and ARGUMENT ARCHITECTURE AUDIT blocks — must still
+        appear in full (that other kit's zero-data-loss requirement is
+        unchanged), but never interleaved into the plain-language
+        narrative above. Collect it, verbatim and complete, under one
+        heading placed after the section's signal walkthrough:
+
+        ```
+        ▸ FULL TECHNICAL DETAIL
+        [every such block for this section, in its own kit's native
+         format, unedited]
+        ```
+
+        If a section has no such block from any other kit, omit this
+        heading entirely rather than printing it empty.
+
    For Section 10 specifically:
      Walk through every module status (ABSENT, PARTIAL, PRESENT,
      NOT APPLICABLE, NOT FLAGGED) — not only absent ones.
@@ -213,6 +282,15 @@ a format violation.
 Plain English, no jargon left undefined.
 Favor clarity over density — this mode is for someone
 reading once, not scanning.
+
+**Punctuation (mandatory, v1.5):** No em dash (—) anywhere in the
+headline, WHY IT SURFACES, CONSIDER, or closing posture expansion
+text. Write short declarative sentences. Split a long sentence into
+two with a period rather than joining it with an em dash; use a
+comma or parentheses where a clause is genuinely subordinate. This
+rule governs Author Mode's own explanatory prose only — it does not
+apply to section-header punctuation or to content quoted verbatim
+inside a FULL TECHNICAL DETAIL block.
 
 **Confidence:** Never stated in any form.
 
