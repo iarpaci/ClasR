@@ -13,7 +13,7 @@ const dbReadClient = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY,
   { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } }
 );
-const { analyzeManuscript } = require('../services/claude');
+const { analyzeManuscript, reformatReport } = require('../services/claude');
 const { extractText } = require('../services/fileParser');
 const { runConsistent } = require('../services/clasr-engine/consistency');
 const { atomicConsumeCredit } = require('../services/credits');
@@ -358,6 +358,49 @@ router.get('/readings/:id', requireAuth, async (req, res, next) => {
   } catch (err) { next(err); }
 });
 
+// ── GET /api/readings/:id/mode/:mode ────────────────────────────────────────
+// Serves an Author/Signal/Advisor Mode view of an existing reading, deriving
+// it from the reading's mode-agnostic main_report on first request (cheap
+// reformat-only call — see claude.js's reformatReport()) and caching the
+// result in mode_reports so later requests for the same mode are free.
+// Readings created before the 2026-08-23 two-phase migration have no
+// main_report and can't serve a different mode than the one they were
+// generated with — reported as 409, not 500, since it's an expected state
+// for old rows, not a bug.
+const MODE_ALIASES = { author: 'author', reviewer: 'reviewer', signal: 'reviewer', advisor: 'advisor' };
+router.get('/readings/:id/mode/:mode', requireAuth, async (req, res, next) => {
+  try {
+    const mode = MODE_ALIASES[String(req.params.mode || '').toLowerCase()];
+    if (!mode) return res.status(400).json({ error: 'Unknown mode. Use author, reviewer, or advisor.' });
+
+    const { data, error } = await supabase
+      .from('analyses')
+      .select('main_report, mode_reports')
+      .eq('id', req.params.id)
+      .eq('user_id', req.user.id)
+      .single();
+    if (error || !data) return res.status(404).json({ error: 'Reading not found' });
+
+    const cached = data.mode_reports?.[mode];
+    if (cached) return res.json({ mode, report: cached, cached: true });
+
+    if (!data.main_report) {
+      return res.status(409).json({ error: 'This reading was created before mode switching was available and cannot be reformatted.' });
+    }
+
+    const reformatted = await reformatReport({ mainReport: data.main_report, outputMode: mode });
+    const nextModeReports = { ...(data.mode_reports || {}), [mode]: reformatted.report };
+    const { error: updateErr } = await supabase
+      .from('analyses')
+      .update({ mode_reports: nextModeReports })
+      .eq('id', req.params.id)
+      .eq('user_id', req.user.id);
+    if (updateErr) console.error('[api] failed to cache mode_reports for reading', req.params.id, ':', updateErr.message);
+
+    res.json({ mode, report: reformatted.report, cached: false });
+  } catch (err) { next(err); }
+});
+
 // ── POST /api/readings/start ────────────────────────────────────────────────
 router.post('/readings/start', requireAuth, handleUpload, async (req, res, next) => {
   try {
@@ -390,13 +433,29 @@ router.post('/readings/start', requireAuth, handleUpload, async (req, res, next)
         if (!manuscriptText) throw new Error('Document appears to be empty');
         if (manuscriptText.length > 80000) throw new Error('Document too long (max ~80,000 characters / ~60 pages)');
 
+        // Two-phase generation (2026-08-23): the expensive full-detection
+        // call produces one mode-agnostic "main report"; the mode the user
+        // actually sees is derived from it via a much cheaper reformat-only
+        // call (~56K-char prompt vs. ~693K for the full assembly). This is
+        // what lets mode switching later be near-free instead of re-running
+        // the whole analysis per mode.
         const result = await analyzeManuscript({
           manuscriptText,
           qVariant: qVariant !== 'Auto' ? qVariant : null,
-          outputMode,
         });
+        const mainReport = result.report;
 
-        const reportText = result.report;
+        let reportText = mainReport;
+        try {
+          const reformatted = await reformatReport({ mainReport, outputMode });
+          reportText = reformatted.report;
+        } catch (reformatErr) {
+          // The expensive analysis already succeeded — don't fail the whole
+          // job over the cheap reformat step. Fall back to the mode-agnostic
+          // main report rather than losing the reading entirely.
+          console.error('[api] reformatReport failed, falling back to main report:', reformatErr.message);
+        }
+
         const critical = (reportText.match(/\[CRITICAL\]/gi) || []).length;
         const major    = (reportText.match(/\[MAJOR\]/gi)    || []).length;
         const minor    = (reportText.match(/\[MINOR\]/gi)    || []).length;
@@ -417,6 +476,8 @@ router.post('/readings/start', requireAuth, handleUpload, async (req, res, next)
           critical_count: critical,
           major_count: major,
           minor_count: minor,
+          main_report: mainReport,
+          mode_reports: reportText !== mainReport ? { [outputMode]: reportText } : {},
         });
         if (insertErr) {
           console.error('[api] analyses insert error (full columns):', insertErr.message, insertErr.details || '');
@@ -450,7 +511,7 @@ router.post('/readings/start', requireAuth, handleUpload, async (req, res, next)
       }
     })();
 
-    res.status(202).json({ jobId, status: 'processing', estimatedMinutes: '5–15', processingUrl: `/dashboard/processing/?job=${jobId}` });
+    res.status(202).json({ jobId, status: 'processing', estimatedMinutes: '10–20', processingUrl: `/dashboard/processing/?job=${jobId}` });
   } catch (err) { next(err); }
 });
 

@@ -1,5 +1,5 @@
 const Anthropic = require('@anthropic-ai/sdk');
-const { assembleSystemPrompt } = require('./kitAssembler');
+const { assembleSystemPrompt, assembleReformatPrompt } = require('./kitAssembler');
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 const MODEL = 'claude-sonnet-4-6';
@@ -57,4 +57,46 @@ async function analyzeManuscript({ manuscriptText, qVariant = null, mode = null,
   };
 }
 
-module.exports = { analyzeManuscript };
+// Turns an already-generated, mode-agnostic CLASR report ("ana rapor") into
+// an Author/Signal/Advisor Mode view without re-analyzing the manuscript --
+// the reformat-only prompt (core + kit 03 + kit 31, ~56K chars) is a small
+// fraction of the full 60-kit assembly, so this is far cheaper and faster
+// than calling analyzeManuscript() again per mode switch.
+async function reformatReport({ mainReport, outputMode }) {
+  const modeTrigger = OUTPUT_MODES[(outputMode || '').toLowerCase()];
+  if (!modeTrigger) throw new Error(`Unknown output mode: ${outputMode}`);
+
+  const systemPrompt = assembleReformatPrompt();
+  const userMessage = `${modeTrigger}\n\nThe text below is a complete CLASR report already produced by the full detection pipeline. It is not a manuscript -- do not analyze it as one. Reformat its presentation per the active mode above, preserving every signal, section, and module status it already contains (zero data loss).\n\n---\n\n${mainReport}`;
+
+  const response = await client.messages.create({
+    model: MODEL,
+    max_tokens: MAX_TOKENS,
+    temperature: 0.2,
+    system: [
+      {
+        type: 'text',
+        text: systemPrompt,
+        cache_control: { type: 'ephemeral' },
+      },
+    ],
+    messages: [{ role: 'user', content: userMessage }],
+  });
+
+  if (response.stop_reason === 'max_tokens') {
+    console.warn('[claude] reformatReport response truncated at max_tokens.');
+  }
+
+  return {
+    report: response.content[0].text,
+    truncated: response.stop_reason === 'max_tokens',
+    usage: {
+      input_tokens: response.usage.input_tokens,
+      output_tokens: response.usage.output_tokens,
+      cache_read_input_tokens: response.usage.cache_read_input_tokens || 0,
+      cache_creation_input_tokens: response.usage.cache_creation_input_tokens || 0,
+    },
+  };
+}
+
+module.exports = { analyzeManuscript, reformatReport };

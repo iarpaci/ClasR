@@ -117,4 +117,29 @@ function assembleSystemPrompt() {
   return _systemPrompt;
 }
 
-module.exports = { assembleSystemPrompt };
+// Reformat-only prompt for turning an already-generated, mode-agnostic CLASR
+// report into an Author/Signal/Advisor Mode view (kit 31) without re-running
+// full detection. Kit 31 itself doesn't define section/structure conventions
+// (it only formats what CORE + kit 03 already produced), so both are
+// included -- everything else (kits 04-57, the actual detection kits) is
+// deliberately left out since the input is already-complete signal output,
+// not a manuscript to analyze. ~56K chars vs. ~693K for the full assembly.
+const REFORMAT_KITS = [
+  '03_CLASR_UNIFIED_OUTPUT_KIT_v1_3.txt',
+  '31_CLASR_OUTPUT_MODE_KIT_v1_5.txt',
+];
+
+let _reformatPrompt = null;
+
+function assembleReformatPrompt() {
+  if (_reformatPrompt) return _reformatPrompt;
+
+  const core = fs.readFileSync(path.join(PROMPTS_DIR, 'core.txt'), 'utf-8');
+  const kits = REFORMAT_KITS.map(file => fs.readFileSync(path.join(PROMPTS_DIR, 'kits', file), 'utf-8'));
+
+  _reformatPrompt = [core, ...kits].join('\n\n---\n\n');
+  console.log(`[clasr] Reformat prompt assembled: ${_reformatPrompt.length} chars`);
+  return _reformatPrompt;
+}
+
+module.exports = { assembleSystemPrompt, assembleReformatPrompt };
