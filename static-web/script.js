@@ -2333,6 +2333,252 @@ setupResponsiveReports();
     });
   };
 
+  // ── Structured Author Mode report render (2026-08-24) ──────────────────
+  // Consumes the JSON shape reformatReportAuthorJson() produces server-side
+  // (GET /api/readings/:id's `reportJson` field) instead of parsing free
+  // text — the schema is enforced by the API call itself, so this never
+  // has to guess at section boundaries the way clasrParseReport does.
+  var clasrJsonCleanText = function(value) {
+    return String(value || '')
+      .replace(/^#+\s*/g, '')
+      .replace(/\\+$/g, '')
+      .replace(/\\\s*/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+  };
+  var clasrJsonEmphasis = function(html) {
+    return html
+      .replace(/\s[—–]\s/g, ', ')
+      .replace(/\b(MEDIUM-HIGH|RISK DETECTED|NOT DETECTED|MODERATE|LOW|HIGH|CRITICAL)\b/g, '<strong>$1</strong>');
+  };
+  var clasrJsonInline = function(line) {
+    return clasrJsonEmphasis(escapeHtml(line))
+      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*([^*]+)\*/g, '<em>$1</em>');
+  };
+  var clasrJsonText = function(value) { return clasrJsonInline(clasrJsonCleanText(value)); };
+  var clasrJsonTitleCase = function(value) {
+    return clasrJsonCleanText(value).toLowerCase().replace(/\b([a-z])/g, function(m) { return m.toUpperCase(); });
+  };
+  var clasrJsonHeadingCase = function(value) {
+    return clasrJsonTitleCase(value).replace(/\b(To|And|Or|Of|In|On|For|With)\b/g, function(m) { return m.toLowerCase(); });
+  };
+  var clasrJsonSectionKicker = function(sectionNumber, title) {
+    var cleanTitle = clasrJsonCleanText(title);
+    var dup = new RegExp('^section\\s+' + String(sectionNumber).replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s*[·:.-]\\s*', 'i');
+    return sectionNumber + ' · ' + cleanTitle.replace(dup, '');
+  };
+  var clasrJsonList = function(value) {
+    if (Array.isArray(value)) return value.filter(Boolean);
+    if (typeof value === 'string' && value.trim()) return [value.trim()];
+    return [];
+  };
+  var clasrJsonStatusLabel = function(value) {
+    var label = String(value || '').replace(/_/g, ' ').toLowerCase().replace(/^\w/, function(c) { return c.toUpperCase(); });
+    return label.toLowerCase() === 'signal present' ? 'Review signal' : label;
+  };
+
+  var clasrJsonExecutive = function(report) {
+    var intro = (report.integrated_risk_posture && report.integrated_risk_posture.expanded_explanation)
+      || (report.closing && report.closing.integrated_risk_posture && report.closing.integrated_risk_posture.explanation ? [report.closing.integrated_risk_posture.explanation] : []);
+    return '<h2 id="executive-summary">Executive summary</h2><div class="live-report__executive-body">' +
+      intro.map(function(chunk) { return '<p>' + clasrJsonText(chunk) + '</p>'; }).join('') + '</div>';
+  };
+
+  var clasrJsonPriority = function(items, gridNode) {
+    items = items || [];
+    gridNode.innerHTML = items.map(function(item, index) {
+      var rank = index + 1;
+      var title = typeof item === 'string' ? item : item;
+      return '<article class="live-priority__item"><div class="live-priority__header">' +
+        '<span class="live-priority__rank">' + escapeHtml(rank) + '</span>' +
+        '<h3 class="live-priority__name">' + clasrJsonText(title) + '</h3>' +
+        '</div></article>';
+    }).join('');
+  };
+
+  var clasrJsonSignal = function(signal, sectionNumber) {
+    var locNum = String(signal.primary_location || '').match(/\d+/);
+    var showLocation = signal.primary_location && (!locNum || locNum[0] !== String(sectionNumber || ''));
+    var options = clasrJsonList(signal.what_you_could_do);
+    return '<article class="live-section live-section--signal">' +
+      '<div class="live-section__header">' + (showLocation ? '<span class="live-section__kicker">' + escapeHtml(clasrJsonCleanText(signal.primary_location)) + '</span>' : '') + '</div>' +
+      '<h2 class="live-section__title">' + clasrJsonText(clasrJsonTitleCase(signal.name)) + '</h2>' +
+      '<div class="live-section__columns">' +
+        '<div class="live-section__author"><strong>What surfaced</strong><p>' + clasrJsonText(signal.what_this_is || '') + '</p></div>' +
+        '<div class="live-section__consider"><strong>Why a reviewer may notice it</strong><p>' + clasrJsonText(signal.why_this_becomes_visible || '') + '</p></div>' +
+      '</div>' +
+      (options.length ? '<div class="live-section__full" open><div class="live-section__consider"><strong>Possible next step</strong>' + options.map(function(o) { return '<p>' + clasrJsonText(o) + '</p>'; }).join('') + '</div></div>' : '') +
+      ((signal.also_appears_in || []).length ? '<p class="live-signal__note">Also appears in ' + escapeHtml(signal.also_appears_in.join(', ')) + '.</p>' : '') +
+      '</article>';
+  };
+
+  var clasrJsonModule = function(module) {
+    var options = clasrJsonList(module.what_you_could_do);
+    return '<article class="live-module"><div class="live-module__name"><strong>' + clasrJsonText(clasrJsonHeadingCase(module.name)) + '</strong></div>' +
+      '<span class="live-module__status">' + escapeHtml(clasrJsonStatusLabel(module.status)) + '</span>' +
+      '<div class="live-module__body">' +
+        '<p>' + clasrJsonText(module.what_was_found || '') + '</p>' +
+        (module.why_it_matters ? '<div><h3>Why this matters structurally</h3><p>' + clasrJsonText(module.why_it_matters) + '</p></div>' : '') +
+        (options.length ? '<div><h3>Possible next step</h3><ul class="live-module__options">' + options.map(function(o) { return '<li>' + clasrJsonText(o) + '</li>'; }).join('') + '</ul></div>' : '') +
+      '</div></article>';
+  };
+
+  var clasrJsonSections = function(report, fullReportNode) {
+    var regularSections = (report.sections || []).map(function(section) {
+      var hasSignals = Boolean(section.signals && section.signals.length);
+      var heading = '<article class="live-section ' + (hasSignals ? 'live-section--intro' : 'live-section--compact') + '">' +
+        '<div class="live-section__header"><span class="live-section__kicker">' + escapeHtml(clasrJsonSectionKicker(section.section, section.title)) + '</span>' +
+        (hasSignals ? '<span class="live-signal__chip">' + escapeHtml(clasrJsonStatusLabel(section.status || 'signal_present')) + '</span>' : '') + '</div>' +
+        '<div class="live-section__body">' + (section.no_issue_line ? '<p>' + clasrJsonText(section.no_issue_line) + '</p>' : '') + '</div></article>';
+      var signals = (section.signals || []).map(function(s) { return clasrJsonSignal(s, section.section); }).join('');
+      return heading + signals;
+    }).join('');
+
+    var section10 = '';
+    if (report.section_10) {
+      var flag = report.section_10.compound_risk_flag;
+      section10 = '<article class="live-section"><div class="live-section__header">' +
+        '<span class="live-section__kicker">' + escapeHtml(clasrJsonSectionKicker(10, report.section_10.title)) + '</span>' +
+        '<span class="live-signal__chip">Complete check</span></div>' +
+        '<div class="live-module-list">' + (report.section_10.modules || []).map(clasrJsonModule).join('') + '</div>' +
+        (flag && flag.triggered ? '<div class="live-section__full"><div class="live-section__consider"><strong>Compound risk flag</strong><p>' + clasrJsonText(flag.explanation || '') + '</p></div></div>' : '') +
+        '</article>';
+    }
+
+    var closing = '';
+    if (report.closing) {
+      var posture = report.closing.integrated_risk_posture || {};
+      closing = '<section class="live-closing">' +
+        '<span class="live-closing__label">Overall Review Attention</span>' +
+        '<h2>' + clasrJsonText(clasrJsonHeadingCase(posture.label || '')) + '</h2>' +
+        '<p>' + clasrJsonText(posture.explanation || '') + '</p>' +
+        (report.leverage_note ? '<div class="live-closing__leverage"><span class="live-closing__label">Where attention would have the most leverage</span><p>' + clasrJsonText(report.leverage_note) + '</p></div>' : '') +
+        ((report.priority_dashboard || []).length ? '<div class="live-closing__leverage"><span class="live-closing__label">Priority order</span><div class="live-priority__grid">' +
+          report.priority_dashboard.map(function(item) {
+            return '<article class="live-priority__item live-priority__item--dashboard"><div class="live-priority__header">' +
+              '<span class="live-priority__rank">' + String(item.rank).padStart(2, '0') + '</span>' +
+              '<h3 class="live-priority__name">' + clasrJsonText(item.label) + '</h3>' +
+              '<span class="live-priority__section live-priority__section--long">' + escapeHtml(clasrJsonCleanText(item.section)) + '</span></div>' +
+              '<div class="live-priority__fields"><div class="live-priority__field live-priority__field--wide"><strong>Why it ranks here</strong><span>' + clasrJsonText(item.why_it_ranks_here) + '</span></div></div></article>';
+          }).join('') + '</div></div>' : '') +
+        ((report.final_checklist || []).length ? '<div class="live-closing__leverage live-closing__checklist"><span class="live-closing__label">Final checklist</span><h2>Final Check Before Submission</h2><p>Use this as a last pass across the manuscript before acting on the report.</p><ul class="live-checklist">' +
+          report.final_checklist.map(function(item, index) { return '<li><span class="live-checklist__index">' + String(index + 1).padStart(2, '0') + '</span><span>' + clasrJsonText(item) + '</span></li>'; }).join('') + '</ul></div>' : '') +
+        '</section>';
+    }
+
+    fullReportNode.innerHTML = '<div class="live-report-full__intro"><div><span>Section walkthrough</span><h2>Full Report</h2></div><p>Signals are shown in source order, with Section 10 kept complete.</p></div>' +
+      regularSections + section10 + closing;
+  };
+
+  var clasrRenderJsonReport = function(report) {
+    var titleNode = document.querySelector('[data-report-title]');
+    if (titleNode) titleNode.textContent = (report.manuscript && (report.manuscript.title || report.manuscript.identifier)) || 'Untitled manuscript';
+    var metaNode = document.querySelector('[data-report-meta]');
+    if (metaNode) {
+      metaNode.textContent = [report.field, report.study_type, report.q_profile && report.q_profile.estimate].filter(Boolean).join(' · ');
+    }
+    var riskNode = document.querySelector('[data-risk-posture]');
+    var summaryNode = document.querySelector('[data-risk-summary]');
+    var posture = report.integrated_risk_posture || (report.closing && report.closing.integrated_risk_posture) || {};
+    if (riskNode) riskNode.textContent = clasrJsonHeadingCase(posture.label || '');
+    if (summaryNode) summaryNode.textContent = posture.summary || posture.explanation || '';
+
+    var criticalCount = ((report.section_10 && report.section_10.modules) || []).filter(function(m) { return m.status === 'absent'; }).length;
+    var majorCount = (report.sections || []).reduce(function(count, s) { return count + ((s.signals && s.signals.length) || 0); }, 0);
+    var minorCount = ((report.section_10 && report.section_10.modules) || []).filter(function(m) { return m.status === 'partial'; }).length;
+    var cEl = document.querySelector('[data-count-critical]'), mEl = document.querySelector('[data-count-major]'), nEl = document.querySelector('[data-count-minor]');
+    if (cEl) cEl.textContent = criticalCount;
+    if (mEl) mEl.textContent = majorCount;
+    if (nEl) nEl.textContent = minorCount;
+
+    var executiveNode = document.querySelector('[data-executive-summary]');
+    if (executiveNode) executiveNode.innerHTML = clasrJsonExecutive(report);
+    var priorityGrid = document.querySelector('[data-priority-signals] .live-priority__grid');
+    if (priorityGrid) clasrJsonPriority(report.priority_preview || [], priorityGrid);
+    var fullReportNode = document.querySelector('[data-full-report]');
+    if (fullReportNode) clasrJsonSections(report, fullReportNode);
+  };
+
+  var clasrExportJsonTxt = function(report, data) {
+    var lines = [];
+    lines.push((report.manuscript && report.manuscript.title) || data.title || 'Clasr Signal Report');
+    lines.push('');
+    lines.push('OVERALL REVIEW ATTENTION: ' + ((report.integrated_risk_posture || {}).label || ''));
+    lines.push(((report.integrated_risk_posture || {}).summary || ''));
+    lines.push('');
+    lines.push('EXECUTIVE SUMMARY');
+    (((report.integrated_risk_posture || {}).expanded_explanation) || []).forEach(function(p) { lines.push(p); });
+    lines.push('');
+    lines.push('PRIORITY ACTION SIGNALS PREVIEW');
+    (report.priority_preview || []).forEach(function(p, i) { lines.push((i + 1) + '. ' + p); });
+    (report.sections || []).forEach(function(section) {
+      lines.push('');
+      lines.push('SECTION ' + section.section + ' — ' + clasrJsonCleanText(section.title));
+      if (section.no_issue_line) lines.push(section.no_issue_line);
+      (section.signals || []).forEach(function(s) {
+        lines.push('');
+        lines.push(clasrJsonTitleCase(s.name));
+        lines.push('What surfaced: ' + s.what_this_is);
+        lines.push('Why a reviewer may notice it: ' + s.why_this_becomes_visible);
+        (s.what_you_could_do || []).forEach(function(o) { lines.push('Possible next step: ' + o); });
+      });
+    });
+    if (report.section_10) {
+      lines.push('');
+      lines.push('SECTION 10 — ' + clasrJsonCleanText(report.section_10.title));
+      (report.section_10.modules || []).forEach(function(m) {
+        lines.push(clasrJsonHeadingCase(m.name) + ': ' + clasrJsonStatusLabel(m.status));
+        if (m.what_was_found) lines.push('  ' + m.what_was_found);
+      });
+    }
+    if (report.final_checklist && report.final_checklist.length) {
+      lines.push('');
+      lines.push('FINAL CHECKLIST');
+      report.final_checklist.forEach(function(item, i) { lines.push((i + 1) + '. ' + item); });
+    }
+    clasrDownloadBlob(new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' }), clasrSlugify((report.manuscript && report.manuscript.title) || data.title) + '.txt');
+  };
+
+  var clasrExportJsonDocx = function(report, data) {
+    return clasrLoadDocxLib().then(function(docx) {
+      var children = [];
+      children.push(new docx.Paragraph({ text: (report.manuscript && report.manuscript.title) || data.title || 'Clasr Signal Report', heading: docx.HeadingLevel.TITLE }));
+      var posture = report.integrated_risk_posture || {};
+      children.push(new docx.Paragraph({ text: 'Overall review attention: ' + (posture.label || ''), heading: docx.HeadingLevel.HEADING_2 }));
+      (posture.expanded_explanation || []).forEach(function(p) { children.push(new docx.Paragraph({ children: [new docx.TextRun(p)] })); });
+      children.push(new docx.Paragraph({ text: 'Priority action signals preview', heading: docx.HeadingLevel.HEADING_2 }));
+      (report.priority_preview || []).forEach(function(p) { children.push(new docx.Paragraph({ children: [new docx.TextRun(p)] })); });
+      (report.sections || []).forEach(function(section) {
+        children.push(new docx.Paragraph({ text: 'Section ' + section.section + ' — ' + clasrJsonCleanText(section.title), heading: docx.HeadingLevel.HEADING_2 }));
+        if (section.no_issue_line) children.push(new docx.Paragraph({ children: [new docx.TextRun(section.no_issue_line)] }));
+        (section.signals || []).forEach(function(s) {
+          children.push(new docx.Paragraph({ text: clasrJsonTitleCase(s.name), heading: docx.HeadingLevel.HEADING_3 }));
+          children.push(new docx.Paragraph({ children: [new docx.TextRun('What surfaced: ' + s.what_this_is)] }));
+          children.push(new docx.Paragraph({ children: [new docx.TextRun('Why a reviewer may notice it: ' + s.why_this_becomes_visible)] }));
+          (s.what_you_could_do || []).forEach(function(o) { children.push(new docx.Paragraph({ children: [new docx.TextRun({ text: 'Possible next step: ' + o, italics: true })] })); });
+        });
+      });
+      if (report.section_10) {
+        children.push(new docx.Paragraph({ text: 'Section 10 — ' + clasrJsonCleanText(report.section_10.title), heading: docx.HeadingLevel.HEADING_2 }));
+        (report.section_10.modules || []).forEach(function(m) {
+          children.push(new docx.Paragraph({ children: [new docx.TextRun({ text: clasrJsonHeadingCase(m.name) + ': ' + clasrJsonStatusLabel(m.status), bold: true })] }));
+          if (m.what_was_found) children.push(new docx.Paragraph({ children: [new docx.TextRun(m.what_was_found)] }));
+        });
+      }
+      if (report.final_checklist && report.final_checklist.length) {
+        children.push(new docx.Paragraph({ text: 'Final checklist', heading: docx.HeadingLevel.HEADING_2 }));
+        report.final_checklist.forEach(function(item) { children.push(new docx.Paragraph({ text: item, bullet: { level: 0 } })); });
+      }
+      var doc = new docx.Document({ sections: [{ children: children }] });
+      return docx.Packer.toBlob(doc);
+    }).then(function(blob) {
+      clasrDownloadBlob(blob, clasrSlugify((report.manuscript && report.manuscript.title) || data.title) + '.docx');
+    }).catch(function() {
+      clasrExportJsonTxt(report, data);
+    });
+  };
+
   var clasrShowReportError = function(message) {
     var rb = document.querySelector('.reading-report-body');
     if (rb) rb.innerHTML = '<div class="api-report"><p class="report-closing-note">' + escapeHtml(message) + '</p></div>';
@@ -2368,20 +2614,37 @@ setupResponsiveReports();
       var ms = document.querySelectorAll('.signal-metrics div strong');
       if (ms.length >= 3 && data.severity) { ms[0].textContent=String(data.severity.critical||0); ms[1].textContent=String(data.severity.major||0); ms[2].textContent=String(data.severity.minor||0); }
 
-      var parsed = clasrParseReport(data.report || '');
-      var rb = document.querySelector('.reading-report-body');
-      if (rb && data.report) {
-        rb.innerHTML = clasrRenderReportHtml(parsed, data);
-      }
+      var jsonNode = document.querySelector('[data-json-report]');
+      var textNode = document.querySelector('[data-text-report]');
 
-      document.querySelectorAll('[data-export-report]').forEach(function(btn) {
-        btn.addEventListener('click', function() {
-          var kind = btn.getAttribute('data-export-report');
-          if (kind === 'txt') clasrExportTxt(data);
-          else if (kind === 'pdf') window.print();
-          else if (kind === 'docx') clasrExportDocx(data, parsed);
+      if (data.reportJson) {
+        if (jsonNode) jsonNode.hidden = false;
+        if (textNode) textNode.hidden = true;
+        clasrRenderJsonReport(data.reportJson);
+
+        document.querySelectorAll('[data-export-report]').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var kind = btn.getAttribute('data-export-report');
+            if (kind === 'txt') clasrExportJsonTxt(data.reportJson, data);
+            else if (kind === 'pdf') window.print();
+            else if (kind === 'docx') clasrExportJsonDocx(data.reportJson, data);
+          });
         });
-      });
+      } else {
+        var parsed = clasrParseReport(data.report || '');
+        if (textNode && data.report) {
+          textNode.innerHTML = clasrRenderReportHtml(parsed, data);
+        }
+
+        document.querySelectorAll('[data-export-report]').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var kind = btn.getAttribute('data-export-report');
+            if (kind === 'txt') clasrExportTxt(data);
+            else if (kind === 'pdf') window.print();
+            else if (kind === 'docx') clasrExportDocx(data, parsed);
+          });
+        });
+      }
     }).catch(function() {
       clasrShowReportError('This reading could not be loaded. Please try again in a moment.');
     });

@@ -13,7 +13,7 @@ const dbReadClient = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY,
   { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } }
 );
-const { analyzeManuscript, reformatReport } = require('../services/claude');
+const { analyzeManuscript, reformatReport, reformatReportAuthorJson } = require('../services/claude');
 const { extractText } = require('../services/fileParser');
 const { runConsistent } = require('../services/clasr-engine/consistency');
 const { atomicConsumeCredit } = require('../services/credits');
@@ -345,14 +345,20 @@ router.get('/readings/:id', requireAuth, async (req, res, next) => {
       .eq('user_id', req.user.id)
       .single();
     if (error || !data) return res.status(404).json({ error: 'Reading not found' });
+    const mode = data.output_mode || 'author';
     res.json({
       id: data.id,
       title: data.filename || 'Untitled manuscript',
-      mode: data.output_mode || 'author',
+      mode,
       studyType: data.study_type || 'quantitative',
       qProfile: data.q_variant || 'Q1',
       severity: { critical: data.critical_count || 0, major: data.major_count || 0, minor: data.minor_count || 0 },
       report: data.report,
+      // Structured Author Mode render (2026-08-24) — present only once
+      // mode_reports.author has been populated (initial generation or a
+      // later GET /readings/:id/mode/author call); the frontend prefers
+      // this over parsing `report` as text when it's present.
+      reportJson: mode === 'author' ? (data.mode_reports?.author || null) : null,
       createdAt: data.created_at,
     });
   } catch (err) { next(err); }
@@ -388,8 +394,17 @@ router.get('/readings/:id/mode/:mode', requireAuth, async (req, res, next) => {
       return res.status(409).json({ error: 'This reading was created before mode switching was available and cannot be reformatted.' });
     }
 
-    const reformatted = await reformatReport({ mainReport: data.main_report, outputMode: mode });
-    const nextModeReports = { ...(data.mode_reports || {}), [mode]: reformatted.report };
+    let reportOut;
+    if (mode === 'author') {
+      const reformatted = await reformatReportAuthorJson({ mainReport: data.main_report });
+      if (!reformatted.report) return res.status(502).json({ error: 'Could not generate this mode. Please try again.' });
+      reportOut = reformatted.report;
+    } else {
+      const reformatted = await reformatReport({ mainReport: data.main_report, outputMode: mode });
+      reportOut = reformatted.report;
+    }
+
+    const nextModeReports = { ...(data.mode_reports || {}), [mode]: reportOut };
     const { error: updateErr } = await supabase
       .from('analyses')
       .update({ mode_reports: nextModeReports })
@@ -397,7 +412,7 @@ router.get('/readings/:id/mode/:mode', requireAuth, async (req, res, next) => {
       .eq('user_id', req.user.id);
     if (updateErr) console.error('[api] failed to cache mode_reports for reading', req.params.id, ':', updateErr.message);
 
-    res.json({ mode, report: reformatted.report, cached: false });
+    res.json({ mode, report: reportOut, cached: false });
   } catch (err) { next(err); }
 });
 
@@ -445,20 +460,39 @@ router.post('/readings/start', requireAuth, handleUpload, async (req, res, next)
         });
         const mainReport = result.report;
 
+        // Author Mode (2026-08-24): the live report page now renders a
+        // structured JSON shape (see claude.js's reformatReportAuthorJson +
+        // AUTHOR_JSON_SCHEMA), not labeled text -- eliminates the whole
+        // class of "parser guessed the section boundary wrong" bugs that
+        // came up repeatedly building the text-based renderer. Signal/
+        // Advisor Mode don't have a validated JSON schema yet, so they
+        // still go through the text-based reformatReport() below.
         let reportText = mainReport;
+        let modeReportsSeed = {};
         try {
-          const reformatted = await reformatReport({ mainReport, outputMode });
-          reportText = reformatted.report;
+          if (outputMode === 'author') {
+            const reformatted = await reformatReportAuthorJson({ mainReport });
+            if (reformatted.report) {
+              reportText = JSON.stringify(reformatted.report);
+              modeReportsSeed = { author: reformatted.report };
+            } else {
+              console.error('[api] reformatReportAuthorJson returned unparseable JSON, falling back to main report');
+            }
+          } else {
+            const reformatted = await reformatReport({ mainReport, outputMode });
+            reportText = reformatted.report;
+            modeReportsSeed = { [outputMode]: reformatted.report };
+          }
         } catch (reformatErr) {
           // The expensive analysis already succeeded — don't fail the whole
           // job over the cheap reformat step. Fall back to the mode-agnostic
           // main report rather than losing the reading entirely.
-          console.error('[api] reformatReport failed, falling back to main report:', reformatErr.message);
+          console.error('[api] reformat step failed, falling back to main report:', reformatErr.message);
         }
 
-        const critical = (reportText.match(/\[CRITICAL\]/gi) || []).length;
-        const major    = (reportText.match(/\[MAJOR\]/gi)    || []).length;
-        const minor    = (reportText.match(/\[MINOR\]/gi)    || []).length;
+        const critical = (mainReport.match(/\[CRITICAL\]/gi) || []).length;
+        const major    = (mainReport.match(/\[MAJOR\]/gi)    || []).length;
+        const minor    = (mainReport.match(/\[MINOR\]/gi)    || []).length;
 
         const readingId = uuidv4();
         const baseInsert = {
@@ -477,7 +511,7 @@ router.post('/readings/start', requireAuth, handleUpload, async (req, res, next)
           major_count: major,
           minor_count: minor,
           main_report: mainReport,
-          mode_reports: reportText !== mainReport ? { [outputMode]: reportText } : {},
+          mode_reports: modeReportsSeed,
         });
         if (insertErr) {
           console.error('[api] analyses insert error (full columns):', insertErr.message, insertErr.details || '');

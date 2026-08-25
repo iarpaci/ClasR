@@ -53,7 +53,43 @@
             </div>
           </div>
 
-          <div class="reading-report-body">
+          <div data-json-report hidden>
+            <section class="live-report__summary" aria-label="Report summary">
+              <div class="live-report__summary-panel">
+                <span class="live-report__label">Manuscript</span>
+                <h2 data-report-title>Untitled manuscript</h2>
+                <p data-report-meta></p>
+              </div>
+              <div class="live-report__summary-panel">
+                <span class="live-report__label">Overall Review Attention</span>
+                <h2 data-risk-posture></h2>
+                <p data-risk-summary></p>
+              </div>
+              <div class="live-report__summary-panel live-report__counts" aria-label="Signal counts">
+                <div class="live-report__count"><strong data-count-critical>0</strong><span>High Priority</span></div>
+                <div class="live-report__count"><strong data-count-major>0</strong><span>Medium Priority</span></div>
+                <div class="live-report__count"><strong data-count-minor>0</strong><span>Low Priority</span></div>
+              </div>
+            </section>
+
+            <section class="live-report__mode" aria-label="Selected output mode">
+              <h2><span class="live-report__mode-label">Author Mode</span></h2>
+              <p>This version explains what surfaced, why a reviewer may notice it, and what you could consider before submission. It is not a verdict.</p>
+            </section>
+
+            <section class="live-report__executive" aria-labelledby="executive-summary" data-executive-summary>
+              <h2 id="executive-summary">Executive summary</h2>
+            </section>
+
+            <section class="live-priority live-priority--preview" aria-labelledby="priority-signals" data-priority-signals>
+              <h2 id="priority-signals">Priority action signals preview</h2>
+              <div class="live-priority__grid"></div>
+            </section>
+
+            <section class="live-report-full" aria-label="Full author mode report" data-full-report></section>
+          </div>
+
+          <div class="reading-report-body" data-text-report>
             <p class="report-closing-note">Loading your report…</p>
           </div>
         </div>
