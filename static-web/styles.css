@@ -26766,5 +26766,76 @@ body.theme-night .live-report {
 
 @media print {
   .live-report-full__intro { display: none !important; }
-  .live-section, .live-closing, .live-priority { break-inside: avoid; }
+
+  .live-report,
+  .live-report * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  .live-report {
+    width: 100% !important;
+    margin: 0 !important;
+    font-size: 12px;
+  }
+
+  .live-report__summary,
+  .live-report__summary-panel,
+  .live-report__count,
+  .live-report__executive,
+  .live-priority,
+  .live-priority__item,
+  .live-priority__section,
+  .live-section,
+  .live-section__facts,
+  .live-section__profile,
+  .live-section__profile-row,
+  .live-section__author,
+  .live-section__consider,
+  .live-module-list,
+  .live-module,
+  .live-module__status,
+  .live-closing,
+  .live-closing__leverage,
+  .live-checklist li,
+  .live-signal__chip {
+    border-color: var(--live-line) !important;
+  }
+
+  .live-report__summary h2,
+  .live-report__executive h2,
+  .live-priority h2,
+  .live-report-full h2,
+  .live-section__title,
+  .live-section__body h3,
+  .live-section__author strong,
+  .live-section__consider strong,
+  .live-section__fact strong,
+  .live-priority__field strong,
+  .live-priority__rank,
+  .live-checklist__index,
+  .live-closing__label,
+  .live-signal__chip {
+    color: var(--live-red) !important;
+  }
+
+  .live-closing, .live-priority { break-inside: avoid; }
+  .live-section { break-inside: avoid-page; }
+
+  .live-priority__item,
+  .live-module,
+  .live-checklist li,
+  .live-section__fact,
+  .live-section__profile-row {
+    break-inside: avoid;
+  }
+
+  .live-section__header,
+  .live-report__executive h2,
+  .live-priority h2,
+  .live-report-full h2,
+  .live-closing__label {
+    break-after: avoid;
+  }
 }
