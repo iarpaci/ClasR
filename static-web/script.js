@@ -3090,19 +3090,38 @@ setupResponsiveReports();
 
       clasrRenderModeSwitch(data, function(targetMode) {
         if (targetMode === data.mode) return;
-        var optionsNode = document.querySelector('[data-mode-switch] .live-report__mode-options');
+        var switchNav = document.querySelector('[data-mode-switch]');
+        var optionsNode = switchNav && switchNav.querySelector('.live-report__mode-options');
+        var noteNode = switchNav && switchNav.querySelector('.live-report__mode-switch-note');
+        if (switchNav && !noteNode) {
+          noteNode = document.createElement('p');
+          noteNode.className = 'live-report__mode-switch-note';
+          switchNav.appendChild(noteNode);
+        }
+        var setNote = function(text) { if (noteNode) noteNode.textContent = text || ''; };
         var resetButtons = function() {
           if (!optionsNode) return;
           optionsNode.querySelectorAll('[data-mode-option]').forEach(function(b) {
             b.disabled = data.mode === b.getAttribute('data-mode-option');
           });
         };
+        setNote('');
         if (optionsNode) optionsNode.querySelectorAll('[data-mode-option]').forEach(function(b) { b.disabled = true; });
         apiFetch('/api/readings/' + reportId + '/mode/' + targetMode).then(function(res) {
-          if (!res || !res.ok) return null;
-          return res.json();
-        }).then(function(result) {
-          if (!result || result.error) { resetButtons(); return; }
+          if (!res) return null;
+          return res.json().catch(function() { return null; }).then(function(body) { return { ok: res.ok, body: body }; });
+        }).then(function(outcome) {
+          if (!outcome || !outcome.body) {
+            resetButtons();
+            setNote('Could not switch modes. Please check your connection and try again.');
+            return;
+          }
+          if (!outcome.ok || outcome.body.error) {
+            resetButtons();
+            setNote(outcome.body.error || 'Could not switch modes for this reading.');
+            return;
+          }
+          var result = outcome.body;
           var nextData = Object.assign({}, data, { mode: targetMode });
           if (targetMode === 'author' || targetMode === 'reviewer' || targetMode === 'advisor') {
             nextData.reportJson = result.report;
@@ -3111,7 +3130,10 @@ setupResponsiveReports();
             nextData.report = result.report;
           }
           clasrApplyReadingData(nextData);
-        }).catch(resetButtons);
+        }).catch(function() {
+          resetButtons();
+          setNote('Could not switch modes. Please check your connection and try again.');
+        });
       });
     };
 

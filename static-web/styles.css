@@ -26904,6 +26904,19 @@ body.theme-night .live-report {
   font-size: 12px;
 }
 
+.live-report__mode-switch-note {
+  margin: 10px 0 0 !important;
+  color: var(--live-red) !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+}
+
+.live-report__mode-switch-note:empty {
+  display: none;
+}
+
 .live-reviewer-quick,
 .live-reviewer-doc {
   max-width: 1120px;
