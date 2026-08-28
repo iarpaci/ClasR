@@ -2606,7 +2606,7 @@ setupResponsiveReports();
     var ora = report.overall_review_attention || {};
     var counts = ora.counts || {};
     var manuscript = report.manuscript || {};
-    return '<section class="live-report__summary" aria-label="Report summary">' +
+    return '<section class="live-report__summary live-report__summary--editor" aria-label="Report summary">' +
       '<div class="live-report__summary-top">' +
         '<div class="live-report__summary-panel">' +
           '<span class="live-report__label">Manuscript</span>' +
@@ -2619,7 +2619,7 @@ setupResponsiveReports();
           '<div class="live-report__count"><strong>' + (counts.low_priority || 0) + '</strong><span>Low Priority</span></div>' +
         '</div>' +
       '</div>' +
-      '<div class="live-report__summary-panel live-report__attention">' +
+      '<div class="live-report__summary-panel live-report__attention live-report__attention--compact">' +
         '<span class="live-report__label">Overall Review Attention</span>' +
         '<h2>' + escapeHtml(ora.label || '') + '</h2>' +
         '<p>' + clasrJsonText(ora.summary) + '</p>' +

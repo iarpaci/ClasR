@@ -26424,7 +26424,29 @@ body.theme-night .live-report {
 .live-report__summary-panel {
   min-height: 190px;
   border: 1px solid var(--live-line);
+  border-radius: 8px;
   padding: 24px;
+}
+
+/* Manuscript title treatment (2026-08-29) — applied in every mode that
+   renders this panel (Author, Editor; Reviewer uses its own quick-scan
+   layout), not just Editor: serif display face, ink instead of brand
+   red (title isn't a signal/verdict, so it shouldn't compete visually
+   with ones that are), and a left accent bar to anchor it as the
+   panel's identity. */
+.live-report__summary-panel:first-child {
+  border-left: 5px solid var(--live-line);
+  padding: 20px 26px;
+}
+
+.live-report__summary-panel:first-child h2 {
+  max-width: 760px;
+  color: var(--live-ink);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(20px, 1.55vw, 26px) !important;
+  font-weight: 750;
+  line-height: 1.14;
+  text-transform: none;
 }
 
 /* Overall Review Attention text length varies a lot report-to-report; as
@@ -26433,6 +26455,83 @@ body.theme-night .live-report {
    next to it. */
 .live-report__attention {
   min-height: 0;
+}
+
+/* Editor Mode (2026-08-29) — compact editorial-triage summary treatment,
+   distinct from Author Mode's fuller narrative styling: a horizontal
+   3-up count row instead of a stacked list, and the attention note
+   collapsed to one scannable line instead of a heading + paragraph. */
+.live-report__summary--editor .live-report__summary-panel {
+  min-height: 112px;
+}
+
+.live-report__summary--editor .live-report__counts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-content: center;
+  gap: 0;
+  padding: 24px 18px;
+}
+
+.live-report__summary--editor .live-report__count {
+  grid-template-columns: 1fr;
+  justify-items: center;
+  gap: 4px;
+  min-width: 0;
+  padding: 0 16px;
+  border-right: 1px solid var(--live-line);
+  border-bottom: 0;
+  text-align: center;
+}
+
+.live-report__summary--editor .live-report__count:last-child {
+  border-right: 0;
+}
+
+.live-report__summary--editor .live-report__count strong {
+  font-size: 29px;
+  line-height: .95;
+}
+
+.live-report__summary--editor .live-report__count span {
+  font-size: 13px;
+  line-height: 1.05;
+}
+
+.live-report__attention--compact {
+  padding: 16px 22px;
+}
+
+.live-report__attention--compact .live-report__label {
+  color: var(--live-red);
+  margin-bottom: 6px;
+}
+
+.live-report__attention--compact h2 {
+  display: inline;
+  margin-right: 8px;
+  color: var(--live-ink);
+  font-family: var(--body);
+  font-size: 15px !important;
+  font-weight: 700;
+  text-transform: none;
+}
+
+.live-report__attention--compact p {
+  display: inline;
+  margin: 0;
+  font-size: 14px !important;
+  line-height: 1.5;
+}
+
+@media (max-width: 980px) {
+  .live-report__summary--editor .live-report__counts {
+    min-height: 78px;
+    padding: 13px 8px;
+  }
+  .live-report__summary--editor .live-report__count { gap: 3px; padding: 0 8px; }
+  .live-report__summary--editor .live-report__count strong { font-size: 22px; }
+  .live-report__summary--editor .live-report__count span { font-size: 11.5px; line-height: 1.05; }
 }
 
 .live-report__label {
