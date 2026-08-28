@@ -2594,6 +2594,136 @@ setupResponsiveReports();
       '</div>';
   };
 
+  // ── Editor Mode (2026-08-28) — occupies the backend's "advisor" mode slot ──
+  var clasrEditorSeverityClass = function(value) {
+    var s = String(value || '').toLowerCase();
+    if (s === 'high') return 'live-editor-red-flag__severity--high';
+    if (s === 'moderate') return 'live-editor-red-flag__severity--moderate';
+    return 'live-editor-red-flag__severity--minor';
+  };
+
+  var clasrEditorSummary = function(report) {
+    var ora = report.overall_review_attention || {};
+    var counts = ora.counts || {};
+    var manuscript = report.manuscript || {};
+    return '<section class="live-report__summary" aria-label="Report summary">' +
+      '<div class="live-report__summary-panel">' +
+        '<span class="live-report__label">Manuscript</span>' +
+        '<h2>' + clasrJsonText(manuscript.title) + '</h2>' +
+        '<p>' + escapeHtml([manuscript.field, manuscript.study_type, manuscript.q_profile].filter(Boolean).join(' · ')) + '</p>' +
+      '</div>' +
+      '<div class="live-report__summary-panel">' +
+        '<span class="live-report__label">Overall Review Attention</span>' +
+        '<h2>' + escapeHtml(ora.label || '') + '</h2>' +
+        '<p>' + clasrJsonText(ora.summary) + '</p>' +
+      '</div>' +
+      '<div class="live-report__summary-panel live-report__counts" aria-label="Signal counts">' +
+        '<div class="live-report__count"><strong>' + (counts.high_priority || 0) + '</strong><span>High Priority</span></div>' +
+        '<div class="live-report__count"><strong>' + (counts.medium_priority || 0) + '</strong><span>Medium Priority</span></div>' +
+        '<div class="live-report__count"><strong>' + (counts.low_priority || 0) + '</strong><span>Low Priority</span></div>' +
+      '</div>' +
+    '</section>';
+  };
+
+  var clasrEditorPriorityOrder = function(items) {
+    if (!items || !items.length) return '';
+    return '<section class="live-priority live-priority--editor" aria-label="Red flag index">' +
+      '<h2>Red flag index</h2>' +
+      '<div class="live-priority__grid">' +
+        items.map(function(item, i) {
+          return '<article class="live-priority__item">' +
+            '<div class="live-priority__header">' +
+              '<span class="live-priority__rank">' + String(i + 1).padStart(2, '0') + '</span>' +
+              '<h3 class="live-priority__name">' + clasrJsonText(item.title) + '</h3>' +
+              '<span class="live-priority__section ' + clasrEditorSeverityClass(item.severity) + '">' + escapeHtml(item.severity || '') + '</span>' +
+            '</div>' +
+          '</article>';
+        }).join('') +
+      '</div>' +
+    '</section>';
+  };
+
+  var clasrEditorExecutive = function(report) {
+    var es = report.executive_summary || {};
+    var conditionLine = (es.is_conditional && es.condition) ? '<p class="live-editor-triage__decision">Condition: ' + clasrJsonText(es.condition) + '</p>' : '';
+    return '<section class="live-editor-panel" aria-labelledby="executive-summary">' +
+      '<h2 id="executive-summary">Editorial triage</h2>' +
+      '<div class="live-editor-triage">' +
+        '<div class="live-editor-triage__meta">' +
+          '<span>' + escapeHtml(es.risk_label || '') + '</span>' +
+          '<span>' + escapeHtml(es.view_label || '') + '</span>' +
+        '</div>' +
+        '<p class="live-editor-triage__decision"><strong>' + escapeHtml(es.decision || '') + '</strong></p>' +
+        conditionLine +
+      '</div>' +
+      '<p>' + clasrJsonText(es.rationale) + '</p>' +
+    '</section>';
+  };
+
+  var clasrEditorRedFlags = function(redFlags) {
+    if (!redFlags || !redFlags.length) return '<section class="live-editor-panel"><h2>Red flags</h2><p>No issues identified.</p></section>';
+    return '<section class="live-editor-panel">' +
+      '<h2>Red flags</h2>' +
+      '<ul class="live-editor-red-flags">' +
+        redFlags.map(function(flag) {
+          return '<li class="live-editor-red-flag">' +
+            '<span class="live-editor-red-flag__severity ' + clasrEditorSeverityClass(flag.severity) + '">' + escapeHtml(flag.severity || '') + '</span>' +
+            '<div>' +
+              '<h3>' + clasrJsonText(flag.title) + '</h3>' +
+              (flag.location ? '<span class="live-editor-red-flag__location">In: ' + escapeHtml(flag.location) + '</span>' : '') +
+              '<div class="live-editor-red-flag__fields">' +
+                '<div><strong>Why it matters</strong><p>' + clasrJsonText(flag.why_it_matters) + '</p></div>' +
+                '<div><strong>Editor action</strong><p>' + clasrJsonTitleCase(flag.editor_action) + '</p></div>' +
+              '</div>' +
+            '</div>' +
+          '</li>';
+        }).join('') +
+      '</ul>' +
+    '</section>';
+  };
+
+  var clasrEditorChecklist = function(items) {
+    if (!items || !items.length) return '';
+    return '<section class="live-editor-panel">' +
+      '<h2>Final checklist</h2>' +
+      '<ul class="live-editor-flags">' +
+        items.map(function(item, i) {
+          return '<li>' +
+            '<strong>' + String(i + 1).padStart(2, '0') + '</strong>' +
+            '<span>' + clasrJsonText(item.text) + '</span>' +
+            '<span class="live-editor-flags__kind">' + escapeHtml(item.kind || '') + '</span>' +
+          '</li>';
+        }).join('') +
+      '</ul>' +
+    '</section>';
+  };
+
+  var clasrEditorRecommendation = function(recommendation) {
+    var r = recommendation || {};
+    return '<section class="live-editor-panel">' +
+      '<h2>Editorial recommendation</h2>' +
+      '<div class="live-editor-decision">' +
+        '<strong>' + escapeHtml(r.label || '') + (r.conditional ? ' (conditional)' : '') + '</strong>' +
+        '<span>' + clasrJsonText(r.text) + '</span>' +
+      '</div>' +
+    '</section>';
+  };
+
+  var clasrRenderEditorJsonReport = function(report) {
+    var node = document.querySelector('[data-editor-view]');
+    if (!node) return;
+    var fullReport = report.full_report || {};
+    var modeNote = (report.mode_switch && report.mode_switch.note) ? '<section class="live-report__mode"><p>' + clasrJsonText(report.mode_switch.note) + '</p></section>' : '';
+    node.innerHTML =
+      clasrEditorSummary(report) +
+      modeNote +
+      clasrEditorPriorityOrder(report.priority_order) +
+      clasrEditorExecutive(report) +
+      clasrEditorRedFlags(fullReport.red_flags) +
+      clasrEditorRecommendation(fullReport.recommendation) +
+      clasrEditorChecklist(report.final_checklist);
+  };
+
   var clasrExportJsonTxt = function(report, data) {
     var lines = [];
     lines.push((report.manuscript && report.manuscript.title) || data.title || 'Clasr Signal Report');
@@ -2759,11 +2889,87 @@ setupResponsiveReports();
     });
   };
 
+  var clasrExportEditorTxt = function(report, data) {
+    var lines = [];
+    var manuscript = report.manuscript || {};
+    lines.push(manuscript.title || data.title || 'Clasr Signal Report');
+    lines.push('');
+    var ora = report.overall_review_attention || {};
+    lines.push('OVERALL REVIEW ATTENTION: ' + (ora.label || ''));
+    lines.push(ora.summary || '');
+    lines.push('');
+    var es = report.executive_summary || {};
+    lines.push('EDITORIAL TRIAGE');
+    lines.push('Decision: ' + (es.decision || '') + (es.is_conditional ? ' (conditional: ' + es.condition + ')' : ''));
+    lines.push(es.rationale || '');
+    lines.push('');
+    lines.push('RED FLAG INDEX');
+    (report.priority_order || []).forEach(function(item, i) { lines.push((i + 1) + '. [' + item.severity + '] ' + item.title); });
+    var fullReport = report.full_report || {};
+    lines.push('');
+    lines.push('RED FLAGS');
+    (fullReport.red_flags || []).forEach(function(flag) {
+      lines.push('');
+      lines.push('[' + flag.severity + '] ' + flag.title + (flag.location ? ' (In: ' + flag.location + ')' : ''));
+      lines.push('Why it matters: ' + flag.why_it_matters);
+      lines.push('Editor action: ' + flag.editor_action);
+    });
+    var recommendation = fullReport.recommendation || {};
+    lines.push('');
+    lines.push('EDITORIAL RECOMMENDATION: ' + (recommendation.label || '') + (recommendation.conditional ? ' (conditional)' : ''));
+    lines.push(recommendation.text || '');
+    if (report.final_checklist && report.final_checklist.length) {
+      lines.push('');
+      lines.push('FINAL CHECKLIST');
+      report.final_checklist.forEach(function(item, i) { lines.push((i + 1) + '. ' + item.text + ' [' + item.kind + ']'); });
+    }
+    clasrDownloadBlob(new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' }), clasrSlugify(manuscript.title || data.title) + '-editor.txt');
+  };
+
+  var clasrExportEditorDocx = function(report, data) {
+    return clasrLoadDocxLib().then(function(docx) {
+      var children = [];
+      var manuscript = report.manuscript || {};
+      children.push(new docx.Paragraph({ text: manuscript.title || data.title || 'Clasr Signal Report', heading: docx.HeadingLevel.TITLE }));
+      var ora = report.overall_review_attention || {};
+      children.push(new docx.Paragraph({ text: 'Overall review attention: ' + (ora.label || ''), heading: docx.HeadingLevel.HEADING_2 }));
+      children.push(new docx.Paragraph({ children: [new docx.TextRun(ora.summary || '')] }));
+      var es = report.executive_summary || {};
+      children.push(new docx.Paragraph({ text: 'Editorial triage', heading: docx.HeadingLevel.HEADING_2 }));
+      children.push(new docx.Paragraph({ children: [new docx.TextRun({ text: 'Decision: ' + (es.decision || '') + (es.is_conditional ? ' (conditional: ' + es.condition + ')' : ''), bold: true })] }));
+      children.push(new docx.Paragraph({ children: [new docx.TextRun(es.rationale || '')] }));
+      children.push(new docx.Paragraph({ text: 'Red flag index', heading: docx.HeadingLevel.HEADING_2 }));
+      (report.priority_order || []).forEach(function(item) { children.push(new docx.Paragraph({ text: '[' + item.severity + '] ' + item.title, bullet: { level: 0 } })); });
+      var fullReport = report.full_report || {};
+      children.push(new docx.Paragraph({ text: 'Red flags', heading: docx.HeadingLevel.HEADING_2 }));
+      (fullReport.red_flags || []).forEach(function(flag) {
+        children.push(new docx.Paragraph({ text: '[' + flag.severity + '] ' + flag.title, heading: docx.HeadingLevel.HEADING_3 }));
+        if (flag.location) children.push(new docx.Paragraph({ children: [new docx.TextRun('In: ' + flag.location)] }));
+        children.push(new docx.Paragraph({ children: [new docx.TextRun('Why it matters: ' + flag.why_it_matters)] }));
+        children.push(new docx.Paragraph({ children: [new docx.TextRun('Editor action: ' + flag.editor_action)] }));
+      });
+      var recommendation = fullReport.recommendation || {};
+      children.push(new docx.Paragraph({ text: 'Editorial recommendation', heading: docx.HeadingLevel.HEADING_2 }));
+      children.push(new docx.Paragraph({ children: [new docx.TextRun({ text: (recommendation.label || '') + (recommendation.conditional ? ' (conditional)' : ''), bold: true })] }));
+      children.push(new docx.Paragraph({ children: [new docx.TextRun(recommendation.text || '')] }));
+      if (report.final_checklist && report.final_checklist.length) {
+        children.push(new docx.Paragraph({ text: 'Final checklist', heading: docx.HeadingLevel.HEADING_2 }));
+        report.final_checklist.forEach(function(item) { children.push(new docx.Paragraph({ text: item.text + ' [' + item.kind + ']', bullet: { level: 0 } })); });
+      }
+      var doc = new docx.Document({ sections: [{ children: children }] });
+      return docx.Packer.toBlob(doc);
+    }).then(function(blob) {
+      clasrDownloadBlob(blob, clasrSlugify((report.manuscript && report.manuscript.title) || data.title) + '-editor.docx');
+    }).catch(function() {
+      clasrExportEditorTxt(report, data);
+    });
+  };
+
   // ── Mode switcher (2026-08-28) ───────────────────────────────────────────
   var CLASR_MODE_LABELS = {
-    author: { title: 'Author Mode', desc: 'What surfaced, why, and what to consider.' },
-    reviewer: { title: 'Reviewer Mode', desc: 'Peer-review style report for an editor.' },
-    advisor: { title: 'Advisor Mode', desc: 'Ranked priorities for a mentor or advisor.' },
+    author: { title: 'Author Mode', desc: 'Review for me' },
+    reviewer: { title: 'Reviewer Mode', desc: 'Review for others' },
+    advisor: { title: 'Editor Mode', desc: 'Editorial triage' },
   };
 
   var clasrRenderModeSwitch = function(data, onSwitch) {
@@ -2796,7 +3002,8 @@ setupResponsiveReports();
       var tl = document.querySelector('.report-topline');
       if (tl) {
         var spans = tl.querySelectorAll('span:not(.section-eyebrow)');
-        var vals = [(data.studyType||'Quantitative').charAt(0).toUpperCase()+(data.studyType||'Quantitative').slice(1), data.qProfile||'Q1', (data.mode||'author').charAt(0).toUpperCase()+(data.mode||'author').slice(1)+' Mode'];
+        var modeTitle = (CLASR_MODE_LABELS[data.mode] && CLASR_MODE_LABELS[data.mode].title) || ((data.mode||'author').charAt(0).toUpperCase()+(data.mode||'author').slice(1)+' Mode');
+        var vals = [(data.studyType||'Quantitative').charAt(0).toUpperCase()+(data.studyType||'Quantitative').slice(1), data.qProfile||'Q1', modeTitle];
         spans.forEach(function(s,i) { if (vals[i]) s.textContent = vals[i]; });
         var h1 = tl.querySelector('h1'); if (h1) h1.textContent = data.title || 'Signal Report';
       }
@@ -2807,6 +3014,7 @@ setupResponsiveReports();
       var textNode = document.querySelector('[data-text-report]');
       var authorView = document.querySelector('[data-author-view]');
       var reviewerView = document.querySelector('[data-reviewer-view]');
+      var editorView = document.querySelector('[data-editor-view]');
 
       // Export buttons get re-bound every time a mode switch re-renders --
       // clone-and-replace clears any listener from a previous mode so clicks
@@ -2823,6 +3031,7 @@ setupResponsiveReports();
         if (textNode) textNode.hidden = true;
         if (authorView) authorView.hidden = false;
         if (reviewerView) reviewerView.hidden = true;
+        if (editorView) editorView.hidden = true;
         clasrRenderJsonReport(data.reportJson);
         exportBtns.forEach(function(btn) {
           btn.addEventListener('click', function() {
@@ -2837,6 +3046,7 @@ setupResponsiveReports();
         if (textNode) textNode.hidden = true;
         if (authorView) authorView.hidden = true;
         if (reviewerView) reviewerView.hidden = false;
+        if (editorView) editorView.hidden = true;
         clasrRenderReviewerJsonReport(data.reportJson);
         exportBtns.forEach(function(btn) {
           btn.addEventListener('click', function() {
@@ -2844,6 +3054,21 @@ setupResponsiveReports();
             if (kind === 'txt') clasrExportReviewerTxt(data.reportJson, data);
             else if (kind === 'pdf') window.print();
             else if (kind === 'docx') clasrExportReviewerDocx(data.reportJson, data);
+          });
+        });
+      } else if (data.mode === 'advisor' && data.reportJson) {
+        if (jsonNode) jsonNode.hidden = false;
+        if (textNode) textNode.hidden = true;
+        if (authorView) authorView.hidden = true;
+        if (reviewerView) reviewerView.hidden = true;
+        if (editorView) editorView.hidden = false;
+        clasrRenderEditorJsonReport(data.reportJson);
+        exportBtns.forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var kind = btn.getAttribute('data-export-report');
+            if (kind === 'txt') clasrExportEditorTxt(data.reportJson, data);
+            else if (kind === 'pdf') window.print();
+            else if (kind === 'docx') clasrExportEditorDocx(data.reportJson, data);
           });
         });
       } else {
@@ -2879,7 +3104,7 @@ setupResponsiveReports();
         }).then(function(result) {
           if (!result || result.error) { resetButtons(); return; }
           var nextData = Object.assign({}, data, { mode: targetMode });
-          if (targetMode === 'author' || targetMode === 'reviewer') {
+          if (targetMode === 'author' || targetMode === 'reviewer' || targetMode === 'advisor') {
             nextData.reportJson = result.report;
           } else {
             nextData.reportJson = null;
