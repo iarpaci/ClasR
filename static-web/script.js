@@ -2500,6 +2500,100 @@ setupResponsiveReports();
     if (fullReportNode) clasrJsonSections(report, fullReportNode);
   };
 
+  // ── Reviewer Mode (2026-08-28) ──────────────────────────────────────────
+  var clasrReviewerLinkRefs = function(value) {
+    return clasrJsonText(value).replace(/Major Issue \(([a-zA-Z])\)/g, function(match, letter) {
+      return '<a class="live-reviewer-anchor" href="#major-issue-' + letter.toLowerCase() + '">' + match + '</a>';
+    });
+  };
+  var clasrReviewerRefSuffix = function(ref) {
+    if (!ref) return '';
+    return ' <a class="live-reviewer-anchor" href="#major-issue-' + escapeHtml(String(ref).toLowerCase()) + '">(Major Issue ' + escapeHtml(String(ref)) + ')</a>';
+  };
+  var clasrReviewerSeverityClass = function(value) {
+    var s = String(value || '').toLowerCase();
+    if (s === 'high') return 'live-reviewer-issue__severity--high';
+    if (s === 'moderate') return 'live-reviewer-issue__severity--moderate';
+    return 'live-reviewer-issue__severity--minor';
+  };
+
+  var clasrReviewerQuickScan = function(report) {
+    var qs = report.quick_scan || {};
+    var keyIssues = (qs.key_issues || []).map(function(item) {
+      return '<li>' + clasrJsonText(item.text) + clasrReviewerRefSuffix(item.major_issue_ref) + '</li>';
+    }).join('');
+    return '<span class="live-kicker">Quick scan</span>' +
+      '<div class="live-reviewer-quick__grid">' +
+        '<div><span>Editorial recommendation</span><strong>' + escapeHtml(qs.editorial_recommendation || '') + '</strong></div>' +
+        '<div><span>Risk level</span><strong>' + escapeHtml(qs.risk_level || '') + '</strong></div>' +
+      '</div>' +
+      (keyIssues ? '<ul class="live-reviewer-quick__list">' + keyIssues + '</ul>' : '');
+  };
+
+  var clasrReviewerMajorIssues = function(majorIssues) {
+    if (!majorIssues || !majorIssues.length) return '<p>No issues identified.</p>';
+    return '<div class="live-reviewer-issues">' + majorIssues.map(function(issue, i) {
+      var id = String(issue.id || (i + 1)).toLowerCase();
+      var location = (issue.location || []).filter(Boolean);
+      return '<article class="live-reviewer-issue" id="major-issue-' + escapeHtml(id) + '">' +
+        '<span class="live-reviewer-issue__index">' + escapeHtml(id) + '</span>' +
+        '<div>' +
+          '<h4 class="live-reviewer-issue__title">' + clasrJsonText(issue.issue) + '</h4>' +
+          (location.length ? '<span class="live-reviewer-issue__location"><span class="live-reviewer-issue__location-label">In:</span>' + escapeHtml(location.join(', ')) + '</span>' : '') +
+          '<div class="live-reviewer-issue__fields">' +
+            '<div><strong>Why it matters</strong><span>' + clasrJsonText(issue.why_it_matters) + '</span></div>' +
+            '<div><strong>What authors should address</strong><span>' + clasrJsonText(issue.what_authors_should_address) + '</span></div>' +
+          '</div>' +
+        '</div>' +
+        '<span class="live-reviewer-issue__severity ' + clasrReviewerSeverityClass(issue.severity) + '">' + escapeHtml(issue.severity || '') + '</span>' +
+      '</article>';
+    }).join('') + '</div>';
+  };
+
+  var clasrReviewerSections = function(sections) {
+    return (sections || []).map(function(section) {
+      var body = '';
+      (section.compliance_items || []).forEach(function(c) {
+        body += '<p><strong>' + escapeHtml(c.label) + ':</strong> ' + escapeHtml(c.status) + '</p>';
+      });
+      if (section.status === 'no_issues_identified' && (!section.items || !section.items.length)) {
+        body += '<p>No issues identified.</p>';
+      } else {
+        body += (section.items || []).map(function(item) {
+          return '<p>' + clasrJsonText(item.text) + clasrReviewerRefSuffix(item.major_issue_ref) + '</p>';
+        }).join('');
+      }
+      return '<div class="live-reviewer-doc__section">' +
+        '<h3>' + escapeHtml(section.number || '') + ' ' + clasrJsonCleanText(section.title) + '</h3>' +
+        body +
+        '</div>';
+    }).join('');
+  };
+
+  var clasrRenderReviewerJsonReport = function(report) {
+    var node = document.querySelector('[data-reviewer-view]');
+    if (!node) return;
+    var ca = report.comments_to_authors || {};
+    var editorial = report.editorial_recommendation || {};
+    node.innerHTML =
+      '<div class="live-reviewer-quick">' + clasrReviewerQuickScan(report) + '</div>' +
+      '<div class="live-reviewer-doc">' +
+        '<div class="live-reviewer-doc__section" style="border-top:0;padding-top:0">' +
+          '<h3>1.1 General evaluation</h3><p>' + clasrReviewerLinkRefs(ca.general_evaluation) + '</p>' +
+        '</div>' +
+        '<div class="live-reviewer-doc__section">' +
+          '<h3>1.2 Major issues</h3>' + clasrReviewerMajorIssues(ca.major_issues) +
+        '</div>' +
+        clasrReviewerSections(ca.sections) +
+        '<div class="live-reviewer-doc__section">' +
+          '<h3>Confidential comments to the editor</h3><p>' + clasrReviewerLinkRefs(report.confidential_comments_to_editor) + '</p>' +
+        '</div>' +
+        '<div class="live-reviewer-doc__section">' +
+          '<h3>Editorial recommendation</h3><p><strong>' + escapeHtml(editorial.decision || '') + '</strong></p><p>' + clasrReviewerLinkRefs(editorial.rationale) + '</p>' +
+        '</div>' +
+      '</div>';
+  };
+
   var clasrExportJsonTxt = function(report, data) {
     var lines = [];
     lines.push((report.manuscript && report.manuscript.title) || data.title || 'Clasr Signal Report');
@@ -2579,6 +2673,116 @@ setupResponsiveReports();
     });
   };
 
+  var clasrExportReviewerTxt = function(report, data) {
+    var lines = [];
+    lines.push((report.manuscript && report.manuscript.title) || data.title || 'Clasr Signal Report');
+    lines.push('');
+    var qs = report.quick_scan || {};
+    lines.push('QUICK SCAN');
+    lines.push('Editorial recommendation: ' + (qs.editorial_recommendation || ''));
+    lines.push('Risk level: ' + (qs.risk_level || ''));
+    (qs.key_issues || []).forEach(function(item, i) { lines.push((i + 1) + '. ' + item.text + (item.major_issue_ref ? ' (Major Issue ' + item.major_issue_ref + ')' : '')); });
+    var ca = report.comments_to_authors || {};
+    lines.push('');
+    lines.push('1.1 GENERAL EVALUATION');
+    lines.push(ca.general_evaluation || '');
+    lines.push('');
+    lines.push('1.2 MAJOR ISSUES');
+    (ca.major_issues || []).forEach(function(issue) {
+      lines.push('');
+      lines.push('(' + issue.id + ') ' + issue.issue + ' [' + issue.severity + ']');
+      lines.push('In: ' + (issue.location || []).join(', '));
+      lines.push('Why it matters: ' + issue.why_it_matters);
+      lines.push('What authors should address: ' + issue.what_authors_should_address);
+    });
+    (ca.sections || []).forEach(function(section) {
+      lines.push('');
+      lines.push(section.number + ' ' + clasrJsonCleanText(section.title));
+      (section.compliance_items || []).forEach(function(c) { lines.push(c.label + ': ' + c.status); });
+      if (section.status === 'no_issues_identified' && (!section.items || !section.items.length)) {
+        lines.push('No issues identified.');
+      } else {
+        (section.items || []).forEach(function(item) { lines.push(item.text + (item.major_issue_ref ? ' (Major Issue ' + item.major_issue_ref + ')' : '')); });
+      }
+    });
+    lines.push('');
+    lines.push('CONFIDENTIAL COMMENTS TO THE EDITOR');
+    lines.push(report.confidential_comments_to_editor || '');
+    lines.push('');
+    lines.push('EDITORIAL RECOMMENDATION');
+    var editorial = report.editorial_recommendation || {};
+    lines.push(editorial.decision || '');
+    lines.push(editorial.rationale || '');
+    clasrDownloadBlob(new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' }), clasrSlugify((report.manuscript && report.manuscript.title) || data.title) + '-reviewer.txt');
+  };
+
+  var clasrExportReviewerDocx = function(report, data) {
+    return clasrLoadDocxLib().then(function(docx) {
+      var children = [];
+      children.push(new docx.Paragraph({ text: (report.manuscript && report.manuscript.title) || data.title || 'Clasr Signal Report', heading: docx.HeadingLevel.TITLE }));
+      var qs = report.quick_scan || {};
+      children.push(new docx.Paragraph({ text: 'Quick scan', heading: docx.HeadingLevel.HEADING_2 }));
+      children.push(new docx.Paragraph({ children: [new docx.TextRun('Editorial recommendation: ' + (qs.editorial_recommendation || ''))] }));
+      children.push(new docx.Paragraph({ children: [new docx.TextRun('Risk level: ' + (qs.risk_level || ''))] }));
+      (qs.key_issues || []).forEach(function(item) { children.push(new docx.Paragraph({ text: item.text + (item.major_issue_ref ? ' (Major Issue ' + item.major_issue_ref + ')' : ''), bullet: { level: 0 } })); });
+      var ca = report.comments_to_authors || {};
+      children.push(new docx.Paragraph({ text: '1.1 General evaluation', heading: docx.HeadingLevel.HEADING_2 }));
+      children.push(new docx.Paragraph({ children: [new docx.TextRun(ca.general_evaluation || '')] }));
+      children.push(new docx.Paragraph({ text: '1.2 Major issues', heading: docx.HeadingLevel.HEADING_2 }));
+      (ca.major_issues || []).forEach(function(issue) {
+        children.push(new docx.Paragraph({ text: '(' + issue.id + ') ' + issue.issue + ' [' + issue.severity + ']', heading: docx.HeadingLevel.HEADING_3 }));
+        children.push(new docx.Paragraph({ children: [new docx.TextRun('In: ' + (issue.location || []).join(', '))] }));
+        children.push(new docx.Paragraph({ children: [new docx.TextRun('Why it matters: ' + issue.why_it_matters)] }));
+        children.push(new docx.Paragraph({ children: [new docx.TextRun('What authors should address: ' + issue.what_authors_should_address)] }));
+      });
+      (ca.sections || []).forEach(function(section) {
+        children.push(new docx.Paragraph({ text: section.number + ' ' + clasrJsonCleanText(section.title), heading: docx.HeadingLevel.HEADING_2 }));
+        (section.compliance_items || []).forEach(function(c) { children.push(new docx.Paragraph({ children: [new docx.TextRun(c.label + ': ' + c.status)] })); });
+        if (section.status === 'no_issues_identified' && (!section.items || !section.items.length)) {
+          children.push(new docx.Paragraph({ children: [new docx.TextRun('No issues identified.')] }));
+        } else {
+          (section.items || []).forEach(function(item) { children.push(new docx.Paragraph({ children: [new docx.TextRun(item.text + (item.major_issue_ref ? ' (Major Issue ' + item.major_issue_ref + ')' : ''))] })); });
+        }
+      });
+      children.push(new docx.Paragraph({ text: 'Confidential comments to the editor', heading: docx.HeadingLevel.HEADING_2 }));
+      children.push(new docx.Paragraph({ children: [new docx.TextRun(report.confidential_comments_to_editor || '')] }));
+      var editorial = report.editorial_recommendation || {};
+      children.push(new docx.Paragraph({ text: 'Editorial recommendation', heading: docx.HeadingLevel.HEADING_2 }));
+      children.push(new docx.Paragraph({ children: [new docx.TextRun({ text: editorial.decision || '', bold: true })] }));
+      children.push(new docx.Paragraph({ children: [new docx.TextRun(editorial.rationale || '')] }));
+      var doc = new docx.Document({ sections: [{ children: children }] });
+      return docx.Packer.toBlob(doc);
+    }).then(function(blob) {
+      clasrDownloadBlob(blob, clasrSlugify((report.manuscript && report.manuscript.title) || data.title) + '-reviewer.docx');
+    }).catch(function() {
+      clasrExportReviewerTxt(report, data);
+    });
+  };
+
+  // ── Mode switcher (2026-08-28) ───────────────────────────────────────────
+  var CLASR_MODE_LABELS = {
+    author: { title: 'Author Mode', desc: 'What surfaced, why, and what to consider.' },
+    reviewer: { title: 'Reviewer Mode', desc: 'Peer-review style report for an editor.' },
+    advisor: { title: 'Advisor Mode', desc: 'Ranked priorities for a mentor or advisor.' },
+  };
+
+  var clasrRenderModeSwitch = function(data, onSwitch) {
+    var nav = document.querySelector('[data-mode-switch]');
+    var optionsNode = nav && nav.querySelector('.live-report__mode-options');
+    if (!nav || !optionsNode) return;
+    nav.hidden = false;
+    optionsNode.innerHTML = Object.keys(CLASR_MODE_LABELS).map(function(mode) {
+      var meta = CLASR_MODE_LABELS[mode];
+      var isActive = data.mode === mode;
+      return '<button type="button" class="live-report__mode-option' + (isActive ? ' is-active' : '') + '" data-mode-option="' + mode + '"' + (isActive ? ' disabled' : '') + '>' +
+        '<strong>' + escapeHtml(meta.title) + '</strong><span>' + escapeHtml(meta.desc) + '</span>' +
+      '</button>';
+    }).join('');
+    optionsNode.querySelectorAll('[data-mode-option]').forEach(function(btn) {
+      btn.addEventListener('click', function() { onSwitch(btn.getAttribute('data-mode-option')); });
+    });
+  };
+
   var clasrShowReportError = function(message) {
     var rb = document.querySelector('.reading-report-body');
     if (rb) rb.innerHTML = '<div class="api-report"><p class="report-closing-note">' + escapeHtml(message) + '</p></div>';
@@ -2587,6 +2791,105 @@ setupResponsiveReports();
 
   var reportId = new URLSearchParams(window.location.search).get('id');
   if (reportId) {
+    var clasrApplyReadingData = function(data) {
+      document.title = (data.title || 'Signal Report') + ' — Clasr';
+      var tl = document.querySelector('.report-topline');
+      if (tl) {
+        var spans = tl.querySelectorAll('span:not(.section-eyebrow)');
+        var vals = [(data.studyType||'Quantitative').charAt(0).toUpperCase()+(data.studyType||'Quantitative').slice(1), data.qProfile||'Q1', (data.mode||'author').charAt(0).toUpperCase()+(data.mode||'author').slice(1)+' Mode'];
+        spans.forEach(function(s,i) { if (vals[i]) s.textContent = vals[i]; });
+        var h1 = tl.querySelector('h1'); if (h1) h1.textContent = data.title || 'Signal Report';
+      }
+      var ms = document.querySelectorAll('.signal-metrics div strong');
+      if (ms.length >= 3 && data.severity) { ms[0].textContent=String(data.severity.critical||0); ms[1].textContent=String(data.severity.major||0); ms[2].textContent=String(data.severity.minor||0); }
+
+      var jsonNode = document.querySelector('[data-json-report]');
+      var textNode = document.querySelector('[data-text-report]');
+      var authorView = document.querySelector('[data-author-view]');
+      var reviewerView = document.querySelector('[data-reviewer-view]');
+
+      // Export buttons get re-bound every time a mode switch re-renders --
+      // clone-and-replace clears any listener from a previous mode so clicks
+      // don't stack across Author -> Reviewer -> Author, etc.
+      var exportBtns = [];
+      document.querySelectorAll('[data-export-report]').forEach(function(btn) {
+        var clone = btn.cloneNode(true);
+        btn.parentNode.replaceChild(clone, btn);
+        exportBtns.push(clone);
+      });
+
+      if (data.mode === 'author' && data.reportJson) {
+        if (jsonNode) jsonNode.hidden = false;
+        if (textNode) textNode.hidden = true;
+        if (authorView) authorView.hidden = false;
+        if (reviewerView) reviewerView.hidden = true;
+        clasrRenderJsonReport(data.reportJson);
+        exportBtns.forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var kind = btn.getAttribute('data-export-report');
+            if (kind === 'txt') clasrExportJsonTxt(data.reportJson, data);
+            else if (kind === 'pdf') window.print();
+            else if (kind === 'docx') clasrExportJsonDocx(data.reportJson, data);
+          });
+        });
+      } else if (data.mode === 'reviewer' && data.reportJson) {
+        if (jsonNode) jsonNode.hidden = false;
+        if (textNode) textNode.hidden = true;
+        if (authorView) authorView.hidden = true;
+        if (reviewerView) reviewerView.hidden = false;
+        clasrRenderReviewerJsonReport(data.reportJson);
+        exportBtns.forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var kind = btn.getAttribute('data-export-report');
+            if (kind === 'txt') clasrExportReviewerTxt(data.reportJson, data);
+            else if (kind === 'pdf') window.print();
+            else if (kind === 'docx') clasrExportReviewerDocx(data.reportJson, data);
+          });
+        });
+      } else {
+        if (jsonNode) jsonNode.hidden = true;
+        if (textNode) textNode.hidden = false;
+        var parsed = clasrParseReport(data.report || '');
+        if (textNode && data.report) {
+          textNode.innerHTML = clasrRenderReportHtml(parsed, data);
+        }
+        exportBtns.forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var kind = btn.getAttribute('data-export-report');
+            if (kind === 'txt') clasrExportTxt(data);
+            else if (kind === 'pdf') window.print();
+            else if (kind === 'docx') clasrExportDocx(data, parsed);
+          });
+        });
+      }
+
+      clasrRenderModeSwitch(data, function(targetMode) {
+        if (targetMode === data.mode) return;
+        var optionsNode = document.querySelector('[data-mode-switch] .live-report__mode-options');
+        var resetButtons = function() {
+          if (!optionsNode) return;
+          optionsNode.querySelectorAll('[data-mode-option]').forEach(function(b) {
+            b.disabled = data.mode === b.getAttribute('data-mode-option');
+          });
+        };
+        if (optionsNode) optionsNode.querySelectorAll('[data-mode-option]').forEach(function(b) { b.disabled = true; });
+        apiFetch('/api/readings/' + reportId + '/mode/' + targetMode).then(function(res) {
+          if (!res || !res.ok) return null;
+          return res.json();
+        }).then(function(result) {
+          if (!result || result.error) { resetButtons(); return; }
+          var nextData = Object.assign({}, data, { mode: targetMode });
+          if (targetMode === 'author' || targetMode === 'reviewer') {
+            nextData.reportJson = result.report;
+          } else {
+            nextData.reportJson = null;
+            nextData.report = result.report;
+          }
+          clasrApplyReadingData(nextData);
+        }).catch(resetButtons);
+      });
+    };
+
     apiFetch('/api/readings/' + reportId).then(function(res) {
       if (res && res.status === 429) {
         clasrShowReportError('This page is refreshing too quickly and hit a rate limit. Please wait a moment, then reload this page.');
@@ -2603,48 +2906,7 @@ setupResponsiveReports();
         clasrShowReportError('This reading could not be found for your account. If you followed a link from another account, log in as that account to view it.');
         return;
       }
-      document.title = (data.title || 'Signal Report') + ' — Clasr';
-      var tl = document.querySelector('.report-topline');
-      if (tl) {
-        var spans = tl.querySelectorAll('span:not(.section-eyebrow)');
-        var vals = [(data.studyType||'Quantitative').charAt(0).toUpperCase()+(data.studyType||'Quantitative').slice(1), data.qProfile||'Q1', (data.mode||'author').charAt(0).toUpperCase()+(data.mode||'author').slice(1)+' Mode'];
-        spans.forEach(function(s,i) { if (vals[i]) s.textContent = vals[i]; });
-        var h1 = tl.querySelector('h1'); if (h1) h1.textContent = data.title || 'Signal Report';
-      }
-      var ms = document.querySelectorAll('.signal-metrics div strong');
-      if (ms.length >= 3 && data.severity) { ms[0].textContent=String(data.severity.critical||0); ms[1].textContent=String(data.severity.major||0); ms[2].textContent=String(data.severity.minor||0); }
-
-      var jsonNode = document.querySelector('[data-json-report]');
-      var textNode = document.querySelector('[data-text-report]');
-
-      if (data.reportJson) {
-        if (jsonNode) jsonNode.hidden = false;
-        if (textNode) textNode.hidden = true;
-        clasrRenderJsonReport(data.reportJson);
-
-        document.querySelectorAll('[data-export-report]').forEach(function(btn) {
-          btn.addEventListener('click', function() {
-            var kind = btn.getAttribute('data-export-report');
-            if (kind === 'txt') clasrExportJsonTxt(data.reportJson, data);
-            else if (kind === 'pdf') window.print();
-            else if (kind === 'docx') clasrExportJsonDocx(data.reportJson, data);
-          });
-        });
-      } else {
-        var parsed = clasrParseReport(data.report || '');
-        if (textNode && data.report) {
-          textNode.innerHTML = clasrRenderReportHtml(parsed, data);
-        }
-
-        document.querySelectorAll('[data-export-report]').forEach(function(btn) {
-          btn.addEventListener('click', function() {
-            var kind = btn.getAttribute('data-export-report');
-            if (kind === 'txt') clasrExportTxt(data);
-            else if (kind === 'pdf') window.print();
-            else if (kind === 'docx') clasrExportDocx(data, parsed);
-          });
-        });
-      }
+      clasrApplyReadingData(data);
     }).catch(function() {
       clasrShowReportError('This reading could not be loaded. Please try again in a moment.');
     });

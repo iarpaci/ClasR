@@ -290,4 +290,196 @@ async function reformatReportAuthorJson({ mainReport }) {
   };
 }
 
-module.exports = { analyzeManuscript, reformatReport, reformatReportAuthorJson };
+// JSON schema for the Reviewer Mode render (2026-08-28) -- a peer-review
+// style report with stable cross-referenced "Major Issue (a/b/c...)" IDs so
+// later sections can point back at a full issue instead of repeating it.
+// "exports" (pdf/docx/txt) is deliberately not part of the schema -- like
+// Author Mode, exports are built client-side from the JSON, not generated
+// by the model. Every section in comments_to_authors.sections carries a
+// "compliance_items" array even though only section 1.7 populates it --
+// strict JSON schema applies one item shape to every array element, so the
+// alternative would be a separate schema per section, which output_config
+// doesn't support for a single array.
+const REVIEWER_JSON_SCHEMA = {
+  type: 'object',
+  additionalProperties: false,
+  required: [
+    'report_status', 'mode', 'study_type', 'q_profile', 'manuscript',
+    'quick_scan', 'comments_to_authors', 'confidential_comments_to_editor',
+    'editorial_recommendation', 'cross_references',
+  ],
+  properties: {
+    report_status: { type: 'string' },
+    mode: { type: 'string', enum: ['reviewer'] },
+    study_type: { type: 'string' },
+    q_profile: {
+      type: 'object', additionalProperties: false,
+      required: ['estimate', 'applied', 'basis'],
+      properties: { estimate: { type: 'string' }, applied: { type: 'string' }, basis: { type: 'string' } },
+    },
+    manuscript: {
+      type: 'object', additionalProperties: false,
+      required: ['title', 'field', 'identifier'],
+      properties: { title: { type: 'string' }, field: { type: 'string' }, identifier: { type: 'string' } },
+    },
+    quick_scan: {
+      type: 'object', additionalProperties: false,
+      required: ['editorial_recommendation', 'risk_level', 'key_issues'],
+      properties: {
+        editorial_recommendation: { type: 'string', enum: ['Reject', 'Major Revision', 'Minor Revision'] },
+        risk_level: { type: 'string', enum: ['Low', 'Moderate', 'Moderate-Elevated', 'High'] },
+        key_issues: {
+          type: 'array',
+          items: {
+            type: 'object', additionalProperties: false,
+            required: ['text', 'major_issue_ref'],
+            properties: { text: { type: 'string' }, major_issue_ref: { type: 'string' } },
+          },
+        },
+      },
+    },
+    comments_to_authors: {
+      type: 'object', additionalProperties: false,
+      required: ['general_evaluation', 'major_issues', 'sections'],
+      properties: {
+        general_evaluation: { type: 'string' },
+        major_issues: {
+          type: 'array',
+          items: {
+            type: 'object', additionalProperties: false,
+            required: ['id', 'issue', 'severity', 'location', 'why_it_matters', 'what_authors_should_address'],
+            properties: {
+              id: { type: 'string' },
+              issue: { type: 'string' },
+              severity: { type: 'string', enum: ['High', 'Moderate', 'Minor'] },
+              location: { type: 'array', items: { type: 'string' } },
+              why_it_matters: { type: 'string' },
+              what_authors_should_address: { type: 'string' },
+            },
+          },
+        },
+        sections: {
+          type: 'array',
+          items: {
+            type: 'object', additionalProperties: false,
+            required: ['number', 'title', 'status', 'items', 'compliance_items'],
+            properties: {
+              number: { type: 'string' },
+              title: { type: 'string' },
+              status: { type: 'string', enum: ['issues_identified', 'no_issues_identified'] },
+              items: {
+                type: 'array',
+                items: {
+                  type: 'object', additionalProperties: false,
+                  required: ['text', 'major_issue_ref'],
+                  properties: { text: { type: 'string' }, major_issue_ref: { type: 'string' } },
+                },
+              },
+              compliance_items: {
+                type: 'array',
+                items: {
+                  type: 'object', additionalProperties: false,
+                  required: ['label', 'status'],
+                  properties: {
+                    label: { type: 'string' },
+                    status: { type: 'string', enum: ['Present', 'Absent', 'Partial', 'Not applicable'] },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    confidential_comments_to_editor: { type: 'string' },
+    editorial_recommendation: {
+      type: 'object', additionalProperties: false,
+      required: ['decision', 'rationale'],
+      properties: {
+        decision: { type: 'string', enum: ['Reject', 'Major Revision', 'Minor Revision'] },
+        rationale: { type: 'string' },
+      },
+    },
+    cross_references: {
+      type: 'array',
+      items: {
+        type: 'object', additionalProperties: false,
+        required: ['source_text', 'target_id'],
+        properties: { source_text: { type: 'string' }, target_id: { type: 'string' } },
+      },
+    },
+  },
+};
+
+const REVIEWER_JSON_MAPPING_INSTRUCTIONS = `Output your Reviewer Mode response as JSON matching the schema. This mode is a peer-review style report for an editor/reviewer audience, not the author. Follow these rules:
+- If a subsection has no substantive finding, set its status to "no_issues_identified" and leave "items" as an empty array -- do not pad it with commentary.
+- Never repeat an issue in full in two places. Give each major issue a stable lowercase id ("a", "b", "c", ...) in comments_to_authors.major_issues, then reference it elsewhere via that entry's "major_issue_ref" field (just the letter, e.g. "a") instead of re-explaining it. Use "" for major_issue_ref when a point does not correspond to any major issue.
+- "location" arrays must contain bare section names only ("Introduction", "§2.5.2", "Discussion"), never phrases like "In the Introduction" or "See above".
+- Keep every field to 1-2 sentences. No throat-clearing, no "it is worth noting that". Restrained, professional, reviewer tone -- never overpraise. Avoid em dashes.
+- Never include internal CLASR module codes, numeric confidence values, raw ALL_CAPS signal names, or underscores in user-facing text.
+- comments_to_authors.sections must contain exactly these 10 entries, in this order, with these exact numbers and titles:
+  1.3 Internal Inconsistencies and Contradictions -- reference only, do not re-explain a Major Issue already covered
+  1.4 Title, Abstract, Aim, and Contribution -- one sentence unless there is a real mismatch, then cite the ref
+  1.5 Literature Review Issues -- one line unless something exists beyond the Major Issues
+  1.6 Methodology Issues -- one line unless something exists beyond the Major Issues
+  1.7 Ethical and Transparency Issues -- populate "compliance_items" with exactly these seven labels: Ethics approval, Informed consent, Funding, Competing interests, Data availability, Code availability, AI disclosure; leave "items" empty unless there is a real problem
+  1.8 Results and Discussion Issues -- one line if already covered
+  1.9 Tables, Figures, and Graphs -- one line if no mismatch found
+  1.10 Implications and Limitations -- reference a Major Issue where applicable
+  1.11 Citation and Reference Problems -- "no_issues_identified" with empty items unless problems exist
+  1.12 Writing and Formatting Issues -- "no_issues_identified" with empty items unless there are substantive readability problems
+  Every section except 1.7 must have "compliance_items" as an empty array; 1.7 is the only one that populates it.
+- quick_scan.key_issues: 2-3 of the most important issues, each citing major_issue_ref when it corresponds to a Major Issue.
+- editorial_recommendation must be exactly one of Reject, Major Revision, or Minor Revision -- both the quick_scan string and the top-level object's "decision" must agree.
+- confidential_comments_to_editor: one paragraph covering editorial risk, whether problems are remediable, and what the editor should watch for, citing a Major Issue ref where relevant.
+- cross_references: for every place you write "Major Issue (x)" anywhere in the JSON text, add one entry {"source_text": "Major Issue (x)", "target_id": "major-issue-x"}.
+- Preserve every substantive issue from the source report -- brevity applies only to sections with nothing substantive to add.`;
+
+// Reviewer Mode only for now (2026-08-28), alongside Author Mode -- Advisor
+// Mode still goes through the text-based reformatReport() below since it has
+// no validated JSON schema yet.
+async function reformatReportReviewerJson({ mainReport }) {
+  const systemPrompt = assembleReformatPrompt();
+  const userMessage = `reviewer mode\n\n${REVIEWER_JSON_MAPPING_INSTRUCTIONS}\n\nThe text below is a complete CLASR report already produced by the full detection pipeline. It is not a manuscript -- do not analyze it as one. Convert it into the JSON structure above, preserving every substantive issue it already contains (zero data loss).\n\n---\n\n${mainReport}`;
+
+  const response = await client.messages.create({
+    model: MODEL,
+    max_tokens: MAX_TOKENS,
+    temperature: 0.2,
+    system: [
+      {
+        type: 'text',
+        text: systemPrompt,
+        cache_control: { type: 'ephemeral' },
+      },
+    ],
+    output_config: {
+      format: { type: 'json_schema', schema: REVIEWER_JSON_SCHEMA },
+    },
+    messages: [{ role: 'user', content: userMessage }],
+  });
+
+  if (response.stop_reason === 'max_tokens') {
+    console.warn('[claude] reformatReportReviewerJson response truncated at max_tokens.');
+  }
+
+  let parsed = null;
+  try {
+    parsed = JSON.parse(response.content[0].text);
+  } catch (err) {
+    console.error('[claude] reformatReportReviewerJson: failed to parse JSON output:', err.message);
+  }
+
+  return {
+    report: parsed,
+    truncated: response.stop_reason === 'max_tokens',
+    usage: {
+      input_tokens: response.usage.input_tokens,
+      output_tokens: response.usage.output_tokens,
+      cache_read_input_tokens: response.usage.cache_read_input_tokens || 0,
+      cache_creation_input_tokens: response.usage.cache_creation_input_tokens || 0,
+    },
+  };
+}
+
+module.exports = { analyzeManuscript, reformatReport, reformatReportAuthorJson, reformatReportReviewerJson };

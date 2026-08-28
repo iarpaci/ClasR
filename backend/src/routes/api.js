@@ -13,7 +13,7 @@ const dbReadClient = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY,
   { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } }
 );
-const { analyzeManuscript, reformatReport, reformatReportAuthorJson } = require('../services/claude');
+const { analyzeManuscript, reformatReport, reformatReportAuthorJson, reformatReportReviewerJson } = require('../services/claude');
 const { extractText } = require('../services/fileParser');
 const { runConsistent } = require('../services/clasr-engine/consistency');
 const { atomicConsumeCredit } = require('../services/credits');
@@ -354,11 +354,12 @@ router.get('/readings/:id', requireAuth, async (req, res, next) => {
       qProfile: data.q_variant || 'Q1',
       severity: { critical: data.critical_count || 0, major: data.major_count || 0, minor: data.minor_count || 0 },
       report: data.report,
-      // Structured Author Mode render (2026-08-24) — present only once
-      // mode_reports.author has been populated (initial generation or a
-      // later GET /readings/:id/mode/author call); the frontend prefers
-      // this over parsing `report` as text when it's present.
-      reportJson: mode === 'author' ? (data.mode_reports?.author || null) : null,
+      // Structured Author/Reviewer Mode render (2026-08-24, extended
+      // 2026-08-28) — present only once mode_reports.<mode> has been
+      // populated (initial generation or a later GET /readings/:id/mode/:mode
+      // call); the frontend prefers this over parsing `report` as text when
+      // it's present. Advisor Mode has no JSON schema yet, still text-only.
+      reportJson: ['author', 'reviewer'].includes(mode) ? (data.mode_reports?.[mode] || null) : null,
       createdAt: data.created_at,
     });
   } catch (err) { next(err); }
@@ -397,6 +398,10 @@ router.get('/readings/:id/mode/:mode', requireAuth, async (req, res, next) => {
     let reportOut;
     if (mode === 'author') {
       const reformatted = await reformatReportAuthorJson({ mainReport: data.main_report });
+      if (!reformatted.report) return res.status(502).json({ error: 'Could not generate this mode. Please try again.' });
+      reportOut = reformatted.report;
+    } else if (mode === 'reviewer') {
+      const reformatted = await reformatReportReviewerJson({ mainReport: data.main_report });
       if (!reformatted.report) return res.status(502).json({ error: 'Could not generate this mode. Please try again.' });
       reportOut = reformatted.report;
     } else {
@@ -460,23 +465,25 @@ router.post('/readings/start', requireAuth, handleUpload, async (req, res, next)
         });
         const mainReport = result.report;
 
-        // Author Mode (2026-08-24): the live report page now renders a
-        // structured JSON shape (see claude.js's reformatReportAuthorJson +
-        // AUTHOR_JSON_SCHEMA), not labeled text -- eliminates the whole
-        // class of "parser guessed the section boundary wrong" bugs that
-        // came up repeatedly building the text-based renderer. Signal/
-        // Advisor Mode don't have a validated JSON schema yet, so they
-        // still go through the text-based reformatReport() below.
+        // Author/Reviewer Mode (2026-08-24, extended 2026-08-28): the live
+        // report page now renders a structured JSON shape (see claude.js's
+        // reformatReportAuthorJson/reformatReportReviewerJson), not labeled
+        // text -- eliminates the whole class of "parser guessed the section
+        // boundary wrong" bugs that came up repeatedly building the
+        // text-based renderer. Advisor Mode has no validated JSON schema
+        // yet, so it still goes through the text-based reformatReport()
+        // below.
         let reportText = mainReport;
         let modeReportsSeed = {};
         try {
-          if (outputMode === 'author') {
-            const reformatted = await reformatReportAuthorJson({ mainReport });
+          if (outputMode === 'author' || outputMode === 'reviewer') {
+            const reformatFn = outputMode === 'author' ? reformatReportAuthorJson : reformatReportReviewerJson;
+            const reformatted = await reformatFn({ mainReport });
             if (reformatted.report) {
               reportText = JSON.stringify(reformatted.report);
-              modeReportsSeed = { author: reformatted.report };
+              modeReportsSeed = { [outputMode]: reformatted.report };
             } else {
-              console.error('[api] reformatReportAuthorJson returned unparseable JSON, falling back to main report');
+              console.error(`[api] reformatReport${outputMode === 'author' ? 'Author' : 'Reviewer'}Json returned unparseable JSON, falling back to main report`);
             }
           } else {
             const reformatted = await reformatReport({ mainReport, outputMode });

@@ -26839,3 +26839,267 @@ body.theme-night .live-report {
     break-after: avoid;
   }
 }
+
+/* ── Reviewer Mode + mode switcher (2026-08-28) ──────────────────────── */
+.live-report__mode-switch {
+  margin: 28px auto 34px;
+  max-width: 1120px;
+}
+
+.live-report__mode-switch p {
+  margin: 0 0 10px;
+  color: var(--live-muted);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.live-report__mode-options {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.live-report__mode-option {
+  min-width: 170px;
+  border: 1px solid var(--live-line);
+  padding: 12px 14px;
+  color: var(--live-ink);
+  text-decoration: none;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+
+.live-report__mode-option:hover {
+  box-shadow: inset 0 0 0 1px var(--live-ink);
+  text-decoration: none;
+}
+
+.live-report__mode-option.is-active {
+  border-color: var(--live-red);
+}
+
+.live-report__mode-option[disabled] {
+  opacity: .45;
+  cursor: default;
+}
+
+.live-report__mode-option strong {
+  display: block;
+  font-size: 14px;
+  color: var(--live-ink);
+}
+
+.live-report__mode-option span {
+  display: block;
+  margin-top: 3px;
+  color: var(--live-muted);
+  font-size: 12px;
+}
+
+.live-reviewer-quick,
+.live-reviewer-doc {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 28px 0;
+}
+
+.live-kicker {
+  color: var(--live-ink);
+  font-size: 12px;
+  font-weight: 850;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.live-reviewer-quick__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin: 14px 0 18px;
+}
+
+.live-reviewer-quick__grid div {
+  border-top: 1px solid var(--live-line);
+  padding-top: 12px;
+}
+
+.live-reviewer-quick__grid span {
+  display: block;
+  color: var(--live-muted);
+  font-size: 12px;
+}
+
+.live-reviewer-quick__grid strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 18px;
+  color: var(--live-ink);
+}
+
+.live-reviewer-quick__list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-left: 22px;
+  color: var(--live-ink);
+  font-size: 14.5px;
+  line-height: 1.55;
+}
+
+.live-reviewer-doc__section {
+  border-top: 1px solid var(--live-line);
+  padding: 24px 0;
+}
+
+.live-reviewer-doc__section h3 {
+  margin: 0 0 12px;
+  color: var(--live-muted);
+  font-size: 13px;
+  font-weight: 850;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.live-reviewer-doc__section p {
+  margin: 8px 0;
+  color: var(--live-ink);
+  font-size: 14.5px;
+  line-height: 1.58;
+}
+
+.live-reviewer-issues {
+  display: grid;
+  gap: 18px;
+}
+
+.live-reviewer-issue {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) auto;
+  gap: 10px 18px;
+  border-top: 1px solid var(--live-line);
+  padding: 18px 0 20px;
+}
+
+.live-reviewer-issue__index {
+  color: var(--live-muted);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.live-reviewer-issue__title {
+  margin: 0;
+  color: var(--live-ink);
+  font-family: inherit;
+  font-size: 14.5px;
+  font-weight: 700;
+  line-height: 1.42;
+}
+
+.live-reviewer-issue__location {
+  display: block;
+  margin: 6px 0 0;
+  color: #8f8982;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.live-reviewer-issue__location-label {
+  margin-right: 4px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.live-reviewer-issue__severity {
+  align-self: start;
+  border: 1px solid var(--live-line);
+  padding: 5px 9px;
+  font-size: 11px;
+  font-weight: 850;
+}
+
+.live-reviewer-issue__severity--high {
+  border-color: rgba(163, 38, 66, .42);
+  color: var(--live-red);
+  background: rgba(163, 38, 66, .06);
+}
+
+.live-reviewer-issue__severity--moderate {
+  border-color: rgba(130, 104, 76, .34);
+  color: #6f5540;
+  background: rgba(130, 104, 76, .06);
+}
+
+.live-reviewer-issue__severity--minor {
+  border-color: rgba(76, 112, 92, .34);
+  color: #4b745f;
+  background: rgba(76, 112, 92, .06);
+}
+
+.live-reviewer-issue__fields {
+  display: grid;
+  grid-column: 2 / -1;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.live-reviewer-issue__fields strong {
+  display: block;
+  margin-bottom: 5px;
+  color: #8f8982;
+  font-size: 12px;
+}
+
+.live-reviewer-issue__fields span {
+  color: var(--live-ink);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.live-reviewer-anchor {
+  color: inherit;
+  text-decoration: none;
+}
+
+.live-reviewer-anchor:hover {
+  color: var(--live-red);
+  text-decoration: none;
+}
+
+.live-reviewer-issue:target {
+  outline: 1px solid rgba(163, 38, 66, .32);
+  outline-offset: 8px;
+  scroll-margin-top: 150px;
+}
+
+body.theme-night .live-reviewer-issue__severity--moderate {
+  color: #d0a679;
+}
+
+body.theme-night .live-reviewer-issue__severity--minor {
+  color: #7fbf9e;
+}
+
+@media (max-width: 760px) {
+  .live-reviewer-quick__grid,
+  .live-reviewer-issue,
+  .live-reviewer-issue__fields {
+    grid-template-columns: 1fr;
+  }
+
+  .live-reviewer-issue__fields {
+    grid-column: 1;
+  }
+
+  .live-reviewer-issue__severity {
+    width: fit-content;
+  }
+}
+
+@media print {
+  .live-report__mode-switch { display: none !important; }
+  .live-reviewer-issue { break-inside: avoid; }
+}
