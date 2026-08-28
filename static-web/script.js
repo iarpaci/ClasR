@@ -2607,20 +2607,22 @@ setupResponsiveReports();
     var counts = ora.counts || {};
     var manuscript = report.manuscript || {};
     return '<section class="live-report__summary" aria-label="Report summary">' +
-      '<div class="live-report__summary-panel">' +
-        '<span class="live-report__label">Manuscript</span>' +
-        '<h2>' + clasrJsonText(manuscript.title) + '</h2>' +
-        '<p>' + escapeHtml([manuscript.field, manuscript.study_type, manuscript.q_profile].filter(Boolean).join(' · ')) + '</p>' +
+      '<div class="live-report__summary-top">' +
+        '<div class="live-report__summary-panel">' +
+          '<span class="live-report__label">Manuscript</span>' +
+          '<h2>' + clasrJsonText(manuscript.title) + '</h2>' +
+          '<p>' + escapeHtml([manuscript.field, manuscript.study_type, manuscript.q_profile].filter(Boolean).join(' · ')) + '</p>' +
+        '</div>' +
+        '<div class="live-report__summary-panel live-report__counts" aria-label="Signal counts">' +
+          '<div class="live-report__count"><strong>' + (counts.high_priority || 0) + '</strong><span>High Priority</span></div>' +
+          '<div class="live-report__count"><strong>' + (counts.medium_priority || 0) + '</strong><span>Medium Priority</span></div>' +
+          '<div class="live-report__count"><strong>' + (counts.low_priority || 0) + '</strong><span>Low Priority</span></div>' +
+        '</div>' +
       '</div>' +
-      '<div class="live-report__summary-panel">' +
+      '<div class="live-report__summary-panel live-report__attention">' +
         '<span class="live-report__label">Overall Review Attention</span>' +
         '<h2>' + escapeHtml(ora.label || '') + '</h2>' +
         '<p>' + clasrJsonText(ora.summary) + '</p>' +
-      '</div>' +
-      '<div class="live-report__summary-panel live-report__counts" aria-label="Signal counts">' +
-        '<div class="live-report__count"><strong>' + (counts.high_priority || 0) + '</strong><span>High Priority</span></div>' +
-        '<div class="live-report__count"><strong>' + (counts.medium_priority || 0) + '</strong><span>Medium Priority</span></div>' +
-        '<div class="live-report__count"><strong>' + (counts.low_priority || 0) + '</strong><span>Low Priority</span></div>' +
       '</div>' +
     '</section>';
   };

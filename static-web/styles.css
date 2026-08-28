@@ -26407,18 +26407,32 @@ body.theme-night .live-report {
 }
 
 .live-report__summary {
-  display: grid;
-  grid-template-columns: minmax(0, 1.45fr) minmax(280px, .95fr) 160px;
+  display: flex;
+  flex-direction: column;
   gap: 14px;
   margin-top: 20px;
   border: 1px solid var(--live-line);
   padding: 18px;
 }
 
+.live-report__summary-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  gap: 14px;
+}
+
 .live-report__summary-panel {
   min-height: 190px;
   border: 1px solid var(--live-line);
   padding: 24px;
+}
+
+/* Overall Review Attention text length varies a lot report-to-report; as
+   its own full-width row below Manuscript/Counts it can grow freely
+   without stretching (and visually unbalancing) the fixed-height panels
+   next to it. */
+.live-report__attention {
+  min-height: 0;
 }
 
 .live-report__label {
@@ -26738,7 +26752,7 @@ body.theme-night .live-report {
 .live-checklist li span:last-child { color: var(--live-ink); }
 
 @media (max-width: 980px) {
-  .live-report__summary { grid-template-columns: 1fr; }
+  .live-report__summary-top { grid-template-columns: 1fr; }
   .live-report__summary-panel { min-height: auto; }
   .live-report__counts { grid-template-columns: repeat(3, 1fr); border: 1px solid var(--live-line); padding: 0 14px; }
   .live-report__count { grid-template-columns: 1fr; justify-items: center; text-align: center; border-bottom: 0; border-right: 1px solid var(--live-line); }
