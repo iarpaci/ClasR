@@ -20138,7 +20138,11 @@ body.home-page .signal-layout > .signal-samples-link {
 }
 
 .landing-report-frame .signal-summary {
-  grid-template-columns: minmax(0, 1.2fr) minmax(220px, 0.82fr) 150px;
+  /* This mini-demo only ever has 2 children (paper-card + signal-metrics),
+     not 3 -- a 3-column template left the last column empty and skewed
+     the split, which read as the whole row being misaligned. */
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 360px);
+  align-items: stretch;
   gap: 12px;
   padding: 16px;
   border-bottom: 1px solid rgba(44, 38, 32, 0.16);

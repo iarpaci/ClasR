@@ -3061,8 +3061,144 @@ setupResponsiveReports();
     document.querySelectorAll('[data-export-report]').forEach(function(btn) { btn.disabled = true; });
   };
 
-  var reportId = new URLSearchParams(window.location.search).get('id');
-  if (reportId) {
+  var pageParams = new URLSearchParams(window.location.search);
+  var reportId = pageParams.get('id');
+  var isLandingDemo = pageParams.get('demo') === 'landing';
+  // Public, unauthenticated "see it live" demo linked from the landing page
+  // mini-demo (?mode=author|reviewer|editor&demo=landing) -- same report,
+  // rendered through the real Author/Reviewer/Editor renderers below, just
+  // sourced from this embedded object instead of GET /api/readings/:id.
+  // "editor" (the marketing/URL-facing name) maps to "advisor" (the
+  // internal mode key/route param), same as everywhere else in the app.
+  var landingDemoModeAlias = { author: 'author', reviewer: 'reviewer', editor: 'advisor', advisor: 'advisor' };
+  var landingDemoReports = {
+    author: {
+      manuscript: { title: 'Example manuscript reading', field: 'Same manuscript', identifier: '' },
+      field: 'Demo manuscript',
+      study_type: 'Example manuscript reading',
+      q_profile: { estimate: 'Q1 reading' },
+      integrated_risk_posture: {
+        label: 'Moderate',
+        summary: "The demo report shows how Clasr separates claim strength, evidence visibility, and reporting transparency without turning the reading into a verdict.",
+        expanded_explanation: [
+          "This example keeps the content general so the interface is easier to understand before a real manuscript is uploaded.",
+          "The same underlying signal set can be viewed as author-facing guidance, reviewer-facing comments, or editor-facing triage."
+        ]
+      },
+      priority_preview: [
+        "A central claim may need a clearer evidence boundary.",
+        "A method detail may be missing from the visible reporting.",
+        "A conclusion may read more confidently than the body of the manuscript."
+      ],
+      sections: [
+        {
+          section: 0, title: 'Macro Frame', status: 'signal_present',
+          no_issue_line: '',
+          signals: [
+            {
+              name: 'Claim Boundary Needs Clearer Support',
+              what_this_is: "A central claim appears broader than the evidence currently shown in the manuscript.",
+              why_this_becomes_visible: "When the main claim sets the frame for the paper, any missing boundary becomes visible across the abstract, results, and conclusion.",
+              what_you_could_do: [
+                "One option is to narrow the claim to the evidence already shown.",
+                "Another option is to add the missing support and make the boundary explicit."
+              ]
+            }
+          ]
+        }
+      ],
+      section_10: {
+        title: 'Reproducibility and Open Science',
+        modules: [
+          { name: 'Data Availability', status: 'present', what_was_found: 'A data availability statement is present.', why_it_matters: 'This helps the reader understand what can be checked after the report is generated.' },
+          { name: 'Materials and Protocol Transparency', status: 'partial', what_was_found: 'Some process information is visible, but not enough to fully reconstruct the reading path.', why_it_matters: 'Partial transparency leaves the manuscript\'s evidence trail harder to follow.', what_you_could_do: ['Add the missing protocol, criteria, or materials statement if available.'] }
+        ],
+        compound_risk_flag: { triggered: true, explanation: 'A claim boundary issue and a partial transparency issue can reinforce each other when they affect the same central argument.' }
+      },
+      closing: {
+        integrated_risk_posture: {
+          label: 'Moderate',
+          explanation: "This demo is designed to show the shape of a Clasr report rather than the details of a specific manuscript. The report keeps the judgment with the reader while making the manuscript's visible signals easier to scan."
+        }
+      },
+      leverage_note: "The largest improvement would usually come from clarifying the claim boundary and making the supporting method step easier to trace.",
+      final_checklist: [
+        "Check that the main claim matches the evidence actually shown.",
+        "Check that each important method step is visible.",
+        "Check that the conclusion uses the same level of certainty as the results.",
+        "Check that data, materials, and disclosure statements are present where required."
+      ]
+    },
+    reviewer: {
+      mode: 'reviewer',
+      manuscript: { title: 'Example manuscript reading', field: 'Same manuscript', identifier: '' },
+      quick_scan: {
+        editorial_recommendation: 'Minor Revision',
+        risk_level: 'Moderate',
+        key_issues: [
+          { text: 'The central claim is broader than the evidence currently presented.', major_issue_ref: 'a' },
+          { text: 'A methodological step is not fully visible in the reporting.', major_issue_ref: 'b' }
+        ]
+      },
+      comments_to_authors: {
+        general_evaluation: "This example manuscript presents a coherent contribution with a clear structure. The main areas for revision are a claim that reads more broadly than the current evidence supports, and a method step that would benefit from more visible reporting.",
+        major_issues: [
+          { id: 'a', issue: 'Central claim exceeds the evidence shown.', severity: 'Moderate', location: ['Abstract', 'Conclusion'], why_it_matters: "A claim that outruns its support limits how a reader can independently verify the paper's contribution.", what_authors_should_address: 'Narrow the claim to match the evidence, or add the supporting analysis the broader claim would need.' },
+          { id: 'b', issue: 'A method step is under-reported.', severity: 'Minor', location: ['Methods'], why_it_matters: 'Without this detail, the reading path is harder to reconstruct independently.', what_authors_should_address: 'Add the missing protocol or criteria detail, or state explicitly why it does not apply.' }
+        ],
+        sections: [
+          { number: '1.3', title: 'Internal Inconsistencies and Contradictions', status: 'no_issues_identified', items: [] },
+          { number: '1.4', title: 'Title, Abstract, Aim, and Contribution', status: 'issues_identified', items: [{ text: 'The abstract frames the contribution more broadly than the body supports.', major_issue_ref: 'a' }] },
+          { number: '1.5', title: 'Literature Review Issues', status: 'no_issues_identified', items: [] },
+          { number: '1.6', title: 'Methodology Issues', status: 'issues_identified', items: [{ text: 'See Major Issue (b) for the under-reported method step.', major_issue_ref: 'b' }] },
+          { number: '1.7', title: 'Ethical and Transparency Issues', status: 'no_issues_identified', compliance_items: [
+            { label: 'Ethics approval', status: 'Not applicable' },
+            { label: 'Data availability', status: 'Present' },
+            { label: 'AI disclosure', status: 'Not applicable' }
+          ], items: [] },
+          { number: '1.8', title: 'Results and Discussion Issues', status: 'no_issues_identified', items: [] },
+          { number: '1.9', title: 'Tables, Figures, and Graphs', status: 'no_issues_identified', items: [] },
+          { number: '1.10', title: 'Implications and Limitations', status: 'issues_identified', items: [{ text: 'The conclusion carries more certainty than the results section establishes.', major_issue_ref: 'a' }] },
+          { number: '1.11', title: 'Citation and Reference Problems', status: 'no_issues_identified', items: [] },
+          { number: '1.12', title: 'Writing and Formatting Issues', status: 'no_issues_identified', items: [] }
+        ]
+      },
+      confidential_comments_to_editor: "The issues here are remediable with revision. Major Issue (a) is the more consequential of the two, since it touches the paper's central contribution.",
+      editorial_recommendation: { decision: 'Minor Revision', rationale: 'The contribution is sound; the claim scope and one method-reporting gap are the only substantive items to address before this is ready.' }
+    },
+    advisor: {
+      mode: 'advisor',
+      manuscript: { title: 'Example manuscript reading', field: 'Same manuscript', study_type: 'Example manuscript reading', q_profile: 'Q1 reading' },
+      report_meta: { status_label: 'Reading completed', mode_label: 'Editor Mode', report_label: 'Clasr Signal Report' },
+      overall_review_attention: {
+        label: 'Moderate',
+        summary: "Two related gaps limit how confidently the editor can assess this submission: the central claim is broader than the shown evidence, and one method step is under-reported.",
+        counts: { high_priority: 0, medium_priority: 2, low_priority: 0 }
+      },
+      mode_switch: { available_modes: ['Reviewer Mode'], note: 'A Reviewer Mode version of this report is available for subject-expert peer review.' },
+      executive_summary: {
+        risk_label: 'Moderate', view_label: 'Overall Review Attention: MODERATE',
+        decision: 'Minor Revision', is_conditional: false, condition: '',
+        rationale: "The contribution appears sound; the claim scope and one method-reporting gap are the main items limiting a confident assessment right now."
+      },
+      priority_order: [
+        { severity: 'Moderate', title: 'Central claim exceeds the evidence shown' },
+        { severity: 'Moderate', title: 'Method step under-reported' }
+      ],
+      full_report: {
+        red_flags: [
+          { severity: 'Moderate', title: 'Central claim exceeds the evidence shown', location: 'Abstract, Conclusion', why_it_matters: "Limits the editor's ability to confirm the contribution matches what the analysis supports.", editor_action: 'request clarification from authors' },
+          { severity: 'Moderate', title: 'Method step under-reported', location: 'Methods', why_it_matters: "Limits the editor's ability to assess the completeness of the reported process.", editor_action: 'flag for reviewer attention' }
+        ],
+        recommendation: { label: 'Minor Revision', conditional: false, text: 'Minor Revision is recommended. The most consequential item is the claim-evidence gap in the abstract and conclusion.' }
+      },
+      final_checklist: [
+        { text: 'Confirm the abstract\'s claim matches what the results section supports.', kind: 'verification' },
+        { text: 'Confirm whether the missing method detail is available on request.', kind: 'verification' }
+      ]
+    }
+  };
+  if (reportId || isLandingDemo) {
     var clasrApplyReadingData = function(data) {
       document.title = (data.title || 'Signal Report') + ' — Clasr';
       var tl = document.querySelector('.report-topline');
@@ -3173,6 +3309,10 @@ setupResponsiveReports();
         };
         setNote('');
         if (optionsNode) optionsNode.querySelectorAll('[data-mode-option]').forEach(function(b) { b.disabled = true; });
+        if (isLandingDemo) {
+          clasrApplyReadingData(Object.assign({}, data, { mode: targetMode, reportJson: landingDemoReports[targetMode] }));
+          return;
+        }
         apiFetch('/api/readings/' + reportId + '/mode/' + targetMode).then(function(res) {
           if (!res) return null;
           return res.json().catch(function() { return null; }).then(function(body) { return { ok: res.ok, body: body }; });
@@ -3203,26 +3343,36 @@ setupResponsiveReports();
       });
     };
 
-    apiFetch('/api/readings/' + reportId).then(function(res) {
-      if (res && res.status === 429) {
-        clasrShowReportError('This page is refreshing too quickly and hit a rate limit. Please wait a moment, then reload this page.');
-        return 'handled';
-      }
-      if (!res) {
-        clasrShowReportError('Could not reach the server. Please check your connection and reload this page.');
-        return 'handled';
-      }
-      return res.json().catch(function() { return null; });
-    }).then(function(data) {
-      if (data === 'handled') return;
-      if (!data || data.error) {
-        clasrShowReportError('This reading could not be found for your account. If you followed a link from another account, log in as that account to view it.');
-        return;
-      }
-      clasrApplyReadingData(data);
-    }).catch(function() {
-      clasrShowReportError('This reading could not be loaded. Please try again in a moment.');
-    });
+    if (isLandingDemo) {
+      var demoMode = landingDemoModeAlias[pageParams.get('mode')] || 'author';
+      clasrApplyReadingData({
+        id: 'demo', title: 'Example manuscript reading', mode: demoMode,
+        studyType: 'quantitative', qProfile: 'Q1',
+        severity: { critical: 0, major: 1, minor: 1 },
+        report: null, reportJson: landingDemoReports[demoMode], createdAt: new Date().toISOString(),
+      });
+    } else {
+      apiFetch('/api/readings/' + reportId).then(function(res) {
+        if (res && res.status === 429) {
+          clasrShowReportError('This page is refreshing too quickly and hit a rate limit. Please wait a moment, then reload this page.');
+          return 'handled';
+        }
+        if (!res) {
+          clasrShowReportError('Could not reach the server. Please check your connection and reload this page.');
+          return 'handled';
+        }
+        return res.json().catch(function() { return null; });
+      }).then(function(data) {
+        if (data === 'handled') return;
+        if (!data || data.error) {
+          clasrShowReportError('This reading could not be found for your account. If you followed a link from another account, log in as that account to view it.');
+          return;
+        }
+        clasrApplyReadingData(data);
+      }).catch(function() {
+        clasrShowReportError('This reading could not be loaded. Please try again in a moment.');
+      });
+    }
   }
 
   // ── Turn Off History confirmation (2026-08-29) ─────────────────────────────

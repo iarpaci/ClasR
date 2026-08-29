@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Example Signal Report | Clasr</title>
+    <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/styles.css?v=active-nav-1">
+    <script src="/script.js?v=active-nav-1" defer></script>
+  </head>
+  <body class="public-example-report">
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a href="/" aria-label="Clasr home"><img class="logo" src="/assets/brand/logo-primary.svg?v=clean-final-1" alt="Clasr"></a>
+        <nav class="nav-links nav-links--mega" aria-label="Primary navigation">
+          <div class="nav-item"><a href="/features/">Features</a></div>
+          <div class="nav-item"><a href="/resources/signal-architecture/">Resources</a></div>
+          <div class="nav-item"><a href="/pricing/">Pricing</a></div>
+          <div class="nav-item"><a href="/about/">Company</a></div>
+        </nav>
+        <div class="nav-actions">
+          <a class="button button--small" href="/login/">Log In</a>
+          <a class="button button--primary button--small" href="/register/">Register</a>
+        </div>
+        <button class="mobile-toggle" type="button" aria-label="Open menu" aria-expanded="false"><span></span></button>
+      </div>
+    </header>
+
+    <main class="public-report-shell">
+      <section class="dashboard-content dashboard-content--report" aria-labelledby="dashboard-title">
+        <div class="dashboard-inner">
+          <div class="reading-report-top" data-q="q1">
+            <div class="report-topline">
+              <span class="section-eyebrow">EXAMPLE REPORT</span>
+              <span>Quantitative</span><span>Q1</span><span>Author Mode</span>
+              <h1 id="dashboard-title">Clasr Signal Report</h1>
+            </div>
+            <div class="reading-report-actions" aria-label="Download report">
+              <span class="download-label">Export</span>
+              <button type="button" class="download-chip download-chip--primary" data-export-report="pdf">PDF</button>
+              <button type="button" class="download-chip" data-export-report="docx">DOCX</button>
+              <button type="button" class="download-chip" data-export-report="txt">TXT</button>
+            </div>
+          </div>
+
+          <div class="live-report" data-json-report hidden>
+            <nav class="live-report__mode-switch" data-mode-switch aria-label="Switch report mode" hidden>
+              <p>View this report as</p>
+              <div class="live-report__mode-options"></div>
+            </nav>
+
+            <div data-author-view>
+              <section class="live-report__summary" aria-label="Report summary">
+                <div class="live-report__summary-top">
+                  <div class="live-report__summary-panel">
+                    <span class="live-report__label">Manuscript</span>
+                    <h2 data-report-title>Untitled manuscript</h2>
+                    <p data-report-meta></p>
+                  </div>
+                  <div class="live-report__summary-panel live-report__counts" aria-label="Signal counts">
+                    <div class="live-report__count"><strong data-count-critical>0</strong><span>High Priority</span></div>
+                    <div class="live-report__count"><strong data-count-major>0</strong><span>Medium Priority</span></div>
+                    <div class="live-report__count"><strong data-count-minor>0</strong><span>Low Priority</span></div>
+                  </div>
+                </div>
+                <div class="live-report__summary-panel live-report__attention">
+                  <span class="live-report__label">Overall Review Attention</span>
+                  <h2 data-risk-posture></h2>
+                  <p data-risk-summary></p>
+                </div>
+              </section>
+
+              <section class="live-report__mode" aria-label="Selected output mode">
+                <h2><span class="live-report__mode-label">Author Mode</span></h2>
+                <p>This version explains what surfaced, why a reviewer may notice it, and what you could consider before submission. It is not a verdict.</p>
+              </section>
+
+              <section class="live-report__executive" aria-labelledby="executive-summary" data-executive-summary>
+                <h2 id="executive-summary">Executive summary</h2>
+              </section>
+
+              <section class="live-priority live-priority--preview" aria-labelledby="priority-signals" data-priority-signals>
+                <h2 id="priority-signals">Priority action signals preview</h2>
+                <div class="live-priority__grid"></div>
+              </section>
+
+              <section class="live-report-full" aria-label="Full author mode report" data-full-report></section>
+            </div>
+
+            <div data-reviewer-view hidden></div>
+
+            <div data-editor-view hidden></div>
+          </div>
+
+          <div class="reading-report-body" data-text-report>
+            <p class="report-closing-note">Loading example report…</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer id="company" class="footer">
+      <div class="footer__inner">
+        <div class="footer__top">
+          <div>
+            <a class="footer-logo-link" href="/" aria-label="Clasr home"><img class="logo" src="/assets/brand/footer-logo.svg?v=clean-final-1" alt="Clasr"></a>
+            <p class="footer-tag">Manuscript Signal Layer</p>
+          </div>
+          <div class="footer-columns">
+            <section>
+              <h3>Features</h3>
+              <ul>
+                <li><a href="/features/">Signal Mapping</a></li>
+                <li><a href="/features/#argument-chain">Argument Chain</a></li>
+                <li><a href="/features/#desk-reject">Desk-Reject Profile</a></li>
+                <li><a href="/features/#q-calibration">Q-Variant Calibration</a></li>
+                <li><a href="/features/#output-modes">Output Modes</a></li>
+              </ul>
+            </section>
+            <section>
+              <h3>Resources</h3>
+              <ul>
+                <li><a href="/resources/signal-architecture/">Signal Architecture</a></li>
+                <li><a href="/resources/how-it-works/">How It Works</a></li>
+                <li><a href="/faq/">FAQ</a></li>
+              </ul>
+            </section>
+            <section>
+              <h3>Pricing</h3>
+              <ul>
+                <li><a href="/pricing/">Plans</a></li>
+                <li><a href="/enterprise-contact/">For Institutions</a></li>
+                <li><a href="/pricing/#faq">FAQ</a></li>
+              </ul>
+            </section>
+            <section>
+              <h3>Company</h3>
+              <ul>
+                <li><a href="/about/">About</a></li>
+                <li><a href="/contact/">Contact</a></li>
+                <li><a href="/legal/">Legal</a></li>
+              </ul>
+            </section>
+          </div>
+          <p class="footer-operator">Clasr is operated by Hilal Şençelik · © 2026</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
