@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Readings | Clasr</title>
     <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/styles.css?v=compliance-1">
-    <script src="/script.js?v=compliance-1" defer></script>
+    <link rel="stylesheet" href="/styles.css?v=account-fixes-1">
+    <script src="/script.js?v=account-fixes-1" defer></script>
   </head>
   <body>
     <header class="site-header">
@@ -67,8 +67,12 @@
               </div>
             </div>
 
-            <p class="settings-panel__copy" data-example-note>Showing example reports below. Your own manuscript readings will appear here once you upload one.</p>
+            <p class="settings-panel__copy" data-example-note hidden>Showing example reports below. Your own manuscript readings will appear here once you upload one.</p>
             <div class="readings-history__list" data-readings-history-list>
+              <p class="settings-panel__copy" data-readings-loading>Loading your readings…</p>
+            </div>
+
+            <template data-readings-examples>
               <article class="reading-history-card" data-q="q1">
                 <span class="reading-history-card__date">Example</span>
                 <div>
@@ -119,51 +123,16 @@
                   </span>
                 </div>
               </article>
-            </div>
+            </template>
           </section>
         </div>
       </section>
     </main>
-    <script>
-      (function () {
-        const emptyState = document.querySelector("[data-history-empty]");
-        const historyList = document.querySelector("[data-history-list]");
-        const enableButton = document.querySelector("[data-history-enable]");
-        const disableButton = document.querySelector("[data-history-disable]");
-
-        if (!emptyState || !historyList) return;
-
-        const setHistoryState = (isEnabled) => {
-          try {
-            localStorage.setItem("clasr:readingHistoryEnabled", String(isEnabled));
-          } catch {}
-
-          emptyState.hidden = isEnabled;
-          historyList.hidden = !isEnabled;
-        };
-
-        let savedState = true;
-        try {
-          const storedState = localStorage.getItem("clasr:readingHistoryEnabled");
-          savedState = storedState === null ? true : storedState === "true";
-        } catch {}
-
-        setHistoryState(savedState);
-        enableButton?.addEventListener("click", () => setHistoryState(true));
-        disableButton?.addEventListener("click", () => setHistoryState(false));
-      })();
-    </script>
     <footer class="app-footer" aria-label="Workspace footer">
       <div class="app-footer__inner">
-        <strong>Clasr is operated by HİLAL ŞENÇELİK (sole proprietor) · Bursa, Türkiye · © 2026</strong>
+        <strong>Clasr is operated by Hilal Şençelik · © 2026</strong>
         <nav aria-label="Workspace footer links">
-          <a href="/terms/">Terms</a>
-          <a href="/privacy/">Privacy</a>
-          <a href="/refund-policy/">Refund</a>
-          <a href="/cookie-policy/">Cookies</a>
-          <a href="/legal/">Legal</a>
-          <a href="/acceptable-use/">Acceptable Use</a>          <a href="/dashboard/help/">Help</a>
-          <a href="/contact/">Contact</a>
+          <a href="/legal/">Clasr Legal</a>
         </nav>
       </div>
     </footer>

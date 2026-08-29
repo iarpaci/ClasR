@@ -1574,20 +1574,37 @@ document.querySelectorAll(".settings-toggle").forEach((group) => {
     setHistoryStatus(shouldBeOn);
   }
 
+  const markActiveButton = (button) => {
+    group.querySelectorAll("button").forEach((item) => {
+      const isActive = item === button;
+      item.classList.toggle("is-active", isActive);
+      item.setAttribute("aria-pressed", String(isActive));
+    });
+  };
+
+  const commitHistoryState = (button, historyEnabled) => {
+    markActiveButton(button);
+    localStorage.setItem("clasr:readingHistoryEnabled", String(historyEnabled));
+    setHistoryStatus(historyEnabled);
+    renderDashboardRecentBlocks(historyEnabled);
+  };
+
   group.querySelectorAll("button").forEach((button) => {
     button.addEventListener("click", () => {
-      group.querySelectorAll("button").forEach((item) => {
-        const isActive = item === button;
-        item.classList.toggle("is-active", isActive);
-        item.setAttribute("aria-pressed", String(isActive));
-      });
-
-      if (isReadingHistory) {
-        const historyEnabled = button.textContent.trim().toLowerCase() === "on";
-        localStorage.setItem("clasr:readingHistoryEnabled", String(historyEnabled));
-        setHistoryStatus(historyEnabled);
-        renderDashboardRecentBlocks(historyEnabled);
+      if (!isReadingHistory) {
+        markActiveButton(button);
+        return;
       }
+
+      const historyEnabled = button.textContent.trim().toLowerCase() === "on";
+      // Turning history off permanently deletes every saved reading, so it
+      // must go through a warning + password re-check before anything
+      // changes — the button must not flip active until that's confirmed.
+      if (!historyEnabled && typeof window.clasrConfirmTurnOffHistory === "function") {
+        window.clasrConfirmTurnOffHistory(() => commitHistoryState(button, false));
+        return;
+      }
+      commitHistoryState(button, historyEnabled);
     });
   });
 });
@@ -1614,10 +1631,16 @@ if (historyEmpty && historyList) {
     }
   };
 
+  const markActiveHistoryButton = (isEnabled) => {
+    if (historyEnable) { historyEnable.classList.toggle("is-active", isEnabled); historyEnable.setAttribute("aria-pressed", String(isEnabled)); }
+    if (historyDisable) { historyDisable.classList.toggle("is-active", !isEnabled); historyDisable.setAttribute("aria-pressed", String(!isEnabled)); }
+  };
+
   const renderHistoryState = (forcedState) => {
     const isEnabled = typeof forcedState === "boolean" ? forcedState : getHistoryEnabled();
     historyEmpty.hidden = isEnabled;
     historyList.hidden = !isEnabled;
+    markActiveHistoryButton(isEnabled);
   };
 
   document.addEventListener("click", (event) => {
@@ -1635,9 +1658,18 @@ if (historyEmpty && historyList) {
       return;
     }
 
-    setHistoryEnabled(false);
-    renderHistoryState(false);
-    renderDashboardRecentBlocks(false);
+    const commit = () => {
+      setHistoryEnabled(false);
+      renderHistoryState(false);
+      renderDashboardRecentBlocks(false);
+    };
+    // Turning history off permanently deletes every saved reading — must be
+    // confirmed (warning + password re-check) before anything changes.
+    if (typeof window.clasrConfirmTurnOffHistory === "function") {
+      window.clasrConfirmTurnOffHistory(commit);
+      return;
+    }
+    commit();
   });
 
   renderHistoryState();
@@ -1771,13 +1803,22 @@ setupResponsiveReports();
           if (typeof saveStoredProfile === 'function') {
             saveStoredProfile({ firstName: (result.data.user && result.data.user.firstName) || '', lastName: (result.data.user && result.data.user.lastName) || '', email: (result.data.user && result.data.user.email) || String(fd.get('email') || ''), plan: (result.data.user && result.data.user.plan) || 'free' });
           }
-          var hasPreupload = localStorage.getItem('clasr:preuploadName');
-          var hasConfig = localStorage.getItem('clasr:landingConfigComplete') === 'true';
           var pendPlan = null;
           try { pendPlan = localStorage.getItem('clasr:pendingPlan'); } catch (ex) {}
           if (pendPlan) {
             window.location.href = '/checkout/?plan=' + encodeURIComponent(pendPlan) + '&autoopen=1';
+          } else if (formType === 'login') {
+            // An existing account signing in must always land where the
+            // backend says to (honors their real plan/subscription state).
+            // Leftover clasr:preuploadName/landingConfigComplete flags from
+            // an earlier, unrelated guest-upload-then-signup attempt on
+            // this browser are never cleared, so they must never override
+            // a real login's destination — that was sending paid users to
+            // /checkout/ ("Choose a Plan") instead of their dashboard.
+            window.location.href = result.data.nextUrl || '/dashboard/';
           } else {
+            var hasPreupload = localStorage.getItem('clasr:preuploadName');
+            var hasConfig = localStorage.getItem('clasr:landingConfigComplete') === 'true';
             window.location.href = (hasPreupload && hasConfig) ? '/checkout/' : (result.data.nextUrl || '/dashboard/');
           }
         })
@@ -1949,29 +1990,52 @@ setupResponsiveReports();
     var recentGrid = document.querySelector('[data-recent-grid]');
     var readingsHistoryList = document.querySelector('[data-readings-history-list]');
     var sidebarRecentList = document.querySelector('[data-sidebar-recent-list]');
+    var recentViewAll = document.querySelector('[data-recent-view-all]');
+    var recentExamplesTpl = document.querySelector('[data-recent-examples]');
+    var readingsExamplesTpl = document.querySelector('[data-readings-examples]');
     if (recentGrid || readingsHistoryList || sidebarRecentList) {
+      // The demo/example reading cards live in <template> tags (inert, never
+      // painted) rather than as default DOM content — an authenticated user
+      // must never see demo data flash before their real readings (or the
+      // real "no readings yet" state) load in.
+      var showExamples = function(container, tpl) {
+        if (!container || !tpl) return;
+        container.innerHTML = '';
+        container.appendChild(tpl.content.cloneNode(true));
+      };
+      var fallbackToExamples = function() {
+        document.querySelectorAll('[data-example-note]').forEach(function(el) { el.hidden = false; });
+        showExamples(recentGrid, recentExamplesTpl);
+        showExamples(readingsHistoryList, readingsExamplesTpl);
+        if (recentViewAll) recentViewAll.hidden = true;
+      };
       apiFetch('/api/readings').then(function(res) {
         if (!res || !res.ok) {
           // Fetch genuinely failed (network error, rate limit, server error) —
-          // leave the example/demo cards up but flag them as unloaded rather
-          // than letting them silently pass as the user's real reading list.
-          document.querySelectorAll('[data-example-note]').forEach(function(el) { el.hidden = false; });
+          // fall back to example cards but flag them as unloaded rather than
+          // letting them silently pass as the user's real reading list.
+          fallbackToExamples();
           return null;
         }
         return res.json().catch(function() { return null; });
       }).then(function(data) {
-        if (!data || !data.readings || !data.readings.length) return;
+        if (!data || !data.readings) { fallbackToExamples(); return; }
+        if (!data.readings.length) { fallbackToExamples(); return; }
         document.querySelectorAll('[data-example-note]').forEach(function(el) { el.hidden = true; });
         var esc = function(s) { return String(s).replace(/[&<>"']/g, function(c) { return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); };
         var fmtDate = function(iso) { try { var d = new Date(iso), diff = Math.floor((Date.now()-d)/86400000); return diff===0?'Today':diff===1?'Yesterday':d.toLocaleDateString('en-US',{month:'short',day:'numeric'}); } catch(e){return'';} };
         var cardHtml = function(r) { return '<article class="reading-history-card"><span class="reading-history-card__date">'+fmtDate(r.createdAt)+'</span><div><h3>'+esc(r.title)+'</h3><span class="reading-history-card__metrics">'+r.severity.critical+' critical \xb7 '+r.severity.major+' major \xb7 '+r.severity.minor+' minor</span><p>'+esc(r.qProfile)+' \xb7 '+esc(r.mode)+' mode</p></div><div class="reading-history-card__actions"><a class="reading-history-card__action" href="'+esc(r.reportUrl)+'">Open report</a></div></article>'; };
-        var html = data.readings.map(cardHtml).join('');
-        if (recentGrid) recentGrid.innerHTML = html;
-        if (readingsHistoryList) readingsHistoryList.innerHTML = html;
+        if (recentGrid) {
+          // Dashboard home only ever shows the 3 most recent, with a link to
+          // the full Readings page for the rest.
+          recentGrid.innerHTML = data.readings.slice(0, 3).map(cardHtml).join('');
+          if (recentViewAll) recentViewAll.hidden = false;
+        }
+        if (readingsHistoryList) readingsHistoryList.innerHTML = data.readings.map(cardHtml).join('');
         if (sidebarRecentList) {
           sidebarRecentList.innerHTML = data.readings.slice(0,3).map(function(r) { return '<li><a class="sidebar-file" href="'+esc(r.reportUrl)+'"><span class="sidebar-file__name">'+esc(r.title)+'</span><span class="sidebar-file__meta">'+esc(r.qProfile)+' \xb7 '+esc(r.mode)+' \xb7 '+fmtDate(r.createdAt)+'</span></a></li>'; }).join('');
         }
-      }).catch(function() {});
+      }).catch(fallbackToExamples);
     }
   }
 
@@ -3160,6 +3224,75 @@ setupResponsiveReports();
       clasrShowReportError('This reading could not be loaded. Please try again in a moment.');
     });
   }
+
+  // ── Turn Off History confirmation (2026-08-29) ─────────────────────────────
+  // Shared by dashboard/settings/ and dashboard/readings/ — both let a user
+  // flip reading history off, and both must go through this warning +
+  // password re-check before anything is deleted, since it's permanent.
+  window.clasrConfirmTurnOffHistory = function(onConfirmed) {
+    var existing = document.querySelector('[data-history-confirm-modal]');
+    if (existing) existing.remove();
+
+    var overlay = document.createElement('div');
+    overlay.className = 'clasr-modal-overlay';
+    overlay.setAttribute('data-history-confirm-modal', '');
+    overlay.innerHTML =
+      '<div class="clasr-modal" role="dialog" aria-modal="true" aria-labelledby="clasr-history-confirm-title">' +
+        '<h2 id="clasr-history-confirm-title">Turn off reading history?</h2>' +
+        '<p>This will <strong>permanently delete all of your saved manuscript readings</strong>. This action cannot be undone.</p>' +
+        '<label class="clasr-modal__field">' +
+          '<span>Enter your password to confirm</span>' +
+          '<input type="password" data-history-confirm-password autocomplete="current-password">' +
+        '</label>' +
+        '<p class="clasr-modal__error" data-history-confirm-error hidden></p>' +
+        '<div class="clasr-modal__actions">' +
+          '<button type="button" class="button button--ghost" data-history-confirm-cancel>Cancel</button>' +
+          '<button type="button" class="button button--danger" data-history-confirm-submit>Delete everything and turn off</button>' +
+        '</div>' +
+      '</div>';
+    document.body.appendChild(overlay);
+
+    var pwInput = overlay.querySelector('[data-history-confirm-password]');
+    var errEl = overlay.querySelector('[data-history-confirm-error]');
+    var submitBtn = overlay.querySelector('[data-history-confirm-submit]');
+    var cancelBtn = overlay.querySelector('[data-history-confirm-cancel]');
+    var origSubmitText = submitBtn.textContent;
+    pwInput.focus();
+
+    var close = function() { overlay.remove(); };
+    cancelBtn.addEventListener('click', close);
+    overlay.addEventListener('click', function(e) { if (e.target === overlay) close(); });
+    document.addEventListener('keydown', function escHandler(e) {
+      if (e.key === 'Escape') { close(); document.removeEventListener('keydown', escHandler); }
+    });
+
+    var submit = function() {
+      var password = pwInput.value;
+      if (!password) { errEl.textContent = 'Please enter your password.'; errEl.hidden = false; return; }
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Deleting…';
+      errEl.hidden = true;
+      apiFetch('/api/account/history/disable', { method: 'POST', body: JSON.stringify({ password: password }) })
+        .then(function(res) {
+          if (!res) return { ok: false, data: { error: 'Could not reach the server. Please try again.' } };
+          return res.json().catch(function() { return {}; }).then(function(data) { return { ok: res.ok, data: data }; });
+        })
+        .then(function(result) {
+          if (!result.ok || !result.data.success) {
+            errEl.textContent = (result.data && result.data.error) || 'Something went wrong. Please try again.';
+            errEl.hidden = false;
+            submitBtn.disabled = false;
+            submitBtn.textContent = origSubmitText;
+            // Nothing was deleted and history stays on — no state change here.
+            return;
+          }
+          close();
+          onConfirmed();
+        });
+    };
+    submitBtn.addEventListener('click', submit);
+    pwInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') submit(); });
+  };
 
 }());
 

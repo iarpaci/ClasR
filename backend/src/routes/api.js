@@ -307,6 +307,31 @@ router.get('/auth/google/start', async (_req, res, next) => {
   } catch (err) { next(err); }
 });
 
+// ── POST /api/account/history/disable ───────────────────────────────────────
+// Permanently deletes every saved reading for this account. Destructive and
+// irreversible, so it re-verifies the caller's password (a fresh
+// signInWithPassword, not just the bearer token) before touching any data —
+// a stolen/left-open session alone must not be enough to trigger this.
+router.post('/account/history/disable', requireAuth, async (req, res, next) => {
+  try {
+    const { password } = req.body || {};
+    if (!password) return res.status(400).json({ error: 'Password is required' });
+
+    const { error: authError } = await createAuthFlowClient().auth.signInWithPassword({
+      email: req.user.email, password,
+    });
+    if (authError) return res.status(401).json({ error: 'Incorrect password' });
+
+    const { error: deleteError } = await supabase
+      .from('analyses')
+      .delete()
+      .eq('user_id', req.user.id);
+    if (deleteError) return res.status(500).json({ error: 'Failed to delete reading history. Please try again.' });
+
+    res.json({ success: true });
+  } catch (err) { next(err); }
+});
+
 // ── GET /api/plans ──────────────────────────────────────────────────────────
 router.get('/plans', (_req, res) => res.json({ plans: PLANS }));
 

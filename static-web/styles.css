@@ -6507,6 +6507,11 @@ body.features-page .cp-hero--features .cp-hero__sub {
   gap: 16px;
 }
 
+.dash-recent [data-recent-view-all] {
+  display: inline-block;
+  margin-top: 18px;
+}
+
 .recent-card {
   display: block;
   padding: 20px 22px;
@@ -27503,4 +27508,108 @@ body.theme-night .live-editor-red-flag__severity--minor {
 @media print {
   .live-editor-red-flag { break-inside: avoid; }
   .live-editor-flags li { break-inside: avoid; }
+}
+
+/* ── Destructive-action confirmation modal (2026-08-29) ─────────────────── */
+.clasr-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(44, 38, 32, 0.55);
+}
+
+.clasr-modal {
+  width: min(440px, 100%);
+  background: var(--cream);
+  color: var(--petrol);
+  border: 1px solid rgba(44, 38, 32, 0.14);
+  padding: 28px;
+}
+
+.clasr-modal h2 {
+  margin: 0 0 12px;
+  font-family: var(--display);
+  font-size: 20px;
+}
+
+.clasr-modal p {
+  margin: 0 0 16px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: rgba(44, 38, 32, 0.8);
+}
+
+.clasr-modal__field {
+  display: block;
+  margin-bottom: 14px;
+}
+
+.clasr-modal__field span {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.clasr-modal__field input {
+  width: 100%;
+  min-height: 42px;
+  padding: 10px 14px;
+  border: 1px solid rgba(44, 38, 32, 0.24);
+  background: transparent;
+  color: var(--petrol);
+  font: inherit;
+}
+
+.clasr-modal__error {
+  margin: 0 0 14px !important;
+  color: var(--red);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.clasr-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.button--ghost {
+  border-color: rgba(44, 38, 32, 0.24);
+  background: transparent;
+  color: var(--petrol);
+}
+
+.button--danger {
+  border-color: var(--red);
+  background: var(--red);
+  color: var(--cream);
+}
+
+.button--danger:hover,
+.button--danger:focus-visible {
+  border-color: #8f1f38;
+  background: #8f1f38;
+}
+
+body.theme-night .clasr-modal {
+  border-color: rgba(239, 231, 220, 0.18);
+}
+
+body.theme-night .clasr-modal p {
+  color: rgba(239, 231, 220, 0.78);
+}
+
+body.theme-night .clasr-modal__field input {
+  border-color: rgba(239, 231, 220, 0.3);
+  color: var(--petrol);
+}
+
+body.theme-night .button--ghost {
+  border-color: rgba(239, 231, 220, 0.32);
+  color: var(--petrol);
 }

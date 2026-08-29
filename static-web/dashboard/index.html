@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dashboard | Clasr</title>
     <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/styles.css?v=compliance-1">
-    <script src="/script.js?v=compliance-1" defer></script>
+    <link rel="stylesheet" href="/styles.css?v=account-fixes-1">
+    <script src="/script.js?v=account-fixes-1" defer></script>
     <script>
       // Dynamic greeting, runs before paint to avoid flash
       (function () {
@@ -64,13 +64,17 @@
           pool = morningLines;
         } else if (hour >= 12 && hour < 17) {
           pool = afternoonLines;
-        } else if (hour >= 17 && hour < 21) {
+        } else if (hour >= 17 && hour < 22) {
           pool = eveningLines;
         } else {
           pool = nightLines;
         }
 
-        const greeting = pool[Math.floor(Math.random() * pool.length)];
+        // Don't show the same line twice in a row across page loads.
+        const lastGreeting = localStorage.getItem("clasr:lastGreeting");
+        const choices = pool.length > 1 ? pool.filter((line) => line !== lastGreeting) : pool;
+        const greeting = choices[Math.floor(Math.random() * choices.length)];
+        try { localStorage.setItem("clasr:lastGreeting", greeting); } catch {}
 
         document.addEventListener("DOMContentLoaded", () => {
           const el = document.getElementById("dashboard-greeting");
@@ -178,9 +182,13 @@
           <!-- Recent readings -->
           <section class="recent-section dash-recent" aria-labelledby="recent-heading" data-history-dashboard-recent>
             <h2 id="recent-heading" class="recent-heading">Recent readings</h2>
-            <p class="settings-panel__copy" data-example-note>Showing example reports below. Your own manuscript readings will appear here once you upload one.</p>
-            <div class="readings-history__list" data-recent-grid>
+            <p class="settings-panel__copy" data-example-note hidden>Showing example reports below. Your own manuscript readings will appear here once you upload one.</p>
+            <div class="readings-history__list" data-recent-grid aria-live="polite">
+              <p class="settings-panel__copy" data-recent-loading>Loading your readings…</p>
+            </div>
+            <a class="reading-history-card__action" data-recent-view-all href="/dashboard/readings/" hidden>View All Readings →</a>
 
+            <template data-recent-examples>
               <article class="reading-history-card" data-q="q1">
                 <span class="reading-history-card__date">Example</span>
                 <div>
@@ -231,25 +239,18 @@
                   </span>
                 </div>
               </article>
-
-            </div>
+            </template>
           </section>
 
         </div>
       </section>
     </main>
 
-    <footer class="app-footer" aria-label="Workspace footer">
+        <footer class="app-footer" aria-label="Workspace footer">
       <div class="app-footer__inner">
-        <strong>Clasr is operated by HİLAL ŞENÇELİK (sole proprietor) · Bursa, Türkiye · © 2026</strong>
+        <strong>Clasr is operated by Hilal Şençelik · © 2026</strong>
         <nav aria-label="Workspace footer links">
-          <a href="/terms/">Terms</a>
-          <a href="/privacy/">Privacy</a>
-          <a href="/refund-policy/">Refund</a>
-          <a href="/cookie-policy/">Cookies</a>
-          <a href="/legal/">Legal</a>
-          <a href="/acceptable-use/">Acceptable Use</a>          <a href="/dashboard/help/">Help</a>
-          <a href="/contact/">Contact</a>
+          <a href="/legal/">Clasr Legal</a>
         </nav>
       </div>
     </footer>
