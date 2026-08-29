@@ -24783,9 +24783,13 @@ body.theme-night .legal-center__cards a:active {
 }
 
 .app-footer strong {
-  color: #2c2620;
-  font-size: 14px;
-  font-weight: 700;
+  /* Matches .footer-operator's typography exactly (the landing footer's
+     operator/copyright line) -- this text is not a heading, so it
+     shouldn't look bolder or larger than the rest of the footer. */
+  color: rgba(44, 38, 32, 0.62);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
 }
 
 .app-footer nav {
@@ -24814,7 +24818,7 @@ body.theme-night .app-footer {
 }
 
 body.theme-night .app-footer strong {
-  color: #efe7dc;
+  color: rgba(239, 231, 220, 0.68);
 }
 
 body.theme-night .app-footer a {
