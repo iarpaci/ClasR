@@ -24660,10 +24660,12 @@ body.theme-night .reading-history-card__action:focus-visible {
   }
 }
 
-/* Global secondary interaction cleanup: no green fills on click/focus. */
-a.button:not(.button--primary),
-button.button:not(.button--primary),
-.button:not(.button--primary),
+/* Global secondary interaction cleanup: no green fills on click/focus.
+   .button--danger is excluded — it needs a solid fill by default, unlike
+   every other secondary button here. */
+a.button:not(.button--primary):not(.button--danger),
+button.button:not(.button--primary):not(.button--danger),
+.button:not(.button--primary):not(.button--danger),
 .settings-action,
 .account-settings-nav a,
 .account-dropdown a,
@@ -24678,15 +24680,15 @@ button.button:not(.button--primary),
   box-shadow: none !important;
 }
 
-a.button:not(.button--primary):hover,
-a.button:not(.button--primary):focus-visible,
-a.button:not(.button--primary):active,
-button.button:not(.button--primary):hover,
-button.button:not(.button--primary):focus-visible,
-button.button:not(.button--primary):active,
-.button:not(.button--primary):hover,
-.button:not(.button--primary):focus-visible,
-.button:not(.button--primary):active,
+a.button:not(.button--primary):not(.button--danger):hover,
+a.button:not(.button--primary):not(.button--danger):focus-visible,
+a.button:not(.button--primary):not(.button--danger):active,
+button.button:not(.button--primary):not(.button--danger):hover,
+button.button:not(.button--primary):not(.button--danger):focus-visible,
+button.button:not(.button--primary):not(.button--danger):active,
+.button:not(.button--primary):not(.button--danger):hover,
+.button:not(.button--primary):not(.button--danger):focus-visible,
+.button:not(.button--primary):not(.button--danger):active,
 .settings-action:hover,
 .settings-action:focus-visible,
 .settings-action:active,
@@ -24721,15 +24723,15 @@ button.button:not(.button--primary):active,
   box-shadow: none !important;
 }
 
-body.theme-night a.button:not(.button--primary):hover,
-body.theme-night a.button:not(.button--primary):focus-visible,
-body.theme-night a.button:not(.button--primary):active,
-body.theme-night button.button:not(.button--primary):hover,
-body.theme-night button.button:not(.button--primary):focus-visible,
-body.theme-night button.button:not(.button--primary):active,
-body.theme-night .button:not(.button--primary):hover,
-body.theme-night .button:not(.button--primary):focus-visible,
-body.theme-night .button:not(.button--primary):active,
+body.theme-night a.button:not(.button--primary):not(.button--danger):hover,
+body.theme-night a.button:not(.button--primary):not(.button--danger):focus-visible,
+body.theme-night a.button:not(.button--primary):not(.button--danger):active,
+body.theme-night button.button:not(.button--primary):not(.button--danger):hover,
+body.theme-night button.button:not(.button--primary):not(.button--danger):focus-visible,
+body.theme-night button.button:not(.button--primary):not(.button--danger):active,
+body.theme-night .button:not(.button--primary):not(.button--danger):hover,
+body.theme-night .button:not(.button--primary):not(.button--danger):focus-visible,
+body.theme-night .button:not(.button--primary):not(.button--danger):active,
 body.theme-night .settings-action:hover,
 body.theme-night .settings-action:focus-visible,
 body.theme-night .settings-action:active,
@@ -27594,6 +27596,7 @@ body.theme-night .live-editor-red-flag__severity--minor {
 .button--danger:focus-visible {
   border-color: #8f1f38;
   background: #8f1f38;
+  color: var(--cream);
 }
 
 body.theme-night .clasr-modal {

@@ -3247,7 +3247,7 @@ setupResponsiveReports();
         '<p class="clasr-modal__error" data-history-confirm-error hidden></p>' +
         '<div class="clasr-modal__actions">' +
           '<button type="button" class="button button--ghost" data-history-confirm-cancel>Cancel</button>' +
-          '<button type="button" class="button button--danger" data-history-confirm-submit>Delete everything and turn off</button>' +
+          '<button type="button" class="button button--danger" data-history-confirm-submit>Delete</button>' +
         '</div>' +
       '</div>';
     document.body.appendChild(overlay);
