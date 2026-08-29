@@ -3575,4 +3575,54 @@ setupResponsiveReports();
   }
 }());
 
+// ── Active navigation state (2026-08-29) ────────────────────────────────────
+// Marks the current page in the public mega-nav, the authenticated top nav,
+// and the account dropdown -- based on the actual route, not the last click,
+// so a reload or a direct link lands with the right item already marked.
+// Runs on every page; every selector below is a no-op where it doesn't apply.
+(function () {
+  var stripQueryHash = function(href) { return (href || '').split('#')[0].split('?')[0]; };
+  var normalize = function(p) {
+    if (!p) return '/';
+    return p.charAt(p.length - 1) === '/' ? p : p + '/';
+  };
+  var current = normalize(window.location.pathname);
+
+  // Public mega-nav: Features / Resources / Pricing / Company. The parent
+  // stays marked active when the current page is one of its dropdown's
+  // child links (e.g. Signal Architecture keeps "Resources" underlined).
+  document.querySelectorAll('.nav-links--mega > .nav-item').forEach(function(item) {
+    var topLink = item.querySelector(':scope > a');
+    if (!topLink) return;
+    var hrefs = [topLink.getAttribute('href')];
+    item.querySelectorAll('.nav-menu a').forEach(function(a) { hrefs.push(a.getAttribute('href')); });
+    var isActive = hrefs.some(function(href) {
+      if (!href || href.charAt(0) !== '/') return false;
+      var hrefPath = stripQueryHash(href);
+      return hrefPath && normalize(hrefPath) === current;
+    });
+    topLink.classList.toggle('nav-current', isActive);
+  });
+
+  // Authenticated top nav: New reading / Readings / Plans / Help.
+  document.querySelectorAll('.app-nav a').forEach(function(a) {
+    var href = a.getAttribute('href');
+    if (!href) return;
+    var hrefPath = normalize(stripQueryHash(href));
+    var isActive = hrefPath === current;
+    // Billing is where a plan actually gets managed, so it counts as
+    // "Plans" too, per the explicit example in the spec for this feature.
+    if (href === '/dashboard/pricing/' && current === '/dashboard/billing/') isActive = true;
+    a.classList.toggle('nav-current', isActive);
+  });
+
+  // Account dropdown menu items (skip Log out -- it's an action, not a page).
+  document.querySelectorAll('.account-dropdown__item').forEach(function(a) {
+    if (a.classList.contains('account-dropdown__item--logout')) return;
+    var href = a.getAttribute('href');
+    if (!href) return;
+    var hrefPath = normalize(stripQueryHash(href));
+    a.classList.toggle('nav-current', hrefPath === current);
+  });
+}());
 

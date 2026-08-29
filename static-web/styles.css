@@ -168,6 +168,29 @@ body.theme-night .app-nav .app-nav__primary:focus-visible {
   color: #f3c5cc;
 }
 
+/* Active-page indicator, authenticated top nav (2026-08-29): a permanent
+   version of the existing hover tint, since these are pill buttons (a
+   bottom-border underline would just look like a stray line under a
+   rounded pill). Hovering an active item is a no-op visually, which
+   reads fine -- "you're already here". */
+.app-nav a.nav-current {
+  background: rgba(163, 38, 66, 0.07);
+  color: #A32642;
+}
+
+.app-nav .app-nav__primary.nav-current {
+  border-color: #A32642;
+  background: rgba(163, 38, 66, 0.07);
+  color: #A32642;
+}
+
+body.theme-night .app-nav a.nav-current,
+body.theme-night .app-nav .app-nav__primary.nav-current {
+  border-color: rgba(243, 168, 182, 0.64);
+  background: rgba(163, 38, 66, 0.14);
+  color: #f3c5cc;
+}
+
 /* Recent readings: border-only cards in both themes. */
 .dashboard-shell .reading-history-card,
 .dashboard-shell .reading-history-card[data-q],
@@ -298,6 +321,10 @@ body.theme-night .readings-empty-state p {
   gap: 8px;
   min-height: 34px;
   padding: 6px 8px;
+  /* Reserved so the active-page underline below doesn't shift layout when
+     it appears -- hover already adds a same-width border-bottom on top of
+     this, so the box height was already accounting for it either way. */
+  border-bottom: 1.5px solid transparent;
 }
 
 .nav-item > a::after {
@@ -308,6 +335,15 @@ body.theme-night .readings-empty-state p {
   border-bottom: 1.5px solid currentColor;
   transform: rotate(45deg) translateY(-2px);
   opacity: 0.85;
+}
+
+/* Active-page indicator (2026-08-29): persistent brand-color underline,
+   independent of hover -- set once per page load in script.js based on
+   the current route, not the last click. Placed before :hover in source
+   order so hovering an active OR inactive item still shows the existing
+   petrol hover underline; the red one returns once the mouse leaves. */
+.nav-item > a.nav-current {
+  border-bottom-color: var(--red);
 }
 
 .nav-item > a:hover,
@@ -3208,6 +3244,14 @@ body.theme-night .checkout-launch-placeholder p {
 .account-dropdown a:focus-visible {
   background: var(--sage);
   text-decoration: none;
+}
+
+/* Active-page indicator, account menu (2026-08-29): a colored title only --
+   a border or persistent background would fight the row divider and the
+   hover tint already used here, so this stays a pure color change with no
+   layout impact at all. */
+.account-dropdown__item.nav-current span {
+  color: var(--red);
 }
 
 @media (max-width: 900px) {
