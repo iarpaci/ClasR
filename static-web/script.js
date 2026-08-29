@@ -3468,4 +3468,111 @@ setupResponsiveReports();
   });
 }());
 
+// ── Dashboard home: greeting rotation + upload panel interactions ──────────
+// Moved here from inline <script> tags in dashboard/index.html (2026-08-29):
+// the site's CSP script-src is 'self' only (no 'unsafe-inline'), so those
+// inline blocks silently never ran in production — the greeting always
+// showed dashboard/index.html's static fallback text with only the name
+// substituted in by applyAccountProfile(), never the rotating/randomized
+// text this was supposed to show. Anything added as an inline <script> on
+// any page will hit the same silent failure; keep new page logic in this
+// file instead.
+(function () {
+  var greetingEl = document.getElementById('dashboard-greeting');
+  if (greetingEl) {
+    // "Michael" (not a generic fallback) matches the demo placeholder name
+    // used in this page's static HTML everywhere else — applyAccountProfile()
+    // finds-and-replaces that literal string once the real profile loads, so
+    // keeping it here lets a first-ever page load (no cached profile yet)
+    // still get corrected instead of permanently showing a mismatched name.
+    var name = 'Michael';
+    try {
+      var profile = JSON.parse(localStorage.getItem('clasr:userProfile') || '{}');
+      name = profile.firstName || name;
+    } catch (ex) {}
+    var hour = new Date().getHours();
+    var visits = parseInt(localStorage.getItem('clasr:visits') || '0', 10);
+    try { localStorage.setItem('clasr:visits', String(visits + 1)); } catch (ex) {}
+    var isReturning = visits > 0;
+
+    var morningLines = [
+      'Good morning, ' + name + '.',
+      'Morning, ' + name + ', ready to read?',
+      'Rise and read, ' + name + '.',
+      'A new manuscript awaits!',
+      'Fresh signals for today!',
+    ];
+    var afternoonLines = [
+      'Good afternoon, ' + name + '.',
+      'A good afternoon to you, ' + name + '.',
+      'Afternoon, ' + name + ", let's get to work.",
+    ];
+    var eveningLines = [
+      'Good evening, ' + name + '.',
+      'Evening, ' + name + '.',
+      'Ready for one more reading, ' + name + '?',
+    ];
+    var nightLines = [
+      'Have a good night, ' + name + '.',
+      'Late session, ' + name + '.',
+      'Ready when you are, ' + name + '.',
+    ];
+    var welcomeBackLines = [
+      'Welcome back, ' + name + '.',
+      'Good to see you again, ' + name + '.',
+      'Back to reading, ' + name + '.',
+    ];
+    var brandLines = [
+      "Read before you're read.",
+      'Signals before decisions.',
+      'Reading, augmented.',
+      'Read deeper.',
+    ];
+
+    var pool;
+    if (Math.random() < 0.16) {
+      pool = brandLines;
+    } else if (isReturning && Math.random() < 0.35) {
+      pool = welcomeBackLines;
+    } else if (hour >= 5 && hour < 12) {
+      pool = morningLines;
+    } else if (hour >= 12 && hour < 17) {
+      pool = afternoonLines;
+    } else if (hour >= 17 && hour < 22) {
+      pool = eveningLines;
+    } else {
+      pool = nightLines;
+    }
+
+    // Don't show the same line twice in a row across page loads.
+    var lastGreeting = localStorage.getItem('clasr:lastGreeting');
+    var choices = pool.length > 1 ? pool.filter(function(line) { return line !== lastGreeting; }) : pool;
+    var greeting = choices[Math.floor(Math.random() * choices.length)];
+    try { localStorage.setItem('clasr:lastGreeting', greeting); } catch (ex) {}
+
+    greetingEl.textContent = greeting;
+  }
+
+  var pasteToggle = document.querySelector('.paste-toggle-btn');
+  var pastePanel = document.getElementById('paste-panel');
+  if (pasteToggle && pastePanel) {
+    pasteToggle.addEventListener('click', function() {
+      var isOpen = pastePanel.hidden === false;
+      pastePanel.hidden = isOpen;
+      pasteToggle.setAttribute('aria-expanded', String(!isOpen));
+      pasteToggle.textContent = isOpen ? 'paste text' : 'hide paste';
+    });
+  }
+
+  var dropZone = document.querySelector('.drop-zone-new');
+  if (dropZone) {
+    ['dragenter', 'dragover'].forEach(function(evt) {
+      dropZone.addEventListener(evt, function(e) { e.preventDefault(); dropZone.classList.add('is-over'); });
+    });
+    ['dragleave', 'drop'].forEach(function(evt) {
+      dropZone.addEventListener(evt, function() { dropZone.classList.remove('is-over'); });
+    });
+  }
+}());
+
 

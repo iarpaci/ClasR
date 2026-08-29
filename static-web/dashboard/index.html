@@ -7,81 +7,6 @@
     <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="/styles.css?v=account-fixes-1">
     <script src="/script.js?v=account-fixes-1" defer></script>
-    <script>
-      // Dynamic greeting, runs before paint to avoid flash
-      (function () {
-        let name = "Michael";
-        try {
-          const profile = JSON.parse(localStorage.getItem("clasr:userProfile") || "{}");
-          name = profile.firstName || name;
-        } catch {}
-        const hour = new Date().getHours();
-        const visits = parseInt(localStorage.getItem("clasr:visits") || "0", 10);
-        localStorage.setItem("clasr:visits", String(visits + 1));
-
-        const isReturning = visits > 0;
-
-        const morningLines = [
-          `Good morning, ${name}.`,
-          `Morning, ${name}, ready to read?`,
-          `Rise and read, ${name}.`,
-          `A new manuscript awaits!`,
-          `Fresh signals for today!`,
-        ];
-        const afternoonLines = [
-          `Good afternoon, ${name}.`,
-          `A good afternoon to you, ${name}.`,
-          `Afternoon, ${name}, let's get to work.`,
-        ];
-        const eveningLines = [
-          `Good evening, ${name}.`,
-          `Evening, ${name}.`,
-          `Ready for one more reading, ${name}?`,
-        ];
-        const nightLines = [
-          `Have a good night, ${name}.`,
-          `Late session, ${name}.`,
-          `Ready when you are, ${name}.`,
-        ];
-        const welcomeBackLines = [
-          `Welcome back, ${name}.`,
-          `Good to see you again, ${name}.`,
-          `Back to reading, ${name}.`,
-        ];
-        const brandLines = [
-          `Read before you're read.`,
-          `Signals before decisions.`,
-          `Reading, augmented.`,
-          `Read deeper.`,
-        ];
-
-        let pool;
-        if (Math.random() < 0.16) {
-          pool = brandLines;
-        } else if (isReturning && Math.random() < 0.35) {
-          pool = welcomeBackLines;
-        } else if (hour >= 5 && hour < 12) {
-          pool = morningLines;
-        } else if (hour >= 12 && hour < 17) {
-          pool = afternoonLines;
-        } else if (hour >= 17 && hour < 22) {
-          pool = eveningLines;
-        } else {
-          pool = nightLines;
-        }
-
-        // Don't show the same line twice in a row across page loads.
-        const lastGreeting = localStorage.getItem("clasr:lastGreeting");
-        const choices = pool.length > 1 ? pool.filter((line) => line !== lastGreeting) : pool;
-        const greeting = choices[Math.floor(Math.random() * choices.length)];
-        try { localStorage.setItem("clasr:lastGreeting", greeting); } catch {}
-
-        document.addEventListener("DOMContentLoaded", () => {
-          const el = document.getElementById("dashboard-greeting");
-          if (el) el.textContent = greeting;
-        });
-      })();
-    </script>
   </head>
   <body>
     <header class="site-header">
@@ -255,29 +180,5 @@
       </div>
     </footer>
 
-    <script>
-      // Paste panel toggle
-      const pasteToggle = document.querySelector(".paste-toggle-btn");
-      const pastePanel = document.getElementById("paste-panel");
-      if (pasteToggle && pastePanel) {
-        pasteToggle.addEventListener("click", () => {
-          const isOpen = pastePanel.hidden === false;
-          pastePanel.hidden = isOpen;
-          pasteToggle.setAttribute("aria-expanded", String(!isOpen));
-          pasteToggle.textContent = isOpen ? "paste text" : "hide paste";
-        });
-      }
-
-      // Drag-over visual feedback
-      const dropZone = document.querySelector(".drop-zone-new");
-      if (dropZone) {
-        ["dragenter", "dragover"].forEach(evt =>
-          dropZone.addEventListener(evt, (e) => { e.preventDefault(); dropZone.classList.add("is-over"); })
-        );
-        ["dragleave", "drop"].forEach(evt =>
-          dropZone.addEventListener(evt, () => dropZone.classList.remove("is-over"))
-        );
-      }
-    </script>
   </body>
 </html>
