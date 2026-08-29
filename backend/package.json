@@ -4,8 +4,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node --require ./src/instrument.js src/index.js",
-    "dev": "node --watch --require ./src/instrument.js src/index.js",
-    "postinstall": "playwright install --with-deps chromium"
+    "dev": "node --watch --require ./src/instrument.js src/index.js"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",
@@ -21,7 +20,7 @@
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
     "pdf-parse": "^1.1.1",
-    "playwright": "^1.62.1",
+    "playwright": "1.62.1",
     "resend": "^6.12.2",
     "uuid": "^11.1.0",
     "zod": "^3.24.2"

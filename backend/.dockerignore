@@ -1,0 +1,7 @@
+node_modules
+.env
+.env.local
+*.log
+scripts/calibration-data
+scripts/calibration-cases.json
+scripts/calibration-results-*.json
