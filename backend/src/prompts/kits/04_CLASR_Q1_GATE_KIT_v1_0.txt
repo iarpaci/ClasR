@@ -1,4 +1,4 @@
-﻿# 04 CLASR — Q1-GATE KIT v1.0
+# 04 CLASR — Q1-GATE KIT v1.0
 # Added to Project Files. Does not modify CORE.
 # STATUS: v1.0 — Q1 threshold regime for international peer review
 

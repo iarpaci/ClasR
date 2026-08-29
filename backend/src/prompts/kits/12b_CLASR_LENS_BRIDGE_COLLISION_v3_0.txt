@@ -1,4 +1,4 @@
-﻿# 12b CLASR — LENS-BRIDGE-COLLISION v3.0
+# 12b CLASR — LENS-BRIDGE-COLLISION v3.0
 # Added to Project Files. Does not modify CORE.
 # STATUS: v3.0 — v3.0 integration update
 #   New collision rules added for kits 40, 41, 42, 43

@@ -1,4 +1,4 @@
-﻿# 02 CLASR — SECTION-DEPTH KIT v1.2
+# 02 CLASR — SECTION-DEPTH KIT v1.2
 # Added to Project Files. Does not modify CORE.
 # STATUS: Active
 #   SECTION 5 — verbal-primary manuscript behavior added as separate sub-regime

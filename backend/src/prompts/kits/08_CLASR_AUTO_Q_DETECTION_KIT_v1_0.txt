@@ -1,4 +1,4 @@
-﻿# 08 CLASR — AUTO-Q DETECTION KIT v1.0
+# 08 CLASR — AUTO-Q DETECTION KIT v1.0
 # Added to Project Files. Does not modify CORE.
 # STATUS: v1.0 — Signal-based Q-profile estimation
 

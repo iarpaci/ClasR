@@ -1,4 +1,4 @@
-﻿# 43 CLASR — SOURCE INTEGRITY KIT v1.1
+# 43 CLASR — SOURCE INTEGRITY KIT v1.1
 # Added to Project Files. Does not modify CORE.
 # Tier: 3 — Extension
 # Primary SECTION: SECTION 3

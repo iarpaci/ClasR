@@ -1,0 +1,218 @@
+# 58 CLASR — TIER 3 COVERAGE MANIFEST KIT v1.1
+# Added to Project Files. Does not modify detection logic in any
+# other kit — this kit only requires that every applicable Tier 3
+# kit's outcome be stated, never left silently absent.
+# Tier: 2 — Governance (MANDATORY for every report — v1.1)
+# Primary position: after SECTION 10, before REPORT SYNTHESIS
+# STATUS: v1.1 — PATCH (mode-gating removed; see § 5)
+# Previous: v1.0
+
+---
+
+## 0. IDENTITY
+
+This kit closes a specific, evidenced gap: a Full Report can state
+"Mode: Full Report" while several applicable Tier 3 kits produced
+no visible output and no explanation for why. The reader cannot
+distinguish "this kit ran and found nothing" from "this kit never
+ran." Both currently render identically — as silence.
+
+SECTION 10 already solved exactly this problem for its own 16
+modules (CORE's rule: "Suppression without notation is a system
+failure"). This kit extends that same standard to the full Tier 3
+kit library — all ~37 kits, not only the 16 SECTION 10 modules.
+
+This kit:
+  Does not run detection logic itself
+  Does not add, remove, or reweight any signal
+  Does not evaluate whether a kit's silence was "correct"
+  Only requires that every applicable kit's outcome be stated
+
+---
+
+## 1. WHY THIS EXISTS (EVIDENCED, NOT HYPOTHETICAL)
+
+During 2026-08-19 verification of a real Full Report (Levison_
+EtAl_2026), two kits with clearly defined, always-active primary
+sections — OVERREACH-SIGNAL KIT (35, primary: SECTION 0, "Automatically
+active for every report") and DESK-REJECT SIGNAL KIT (29, primary:
+SECTION 0, "Automatically active for every report") — produced no
+output anywhere in the report, and REPORT SYNTHESIS's own
+INTEGRATED RISK POSTURE subsection (which both of those kits feed)
+was missing entirely, also without notation.
+
+Both kits' own text states they run on every report. Nothing in
+the produced report explained why they did not appear. This is
+indistinguishable, to a reader, from those kits having been
+consulted and found nothing — which is a materially different and
+much more reassuring claim than "not invoked, unknown why."
+
+This kit exists so that gap cannot recur unnoticed.
+
+---
+
+## 2. THE THREE PERMITTED STATES
+
+Every Tier 3 kit applicable to the manuscript's detected type and
+input completeness must be reported in exactly one of three states:
+
+```
+SIGNAL_PRODUCED     — kit ran, detected one or more signals,
+                       signals appear in their designated section(s)
+SCANNED_NO_SIGNAL    — kit ran, found nothing to report; this is
+                       the kit's own stated behavior for a clean
+                       manuscript (most kits: "if no signal
+                       detected, kit runs silently, no note
+                       produced" — under this manifest, that
+                       silence is now recorded, not left implicit)
+NOT_INVOKED          — kit did not run, with a stated, specific
+                       reason (see § 3 for the only acceptable
+                       reason categories)
+```
+
+A fourth, prohibited state:
+```
+[absent from manifest entirely] — FORMAT VIOLATION. Every
+  applicable kit must appear in the manifest table. A kit missing
+  from the table is worse than NOT_INVOKED with a weak reason —
+  it is unaccounted for.
+```
+
+---
+
+## 3. ACCEPTABLE NOT_INVOKED REASON CATEGORIES
+
+Only these reason categories are valid for NOT_INVOKED. A vague
+reason ("not applicable") is itself a format violation — the
+specific structural condition must be named.
+
+```
+MANUSCRIPT_TYPE_MISMATCH  — kit requires VERBAL-PRIMARY (or
+                             QUANTITATIVE-PRIMARY) and manuscript
+                             is the other type, with no HYBRID
+                             overlap the kit's own text activates on
+INPUT_ABSENT               — kit requires figures/tables (SECTION 9
+                             kits) or a specific zone (e.g.
+                             Discussion Scope Drift Kit requires
+                             Results zone) not present in this
+                             submission
+PARTIAL_INPUT_SUPPRESSED   — kit's own Partial Input Behavior
+                             section (most Tier 3 kits define one)
+                             explicitly suppresses it for the
+                             detected Partial Input Type
+FIELD_MISMATCH              — kit requires a specific field/design
+                             (e.g. clinical trial modules) absent
+                             from the detected field
+```
+
+If none of these four apply and a kit still produced no visible
+output, it is SCANNED_NO_SIGNAL, not NOT_INVOKED. The default
+assumption for an applicable kit with no stated structural reason
+to skip is that it ran and found nothing — never silent omission.
+
+---
+
+## 4. OUTPUT FORMAT
+
+Positioned after SECTION 10, before REPORT SYNTHESIS:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TIER 3 COVERAGE MANIFEST
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Kit                              | State              | Note
+──────────────────────────────────────────────────────────────
+10 Verbal Lens                   | SIGNAL_PRODUCED     | Overlay mode; 1 signal
+15 Silence Lens                  | SCANNED_NO_SIGNAL   | —
+16 Orientation Lens               | SCANNED_NO_SIGNAL   | —
+19 Integrity Signal               | NOT_INVOKED         | INPUT_ABSENT — no
+                                  |                     | competing-interests
+                                  |                     | declaration block
+20 Citation Behavior              | SIGNAL_PRODUCED     | 1 signal, SECTION 2
+...
+29 Desk-Reject Signal             | SCANNED_NO_SIGNAL   | —
+35 Overreach-Signal               | SCANNED_NO_SIGNAL   | —
+...
+──────────────────────────────────────────────────────────────
+Coverage: [n] SIGNAL_PRODUCED · [n] SCANNED_NO_SIGNAL ·
+          [n] NOT_INVOKED · [n applicable kits total]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+Kits are listed in numeric order, using the canonical kit list from
+14_CLASR_VERSION_FREEZE's Canonical Source Table / 00_CLASR_
+INSTALLATION_GUIDE's Tier 3 manifest — whichever is the currently
+installed Project's actual Tier 3 file set. This kit does not define
+that list; it reports against whatever Tier 3 kits are actually
+present in the Project's Files.
+
+Row compression is permitted for readability: consecutive kits in
+the identical state with no note may be grouped —
+```
+11, 13, 21, 23, 26, 27, 28  | SCANNED_NO_SIGNAL | — (7 kits)
+```
+— but SIGNAL_PRODUCED and NOT_INVOKED rows are never grouped; each
+gets its own line, since each carries information (a signal
+location, or a specific reason) that a grouped row would hide.
+
+---
+
+## 5. ACTIVATION
+
+Mandatory in every report (v1.1 — the "Full Report / Publication
+Risk mode only" restriction is removed along with the mode system;
+see CORE v3.0's REPORT COMPLETENESS rule and 54_CLASR_REPORT_MODE_
+KIT_RETIREMENT_NOTICE.txt). Every report now has full S0/S10
+coverage unconditionally, so this manifest is always meaningful.
+
+---
+
+## 6. RELATIONSHIP TO REPORT SYNTHESIS
+
+This manifest and REPORT SYNTHESIS's INTEGRATED RISK POSTURE
+subsection (UNIFIED-OUTPUT KIT v2.0/2.1 § 8, subsection D) are
+linked by construction: INTEGRATED RISK POSTURE cannot be produced
+without input from Overreach-Signal Kit (35) and Desk-Reject Signal
+Kit (29). If this manifest shows either of those kits as NOT_INVOKED,
+REPORT SYNTHESIS subsection D must say so explicitly rather than
+silently omitting itself:
+
+```
+D. INTEGRATED RISK POSTURE
+[Not producible — source kit(s) NOT_INVOKED: see TIER 3 COVERAGE
+MANIFEST. Reason: <reason category from manifest>]
+```
+
+If this manifest shows both kits as SCANNED_NO_SIGNAL or
+SIGNAL_PRODUCED but REPORT SYNTHESIS subsection D is still missing,
+that is now an unambiguous format violation — traceable directly to
+this manifest, not a "maybe the kit didn't run" ambiguity anymore.
+
+---
+
+## 7. HARD LIMITS
+
+This kit must never:
+  Judge whether a SCANNED_NO_SIGNAL outcome is itself suspicious
+  Second-guess a kit's own signal-detection judgment
+  Add signals a source kit did not itself produce
+  Substitute for any individual kit's own output format
+  Be omitted from Full Report or Publication Risk mode
+  List a kit as NOT_INVOKED without one of the four § 3 reason
+    categories, stated specifically
+
+---
+
+## 8. CANONICAL DEFINITION
+
+TIER 3 COVERAGE MANIFEST KIT v1.0 requires every applicable Tier 3
+kit's outcome in a Full Report to be stated as SIGNAL_PRODUCED,
+SCANNED_NO_SIGNAL, or NOT_INVOKED (with a specific structural
+reason) — closing the gap where a kit's total absence from a report
+was indistinguishable from that kit having run and found nothing.
+Introduced after this exact gap was found in a real report (see
+§ 1) rather than as a hypothetical safeguard.
+
+---
+
+# TIER 3 COVERAGE MANIFEST KIT v1.1 — END

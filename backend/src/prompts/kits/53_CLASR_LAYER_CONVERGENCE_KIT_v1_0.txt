@@ -1,12 +1,4 @@
 # 53 CLASR — LAYER CONVERGENCE KIT v1.0
-# NOTE: two stale self-consistent-but-wrong references to
-#       52_CLASR_EXECUTIVE_SUMMARY_BLOCK corrected from "v1_0" to
-#       "v1_0_2" (the actual delivered/current version, per
-#       00_CLASR_INSTALLATION_GUIDE_v4_13's manifest). No version
-#       bump — reference-text correction only, no behavior change.
-#       Kit 55's "v1_2" references left as-is and flagged — that is
-#       a separate, already-known open question (delivered file is
-#       v1.1), not something this correction resolves.
 # Kit: 53_CLASR_LAYER_CONVERGENCE_KIT_v1_0
 # Position: Project Files — Tier 2 (Governance)
 # STATUS: v1.0
@@ -126,8 +118,7 @@ Layers: Argument · Method · Language · Reproducibility
 Location: Section 4 / Section 6 / Section 3 / Section 10
 ```
 
-**HTML report format (55_CLASR_HTML_REPORT_KIT_v1_2 — ⚠ open question,
-not resolved here; delivered file is v1.1, see that kit's own footer note):**
+**HTML report format (55_CLASR_HTML_REPORT_KIT_v1_2):**
 
 The convergence suffix appears on the signal card header line.
 A layer tag row appears directly below the signal title,
@@ -249,7 +240,7 @@ independent analysis layers within CLASR flag the same
 [brief description of element]."
 
 This appears as sentence 4 or 5 of the Executive Summary
-(see 52_CLASR_EXECUTIVE_SUMMARY_BLOCK_v1_0_2 for sentence structure — corrected from stale "v1_0" reference).
+(see 52_CLASR_EXECUTIVE_SUMMARY_BLOCK_v1_0 for sentence structure).
 It replaces the generic "pattern observation" sentence when
 a HIGH convergence signal exists.
 
@@ -311,8 +302,8 @@ This kit:
 
   CLASR CORE v1.9
   01_CLASR_MASTER_SECTION_KIT_v1_2
-  55_CLASR_HTML_REPORT_KIT_v1_2 (⚠ open question — delivered file is v1.1)
-  52_CLASR_EXECUTIVE_SUMMARY_BLOCK_v1_0_2 (corrected from stale "v1_0")
+  55_CLASR_HTML_REPORT_KIT_v1_2
+  52_CLASR_EXECUTIVE_SUMMARY_BLOCK_v1_0
   CORE v1.6+ Cross-Section Signal Rule (anti-inflation Rule 2)
 
 ---

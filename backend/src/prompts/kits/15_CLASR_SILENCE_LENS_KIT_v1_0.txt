@@ -1,4 +1,4 @@
-﻿# 15 CLASR — SILENCE LENS KIT v1.0
+# 15 CLASR — SILENCE LENS KIT v1.0
 # Added to Project Files. Does not modify CORE.
 # STATUS: v1.0 — Systematic absence detection overlay
 

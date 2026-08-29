@@ -1,4 +1,4 @@
-﻿# 34 CLASR — CONCLUSION INTEGRITY KIT v1.0
+# 34 CLASR — CONCLUSION INTEGRITY KIT v1.0
 # Added to Project Files. Does not modify CORE.
 # STATUS: v1.0 — Conclusion-to-results traceability signal detection overlay
 

@@ -1,15 +1,23 @@
 const fs = require('fs');
 const path = require('path');
 
-// KIT_ORDER reconciled 2026-08-01 against Design/CLASR 260801.zip (a kit-
-// registry audit, partly done in an earlier session): kits 29/31/35/36/38/46
-// bumped to their current versions (reference-only fixes except 31 and 46,
-// which drop a Turkish-language command path that contradicted CORE
-// v1.9.0's English-only lock), kit 14 replaced with a reconciled snapshot,
-// and 5 kit files removed that had been in the live prompt by mistake (kit
-// 22, retired; INPUT_VALIDATION/OUTPUT_LANGUAGE/OUTPUT_SCOPE/
-// SESSION_CONTINUITY kits, which belong to a different sibling product).
-// See inline comments below for per-kit detail.
+// KIT_ORDER updated 2026-08-29 for CLASR CORE v3.0 (CLASR v3.0 260829.zip):
+// a MAJOR release that removes the entire mode-selection system (Quick
+// Summary / Compact / REPORT-MODE-KIT's six named modes) — CLASR now always
+// produces the full SECTION 0-10 report, unconditionally. Companion bumps:
+// 03 v1.3->v3.0, 14 replaced by the 2026-08-22 merged snapshot, 31 v1.5->
+// v1.7, 41 v1.1->v1.2, 42 ->v1.2 (refreshed), 44 v1.7->v2.0, 51 ->v1.0
+// (refreshed), 55 v1.1->v1.3; kits 58/59 added (new in this release); kits
+// 46 (Gold Standard) and 54 (Report Mode) retired -- both superseded by
+// CORE v3.0 itself, per the vendor's own release note ("kit slots not
+// reused"). Kits 29/35/36/38 were NOT bumped despite being reprovided in
+// this drop: the delivered files are an accidental v1.0 regression (they
+// reintroduce dangling references to the already-retired kit 22 /
+// Replication Signal Kit, and a stale Lens-Bridge v2.0 reference) -- the
+// v1.1 versions already live here carry the actual fix and are kept as-is.
+// Every other same-numbered kit was refreshed in place (mostly BOM/footer-
+// reference cleanup; 52/53 additionally fix stale internal version
+// self-references) even where the version label didn't change.
 
 const PROMPTS_DIR = path.join(__dirname, '..', 'prompts');
 
@@ -17,7 +25,7 @@ const KIT_ORDER = [
   // Tier 1 — Core structure (mandatory)
   '01_CLASR_MASTER_SECTION_KIT_v1_2.txt',
   '02_CLASR_SECTION_DEPTH_KIT_v1_2.txt',
-  '03_CLASR_UNIFIED_OUTPUT_KIT_v1_3.txt',
+  '03_CLASR_UNIFIED_OUTPUT_KIT_v3_0.txt',
   '04_CLASR_Q1_GATE_KIT_v1_0.txt',
   '05_CLASR_Q2_GATE_KIT_v1_0.txt',
   '06_CLASR_Q3_GATE_KIT_v1_0.txt',
@@ -28,10 +36,15 @@ const KIT_ORDER = [
   '09_CLASR_CALIBRATION_DEEP_KIT_v1_5.txt',
   '12a_CLASR_LENS_BRIDGE_CORE_v3_0.txt',
   '12b_CLASR_LENS_BRIDGE_COLLISION_v3_0.txt',
-  '14_CLASR_VERSION_FREEZE_v3_2_RECONCILED.txt',
+  '14_CLASR_VERSION_FREEZE_v3_2_RECONCILED_MERGED_2026-08-22.txt',
   '17_CLASR_PARTIAL_INPUT_KIT_v1_1.txt',
   '18_CLASR_REVISION_ROUND_KIT_v1_0.txt',
-  '31_CLASR_OUTPUT_MODE_KIT_v1_5.txt',
+  '31_CLASR_OUTPUT_MODE_KIT_v1_7.txt',
+  '44_CLASR_ACTION_PRIORITY_BLOCK_KIT_v2_0.txt',
+  '52_CLASR_EXECUTIVE_SUMMARY_BLOCK_v1_0_2.txt',
+  '53_CLASR_LAYER_CONVERGENCE_KIT_v1_0.txt',
+  '58_CLASR_TIER3_COVERAGE_MANIFEST_KIT_v1_1.txt',
+  '59_CLASR_SIGNAL_TAXONOMY_ADDENDUM_v1_0.txt',
   // INPUT_VALIDATION_KIT / OUTPUT_LANGUAGE_KIT / OUTPUT_SCOPE_KIT /
   // SESSION_CONTINUITY_KIT removed 2026-08-01: a kit-registry reconciliation
   // (Design/CLASR 260801.zip, 14_CLASR_VERSION_FREEZE_v3_2_RECONCILED's own
@@ -71,24 +84,24 @@ const KIT_ORDER = [
   '38_CLASR_JOURNAL_SENSITIVITY_KIT_v1_1.txt',
   '39_CLASR_METHODOLOGICAL_RHETORIC_KIT_v1_0.txt',
 
-  // Tier 4 — Extended kits v1.9.0 (kits 40–57)
+  // Tier 4 — Extended kits (kits 40–57)
   '40_CLASR_ARGUMENT_INTEGRITY_KIT_v1_2.txt',
-  '41_CLASR_FIGURE_TABLE_INTEGRITY_KIT_v1_1.txt',
-  '42_CLASR_REPRODUCIBILITY_OPEN_SCIENCE_KIT_v1_2.txt',
+  '41_CLASR_FIGURE_TABLE_INTEGRITY_KIT_v1_2.txt',
+  '42_CLASR_REPRODUCIBILITY_OPEN_SCIENCE_KIT_v1_2_.txt',
   '42b_CLASR_REPRODUCIBILITY_FIELD_TYPE_SEVERITY_PATCH_v1_0.txt',
   '43_CLASR_SOURCE_INTEGRITY_KIT_v1_1.txt',
-  '44_CLASR_ACTION_PRIORITY_BLOCK_KIT_v1_7.txt',
   '45_CLASR_REPORTING_STANDARD_KIT_v1_0.txt',
-  '46_CLASR_GOLD_STANDARD_KIT_v1_1.txt',
+  // 46_CLASR_GOLD_STANDARD_KIT retired 2026-08-29: superseded by CORE v3.0
+  // (kit slot not reused, per CORE v3.0's own release note).
   '47_CLASR_EPISTEMIC_FRAME_KIT_v1_0.txt',
   '48_CLASR_CONCEPT_LIFECYCLE_KIT_v1_0.txt',
   '49_CLASR_METHODOLOGICAL_VERBAL_RISK_KIT_v1_0.txt',
   '50_CLASR_CROSS_CONSISTENCY_KIT_v1_0.txt',
-  '51_CLASR_CITATION_INTEGRITY_MODULE_M17_v1_0.txt',
-  '52_CLASR_EXECUTIVE_SUMMARY_BLOCK_v1_0_2.txt',
-  '53_CLASR_LAYER_CONVERGENCE_KIT_v1_0.txt',
-  '54_CLASR_REPORT_MODE_KIT_v1_0_2.txt',
-  '55_CLASR_HTML_REPORT_KIT_v1_1.txt',
+  '51_CLASR_CITATION_INTEGRITY_MODULE_M17_v1_0_.txt',
+  // 54_CLASR_REPORT_MODE_KIT retired 2026-08-29: the mode-selection system
+  // it implemented (Quick Summary/Compact/etc.) was removed entirely by
+  // CORE v3.0 (kit slot not reused).
+  '55_CLASR_HTML_REPORT_KIT_v1_3.txt',
   '57_CLASR_BETA_SIGNAL_KIT_v1_1.txt',
 
   // BETA manager kits
@@ -125,8 +138,8 @@ function assembleSystemPrompt() {
 // deliberately left out since the input is already-complete signal output,
 // not a manuscript to analyze. ~56K chars vs. ~693K for the full assembly.
 const REFORMAT_KITS = [
-  '03_CLASR_UNIFIED_OUTPUT_KIT_v1_3.txt',
-  '31_CLASR_OUTPUT_MODE_KIT_v1_5.txt',
+  '03_CLASR_UNIFIED_OUTPUT_KIT_v3_0.txt',
+  '31_CLASR_OUTPUT_MODE_KIT_v1_7.txt',
 ];
 
 let _reformatPrompt = null;

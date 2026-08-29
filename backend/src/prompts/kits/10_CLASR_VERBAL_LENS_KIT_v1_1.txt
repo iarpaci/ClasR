@@ -1,4 +1,4 @@
-﻿# 10 CLASR — VERBAL LENS KIT v1.1
+# 10 CLASR — VERBAL LENS KIT v1.1
 # Added to Project Files. Does not modify CORE.
 # STATUS: v1.1 — Verbal-primary manuscript mode added
 # Previous: v1.0

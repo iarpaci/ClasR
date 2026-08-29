@@ -1,4 +1,4 @@
-﻿# 19 CLASR — INTEGRITY SIGNAL KIT v1.0
+# 19 CLASR — INTEGRITY SIGNAL KIT v1.0
 # Added to Project Files. Does not modify CORE.
 # STATUS: v1.0 — Competing interests and conflict of interest signal detection overlay
 

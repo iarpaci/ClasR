@@ -1,4 +1,4 @@
-﻿# 24 CLASR — DISCUSSION SCOPE DRIFT KIT v1.1
+# 24 CLASR — DISCUSSION SCOPE DRIFT KIT v1.1
 # Added to Project Files. Does not modify CORE.
 # STATUS: v1.1 — Collision management extended for Desk-Reject Signal Kit (29)
 #          and Argument Chain Kit (30)

@@ -1,4 +1,4 @@
-﻿# 21 CLASR — ABSTRACT–BODY COHERENCE KIT v1.0
+# 21 CLASR — ABSTRACT–BODY COHERENCE KIT v1.0
 # Added to Project Files. Does not modify CORE.
 # STATUS: v1.0 — Cross-section claim consistency detection overlay
 

@@ -1,4 +1,4 @@
-﻿# 23 CLASR — CONTRIBUTION FRAMING KIT v1.0
+# 23 CLASR — CONTRIBUTION FRAMING KIT v1.0
 # Added to Project Files. Does not modify CORE.
 # STATUS: v1.0 — Novelty and originality claim signal detection overlay
 

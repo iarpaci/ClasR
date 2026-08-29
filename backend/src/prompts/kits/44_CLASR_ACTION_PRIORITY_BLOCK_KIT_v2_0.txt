@@ -1,0 +1,643 @@
+# 44 CLASR — ACTION PRIORITY BLOCK KIT v2.0
+# Added to Project Files. Does not modify CORE.
+# Tier: 2 — Governance
+# Position: Report header — before SECTION 0
+# Activation: Automatic — every report
+# STATUS: v2.0 — MAJOR (mode-aware logic removed; simplified in
+#          lockstep with CORE v3.0's mode-system removal)
+# Previous: v1.9
+# Changes (v2.0):
+#   All mode-aware cap logic removed. There is exactly one slot cap
+#   (5, minimum 3) — the value previously labeled "Standard format /
+#   Full Report" cap. The "Compact card format / 10-slot Quick
+#   Summary" branch throughout §0, §1, §2, §6, §9, §10 is removed,
+#   since Quick Summary and Compact format no longer exist (CORE
+#   v3.0; REPORT-MODE-KIT retired). This is a simplification, not a
+#   behavior narrowing in the way that matters: per CORE v3.0's
+#   REPORT COMPLETENESS rule, a signal that does not win a PAS slot
+#   is no longer thereby absent from the report — it remains fully
+#   present in its home SECTION and, for SECTION 10 modules, in the
+#   module table. The prior 10-slot Compact cap existed specifically
+#   to reduce loss under a compression regime that no longer exists;
+#   removing both together is consistent, not merely convenient.
+#   Rule C4 (v1.9, guaranteed inclusion floor for CRITICAL-tier
+#   SECTION 10 modules) is UNCHANGED — retained verbatim, still
+#   binding before the Tier Cascade Rule runs. C4's own rationale
+#   (M12/ethics case) argued for a floor within PAS specifically
+#   because PAS visibility itself has editorial value beyond mere
+#   presence-in-report — that argument is unaffected by the mode
+#   system's removal, so C4 stays.
+# Changes (v1.9, retained — see CLASR_ACTION_PRIORITY_BLOCK_v1_9_
+#          VERSION_RECORD.txt for the full record): rule C4 added.
+# Changes (v1.8, retained — historical; mode-aware cap logic itself
+#          is superseded by v2.0 above, kept here only as version
+#          history): made selection language mode-aware against
+#          CORE v2.2/REPORT-MODE-KIT v2.2 (both now retired); added
+#          Layer Convergence as Intra-Tier Tiebreaker Step 1 (still
+#          active, unaffected by v2.0).
+#
+# NOT resolved by this patch (flagged, not fixed):
+#   § 6 Signal Mode still cites "Kit 31 v1.3 alignment." The delivered
+#   file in this project's set is 31_CLASR_OUTPUT_MODE_KIT_v1_4.txt.
+#   Whether v1.3's fragment-style spec changed in v1.4 has not been
+#   checked against Kit 31's own text — left as an open item.
+
+---
+
+## 0. IDENTITY
+
+This kit defines the PRIORITY ACTION SIGNALS block —
+a fixed header block produced before SECTION 0 in every report.
+
+Purpose: surface the highest editorial risk signals from across
+the full report — up to 5 slots (minimum 3) — so the user can
+immediately locate what matters most without reading the full
+report first. A signal that does not win a slot is not lost from
+the report (CORE v3.0 REPORT COMPLETENESS rule) — it remains in
+full in its home SECTION and, for SECTION 10 modules, in the
+module table. PAS is a navigational priority view, not the sole
+place a signal can appear.
+
+This kit:
+  Selects signals — does not generate new signals
+  Produces labels, evidence, inference type, inference,
+  and confidence fields
+  Does not recommend actions
+  Does not produce verdicts or evaluations
+  Does not rank quality — ranks editorial visibility risk only
+
+---
+
+## 1. SELECTION CRITERIA
+
+After full signal detection runs across all active sections,
+this kit selects the highest editorial risk signals, up to 5
+slots (minimum 3 — see General selection rules), in Standard
+card format (the only format — v2.0).
+
+This distinction exists because CORE v2.2 deliberately raised the
+default mode's signal count from 3–5 to up to 10, specifically so
+that the shortest, most-frequently-seen report format would not
+under-surface what CLASR actually detected. A slot cap fixed at 5
+regardless of mode defeats that reform silently — the report would
+look short for the wrong reason (fewer signals shown) rather than
+the intended reason (denser presentation of more signals). This kit
+must always select against the cap belonging to the mode actually
+producing the report.
+
+### Priority tiers — ordered by editorial risk:
+
+Tier 1 — Structural completeness risks (highest priority):
+  MANDATORY_MISSING (Structural QA Kit)
+  SECTION 10 CRITICAL ABSENT signals (M01, M02, M04, M06,
+  M12, M14, M15) — ⚠ Tier 1 membership grants competitive priority
+  within Tier 1 only; it does NOT by itself guarantee inclusion when
+  Tier 1 candidate count exceeds the 5-slot cap. See § C4 for the
+  separate, binding guarantee that applies specifically to these
+  modules when ABSENT or PARTIAL.
+  DEPENDENCY_BREAK (Structural QA Kit)
+  COMPOUND RISK FLAG triggered (kit 42)
+
+Tier 2 — Argument and claim failures:
+  FINDING_CLAIM_INVERSION (kit 40 A4)
+  FINDING_CONTRADICTS_RECOMMENDATION (kit 40 A4)
+  PREMISE_CONTRADICTION (kit 40 A2)
+  PREMISE_CHAIN_COLLAPSE (kit 40 A2)
+  METHOD_CLAIM_MISMATCH (kit 40 A3)
+  CAUSAL_DESIGN_MISMATCH (kit 40 A3)
+  CLAIM_UNTESTABILITY (kit 40 A1)
+  PRACTICAL_SIGNIFICANCE_ABSENT (kit 40 A4)
+  VALIDATION_CIRCULARITY (kit 44 v1.5)
+
+Tier 3 — Overreach and scope failures:
+  SYSTEMATIC overreach pattern (kit 35)
+  CONCLUSION_OVERREACH at MAJOR magnitude (kit 40 A5)
+  BROKEN argument chain profile (kit 30)
+  GENERALIZABILITY_CLAIM at HIGH (kit 40 A5)
+  REVIEW_AS_ADVOCACY_PATTERN (kit 57)
+  ASSUMPTION_STACKING_RISK at HIGH (kit 57)
+
+Tier 4 — Integrity and transparency:
+  RETRACTION_SIGNAL_FROM_TEXT (kit 43)
+  HIGH_STAKES_SELF_CITATION (kit 43)
+  INTEGRITY SIGNAL DETECTED — OUTCOME INSTRUMENT INTERSECTION (kit 19)
+  SECTION 9 CRITICAL signals (kit 41)
+  ABSTRACT_POSTURE_RISK active (kit 29)
+
+Tier 5 — Language and hedging failures:
+  UNCALIBRATED hedging profile (kit 37)
+  AMPLIFICATION_CLUSTER at HIGH (kits 09 + 11)
+  NORMATIVE LANGUAGE detected at Q1 (kit 09)
+
+---
+
+### A. TIER CASCADE RULE
+
+PAS slots fill in strict tier order. Tier N must be exhausted
+before Tier N+1 is consulted. The number of slots is 5 (see §1).
+
+Execution sequence:
+
+  Step 1: Collect all detected signals across all tiers.
+  Step 2: Fill PAS slots from Tier 1, applying intra-tier
+          tiebreaker (→ Section B) until Tier 1 signals
+          are exhausted or all 5 slots are filled.
+  Step 3: If slots remain, fill from Tier 2 in the same way.
+  Step 4: If slots remain, fill from Tier 3. Continue through
+          Tier 4 and Tier 5 until 5 slots are filled or all
+          detected signals are exhausted.
+  Step 5: If fewer than 3 signals are detected across all tiers,
+          all detected signals are listed. The block does not
+          pad to reach 3 with weak signals — a report with only
+          2 real signals shows 2, not padded to look complete.
+
+This rule is non-negotiable. A Tier 3 signal never displaces
+a Tier 1 or Tier 2 signal regardless of confidence value,
+inference type, section position, or convergence count.
+
+---
+
+### B. INTRA-TIER TIEBREAKER
+
+When multiple signals compete within the same tier for a
+remaining slot, selection follows this four-step order. Apply
+each step in sequence; proceed to next step only if a tie remains.
+
+  Step 1 — Layer convergence count (NEW, v1.8):
+    Higher convergence count = higher priority.
+    Applies only when CLASR-LAYER-CONVERGENCE-KIT (53) is active.
+    A signal independently flagged by more of the six analysis
+    layers (Argument / Method / Language / Structural / Repro /
+    Citation) ranks above a signal flagged by fewer layers, before
+    inference type is consulted.
+    Rationale: convergence is corroboration from independent
+    reading logic, not a property of how the evidence happens to
+    be phrased — it is a stronger prior on editorial importance
+    than inference type alone, and should be checked first.
+    If Layer Convergence Kit is not active, or both competing
+    signals carry the same convergence count (including both
+    at ×1 / no marker), proceed to Step 2.
+
+  Step 2 — Inference type:
+    Observation > Quantitative > Interpretive
+    Rationale: Observation signals are directly verifiable
+    from manuscript text; Interpretive signals require
+    analytical judgment and carry lower confidence ceilings.
+
+  Step 3 — Section number:
+    Lower section number = higher priority.
+    SECTION 0 > SECTION 1 > ... > SECTION 10.
+    Rationale: Earlier sections carry load-bearing structural
+    information; signals there have wider downstream impact.
+
+  Step 4 — Confidence value:
+    Higher confidence = higher priority.
+    Applied only when Steps 1–3 leave a tie unresolved.
+    Rationale: Higher confidence indicates stronger evidentiary
+    grounding.
+
+If all four steps leave a tie unresolved (identical convergence,
+inference type, section, and confidence): select the signal whose
+label appears first alphabetically. This case is rare; alphabetical
+resolution is a last resort.
+
+---
+
+### C. NEGATIVE SELECTION RULES
+
+The following conditions explicitly exclude a signal from PAS
+inclusion or mandate PAS inclusion regardless of tier position.
+These rules bind before the tier cascade is applied.
+
+**C1 — FUTURE_CLAIM exclusion:**
+A signal of type FUTURE_CLAIM_EVIDENCE_BRIDGE_WEAK is excluded
+from PAS if BOTH of the following conditions are met:
+  (a) Confidence value is below 0.74
+  (b) The forward-looking claim is field-normal — i.e., the
+      type of future direction statement routinely present in
+      papers of this manuscript type without triggering
+      editorial concern
+
+If either condition is absent, the signal is eligible for PAS
+under normal tier rules.
+
+Rationale: FUTURE_CLAIM at low confidence + field-normal framing
+occupies a PAS slot that higher-priority signals should hold.
+Cross-session PAS variance observed when this rule was absent.
+
+**C2 — CROSS_TABLE_NUMERICAL_ANOMALY auto-elevation:**
+A signal is auto-elevated to Tier 2 (regardless of its
+originating kit's tier assignment) if ALL of the following
+conditions are met:
+  (a) The signal requires comparison of values across two or
+      more distinct tables or figures to detect the anomaly
+  (b) Inference type is Observation
+  (c) The anomaly is directly readable without external reference
+
+Auto-elevation means the signal competes for PAS slots at
+Tier 2 level, not at its originating tier.
+
+Rationale: Multi-table Observation anomalies are structurally
+self-evident and carry high editorial visibility. Under the
+previous system, waist position reference frame discrepancy
+in cross-table comparison was inconsistently elevated to PAS
+across sessions. This rule makes elevation deterministic.
+
+**C3 — ASSUMPTION_VALIDITY_SCOPE_MISMATCH elevation:**
+A signal of type ASSUMPTION_VALIDITY_SCOPE_MISMATCH is
+auto-elevated to Tier 2 if ALL of the following are met:
+  (a) The assumption is load-bearing — i.e., the manuscript's
+      central claim depends on it
+  (b) The assumption's validity range is constrained or
+      qualified in the methods section
+  (c) The results or conclusion section makes claims that
+      extend beyond the declared validity range without
+      acknowledging this extension
+
+If slots remain after Tier 1 and Tier 2 signals are exhausted
+(against the 5-slot cap), this signal fills a remaining slot
+before any Tier 3 signal is consulted.
+
+Rationale: This signal was not spontaneously produced in five
+consecutive iterations on the AWAKE/CERN benchmark (confirmed
+systematic blind spot, Beta Accumulation v1.6). A structural
+elevation rule is required for reliable detection.
+
+**C4 — SECTION 10 CRITICAL-tier module guaranteed inclusion floor
+(NEW, v1.9):**
+
+Any SECTION 10 module in the CRITICAL base tier (M01, M02, M04, M06,
+M12, M14, M15 — per 42b's §2.1 base tier table) that is at status
+ABSENT or PARTIAL, and whose Final Severity (after 42b's field-type
+modifier chain, when a modifier table applies to that module) is
+CRITICAL or HIGH, receives one guaranteed PAS slot. This slot is
+reserved BEFORE the Tier Cascade Rule (§A) runs and cannot be
+displaced by any other Tier 1, 2, 3, 4, or 5 candidate, regardless of
+convergence count, inference type, confidence, or novelty.
+
+If more than one such module qualifies simultaneously, each qualifying
+module receives its own guaranteed slot, up to a ceiling of 3 guaranteed
+slots. If more than 3 modules qualify, the 3 with the highest Final
+Severity (CRITICAL before HIGH) and, among ties, the lowest module
+number (M01 before M02 before M04...) receive the guaranteed slots;
+remaining qualifying modules compete normally at Tier 1 for any slots
+left after the guarantee and the standard cascade.
+
+Remaining slots (mode cap minus guaranteed slots used) are filled by
+the normal Tier Cascade Rule (§A), unchanged — including any other
+Tier 1 candidates not covered by this guarantee (MANDATORY_MISSING,
+DEPENDENCY_BREAK, COMPOUND RISK FLAG, and any CRITICAL-tier SECTION 10
+module not selected under the 3-slot ceiling above).
+
+This guarantee applies at every Q-variant. It is not suspended by
+Gold Standard mode (§9, historical — Gold Standard is retired, see
+version history) — this rule stands on its own regardless.
+
+Rationale: found via two independent manuscript comparisons
+(Levison_EtAl_2026, Jac_EtAl_2026) where a genuine, PDF-verified
+CRITICAL finding (M12 — no ethics/animal-use declaration despite
+live-animal field sampling) was carried as a standalone PAS signal in
+two report generations and silently absent from a third, later
+generation on the same manuscript, while that third generation's PAS
+list filled with comparably interesting but non-structural
+interpretive findings. Tier 1 priority alone was not sufficient to
+prevent this — Tier 1 membership is necessary but not sufficient for
+guaranteed inclusion when Tier 1 itself is oversubscribed. A
+CRITICAL-tier structural-completeness gap (participant protection,
+reproducibility) should never lose a competition against a more novel
+or better-corroborated finding; it should always be shown, and any
+competition should be about which OTHER signals fill the remaining
+slots.
+
+⚠ What this rule does NOT claim: this does not resolve whether the
+underlying detection (42/Reproducibility kit correctly flagging a
+module ABSENT in the first place) is itself run-to-run stable — that
+is a separate, CONSISTENCY-KIT-class question about detection
+variance, not selection variance, and is not addressed here. This
+rule only guarantees that IF the detection correctly fires, the
+selection layer cannot then drop it. See
+CLASR_ACTION_PRIORITY_BLOCK_v1_9_VERSION_RECORD.txt for the full
+evidence and recommended follow-up.
+
+---
+
+### General selection rules (v1.9 — cap generalized from v1.6/v1.7):
+
+Maximum 5 signals selected.
+Minimum 3 signals (if fewer than 3 detected: all detected
+signals listed — do not pad).
+Structured block signals (DESK-REJECT RISK PROFILE,
+OVERREACH PROFILE) count as one entry each — not per component.
+Compound Risk Flag counts as one entry when triggered.
+
+---
+
+## 2. OUTPUT FORMAT
+
+Standard card format (the only format — v2.0):
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PRIORITY ACTION SIGNALS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[1] SIGNAL_LABEL — SECTION N
+    Evidence: [specific observable feature from manuscript]
+    Inference type: [Observation / Interpretive / Quantitative]
+    Inference: [what this evidence reveals structurally — one sentence]
+    Confidence: [0.00–1.00]
+
+[2] SIGNAL_LABEL — SECTION N
+    Evidence: [specific observable feature from manuscript]
+    Inference type: [Observation / Interpretive / Quantitative]
+    Inference: [what this evidence reveals structurally — one sentence]
+    Confidence: [0.00–1.00]
+
+[3] SIGNAL_LABEL — SECTION N
+    Evidence: [specific observable feature from manuscript]
+    Inference type: [Observation / Interpretive / Quantitative]
+    Inference: [what this evidence reveals structurally — one sentence]
+    Confidence: [0.00–1.00]
+
+[4] SIGNAL_LABEL — SECTION N  (if applicable)
+    Evidence: [specific observable feature from manuscript]
+    Inference type: [Observation / Interpretive / Quantitative]
+    Inference: [what this evidence reveals structurally — one sentence]
+    Confidence: [0.00–1.00]
+
+[5] SIGNAL_LABEL — SECTION N  (if applicable)
+    Evidence: [specific observable feature from manuscript]
+    Inference type: [Observation / Interpretive / Quantitative]
+    Inference: [what this evidence reveals structurally — one sentence]
+    Confidence: [0.00–1.00]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+If no signals detected across full report:
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PRIORITY ACTION SIGNALS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+No high-priority signals detected.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+---
+
+## 3. SIGNAL EXPLANATION SENTENCE RULE
+
+The inference sentence is the most important output of each
+signal card.
+
+### What the sentence must do
+
+State exactly where the structural problem is and why it
+is structurally visible. Nothing more.
+
+The sentence answers this question:
+"What specific observable feature of this manuscript creates
+a structural gap — and where is it?"
+
+### Sentence construction rules
+
+RULE 1 — SPECIFIC OVER GENERAL
+The sentence names a concrete location, claim, or element.
+Not: "The contribution claim exceeds the study's scope."
+Yes: "'First psychiatry LLM' claim cannot be verified against
+     Figure 1's own literature map."
+
+RULE 2 — OBSERVATION OVER VERDICT
+The sentence describes what is structurally present or absent.
+Not: "Performance framing is inflated."
+Yes: "Relative percentages lead the results narrative;
+     absolute MCC differences (0.008 in best-case scenario)
+     are not foregrounded."
+
+RULE 3 — NO INTENT ATTRIBUTION
+The sentence never implies the author intended the problem.
+Forbidden: "inflation", "misleading", "obscures", "hides",
+           "downplays", "cherry-picks"
+Permitted: "not foregrounded", "absent", "not addressed",
+           "structurally unsupported", "exceeds design warrant"
+
+RULE 4 — NO REVIEWER FRAMING
+The signal card does not predict reviewer behavior or editorial
+outcomes. The card ends with the Confidence value.
+Forbidden in any field: "reviewer will flag", "reviewer will ask",
+"desk-review stops here", "editorial return before peer review".
+The signal is produced. Interpretation belongs to the user.
+
+RULE 5 — ONE SENTENCE ONLY
+Maximum one sentence per signal. No expansion.
+
+RULE 6 — INFERENCE IS THE FINAL ANALYSIS FIELD
+Signal → Evidence → Inference type → Inference → Confidence.
+This is the complete card. Nothing after Confidence.
+
+### The test
+
+Read the sentence aloud. Ask:
+  — Does it name something specific in the manuscript?
+  — Could the author point to the exact line or table it refers to?
+  — Does it describe a structural property, not a person's action?
+
+If yes to all three: sentence is correct.
+If any answer is no: rewrite before producing output.
+
+---
+
+## 4. INFERENCE TYPE CONFIDENCE CEILINGS
+
+Inference type must be declared for every PAS signal.
+Each type carries a maximum confidence ceiling:
+
+  Observation    → signals derived directly from manuscript text
+                   without external reference
+                   Confidence ceiling: 0.90
+
+  Interpretive   → signals derived from pattern-level reading;
+                   require analytical judgment beyond text surface
+                   Confidence ceiling: 0.75
+
+  Quantitative   → signals derived from numerical comparison
+                   or threshold-based detection
+                   Confidence ceiling: 0.85
+
+Rules:
+- Inference type cannot be omitted. A signal without declared
+  inference type is not eligible for the PAS block.
+- Confidence value is mandatory inline per card. It cannot be
+  omitted, deferred to a separate block, or replaced by a
+  qualitative label (HIGH / MEDIUM / LOW).
+- A separate SIGNAL CONFIDENCE PROFILE block may exist as
+  supplementary summary but does not substitute for per-card
+  inline confidence values.
+- Two signals of different inference types at the same tier,
+  section, and convergence count: Observation ranks above
+  Quantitative above Interpretive (→ Intra-Tier Tiebreaker
+  § B, Step 2).
+- The confidence ceiling governs whether the signal meets
+  the evidentiary threshold for PAS inclusion.
+
+---
+
+## 5. EVIDENCE SUFFICIENCY RULE
+
+The Evidence field is not a paraphrase of the signal name.
+It is a locatable element from the manuscript.
+
+Sufficient evidence:
+  "Table 2, row 3: r=–0.116 (education level vs. uptake)"
+  "Abstract, sentence 2: 'first psychiatry-specific LLM'"
+  "Methods section: no sampling frame described for
+   national-level claim in sentence 4 of the aim statement"
+
+Insufficient evidence:
+  "The results show a weak association."  ← paraphrase
+  "The contribution claim is broad."      ← paraphrase
+  "Methodological gap detected."          ← signal name repeated
+
+If sufficient evidence cannot be cited from the manuscript,
+the signal does not meet the threshold for PAS inclusion.
+In this case: the signal is reported in its primary SECTION
+at standard detail (full report mode only), but does not
+appear in the PAS block.
+
+---
+
+## 6. OUTPUT MODE INTERACTION
+
+### Standard Mode:
+Full card format as defined in §2, Standard card layout,
+5-slot cap.
+
+### Author Mode:
+Block expands — Evidence and Inference Type fields visible;
+plain-language restatement added:
+
+```
+[1] SIGNAL_LABEL — SECTION N
+    Evidence: [specific observable feature]
+    Inference type: [Observation / Interpretive / Quantitative]
+    Inference: [what this evidence reveals structurally]
+    Confidence: [0.00–1.00]
+    For the author: [plain language — what this means structurally,
+                    not what to do; no reviewer framing]
+```
+
+### Signal Mode:
+Full Evidence + Inference content in fragment style
+(Kit 31 alignment — full content, not label + one-line):
+
+```
+[1] SIGNAL_LABEL — Sec.N — [Inf. type abbrev.]
+    Evidence: [full evidence content, fragment style]
+    Inference: [full inference content, fragment style]
+```
+
+Confidence suppressed in Signal Mode per Kit 31.
+⚠ OPEN ITEM (not resolved by v1.8): this section's Kit 31
+cross-reference previously cited "v1.3." The delivered Kit 31
+in this project's file set is v1.4. Whether the fragment-style
+spec in v1.3 changed by v1.4 has not been checked directly
+against Kit 31's own text — version number removed from this
+reference rather than left pointing at an unconfirmed version,
+pending that check.
+
+### Advisor Mode:
+Full card with priority number:
+
+```
+[Priority 1] SIGNAL_LABEL — SECTION N
+    Evidence: [specific observable feature]
+    Inference type: [Observation / Interpretive / Quantitative]
+    Inference: [what this evidence reveals structurally]
+    Confidence: [0.00–1.00]
+```
+
+### Quick Summary (default) Mode — RETIRED (v2.0)
+This subsection previously described Compact card format behavior.
+Quick Summary mode and Compact card format no longer exist (CORE
+v3.0; REPORT-MODE-KIT retired) — Standard card format (§2) is the
+only PAS format, used identically regardless of Kit 31's output
+mode (Author/Reviewer/Advisor/Signal — a separate, unrelated axis:
+those modes govern rendering tone/density downstream of CLASR, not
+report length; see 31_CLASR_OUTPUT_MODE_KIT).
+
+---
+
+## 7. Q-VARIANT INTERACTION
+
+Q-variant does not change which signals appear in this block.
+Q-variant governs signal detection sensitivity in sections.
+This block surfaces what was detected — it does not re-calibrate.
+
+---
+
+## 8. PARTIAL INPUT INTERACTION
+
+In partial input conditions, block covers available sections only.
+Header note added:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PRIORITY ACTION SIGNALS
+[Partial input — coverage limited to available sections]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+---
+
+## 9. GOLD STANDARD INTERACTION — RETIRED (v2.0)
+
+This section previously described interaction with 46_GOLD_
+STANDARD_KIT, which is retired as of CORE v3.0 (see 46_CLASR_
+GOLD_STANDARD_KIT_RETIREMENT_NOTICE.txt). Gold Standard's function
+— "all kits run at maximum sensitivity" — is now simply how every
+report runs by default (CORE v3.0 REPORT COMPLETENESS rule); there
+is no separate elevated mode to interact with. This block always
+reflects the full signal set at maximum sensitivity, up to 5 slots.
+
+Negative selection rules (§1.C) apply as normal. The
+CROSS_TABLE_NUMERICAL_ANOMALY auto-elevation rule applies at full
+sensitivity, as it always does now. The convergence tiebreaker (§B
+Step 1) is more likely to matter than it was under the old default
+(Quick Summary), since every report now runs at the sensitivity
+level "Gold Standard" used to require requesting separately.
+
+---
+
+## 10. HARD LIMITS
+
+This kit:
+  Does not generate new signals
+  Does not modify signal content or labels
+  Does not produce recommendations or revision instructions
+  Does not produce verdicts or editorial decisions
+  Does not suppress signals based on user context
+  Cannot be omitted — block is mandatory in every report
+  Cannot list a signal without sufficient evidence (→ §5)
+  Cannot omit inference type from any signal card (→ §4)
+  Cannot omit inference field from any signal card (→ §2)
+  Cannot omit confidence value from any signal card (→ §4)
+  Cannot replace per-card confidence with separate block only
+  Cannot produce reviewer behavior predictions in any field
+  Cannot produce editorial outcome predictions in any field
+  Cannot elevate a Tier 3 signal above a Tier 1 or Tier 2
+    signal regardless of confidence value, section position,
+    or convergence count
+  Cannot apply FUTURE_CLAIM to a PAS slot when C1 conditions
+    are both met
+  Cannot omit CROSS_TABLE_NUMERICAL_ANOMALY from Tier 2
+    when C2 conditions are all met
+  Cannot omit ASSUMPTION_VALIDITY_SCOPE_MISMATCH from PAS
+    when C3 conditions are all met and slots remain after
+    Tier 1 and Tier 2 are exhausted
+  Cannot apply any cap other than 5 (minimum 3) — the Compact-
+    format 10-slot cap no longer exists (v2.0)
+
+---
+
+# ACTION PRIORITY BLOCK KIT v2.0 — END
+# Tier 2 — Governance
+# Position: Before SECTION 0
+# Activation: Automatic — every report

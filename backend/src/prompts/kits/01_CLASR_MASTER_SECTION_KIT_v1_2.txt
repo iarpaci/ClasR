@@ -1,4 +1,4 @@
-﻿# 01 CLASR — MASTER SECTION KIT v1.2
+# 01 CLASR — MASTER SECTION KIT v1.2
 # Added to Project Files. Does not modify CORE.
 # STATUS: Active
 

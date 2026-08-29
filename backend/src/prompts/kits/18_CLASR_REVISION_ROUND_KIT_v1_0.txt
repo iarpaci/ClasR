@@ -1,4 +1,4 @@
-﻿# 18 CLASR — REVISION ROUND KIT v1.0
+# 18 CLASR — REVISION ROUND KIT v1.0
 # Added to Project Files. Does not modify CORE.
 # STATUS: v1.0 — Post-review resubmission reading protocol
 

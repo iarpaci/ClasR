@@ -1,4 +1,4 @@
-﻿# 33 CLASR — CONCEPT-EVIDENCE BRIDGE KIT v1.0
+# 33 CLASR — CONCEPT-EVIDENCE BRIDGE KIT v1.0
 # Added to Project Files. Does not modify CORE.
 # STATUS: v1.0 — Concept-to-evidence grounding signal detection overlay
 

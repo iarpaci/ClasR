@@ -1,4 +1,4 @@
-﻿# 11 CLASR — TEMPORALITY LENS KIT v1.0
+# 11 CLASR — TEMPORALITY LENS KIT v1.0
 # Added to Project Files. Does not modify CORE.
 # STATUS: v1.0 — Temporal risk signal overlay
 

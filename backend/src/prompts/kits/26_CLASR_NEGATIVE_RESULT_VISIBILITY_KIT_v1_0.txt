@@ -1,4 +1,4 @@
-﻿# 26 CLASR — NEGATIVE RESULT VISIBILITY KIT v1.0
+# 26 CLASR — NEGATIVE RESULT VISIBILITY KIT v1.0
 # Added to Project Files. Does not modify CORE.
 # STATUS: v1.0 — Null finding and hypothesis rejection signal detection overlay
 

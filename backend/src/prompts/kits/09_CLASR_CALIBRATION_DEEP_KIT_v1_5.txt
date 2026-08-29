@@ -1,4 +1,4 @@
-﻿# 09 CLASR — CALIBRATION-DEEP KIT v1.5
+# 09 CLASR — CALIBRATION-DEEP KIT v1.5
 # Changes (v1.5):
 #   §1.13 added: ASSUMPTION_VALIDITY_SCOPE_MISMATCH detection
 #          Detection layer for load-bearing assumption scope

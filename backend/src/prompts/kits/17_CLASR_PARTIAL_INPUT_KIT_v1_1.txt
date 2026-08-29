@@ -1,4 +1,4 @@
-﻿# 17 CLASR — PARTIAL INPUT KIT v1.1
+# 17 CLASR — PARTIAL INPUT KIT v1.1
 # Added to Project Files. Does not modify CORE.
 # STATUS: v1.1 — v3.0 update: SECTION 9 and SECTION 10 partial input rules added
 # Previous: v1.0

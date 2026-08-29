@@ -1,4 +1,4 @@
-﻿# 12a CLASR — LENS-BRIDGE-CORE v3.0
+# 12a CLASR — LENS-BRIDGE-CORE v3.0
 # Added to Project Files. Does not modify CORE.
 # STATUS: v3.0 — v3.0 integration update
 #   New kits registered: 40 (Argument Integrity), 41 (Figure/Table Integrity),

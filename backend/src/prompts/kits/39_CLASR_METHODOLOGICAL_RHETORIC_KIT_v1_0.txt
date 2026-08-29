@@ -1,4 +1,4 @@
-﻿# 39 CLASR — METHODOLOGICAL RHETORIC KIT v1.0
+# 39 CLASR — METHODOLOGICAL RHETORIC KIT v1.0
 # Added to Project Files. Does not modify CORE.
 # STATUS: v1.0 — Methodological rhetoric pattern signal detection overlay
 # Compatible with: CLASR v2.2

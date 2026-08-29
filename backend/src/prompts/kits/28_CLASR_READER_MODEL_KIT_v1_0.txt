@@ -1,4 +1,4 @@
-﻿# 28 CLASR — READER MODEL KIT v1.0
+# 28 CLASR — READER MODEL KIT v1.0
 # Added to Project Files. Does not modify CORE.
 # STATUS: v1.0 — Implied reader profile and evidence threshold alignment signal overlay
 

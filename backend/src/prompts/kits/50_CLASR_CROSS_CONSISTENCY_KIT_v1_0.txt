@@ -1,4 +1,4 @@
-﻿# 50 CLASR — CROSS-CONSISTENCY KIT v1.0
+# 50 CLASR — CROSS-CONSISTENCY KIT v1.0
 # Added to Project Files. Does not modify CORE.
 # Tier: 3 — Extension
 # Primary SECTION: SECTION 4 — Argumentation

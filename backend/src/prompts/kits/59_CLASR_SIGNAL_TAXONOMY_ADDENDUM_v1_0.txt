@@ -1,0 +1,166 @@
+# 59 CLASR — SIGNAL TAXONOMY ADDENDUM v1.0
+# Added to Project Files. Does not modify CORE.
+# Tier: 2 — Governance
+# Primary: cross-cutting — referenced by any kit producing a Priority
+#          Action Signal label; enforced downstream by
+#          clasr_gain_validators.py CODE-08.
+# STATUS: v1.0 — NEW
+# Source: CLASR CORE/Kit Güncelleme Önerileri review (2026-08-22) § 4,
+#         which found the same underlying concept surfacing under
+#         different SIGNAL_LABEL spellings across five separate report
+#         comparisons in this project's own session, and independently
+#         from MINING_ROUND_2026-08-14_code-layer.md Group D (5
+#         manuscripts, same class of defect at the CLASR-GAIN layer).
+
+---
+
+## 0. IDENTITY
+
+This kit does not detect signals. It does not generate labels.
+It fixes one thing: for a small set of concepts that have already
+been observed recurring under multiple different SIGNAL_LABEL
+spellings, this kit names the one canonical spelling and lists the
+variant spellings it replaces.
+
+CLASR kits that produce a signal for one of these concepts use the
+canonical name. clasr_gain_validators.py CODE-08 (v1.6) is the
+downstream mechanical check for cases where a variant spelling
+leaked through anyway.
+
+This is intentionally the smallest possible fix: five concepts,
+sourced from direct evidence, not a general renaming initiative
+across the full signal library (kit-minimalism principle — no
+speculative canonicalization for concepts that have not actually
+been observed drifting).
+
+---
+
+## 1. WHY THIS EXISTS
+
+Five concepts were independently observed under two or more distinct
+SIGNAL_LABEL spellings across different report generations describing
+the same underlying finding:
+
+| # | Concept | Variant spellings observed |
+|---|---|---|
+| 1 | Selected model excludes/conflicts with reported coefficient table | `CONSTRAINT_DRIVEN_MODEL_SELECTION`, `PARAMETRIC_COEFFICIENT_VS_SELECTED_MODEL_MISMATCH`, `GAM_TERM_REPORTING_AMBIGUITY` |
+| 2 | Low explained variance paired with high-certainty language | `LOW_EXPLAINED_VARIANCE_FRAMING`, `LOW_R2_HIGH_CERTAINTY_LANGUAGE` |
+| 3 | Heterogeneous survey/data sources merged without transparency | `SURVEY_DESIGN_HETEROGENEITY`, `HETEROGENEOUS_SURVEY_MERGER_TRANSPARENCY` |
+| 4 | Causal language applied to a correlational design | `CAUSAL_LANGUAGE_OVERREACH`, `CAUSAL_OVERREACH`, `CAUSAL_VERB_ON_CORRELATIONAL_DESIGN` |
+| 5 | Table values and body text disagree | `TEXT_TABLE_CONTRADICTION`, `TABLE_TEXT_MISMATCH` |
+
+None of these five is a case of two genuinely different signals that
+happen to share vocabulary — each row is the same finding, described
+twice, from two separate report generations on related manuscripts.
+This is distinct from cases like `TABLE_TEXT_MISMATCH` vs
+`CAUSAL_DESIGN_MISMATCH`, which share a token ("MISMATCH") but are
+different findings — those are correctly left alone; see CODE-08's
+own overlap-threshold calibration note for why low-overlap pairs are
+not auto-flagged.
+
+Concept 4 (causal overreach) already has a dedicated, well-specified
+home: 35_CLASR_OVERREACH_SIGNAL_KIT's Type 1 — CAUSAL_OVERREACH. This
+addendum does not compete with that kit; it fixes only the label
+string itself, since two of the three observed variants
+(`CAUSAL_LANGUAGE_OVERREACH`, `CAUSAL_VERB_ON_CORRELATIONAL_DESIGN`)
+are not the string Kit 35 itself defines.
+
+---
+
+## 2. CANONICAL NAMES (LOCK)
+
+```
+CANONICAL: MODEL_SELECTION_COEFFICIENT_MISMATCH
+  Replaces: CONSTRAINT_DRIVEN_MODEL_SELECTION
+            PARAMETRIC_COEFFICIENT_VS_SELECTED_MODEL_MISMATCH
+            GAM_TERM_REPORTING_AMBIGUITY
+  Rationale for this spelling over the alternatives: names both
+  halves of the mismatch (model selection ↔ coefficient table)
+  without assuming a specific model class (GAM) that may not apply
+  to every occurrence, and without the ambiguous "constraint-driven"
+  framing (which describes a cause, not the observable mismatch
+  itself — CLASR signals name what is observed, not why).
+
+CANONICAL: LOW_R2_HIGH_CERTAINTY_LANGUAGE
+  Replaces: LOW_EXPLAINED_VARIANCE_FRAMING
+  Rationale: the shorter, more specific existing variant is kept as
+  canonical rather than introducing a third form — it already names
+  both the quantitative condition (low R²) and the language behavior
+  (high-certainty framing) directly.
+
+CANONICAL: HETEROGENEOUS_SURVEY_MERGER_TRANSPARENCY
+  Replaces: SURVEY_DESIGN_HETEROGENEITY
+  Rationale: the shorter existing variant (SURVEY_DESIGN_HETEROGENEITY)
+  names only the condition, not the transparency-of-merger dimension
+  that is the actual signal — the longer form is more precise and is
+  kept as canonical.
+
+CANONICAL: CAUSAL_OVERREACH
+  Replaces: CAUSAL_LANGUAGE_OVERREACH
+            CAUSAL_VERB_ON_CORRELATIONAL_DESIGN
+  Rationale: matches 35_CLASR_OVERREACH_SIGNAL_KIT's own Type 1 label
+  exactly (see § 1) — this is not a new coinage, it is alignment to
+  an already-existing, already-documented canonical source.
+
+CANONICAL: TABLE_TEXT_MISMATCH
+  Replaces: TEXT_TABLE_CONTRADICTION
+  Rationale: matches 41_CLASR_FIGURE_TABLE_INTEGRITY_KIT M3's own
+  defined signal name (TABLE_TEXT_MISMATCH) exactly — again,
+  alignment to an existing documented source, not a new coinage.
+```
+
+---
+
+## 3. SCOPE — WHAT THIS DOES NOT DO
+
+This addendum does not:
+  Canonicalize any signal name outside the five rows in § 2
+  Introduce new signal types or detection logic
+  Change the underlying detection behavior of any kit that produces
+    a signal for one of these five concepts — only the label string
+  Guarantee that every kit producing one of these five concepts has
+    been individually checked and updated to emit the canonical
+    string — that is a separate, larger sweep not undertaken here
+    (see § 4)
+
+---
+
+## 4. WHAT REMAINS OPEN
+
+The five canonical names in § 2 are locked. Whether every kit that
+can produce one of these five signals currently emits the canonical
+string, a variant, or something else entirely has not been checked
+kit-by-kit in this release — that would require re-reading every
+Tier 3 kit's own signal-label text against this table, which is a
+larger, separate task. Until that sweep is done, CODE-08 is the
+practical enforcement mechanism: it catches a variant spelling
+wherever one is produced, regardless of which kit produced it,
+without requiring every kit's own text to be pre-audited first.
+
+---
+
+## 5. HARD LIMITS
+
+This kit must never:
+  Rename a signal that is not one of the five rows in § 2
+  Merge two genuinely distinct signals under one canonical name
+  Override a Tier 3 kit's own detection logic or thresholds
+  Be treated as a general style/terminology authority beyond these
+    five concepts — TERMINOLOGY-style governance for CLASR's full
+    signal library, if wanted, is a separate, larger initiative
+
+---
+
+## 6. CANONICAL DEFINITION
+
+SIGNAL TAXONOMY ADDENDUM v1.0 locks one canonical SIGNAL_LABEL
+spelling for five concepts observed recurring under multiple
+different spellings across this project's own reports and the
+2026-08-14 GAIN mining round — closing the naming-drift source that
+CODE-08 (clasr_gain_validators.py v1.6) detects downstream, without
+introducing new detection logic or renaming any signal outside these
+five concepts.
+
+---
+
+# SIGNAL TAXONOMY ADDENDUM v1.0 — END

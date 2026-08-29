@@ -1,4 +1,4 @@
-﻿# 20 CLASR — CITATION BEHAVIOR KIT v1.0
+# 20 CLASR — CITATION BEHAVIOR KIT v1.0
 # Added to Project Files. Does not modify CORE.
 # STATUS: v1.0 — Citation pattern signal detection overlay
 

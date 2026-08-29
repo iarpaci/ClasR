@@ -1,0 +1,589 @@
+# 55 CLASR — HTML REPORT KIT v1.3
+# Kit: EN_HTML-REPORT-KIT_v1.3
+# Position: Project Files
+# STATUS: v1.3 — PATCH (mode-gating removed; see § changes below)
+# Previous: v1.2
+# Changes (v1.3): AT-A-GLANCE SIGNAL SUMMARY STRIP and SECTION
+#          NAVIGATION, both introduced in v1.2 as "Full Report and
+#          Publication Risk mode only" features, are now rendered
+#          unconditionally on every report — CORE v3.0 removes the
+#          mode system entirely (see CLASR_CORE_v3_0_VERSION_
+#          RECORD.txt and 54_CLASR_REPORT_MODE_KIT_RETIREMENT_
+#          NOTICE.txt), so the underlying data both features depend
+#          on (SECTION 9 SIGNAL SUMMARY, TIER 3 COVERAGE MANIFEST —
+#          the latter now mandatory in every report per Kit 58 v1.1)
+#          always exists. No signal added, removed, or reweighted —
+#          same presentation-only scope as v1.2.
+# Changes (v1.2 — presentation-layer only, per user request; no
+#          signal added, removed, or reweighted):
+#   § SECTION NAVIGATION — new fixed nav bar linking to S0-S10
+#     anchors (report length made navigable, not shortened)
+#   § AT-A-GLANCE SIGNAL SUMMARY STRIP — new header-adjacent strip
+#     showing CRITICAL/HIGH/MEDIUM/LOW counts, pulled from data
+#     already computed by SECTION 9's SIGNAL SUMMARY and the Tier 3
+#     Coverage Manifest — no new counting logic, display only
+#   § SIGNAL SEVERITY -> COLOR MAPPING — icon/symbol column added
+#     alongside every color badge (colorblind accessibility; badges
+#     no longer rely on color alone to distinguish severity)
+#   § PDF CONVERSION — page-break-inside: avoid added for signal
+#     cards and kit sub-blocks, so a card can no longer split across
+#     a PDF page boundary
+#   § CONVERGENCE SUFFIX — HIGH convergence (×4+) cards now carry a
+#     stronger visual treatment (left-border accent) so cross-layer
+#     corroborated signals are visually distinguishable, not just
+#     text-labeled, at a glance
+#   VERSION DEPENDENCY — the open "v1.1 vs v1.2" question flagged in
+#     Kit 53/54's own dependency blocks (both cited this kit at
+#     "v1.2" while only v1.1 had ever been delivered) is now
+#     resolved: v1.2 exists, this is it. The separate CORE v1.4
+#     dependency staleness (CORE is now v2.4) is NOT resolved by
+#     this patch — flagged, not silently fixed, since this patch's
+#     scope is presentation only; see VERSION DEPENDENCY section.
+# Changes (v1.1 — retained):
+#   PRIORITY ACTION SIGNALS RENDERING updated — two-row card format
+#   added; explanation line CSS spec and HTML structure defined
+# Purpose: Defines the standard for converting CLASR signal output
+#          into a branded HTML report using CLASR visual identity.
+
+---
+
+## IDENTITY
+
+This kit defines how CLASR converts its structured signal output
+into a branded HTML report. It governs layout, color mapping, signal
+rendering, and section assembly.
+
+The HTML report is not a separate product. It is the visual
+presentation layer of the same signal output. No signal is added,
+removed, or softened in the conversion. The HTML report and the
+plain-text report carry identical content.
+
+---
+
+## ACTIVATION
+
+The HTML report is produced when:
+- User requests "HTML report", "branded report", or "PDF report"
+- User references the visual template explicitly
+
+Default output remains plain-text signal report.
+HTML output is always on-demand, never automatic.
+
+---
+
+## BRAND TOKENS (FIXED)
+
+These values are fixed. They cannot be overridden by user request.
+
+```
+--petrol:       #2B555B   ← primary brand color
+--petrol-light: #3a6e76   ← hover / accent
+--red:          #CD0015   ← Editor Red — high severity signals
+--page-light:   #FFF7EC   ← page background
+--cream:        #F5F0E5   ← section backgrounds
+--sage:         #E0E6D4   ← passed / low severity
+--mist:         #B6C1BB   ← borders, secondary text
+--blush:        #FCE5E7   ← soft accent
+--ink:          #1a2e30   ← body text
+--mid:          #4a6366   ← secondary text
+
+Font roles:
+  Display / brand: Georgia, Times New Roman (serif)
+  Body / UI:       Helvetica Neue, Arial (sans-serif)
+  Code / labels:   Courier New (monospace)
+```
+
+---
+
+## REPORT STRUCTURE (FIXED ORDER)
+
+The HTML report assembles in this order. No section may be
+reordered, merged, or omitted.
+
+```
+1. REPORT HEADER
+   — Brand mark + CLASR wordmark
+   — Tagline (2-line identity header from CORE)
+   — Meta pills: Manuscript Type / Q-Profile / Reporting Standard
+
+1a. AT-A-GLANCE SIGNAL SUMMARY STRIP (v1.2, unconditional as of
+    v1.3 — see § below)
+   — Thin horizontal strip directly beneath the header
+   — CRITICAL / HIGH / MEDIUM / LOW counts as compact badges
+
+1b. SECTION NAVIGATION (v1.2, unconditional as of v1.3 — see § below)
+   — Sticky/fixed horizontal bar, one pill per active SECTION
+
+2. EXECUTIVE SUMMARY BLOCK
+   — Dark petrol background block
+   — 5–7 sentences (EN_EXECUTIVE-SUMMARY-BLOCK_v1.0)
+   — Always present, always first content block
+
+3. PRIORITY ACTION SIGNALS
+   — Numbered list, red left-border cards
+   — Signal label + section location
+   — Always present, always after Executive Summary
+
+4. SECTION BLOCKS (S0 through S10)
+   — Each section: numbered header bar + body
+   — Signal cards rendered inside each section
+   — S9: conditional (figures/tables only)
+   — S10: always active, M17 block included
+
+5. REPORT FOOTER
+   — CLASR wordmark left
+   — Disclaimer right: "This report is an academic reading signal.
+     Decisions, evaluation, and publication responsibility
+     rest with the user."
+```
+
+---
+
+## AT-A-GLANCE SIGNAL SUMMARY STRIP (NEW v1.2)
+
+Purpose: let the reader see signal density before reading anything.
+Zero new computation — pulls directly from data the system already
+produces (SECTION 9's SIGNAL SUMMARY block where present, and/or
+the TIER 3 COVERAGE MANIFEST's SIGNAL_PRODUCED count where active).
+This strip never invents a count; if the underlying data is somehow
+not present, the strip is not rendered (see Activation below).
+
+```html
+<div class="glance-strip">
+  <span class="glance-item glance-critical">
+    <span class="glance-icon">&#9650;</span> 3 CRITICAL
+  </span>
+  <span class="glance-item glance-high">
+    <span class="glance-icon">&#9670;</span> 5 HIGH
+  </span>
+  <span class="glance-item glance-medium">
+    <span class="glance-icon">&#9679;</span> 4 MEDIUM
+  </span>
+  <span class="glance-item glance-low">
+    <span class="glance-icon">&#9633;</span> 2 LOW
+  </span>
+</div>
+```
+
+```css
+.glance-strip {
+  display: flex;
+  gap: 18px;
+  padding: 8px 20px;
+  background: var(--cream);
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+}
+.glance-item { display: flex; align-items: center; gap: 5px; }
+.glance-icon { font-size: 11px; }
+.glance-critical { color: var(--red); }
+.glance-high     { color: #8a5c00; }
+.glance-medium   { color: var(--mid); }
+.glance-low      { color: #3d7a38; }
+```
+
+Icon shapes are fixed per severity (▲ CRITICAL, ◆ HIGH, ● MEDIUM,
+□ LOW) — same icon vocabulary used in the color-mapping table below,
+so a reader who cannot distinguish the colors still distinguishes
+severity from shape alone.
+
+Activation: rendered on every report (v1.3 — the "Full Report and
+Publication Risk mode only" restriction is removed along with the
+mode system; see CORE v3.0's REPORT COMPLETENESS rule and
+54_CLASR_REPORT_MODE_KIT_RETIREMENT_NOTICE.txt). SECTION 9 SIGNAL
+SUMMARY and TIER 3 COVERAGE MANIFEST counts are now always produced
+(58_CLASR_TIER3_COVERAGE_MANIFEST_KIT v1.1 § 5 — mandatory in every
+report), so the underlying count data this strip displays always
+exists.
+
+---
+
+## SECTION NAVIGATION (NEW v1.2)
+
+Purpose: make a long report navigable without shortening it — every
+report is now the same full length (CORE v3.0 REPORT COMPLETENESS
+rule), so this navigation aid is relevant every time, not only for
+occasionally-long reports. This kit does not shorten reports; it
+makes them easier to move through.
+
+```html
+<nav class="section-nav">
+  <a href="#s0">S0</a><a href="#s1">S1</a><a href="#s2">S2</a>
+  <a href="#s3">S3</a><a href="#s4">S4</a><a href="#s5">S5</a>
+  <a href="#s6">S6</a><a href="#s7">S7</a><a href="#s8">S8</a>
+  <a href="#s9">S9</a><a href="#s10">S10</a>
+</nav>
+```
+
+```css
+.section-nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  gap: 4px;
+  padding: 6px 20px;
+  background: var(--page-light);
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+.section-nav a {
+  padding: 3px 8px;
+  border-radius: 3px;
+  color: var(--mid);
+  text-decoration: none;
+}
+.section-nav a:hover { background: var(--sage); color: var(--ink); }
+```
+
+Only SECTIONs actually produced get a nav pill — a suppressed
+SECTION (e.g. S9 with no figures/tables) is omitted from the bar,
+not shown greyed-out.
+
+Activation: rendered on every report (v1.3 — every report now
+produces all applicable SECTIONs unconditionally, so this bar is
+always meaningful; the prior "not in Quick Summary" exception no
+longer applies since Quick Summary no longer exists).
+
+`position: sticky` is a display-only CSS property; it does not
+affect PDF export (browser print flattens sticky positioning to
+static automatically — no separate print-mode override needed).
+
+---
+
+## SIGNAL SEVERITY → COLOR MAPPING
+
+Every signal card carries a severity badge. Badge color is assigned
+from signal confidence tier:
+
+```
+[CONFIRMED] / HIGH     → badge-high    red background    #fde8e8 / #CD0015
+[LIKELY]    / MEDIUM   → badge-medium  amber background  #fef4e0 / #8a5c00
+[FLAG]      / LOW      → badge-low     sage background   #E0E6D4 / #3d5c38
+NOT DETECTED / INFO    → badge-info    petrol-light      #e0eef0 / #2B555B
+```
+
+Status badges in tables:
+
+```
+DIVERGENT              → status-divergent  red    #fde8e8 / #CD0015
+TENSION                → status-tension    amber  #fef4e0 / #8a5c00
+CONSISTENT / PASS      → status-consistent sage   #E0E6D4 / #3d5c38
+PARTIAL                → status-partial    amber  #fef4e0 / #8a5c00
+ABSENT                 → c-absent          red    #CD0015
+PRESENT / PASS         → c-present         green  #3d7a38
+```
+
+### ICON MAPPING (NEW v1.2 — colorblind accessibility)
+
+Color alone must never be the only signal of severity — every
+badge above carries a fixed icon glyph alongside its color, so
+severity is distinguishable by shape as well as hue:
+
+```
+CRITICAL / red badges     → ▲ (U+25B2, black up-pointing triangle)
+HIGH / amber badges       → ◆ (U+25C6, black diamond)
+MEDIUM / sage badges      → ● (U+25CF, black circle)
+LOW / INFO / petrol badges → □ (U+25A1, white square)
+```
+
+Icon precedes the badge label, same text color as the badge:
+```html
+<span class="signal-badge badge-high">◆ HIGH</span>
+```
+
+This mapping is fixed and applies everywhere a severity badge
+appears in this kit's output (signal cards, status badges, the
+AT-A-GLANCE SIGNAL SUMMARY STRIP above). Icon shapes are chosen to
+remain visually distinct from each other in grayscale printing as
+well as on-screen — a black-and-white printout of a report still
+distinguishes severity by shape alone.
+
+---
+
+## SECTION BLOCK RENDERING RULES
+
+### Signal Cards
+Every named signal within a section renders as a signal card:
+- Header row: severity badge + signal name (monospace)
+- Body: location, observation text, note
+- Cards stack vertically within section body
+
+CONVERGENCE SUFFIX (CLASR-LAYER-CONVERGENCE-KIT active):
+When a signal carries a convergence count (×2 or more), two
+additions appear on the card:
+1. Convergence suffix pill appended to header row after signal name:
+   ×2 MODERATE → .convergence-moderate (cream bg / #4a6366 text)
+   ×3 STRONG   → .convergence-strong   (#E1F5EE bg / #085041 text)
+   ×4+ HIGH    → .convergence-high     (#2B555B bg / #FFF7EC text)
+2. Layer tag row below header, above body:
+   One small monospace pill per contributing layer.
+   Border: 1px dashed var(--border). Background: var(--cream).
+   Font-size: 10px. Colors: var(--mid) text / var(--cream) bg.
+CSS spec and full HTML structure defined in
+CLASR-LAYER-CONVERGENCE-KIT_v1.0 §4.
+
+CONVERGENCE CARD EMPHASIS (NEW v1.2 — HIGH convergence only):
+A signal independently corroborated by 4 or more analysis layers is
+visually the strongest-evidenced signal type this system produces.
+HIGH convergence (×4+) cards additionally receive a distinguishing
+left-border accent, so the reader notices them while scrolling, not
+only when reading the suffix text:
+
+```css
+.signal-card.convergence-high-card {
+  border-left: 4px solid var(--petrol);
+}
+```
+
+Applied via an additional class on the card container
+(`convergence-high-card`) whenever that card's convergence label is
+HIGH — no change to badge color, severity label, or any other
+signal content; this is a border treatment only, distinct from
+severity's red/amber/sage left-border (§ Priority Action Signals
+Rendering below) — a card can carry both a severity-driven and a
+convergence-driven left-border accent simultaneously; the
+convergence accent renders as an inset second border 2px inside the
+severity border when both are present, so neither is hidden.
+
+### Kit-Specific Blocks
+Outputs from named kits render as distinct sub-blocks:
+
+```
+Epistemic Frame (Kit 47):
+  → 2-column grid of frame dimensions
+  → badge-info header
+
+Concept Lifecycle (Kit 48):
+  → sequential stage display
+  → transformation events listed
+  → final role badge
+
+Cross-Consistency (Kit 50):
+  → full-width table
+  → status badges per pair
+  → STRUCTURALLY UNSTABLE summary line in red
+
+M17 Citation Integrity:
+  → dark petrol header with M17 id badge
+  → individual signal sub-cards
+  → limitation note footer in cream
+
+Argument Chain:
+  → horizontal flow display
+  → green = sustained, amber = expanded, red = transformed
+```
+
+### Compliance Grids
+STROBE / CONSORT / APA 7 compliance items:
+→ 3-column grid
+→ Each item: label + status color
+
+---
+
+## SECTION HEADER FORMAT
+
+Every section opens with:
+```html
+<div class="section-header">
+  <span class="section-num">SN</span>        ← S0, S1, S2... S10
+  <span class="section-title">TITLE</span>   ← uppercase, petrol color
+</div>
+```
+
+Section numbers use sage background pill.
+Section titles: uppercase, letter-spacing 1px, petrol color.
+
+---
+
+## EXECUTIVE SUMMARY RENDERING
+
+```
+Background: var(--petrol)
+Text color: #e8f0f1
+Label: "EXECUTIVE SUMMARY" — 9px, uppercase, letter-spacing 2px, mist color
+Body: 13.5px, line-height 1.75
+Decorative circle: petrol-light, top-right, opacity 0.4
+```
+
+This block must be visually the heaviest element on the page —
+it is the first thing the reader's eye lands on.
+
+---
+
+## PRIORITY ACTION SIGNALS RENDERING
+
+Each signal item renders as a two-row card:
+
+```
+Row 1 — signal line:
+  Background: var(--cream)
+  Left border: 3px solid var(--red)
+  Border-radius: 4px 4px 0 0
+  Contents: [N] number (red) + signal name (monospace, ink) + section pill
+
+Row 2 — explanation line:
+  Background: white
+  Border: 1px solid var(--border), no left accent
+  Border-radius: 0 0 4px 4px
+  Border-top: 1px dashed var(--border)
+  Contents: one-sentence editorial explanation
+  Font: 12px, color var(--mid), font-style italic
+  Padding: 7px 14px 9px 36px (indented to align past signal number)
+```
+
+Signal number is red. Signal name is monospace bold. Section
+location is a light pill badge on the right of row 1.
+Explanation is italic, muted — visually subordinate to the signal
+label but immediately readable without opening the full report.
+
+HTML structure per signal item:
+```html
+<div class="signal-item">
+  <div class="signal-item-top">
+    <span class="signal-num">[N]</span>
+    <span class="signal-name">SIGNAL_LABEL</span>
+    <span class="signal-loc">Section N</span>
+  </div>
+  <div class="signal-item-explain">
+    One sentence editorial explanation here.
+  </div>
+</div>
+```
+
+CSS additions required in template:
+```css
+.signal-item {
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--red);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+.signal-item-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+}
+.signal-item-explain {
+  font-size: 12px;
+  color: var(--mid);
+  font-style: italic;
+  padding: 6px 14px 10px 36px;
+  border-top: 1px dashed var(--border);
+  background: white;
+  line-height: 1.6;
+}
+```
+
+---
+
+## PDF CONVERSION INSTRUCTIONS
+
+The HTML file renders correctly as PDF via browser print:
+1. Open HTML file in Chrome or Firefox
+2. File → Print (Ctrl+P / Cmd+P)
+3. Destination: Save as PDF
+4. Layout: Portrait
+5. Margins: Default
+6. Background graphics: ON (required for color blocks)
+
+The `@media print` and `@page` rules in the template handle
+page margins and color preservation automatically.
+
+### CARD PAGE-BREAK INTEGRITY (NEW v1.2)
+
+Without an explicit rule, a browser's print engine may split a
+signal card's header row onto one PDF page and its body onto the
+next — the two-row PRIORITY ACTION SIGNALS card format and the
+Evidence/Inference/Confidence card body are both vulnerable to this.
+Add to the `@media print` block:
+
+```css
+@media print {
+  .signal-card,
+  .signal-item,
+  .glance-strip,
+  section .signal-card,
+  .kit-subblock {
+    page-break-inside: avoid;
+    break-inside: avoid; /* modern browsers */
+  }
+  .section-nav {
+    display: none; /* sticky nav has no function on a printed page */
+  }
+}
+```
+
+`.section-nav` is hidden in print output specifically — its
+`position: sticky` behavior and click targets have no meaning on a
+static PDF page, and leaving it visible would waste vertical space
+without function. The AT-A-GLANCE SIGNAL SUMMARY STRIP (`.glance-
+strip`) is kept visible in print — it remains useful as a static
+summary on a printed page.
+
+If a single card's content is taller than one printable page (rare,
+but possible for a card with a long Evidence excerpt), `page-break-
+inside: avoid` will push the whole card to the next page rather than
+splitting it — this is the intended trade-off; a whole card on a
+mostly-empty page is preferable to a card broken across two.
+
+---
+
+## WHAT THIS KIT DOES NOT DO
+
+This kit:
+  Does not modify signal content
+  Does not add signals not present in the plain-text report
+  Does not suppress signals for visual reasons
+  Does not produce a standalone document without CLASR output
+  Does not define signal logic (→ respective signal kits)
+  Does not define section content (→ MASTER SECTION KIT)
+  Does not shorten a report to make it look better (v1.2 — the
+    SECTION NAVIGATION bar makes a long report easier to move
+    through; it does not reduce what a mode already produces)
+  Does not rely on color alone to convey severity (v1.2 — every
+    color-coded badge and strip element also carries a fixed icon)
+
+It defines visual presentation only.
+
+---
+
+## VERSION DEPENDENCY
+
+This kit depends on:
+  CLASR CORE v1.4  [⚠ still stale, NOT corrected by this patch —
+                    CORE is now at v2.4 elsewhere in this project's
+                    records (see CLASR_CORE_v2_4_VERSION_RECORD.txt).
+                    Left unresolved here deliberately: this patch's
+                    scope is presentation-layer only, and correcting
+                    this reference would require confirming this
+                    kit's header-block assumptions still match
+                    CORE v2.4's 4-line template and PAS card schema
+                    — a content check, not a presentation edit.
+                    Flagged for a dedicated pass, same discipline
+                    used elsewhere in this project.]
+  EN_MASTER_SECTION_KIT v1.2
+  EN_EXECUTIVE-SUMMARY-BLOCK v1.0
+  EN_CITATION-INTEGRITY-MODULE M17 v1.0
+  CLASR-LAYER-CONVERGENCE-KIT v1.0 (convergence suffix + v1.2's new
+    HIGH-convergence card emphasis)
+  58_CLASR_TIER3_COVERAGE_MANIFEST_KIT v1.0 (v1.2's AT-A-GLANCE
+    SIGNAL SUMMARY STRIP activation condition)
+
+Brand tokens are fixed and version-independent.
+
+RESOLVED BY THIS PATCH: the open question in Kit 53 and Kit 54's own
+VERSION DEPENDENCY blocks — both cited this kit at "v1.2" while only
+v1.1 had ever been delivered — is now closed. v1.2 exists; this is
+it. Kit 53 and Kit 54's references were correct in advance of this
+file's existence, not stale.
+
+---
+
+# CLASR — HTML REPORT KIT v1.3 — END

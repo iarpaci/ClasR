@@ -1,4 +1,4 @@
-﻿# 27 CLASR — INTERDISCIPLINARY TENSION KIT v1.0
+# 27 CLASR — INTERDISCIPLINARY TENSION KIT v1.0
 # Added to Project Files. Does not modify CORE.
 # STATUS: v1.0 — Cross-disciplinary methodological conflict signal detection overlay
 

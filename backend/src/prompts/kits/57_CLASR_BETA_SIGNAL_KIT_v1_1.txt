@@ -1,4 +1,4 @@
-﻿# 57 CLASR — BETA SIGNAL KIT v1.1
+# 57 CLASR — BETA SIGNAL KIT v1.1
 # Added to Project Files. Does not modify CORE.
 # Tier: 3 — Extension
 # STATUS: v1.1 — Editorial consequence field removed (CORE v1.9.0 alignment)

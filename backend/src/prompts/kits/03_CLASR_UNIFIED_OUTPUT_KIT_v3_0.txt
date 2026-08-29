@@ -1,0 +1,521 @@
+# 03 CLASR — UNIFIED-OUTPUT KIT v2.4
+# Added to Project Files. Does not modify CORE.
+# STATUS: v2.4 — PATCH
+# Previous: v2.3
+# v2.4 change: § 11 format violation list extended with the SECTION
+#          10 TIER CONSISTENCY RULE — a heading elsewhere in the
+#          report may not attribute CRITICAL status to a module
+#          whose own SECTION 10 tier table entry says otherwise.
+#          Transferred from CLASR-GAIN Escalation Queue Entry 2
+#          (CODE-07), evidenced across 11 manuscripts, previously
+#          queued but never brought into CLASR's own Project Files
+#          — see CLASR_UNIFIED_OUTPUT_v2_4_ENTRY2_VERSION_RECORD.txt.
+#          No section content, mode, or card format rule changed —
+#          same PATCH class as the v2.3 change immediately below.
+# v2.3 change: § 11 format violation list extended with the missing
+#          SECTION 10 severity-chain display case (CORE v2.4, 42b
+#          v1.1 companion patch). No section content, mode, or card
+#          format rule changed.
+# v2.2 changes (retained, unchanged this release):
+#          the Full Report structure (§ 1) and Structured Block
+#          Enforcement table (§ 7), positioned after SECTION 10 and
+#          before REPORT SYNTHESIS. Introduced because a real Full
+#          Report was found with two always-active Tier 3 kits
+#          (Overreach-Signal 35, Desk-Reject Signal 29) producing no
+#          output and no notation — see CLASR_CORE_v2_1_VERSION_
+#          RECORD.txt and 58_CLASR_TIER3_COVERAGE_MANIFEST_KIT_v1_0.
+#          § 8 REPORT SYNTHESIS subsection D (Integrated Risk
+#          Posture) now explicitly requires a NOT_INVOKED cross-
+#          reference instead of silent omission when its source
+#          kits didn't run.
+# v2.0 changes (retained, unchanged this release):
+# Changes (all under the CLASR_CORE_v2_0 "short/clear/traceable" update):
+#   § 1  — Report structure updated: SIGNAL CONFIDENCE PROFILE +
+#          ARGUMENT DENSITY BLOCK + INTEGRATED RISK POSTURE BLOCK
+#          (three separate mandatory blocks in v1.3) merged into one
+#          mandatory REPORT SYNTHESIS block. No field removed, no
+#          content dropped — same data, one container instead of three.
+#   § 7  — Structured block enforcement table updated to point all
+#          three former blocks at REPORT SYNTHESIS.
+#   § 8  — Old §8/§8b (Argument Density / Integrated Risk Posture)
+#          replaced by new unified §8 REPORT SYNTHESIS BLOCK.
+#   § 10 — Special Modes renamed and re-anchored to REPORT-MODE-KIT
+#          v2.0 (Quick Summary is now the default mode, not an
+#          opt-in "Summary Mode"). Section Scope Mode / OUTPUT_SCOPE_KIT
+#          reference removed — that kit is retired as of this release
+#          (see CLASR_OUTPUT_SCOPE_KIT_RETIREMENT_NOTICE.txt); its
+#          function is fully covered by REPORT-MODE-KIT v2.0's named
+#          modes plus the pre-existing SECTION 8 floor rule, which is
+#          restated directly in this kit (§ 10) so nothing depends on
+#          a retired, unconfirmed file anymore.
+# Why MAJOR and not MINOR/PATCH: this changes the fixed report
+#          structure (§ 1) that every other kit's "where does my
+#          output live" instruction points to — a structural identity
+#          change, not a clarification. Companion change to
+#          CLASR_CORE_v2_0. See CLASR_CORE_v2_0_VERSION_RECORD.txt.
+
+---
+
+## 0. IDENTITY
+
+This kit locks the complete format, section order,
+length limits, and language rules of every CLASR report.
+
+Goal: Every session produces a report in the same structure —
+consistent, ready for pre-submission editorial review, complete.
+Traceability is preserved through the PAS signal-card schema (CORE)
+at every field; completeness is the report's identity-level
+commitment (v3.0 — CORE's REPORT COMPLETENESS rule), not something
+traded off against length. There is no shortened mode.
+
+---
+
+## 1. REPORT STRUCTURE (FIXED ORDER, THE ONLY STRUCTURE — v3.0)
+
+```
+[HEADER BLOCK — 3 lines]
+[EXECUTIVE SUMMARY]
+[PRIORITY ACTION SIGNALS BLOCK]    ← always present; before SECTION 0
+[SECTION 0]
+[SECTION 1]
+[SECTION 2]
+[SECTION 3]
+[SECTION 4]
+[SECTION 5]
+[SECTION 6]
+[SECTION 7]
+[SECTION 8]
+[SECTION 9]                        ← conditional; when figures/tables present
+[SECTION 10]                       ← always present
+[TIER 3 COVERAGE MANIFEST]         ← always present — see § 8a and
+                                      58_CLASR_TIER3_COVERAGE_MANIFEST_KIT
+[REPORT SYNTHESIS BLOCK]           ← always present — see § 8
+[CLOSING BLOCK]
+```
+
+This order is non-negotiable and this is the only report shape CLASR
+produces (v3.0 — the Quick Summary / Compact-format shorter shape
+and the REPORT-MODE-KIT named-mode system are retired; see CORE's
+REPORT COMPLETENESS rule and CLASR_CORE_v3_0_VERSION_RECORD.txt).
+SECTION 0–8 may not be merged or skipped.
+SECTION 9: suppressed with scope note when no figures/tables present.
+SECTION 10: always present; modules may be suppressed with reason.
+TIER 3 COVERAGE MANIFEST: always present — v2.1's "mandatory in Full
+Report and Publication Risk mode" restriction is removed along with
+the mode system; every report now meets the section-coverage
+condition that manifest requires.
+REPORT SYNTHESIS: always present; see § 8 for its three internal
+subsections. The "partial mode behavior" (§ 8, prior versions) no
+longer applies — every report has full section coverage, so all
+three subsections are always producible in principle (individual
+subsections may still be genuinely not producible for
+content-driven reasons — e.g. Integrated Risk Posture when its
+source Tier 3 kits are NOT_INVOKED for a stated structural reason —
+see § 8).
+
+---
+
+## 2. HEADER BLOCK FORMAT
+
+⚠ PRE-EXISTING INCONSISTENCY, NOT RESOLVED BY THIS PATCH: this
+section's header template ("CLASR — ACADEMIC READING REPORT" /
+Q-Profile line) does not match CORE's own header block definition
+(the "CLASR [LastNameEtAl_Year] — [DD Month YYYY]" / title / report
+name 3-line template). This predates the v3.0 mode-removal sweep and
+is left as a separate, already-flagged open item — see CORE's own
+§2 HEADER BLOCK FORMAT for the authoritative, currently-enforced
+template; do not use the template shown below.
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CLASR — ACADEMIC READING REPORT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Q-Profile: [Q1 / Q2 / Q3] — [User-defined / AUTO-Q estimate]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+The Mode line previously shown here (v2.0–v2.6) is removed — there
+is no mode to display (v3.0; see CORE's REPORT COMPLETENESS rule).
+
+---
+
+## 3. SECTION HEADER FORMAT
+
+Each SECTION opens as follows:
+
+```
+▸ SECTION [N] — [NAME]
+```
+
+No color codes, emoji, or decorative elements.
+Only `▸` and the section number.
+
+---
+
+## 4. LENGTH STANDARDS
+
+| Section | Maximum length |
+|---------|---------------|
+| SECTION 0 | 6 lines |
+| SECTION 1 | 4 lines |
+| SECTION 2 | 4 lines |
+| SECTION 3 | 5 lines |
+| SECTION 4 | 5 lines |
+| SECTION 5 | 4 lines |
+| SECTION 6 | 5 lines |
+| SECTION 7 | 6 lines |
+| SECTION 8 | 6 lines |
+| SECTION 9 | No maximum — scales to number of figures/tables |
+| SECTION 10 | No maximum — scales to number of active modules |
+
+Note on SECTION 9 and 10: these sections contain structured
+blocks (Signal Map, Compliance Profile, Synthesis) that have
+internal length discipline. The "no maximum" rule applies to
+the section as a whole — individual signals remain concise.
+
+**Total report:** SECTION 0–10 + REPORT SYNTHESIS, produced in full
+every time (v3.0), has no fixed line maximum. Core report (SECTION
+0–8) maximum ~45 lines prose + structured blocks. Priority Action
+Signals block: 3–5 signals in Standard format (~5 lines each).
+There is no shorter alternative shape — see CORE's REPORT
+COMPLETENESS rule.
+
+For short manuscripts → SECTIONs scale down proportionally.
+Length is never padded.
+
+---
+
+## 5. LANGUAGE RULES (LOCK)
+
+### Prohibited structures (all SECTIONs):
+- "This study does / shows / argues..." (content forwarding)
+- "The manuscript states that..." (summary framing)
+- "Based on what we read..." (interpretive opener)
+- Bullet-point lists — flowing prose required throughout
+
+### Minimum length rule (signal-conditional):
+- If signal is present in a SECTION → minimum 3 lines required
+- If no signal is detected → single-line scope note only:
+  `[SECTION N: no signal detected]`
+- Padding to reach 3 lines when no signal exists is a format
+  violation
+
+### Required structures:
+- Flowing, self-contained paragraph per SECTION
+- International academic English prose
+- Signal-focused; no calls to action
+
+---
+
+## 6. LABEL ENFORCEMENT LOCK
+
+Signal labels are mandatory in all output conditions.
+
+**Core rule:** When a kit detects a signal, its label must appear
+in the SECTION output as a discrete, visible identifier —
+not embedded in prose only.
+
+Required label format:
+```
+LABEL_NAME: [supporting observation — one line]
+```
+
+**Label suppression is prohibited under any condition:**
+- Q-variant does not suppress labels
+- Context length does not suppress labels
+- Partial input does not suppress labels for available signals
+
+**Two permitted output states only:**
+1. Signal detected → label appears with supporting observation
+2. No signal detected → kit runs silently, no output
+
+This rule applies to all sections including SECTION 9 and SECTION 10,
+and to the Priority Action Signals block — the identifier stays in
+full, unrelabeled Standard-format form always (v3.0 — the Compact
+format's field relabeling, e.g. "What this means" for "Inference,"
+is retired along with the mode system).
+
+---
+
+## 7. STRUCTURED BLOCK ENFORCEMENT
+
+Mandatory structured blocks — must appear in specified format
+regardless of context length or Q-variant:
+
+```
+Replication Signal Kit        → RETIRED (kit 22)
+                                → replaced by REPRODUCIBILITY &
+                                  OPEN SCIENCE KIT module signals
+                                  in SECTION 10
+Desk-Reject Signal Kit (29)   → DESK-REJECT RISK PROFILE (§ SECTION 0)
+Argument Chain Kit (30)       → ARGUMENT CHAIN SIGNAL (§ SECTION 4)
+Overreach-Signal Kit (35)     → OVERREACH PROFILE (§ SECTION 0)
+Conclusion Integrity Kit (34) → CONCLUSION INTEGRITY SIGNAL (§ SECTION 4)
+Argument Load Kit (32)        → ARGUMENT LOAD PROFILE (§ SECTION 4)
+Uncertainty-Visibility (36)   → UNCERTAINTY VISIBILITY PROFILE (§ SECTION 8)
+Hedging-Calibration (37)      → HEDGING CALIBRATION PROFILE (§ SECTION 6)
+Action Priority Block (44)    → PRIORITY ACTION SIGNALS (before SECTION 0;
+                                  present in every report)
+Argument Integrity Kit (40)   → ARGUMENT INTEGRITY SIGNALS (§ SECTION 4)
+Figure/Table Kit (41)         → SIGNAL MAP + SIGNAL SUMMARY (§ SECTION 9)
+ROS Kit (42)                  → MODULE SIGNAL TABLE + SYNTHESIS (§ SECTION 10)
+Reporting Standard Kit (45)   → REPORTING STANDARD COMPLIANCE (§ SECTION 10)
+Layer Convergence Kit (53)    → CONVERGENCE PROFILE
+                                  (§ 8, REPORT SYNTHESIS subsection C)
+Tier 3 Coverage Manifest (58)  → TIER 3 COVERAGE MANIFEST (§ 8a;
+                                  after SECTION 10, before REPORT SYNTHESIS;
+                                  always present — v3.0)
+Signal Confidence Layer       → CONFIDENCE PROFILE
+                                  (§ 8, REPORT SYNTHESIS subsection A —
+                                  v2.0: was its own block before ARGUMENT
+                                  DENSITY; now a REPORT SYNTHESIS subsection)
+Argument Density              → ARGUMENT DENSITY
+                                  (§ 8, REPORT SYNTHESIS subsection B —
+                                  v2.0: was its own block; now a REPORT
+                                  SYNTHESIS subsection)
+Unified Output Kit (03)       → INTEGRATED RISK POSTURE
+                                  (§ 8, REPORT SYNTHESIS subsection D —
+                                  v2.0: was its own block after ARGUMENT
+                                  DENSITY; now a REPORT SYNTHESIS subsection)
+```
+
+Rendering a required structured block as a prose paragraph
+is a format violation.
+
+---
+
+## 8a. TIER 3 COVERAGE MANIFEST (NEW v2.1)
+
+Inserted after SECTION 10, immediately before REPORT SYNTHESIS.
+Full definition, format, and three-state vocabulary (SIGNAL_PRODUCED
+/ SCANNED_NO_SIGNAL / NOT_INVOKED) live in
+58_CLASR_TIER3_COVERAGE_MANIFEST_KIT_v1_1.txt — not duplicated here.
+
+Always present (v3.0) — the prior "mandatory in Full Report and
+Publication Risk mode only" restriction is removed along with the
+mode system; every report now has the full section coverage this
+manifest requires.
+
+---
+
+## 8. REPORT SYNTHESIS BLOCK (v2.0 — replaces §8 + §8b of v1.3)
+
+Inserted after SECTION 10, immediately before CLOSING BLOCK.
+Always present (v3.0 — the "partial mode behavior" gating this to
+certain modes is removed; every report has full section coverage).
+Never split across the report — always one block, four labeled
+subsections in fixed order.
+
+**Why consolidated:** v1.3 produced this same information as three
+separate mandatory blocks in sequence (SIGNAL CONFIDENCE PROFILE →
+ARGUMENT DENSITY → INTEGRATED RISK POSTURE), each with its own
+header rule and its own "always present" clause. Nothing in their
+content overlapped or conflicted — they were simply unbundled. A
+reader scanning the end of a report saw three headers before the
+closing note where one clearly-labeled block does the same job.
+v2.0 keeps every field, every rule, every partial-input behavior
+from all three — packaged as four subsections of one block.
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+REPORT SYNTHESIS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+A. CONFIDENCE PROFILE
+HIGH     : [n] signals
+MEDIUM   : [n] signals
+LOW      : [n] signals
+INSUFFICIENT EVIDENCE : [n] signals
+Highest-confidence signal: [SIGNAL_LABEL] — [SECTION N]
+
+B. ARGUMENT DENSITY
+FRAMING:  [LOW / MEDIUM / HIGH]
+CORE:     [LOW / MEDIUM / HIGH]
+LANGUAGE: [LOW / MEDIUM / HIGH]
+CLOSING:  [LOW / MEDIUM / HIGH]
+Distribution: [FRONT-LOADED / BACK-LOADED /
+               CORE-CONCENTRATED / DISTRIBUTED]
+
+C. CONVERGENCE PROFILE  [only when LAYER-CONVERGENCE-KIT active]
+HIGH (×4+)    : N signals
+STRONG (×3)   : N signals
+MODERATE (×2) : N signals
+Single layer  : N signals
+
+D. INTEGRATED RISK POSTURE
+[LOW / MEDIUM / HIGH / CRITICAL]
+[One sentence: which signal categories produced this posture.]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+Subsection C is omitted entirely (not a suppression note — simply
+absent) when the Layer Convergence Kit is not loaded, exactly as
+it was previously an optional SECTION 0 addition.
+
+### A. Confidence Profile — rules (unchanged from Signal Confidence
+Layer, repositioned only)
+Same tiering, same "Highest-confidence signal" line rule (omitted
+if no HIGH-tier signal exists — never names a weaker signal as if
+it were strong). See CLASR_SIGNAL_CONFIDENCE_LAYER for the full
+tier-assignment mapping this subsection draws from.
+
+### B. Argument Density — rules (unchanged from v1.3 § 8)
+Maximum 4 lines within the subsection (was 6 as a standalone block;
+tightened by 2 lines since it no longer needs its own header/rule
+overhead). No interpretation. No recommendation. SECTION 9 and
+SECTION 10 signals are NOT included in zone aggregation.
+
+### D. Integrated Risk Posture — rules (unchanged from v1.3 § 8b)
+Three source dimensions, same resolution rule (ceiling of the three
+inputs, never averaged, never softened):
+```
+Overreach pattern (kit 35)    → NONE / ISOLATED / COMPOUND / SYSTEMATIC
+Desk-reject co-occurrence (29)→ LOW / MODERATE / HIGH
+Reproducibility risk (42)     → LOW / MEDIUM / HIGH / CRITICAL
+
+All three at lowest level              → LOW
+Any one at HIGH / CRITICAL / SYSTEMATIC → HIGH
+Two or more at medium level            → MEDIUM
+Mixed (one HIGH, others LOW)           → HIGH
+```
+Sentence construction rules unchanged: names the driving signal
+categories, does not repeat individual signal labels already shown
+elsewhere in the report, no revision recommendation, no editorial
+outcome prediction, maximum one sentence.
+
+**v2.1 addition — silent omission is now a named format violation.**
+Subsection D depends on Overreach-Signal Kit (35) and Desk-Reject
+Signal Kit (29) output. If the TIER 3 COVERAGE MANIFEST (§ 8a) shows
+either kit as NOT_INVOKED, subsection D is not simply omitted — it
+states:
+```
+D. INTEGRATED RISK POSTURE
+[Not producible — source kit(s) NOT_INVOKED: see TIER 3 COVERAGE
+MANIFEST. Reason: <reason category>]
+```
+If the manifest shows both kits as SCANNED_NO_SIGNAL or
+SIGNAL_PRODUCED and subsection D is still missing, that is now an
+unambiguous format violation traceable directly against the
+manifest — this closes the exact gap found in the 2026-08-19
+Levison_EtAl_2026 verification, where subsection D was absent with
+no way to tell whether its source kits had run.
+
+### Partial input behavior (subsections A, B, D — unchanged rules,
+now applied per-subsection instead of per-block)
+If one or more source dimensions are not assessable (partial input
+type A, B, or C): the affected subsection is produced on available
+dimensions only, with `[Partial input — based on available
+dimensions]` appended under that subsection's own header. Other
+subsections are unaffected. The block as a whole is still produced
+if at least one subsection has assessable content; a subsection
+with zero assessable content is replaced by a single line:
+`[Subsection not assessable — partial input]`.
+
+REPORT SYNTHESIS is always produced (v3.0) — every report has full
+SECTION 0–10 coverage, so all four subsections are always
+meaningfully producible in principle (an individual subsection may
+still show `[Subsection not producible — see TIER 3 COVERAGE
+MANIFEST]` for a content-driven reason, e.g. its source Tier 3 kits
+are NOT_INVOKED — this is a per-subsection, evidence-driven
+exception, not a mode-driven one).
+
+---
+
+## 9. CLOSING BLOCK FORMAT
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+This report is an academic reading signal.
+Decisions, evaluation, and publication responsibility
+rest with the user.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+If calibration note applies (3+ deviations detected):
+```
+[Calibration: Expression levels were automatically adjusted]
+```
+This line appears immediately before the closing block.
+
+---
+
+## 10. SECTION 8 FLOOR RULE (v3.0 — simplified; no report modes exist)
+
+SECTION 8 (Limits & Uncertainties) is mandatory in every report,
+unconditionally — every report produces full SECTION 0–10 coverage
+(v3.0; see CORE's REPORT COMPLETENESS rule), so SECTION 8 is always
+present by construction. This section previously (v2.0–v2.6) stated
+mode-specific exceptions (e.g. Quick Summary producing no SECTIONs
+at all) and deferred certain rules to REPORT-MODE-KIT — both are
+retired along with the mode system; there is nothing left to defer.
+
+### Q-Comparison Mode ("compare Q1 and Q2") — unchanged from v1.3
+- Not two-column; two sequential report blocks
+- Each block in the standard full-report format, different Q threshold
+- REPORT SYNTHESIS: produced per block (v3.0 — always produced, no
+  mode-conditional gating remains)
+
+### Structural Mode (heading list only) — unchanged from v1.3
+- SECTION 7 expanded (full Numerical Hat Kit output)
+- All other SECTIONs: not produced
+- SECTION 9: not produced
+- SECTION 10: not produced
+- REPORT SYNTHESIS: not produced
+- Output: flags + score format
+
+---
+
+## 11. FORMAT VIOLATION PROTOCOL
+
+If a format violation is internally detected during output:
+- Production continues without interruption
+- Violation not surfaced to user
+- Violating element corrected in-line
+
+Format violations (exhaustive list):
+- Label suppression for a detected signal
+- Padding a SECTION with no signal to meet 3-line minimum
+- Prose-only output for a signal requiring a label
+- Structured block rendered as paragraph
+- SECTION skipped without scope note
+- Output order deviation from § 1
+- PRIORITY ACTION SIGNALS block omitted
+- SECTION 10 entirely suppressed without module-level notation
+- REPORT SYNTHESIS block omitted (always required — v3.0)
+- Any REPORT SYNTHESIS subsection reordered from A → B → C → D
+- INTEGRATED RISK POSTURE sentence exceeding one sentence
+- INTEGRATED RISK POSTURE posture level softened below ceiling
+  of its three source dimensions
+- SECTION 10 module (M01/M02/M04/M06/M12) at PARTIAL or ABSENT
+  status escalated to Priority Action Signals, or reported in the
+  module table, without its Base Tier / Field Modifier / Final
+  Severity chain displayed (CORE v2.4, 42b v1.1)
+- Any heading, summary line, or framing anywhere in the report
+  (e.g. a "Critical Gap(s)" / "Priority Gap(s)"-style label) that
+  attributes CRITICAL status to a SECTION 10 module whose own tier
+  table entry in SECTION 10 declares STANDARD or CONTEXTUAL — or,
+  for modules with a defined field-type modifier table (M01, M02,
+  M04, M06, M12), whose displayed Final Severity (42b v1.1) is
+  below CRITICAL. The module's own SECTION 10 tier table entry is
+  always authoritative; a heading elsewhere in the same report may
+  not silently override it. (SECTION 10 TIER CONSISTENCY RULE —
+  v2.4, transferred from CLASR-GAIN Escalation Queue Entry 2 /
+  CODE-07; evidenced across 11 manuscripts before transfer — see
+  STATE_FILE_UPDATE_2026-08-14.md § 5)
+
+---
+
+## 12. LIMITS
+
+This kit does not define:
+  SECTION content (→ SECTION-DEPTH KIT, kits 40-42)
+  Language thresholds (→ Q-GATE KITs)
+  Cross-lingual behavior (→ OUTPUT-LANGUAGE-KIT)
+
+It locks the external format, structure, label enforcement,
+and output discipline of every CLASR report. There is no report
+mode to define (v3.0) — REPORT-MODE-KIT is retired.
+
+---
+
+# UNIFIED-OUTPUT KIT v2.0 — END

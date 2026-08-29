@@ -1,4 +1,4 @@
-﻿# 16 CLASR — ORIENTATION LENS KIT v1.0
+# 16 CLASR — ORIENTATION LENS KIT v1.0
 # Added to Project Files. Does not modify CORE.
 # STATUS: v1.0 — Alternativeless framing and scope-lock detection overlay
 

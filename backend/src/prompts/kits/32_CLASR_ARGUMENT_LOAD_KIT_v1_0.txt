@@ -1,4 +1,4 @@
-﻿# 32 CLASR — ARGUMENT LOAD KIT v1.0
+# 32 CLASR — ARGUMENT LOAD KIT v1.0
 # Added to Project Files. Does not modify CORE.
 # STATUS: v1.0 — Argument weight distribution signal detection overlay
 

@@ -1,4 +1,4 @@
-﻿# 30 CLASR — ARGUMENT CHAIN KIT v1.0
+# 30 CLASR — ARGUMENT CHAIN KIT v1.0
 # Added to Project Files. Does not modify CORE.
 # STATUS: v1.0 — Longitudinal argument continuity signal detection overlay
 

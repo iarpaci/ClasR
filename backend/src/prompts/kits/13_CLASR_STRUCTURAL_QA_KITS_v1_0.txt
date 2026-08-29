@@ -1,4 +1,4 @@
-﻿# 13 CLASR — NUMERICAL HAT KIT v1.0
+# 13 CLASR — NUMERICAL HAT KIT v1.0
 # (Quantitative Academic Heading Review System)
 # Added to Project Files. Does not modify CORE.
 # STATUS: v1.0 — Fully automatic, content-free, structure-only

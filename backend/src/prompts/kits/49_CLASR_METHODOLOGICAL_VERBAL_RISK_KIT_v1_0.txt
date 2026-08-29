@@ -1,4 +1,4 @@
-﻿# 49 CLASR — METHODOLOGICAL VERBAL RISK KIT v1.0
+# 49 CLASR — METHODOLOGICAL VERBAL RISK KIT v1.0
 # Added to Project Files. Does not modify CORE.
 # Tier: 3 — Extension
 # Primary SECTION: SECTION 3 — Methodological Visibility
