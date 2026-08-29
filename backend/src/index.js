@@ -30,6 +30,12 @@ app.use(cors({
   },
   methods: ['GET', 'POST', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
+  // Content-Disposition isn't CORS-safelisted by default, so without this
+  // the frontend's fetch(...).headers.get('Content-Disposition') on the new
+  // report-export endpoint always reads null cross-origin (clasr.ai calling
+  // railway.app) -- exports would silently download as "clasr-report.pdf"
+  // instead of the real manuscript-title filename the backend sends.
+  exposedHeaders: ['Content-Disposition'],
 }));
 
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'tiny' : 'combined'));

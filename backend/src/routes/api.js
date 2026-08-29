@@ -14,6 +14,7 @@ const dbReadClient = createClient(
   { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } }
 );
 const { analyzeManuscript, reformatReport, reformatReportAuthorJson, reformatReportReviewerJson, reformatReportEditorJson } = require('../services/claude');
+const { exportReportAsPdf, exportReportAsDocx, exportReportAsTxt, exportFilename } = require('../services/reportExport');
 const { extractText } = require('../services/fileParser');
 const { runConsistent } = require('../services/clasr-engine/consistency');
 const { atomicConsumeCredit } = require('../services/credits');
@@ -448,6 +449,44 @@ router.get('/readings/:id/mode/:mode', requireAuth, async (req, res, next) => {
     if (updateErr) console.error('[api] failed to cache mode_reports for reading', req.params.id, ':', updateErr.message);
 
     res.json({ mode, report: reportOut, cached: false });
+  } catch (err) { next(err); }
+});
+
+// ── GET /api/readings/:id/export/:format ────────────────────────────────────
+// Server-rendered PDF (headless Chromium)/DOCX/TXT, replacing the client-side
+// window.print()/browser-side docx generation (2026-08-29) -- PDF this way is
+// always light-mode, paginated, and has selectable text regardless of the
+// viewer's OS print dialog or theme. Exports whichever mode is passed via
+// ?mode=, defaulting to the reading's own output_mode; only ever reads an
+// already-cached mode_reports entry -- never triggers a new Anthropic call,
+// so exporting never spends a credit or costs latency beyond rendering.
+const EXPORT_FORMATS = { pdf: 'application/pdf', docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', txt: 'text/plain; charset=utf-8' };
+router.get('/readings/:id/export/:format', requireAuth, async (req, res, next) => {
+  try {
+    const format = String(req.params.format || '').toLowerCase();
+    if (!EXPORT_FORMATS[format]) return res.status(400).json({ error: 'Unsupported export format. Use pdf, docx, or txt.' });
+
+    const { data, error } = await supabase
+      .from('analyses')
+      .select('filename, output_mode, mode_reports')
+      .eq('id', req.params.id)
+      .eq('user_id', req.user.id)
+      .single();
+    if (error || !data) return res.status(404).json({ error: 'Reading not found' });
+
+    const mode = MODE_ALIASES[String(req.query.mode || data.output_mode || 'author').toLowerCase()] || 'author';
+    const report = data.mode_reports?.[mode];
+    if (!report) return res.status(409).json({ error: 'This mode has not been generated for this reading yet.' });
+
+    const fallbackTitle = data.filename || 'Clasr Signal Report';
+    let body;
+    if (format === 'pdf') body = await exportReportAsPdf(report, mode, fallbackTitle);
+    else if (format === 'docx') body = await exportReportAsDocx(report, mode, fallbackTitle);
+    else body = exportReportAsTxt(report, mode, fallbackTitle);
+
+    res.setHeader('Content-Type', EXPORT_FORMATS[format]);
+    res.setHeader('Content-Disposition', `attachment; filename="${exportFilename(report, mode, fallbackTitle, format)}"`);
+    res.send(body);
   } catch (err) { next(err); }
 });
 

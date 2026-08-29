@@ -3228,6 +3228,29 @@ setupResponsiveReports();
         exportBtns.push(clone);
       });
 
+      // Real readings export server-side (Playwright PDF + docx-package DOCX
+      // + plain TXT, 2026-08-29) -- always light-mode, paginated, selectable
+      // text, and never depends on the viewer's OS print dialog. The public
+      // landing demo has no real reading behind it to call that API for, so
+      // it keeps the original client-side generators as a fallback path
+      // (also used if the backend export ever errors, so export never just
+      // silently breaks for the user).
+      var exportViaBackend = function(btn, mode, clientFallback) {
+        var kind = btn.getAttribute('data-export-report');
+        if (isLandingDemo) { clientFallback(kind); return; }
+        var origText = btn.textContent;
+        btn.disabled = true;
+        btn.textContent = 'Exporting…';
+        var restore = function() { btn.disabled = false; btn.textContent = origText; };
+        apiFetch('/api/readings/' + reportId + '/export/' + kind + '?mode=' + mode).then(function(res) {
+          if (!res || !res.ok) throw new Error('export failed');
+          var disposition = res.headers.get('Content-Disposition') || '';
+          var match = disposition.match(/filename="?([^"]+)"?/);
+          var filename = match ? match[1] : ('clasr-report.' + kind);
+          return res.blob().then(function(blob) { clasrDownloadBlob(blob, filename); });
+        }).catch(function() { clientFallback(kind); }).then(restore, restore);
+      };
+
       if (data.mode === 'author' && data.reportJson) {
         if (jsonNode) jsonNode.hidden = false;
         if (textNode) textNode.hidden = true;
@@ -3237,10 +3260,11 @@ setupResponsiveReports();
         clasrRenderJsonReport(data.reportJson);
         exportBtns.forEach(function(btn) {
           btn.addEventListener('click', function() {
-            var kind = btn.getAttribute('data-export-report');
-            if (kind === 'txt') clasrExportJsonTxt(data.reportJson, data);
-            else if (kind === 'pdf') window.print();
-            else if (kind === 'docx') clasrExportJsonDocx(data.reportJson, data);
+            exportViaBackend(btn, 'author', function(kind) {
+              if (kind === 'txt') clasrExportJsonTxt(data.reportJson, data);
+              else if (kind === 'pdf') window.print();
+              else if (kind === 'docx') clasrExportJsonDocx(data.reportJson, data);
+            });
           });
         });
       } else if (data.mode === 'reviewer' && data.reportJson) {
@@ -3252,10 +3276,11 @@ setupResponsiveReports();
         clasrRenderReviewerJsonReport(data.reportJson);
         exportBtns.forEach(function(btn) {
           btn.addEventListener('click', function() {
-            var kind = btn.getAttribute('data-export-report');
-            if (kind === 'txt') clasrExportReviewerTxt(data.reportJson, data);
-            else if (kind === 'pdf') window.print();
-            else if (kind === 'docx') clasrExportReviewerDocx(data.reportJson, data);
+            exportViaBackend(btn, 'reviewer', function(kind) {
+              if (kind === 'txt') clasrExportReviewerTxt(data.reportJson, data);
+              else if (kind === 'pdf') window.print();
+              else if (kind === 'docx') clasrExportReviewerDocx(data.reportJson, data);
+            });
           });
         });
       } else if (data.mode === 'advisor' && data.reportJson) {
@@ -3267,10 +3292,11 @@ setupResponsiveReports();
         clasrRenderEditorJsonReport(data.reportJson);
         exportBtns.forEach(function(btn) {
           btn.addEventListener('click', function() {
-            var kind = btn.getAttribute('data-export-report');
-            if (kind === 'txt') clasrExportEditorTxt(data.reportJson, data);
-            else if (kind === 'pdf') window.print();
-            else if (kind === 'docx') clasrExportEditorDocx(data.reportJson, data);
+            exportViaBackend(btn, 'advisor', function(kind) {
+              if (kind === 'txt') clasrExportEditorTxt(data.reportJson, data);
+              else if (kind === 'pdf') window.print();
+              else if (kind === 'docx') clasrExportEditorDocx(data.reportJson, data);
+            });
           });
         });
       } else {
