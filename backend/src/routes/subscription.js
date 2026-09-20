@@ -105,13 +105,17 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
         console.log(`[paddle] subscription.updated plan=${plan} user=${userId}`);
       }
 
-    } else if (event_type === 'subscription.cancelled') {
+    } else if (event_type === 'subscription.canceled' || event_type === 'subscription.cancelled') {
       await upsertSub(userId, {
         plan: 'free',
         paddle_status: 'cancelled',
         paddle_subscription_id: null,
       });
       console.log(`[paddle] subscription cancelled, downgraded to free user=${userId}`);
+
+    } else if (event_type === 'subscription.past_due') {
+      await upsertSub(userId, { paddle_status: 'past_due' });
+      console.log(`[paddle] subscription past_due user=${userId}`);
     }
   } catch (err) {
     console.error('[paddle] webhook handler error:', err.message);

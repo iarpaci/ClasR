@@ -748,7 +748,75 @@ router.get('/billing/status', requireAuth, async (req, res, next) => {
       paddleSubscriptionId: sub.paddle_subscription_id || null,
       paddleStatus: sub.paddle_status || null,
       portalReady: false,
+      cancel: await getSubscriptionCancelState(sub),
     });
+  } catch (err) { next(err); }
+});
+
+// ── Subscription cancellation (Paddle Billing API) ─────────────────────────
+// Needs PADDLE_API_KEY (Paddle > Developer tools > Authentication, with
+// subscription write access). PADDLE_API_BASE defaults to live; set
+// https://sandbox-api.paddle.com for sandbox.
+const PADDLE_API_BASE = process.env.PADDLE_API_BASE || 'https://api.paddle.com';
+
+async function paddleRequest(method, path, body) {
+  const key = process.env.PADDLE_API_KEY;
+  if (!key) { const e = new Error('paddle_api_key_missing'); e.code = 'NO_KEY'; throw e; }
+  const res = await fetch(PADDLE_API_BASE + path, {
+    method,
+    headers: { Authorization: 'Bearer ' + key, 'Content-Type': 'application/json' },
+    body: body ? JSON.stringify(body) : undefined,
+  });
+  const json = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    const e = new Error(json?.error?.detail || 'Paddle request failed');
+    e.status = res.status;
+    e.paddleCode = json?.error?.code;
+    throw e;
+  }
+  return json.data;
+}
+
+// Best-effort read of whether a cancellation is already scheduled, so the
+// billing page can show it after a reload. Never throws.
+async function getSubscriptionCancelState(sub) {
+  const empty = { canCancel: false, scheduled: false, effectiveAt: null };
+  if (!sub.paddle_subscription_id) return empty;
+  if (['canceled', 'cancelled'].includes(sub.paddle_status)) return empty;
+  if (!process.env.PADDLE_API_KEY) return { canCancel: true, scheduled: false, effectiveAt: null };
+  try {
+    const data = await paddleRequest('GET', '/subscriptions/' + encodeURIComponent(sub.paddle_subscription_id));
+    if (data.status === 'canceled') return empty;
+    const change = data.scheduled_change;
+    const scheduled = change?.action === 'cancel';
+    return { canCancel: !scheduled, scheduled, effectiveAt: scheduled ? change.effective_at : null };
+  } catch { return { canCancel: true, scheduled: false, effectiveAt: null }; }
+}
+
+router.post('/subscription/cancel', requireAuth, async (req, res, next) => {
+  try {
+    const sub = await getUserSub(req.user.id);
+    if (!sub.paddle_subscription_id || ['canceled', 'cancelled'].includes(sub.paddle_status)) {
+      return res.status(400).json({ error: 'There is no active subscription to cancel.' });
+    }
+    // A past-due subscription cannot be scheduled to end later -- stop it now
+    // so the failing payment stops being retried.
+    const effectiveFrom = sub.paddle_status === 'past_due' ? 'immediately' : 'next_billing_period';
+    let data;
+    try {
+      data = await paddleRequest('POST', '/subscriptions/' + encodeURIComponent(sub.paddle_subscription_id) + '/cancel', { effective_from: effectiveFrom });
+    } catch (err) {
+      if (err.code === 'NO_KEY') {
+        console.error('[billing] cancel requested but PADDLE_API_KEY is not configured');
+        return res.status(503).json({ error: 'Cancellation is temporarily unavailable. Please email hello@clasr.ai and we will cancel it for you.' });
+      }
+      console.error('[billing] paddle cancel failed:', err.status, err.paddleCode, err.message);
+      return res.status(502).json({ error: 'We could not cancel the subscription right now. Please try again or email hello@clasr.ai.' });
+    }
+    if (effectiveFrom === 'immediately') {
+      await supabase.from('user_subscriptions').update({ plan: 'free', paddle_status: 'canceled', paddle_subscription_id: null, updated_at: new Date().toISOString() }).eq('user_id', req.user.id);
+    }
+    res.json({ success: true, effectiveFrom, effectiveAt: data?.scheduled_change?.effective_at || null });
   } catch (err) { next(err); }
 });
 

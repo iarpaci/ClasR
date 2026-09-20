@@ -3839,3 +3839,95 @@ setupResponsiveReports();
   var fromHash = window.location.hash === '#subscriptions' ? 'subscriptions' : null;
   show(fromUrl || fromHash || 'readings');
 }());
+
+// ── Billing page: cancel subscription ─────────────────────────────────────
+(function () {
+  var section = document.querySelector('[data-subscription-section]');
+  if (!section) return;
+  var API_BASE = 'https://clasr-production.up.railway.app';
+  var cancelBtn = section.querySelector('[data-subscription-cancel]');
+  var statusEl = section.querySelector('[data-subscription-status]');
+  var messageEl = section.querySelector('[data-subscription-message]');
+
+  var api = function (path, opts) {
+    var token = localStorage.getItem('clasr:at');
+    if (!token) return Promise.resolve(null);
+    return fetch(API_BASE + path, Object.assign({}, opts || {}, {
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token }
+    })).then(function (res) {
+      return res.json().catch(function () { return {}; }).then(function (data) { return { ok: res.ok, data: data }; });
+    }).catch(function () { return null; });
+  };
+
+  var fmtDate = function (iso) {
+    try { return new Date(iso).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }); } catch (e) { return ''; }
+  };
+
+  var render = function (status) {
+    if (!status || !status.paddleSubscriptionId || !status.cancel) { section.hidden = true; return; }
+    var c = status.cancel;
+    if (!c.canCancel && !c.scheduled) { section.hidden = true; return; }
+    section.hidden = false;
+    if (c.scheduled) {
+      statusEl.textContent = 'Your subscription is set to cancel' + (c.effectiveAt ? ' on ' + fmtDate(c.effectiveAt) : ' at the end of the current billing period') + '. You keep access until then, and you will not be charged again.';
+      cancelBtn.hidden = true;
+    } else if (status.paddleStatus === 'past_due') {
+      statusEl.textContent = 'Your last payment did not go through. Cancelling now stops further payment attempts.';
+      cancelBtn.hidden = false;
+    } else {
+      statusEl.textContent = 'Your subscription renews automatically each billing period. If you cancel, you keep access until the end of the period you have already paid for.';
+      cancelBtn.hidden = false;
+    }
+  };
+
+  var load = function () { api('/api/billing/status').then(function (r) { render(r && r.ok ? r.data : null); }); };
+
+  var confirmCancel = function (past) {
+    var existing = document.querySelector('[data-subscription-modal]');
+    if (existing) existing.remove();
+    var overlay = document.createElement('div');
+    overlay.className = 'clasr-modal-overlay';
+    overlay.setAttribute('data-subscription-modal', '');
+    overlay.innerHTML =
+      '<div class="clasr-modal" role="dialog" aria-modal="true" aria-labelledby="clasr-sub-cancel-title">' +
+        '<h2 id="clasr-sub-cancel-title">Cancel your subscription?</h2>' +
+        '<p>' + (past
+          ? 'Your subscription will be cancelled now and no further payments will be attempted.'
+          : 'Your subscription will stay active until the end of the current billing period, then stop. You will not be charged again.') + '</p>' +
+        '<div class="clasr-modal__actions">' +
+          '<button type="button" class="button button--ghost" data-sub-keep>Keep subscription</button>' +
+          '<button type="button" class="button button--danger" data-sub-confirm>Cancel subscription</button>' +
+        '</div>' +
+      '</div>';
+    document.body.appendChild(overlay);
+    var close = function () { overlay.remove(); };
+    overlay.querySelector('[data-sub-keep]').addEventListener('click', close);
+    overlay.addEventListener('click', function (e) { if (e.target === overlay) close(); });
+    document.addEventListener('keydown', function esc(e) { if (e.key === 'Escape') { close(); document.removeEventListener('keydown', esc); } });
+    var confirmBtn = overlay.querySelector('[data-sub-confirm]');
+    confirmBtn.addEventListener('click', function () {
+      confirmBtn.disabled = true;
+      confirmBtn.textContent = 'Cancelling…';
+      api('/api/subscription/cancel', { method: 'POST' }).then(function (r) {
+        close();
+        if (r && r.ok) {
+          messageEl.hidden = true;
+          load();
+        } else {
+          messageEl.textContent = (r && r.data && r.data.error) || 'Could not reach the server. Please try again.';
+          messageEl.hidden = false;
+        }
+      });
+    });
+  };
+
+  var currentStatus = null;
+  cancelBtn.addEventListener('click', function () {
+    api('/api/billing/status').then(function (r) {
+      currentStatus = r && r.ok ? r.data : null;
+      confirmCancel(currentStatus && currentStatus.paddleStatus === 'past_due');
+    });
+  });
+
+  load();
+}());

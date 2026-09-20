@@ -6,7 +6,7 @@
     <title>Plan and Billing | Clasr</title>
     <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="/styles.css?v=pricing-model-1">
-    <script src="/script.js?v=pricing-model-1" defer></script>
+    <script src="/script.js?v=cancel-sub-1" defer></script>
   </head>
   <body>
     <header class="site-header">
@@ -65,6 +65,18 @@
                   <p data-billing-plan-summary>2 of 5 manuscript readings used. Credit window: 30 days from purchase.</p>
                 </div>
                 <a class="button button--primary" href="/dashboard/pricing/">Compare all plans</a>
+              </section>
+
+              <section class="settings-section" id="subscription" data-subscription-section hidden>
+                <div class="settings-section__head">
+                  <div>
+                    <span class="settings-panel__label">Subscription</span>
+                    <h2>Manage your subscription</h2>
+                  </div>
+                  <button type="button" class="button button--danger button--small" data-subscription-cancel>Cancel subscription</button>
+                </div>
+                <p class="settings-panel__copy" data-subscription-status>Your subscription renews automatically each billing period.</p>
+                <p class="clasr-modal__error" data-subscription-message hidden></p>
               </section>
 
               <section class="settings-section" id="invoices">
