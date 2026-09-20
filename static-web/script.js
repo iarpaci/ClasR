@@ -3122,6 +3122,10 @@ setupResponsiveReports();
         }
       },
       leverage_note: "The largest improvement would usually come from clarifying the claim boundary and making the supporting method step easier to trace.",
+      priority_dashboard: [
+        { rank: 1, label: 'Claim boundary needs clearer support', section: 'Section 0 / Section 4', why_it_ranks_here: "This affects how the abstract, results, and conclusion are read together, so it has the widest reach of any signal in this example." },
+        { rank: 2, label: 'Method step under-reported', section: 'Section 3', why_it_ranks_here: "Without this detail, an independent reader cannot fully retrace how the reported result was produced." }
+      ],
       final_checklist: [
         "Check that the main claim matches the evidence actually shown.",
         "Check that each important method step is visible.",
@@ -3525,14 +3529,28 @@ setupResponsiveReports();
 (function () {
   var PADDLE_CLIENT_TOKEN = 'live_5e676fb00dad38d72a99a6f04f5';
 
+  // Sales model (2026-09): one-time reading packs + monthly subscriptions.
+  // Subscription price IDs (starter/professional/advanced) have not been
+  // created in Paddle yet -- left null on purpose, never guess or reuse the
+  // retired Trial Pack / Researcher / annual IDs.
   var PADDLE_PRICES = {
-    'trial-pack':           'pri_01kwwh5epwyphhpce1nw23d30z',
-    'researcher-monthly':   'pri_01kwwh4cwhwpgvp02mhne8cxe9',
-    'researcher-annual':    'pri_01kwwh18968hfb3z60rc8kkpem',
-    'professional-monthly': 'pri_01kwwh3aqyw7yxzpty9536hx9q',
-    'professional-annual':  'pri_01kwwgzcapnqz4xrvfgaafa3nv',
-    'extra-reading':        'pri_01kwwgvf64gw3a9mdde2qm6h1g'
+    'reading-1':    'pri_01m2pwhj8gjj6djrxync9d3dgm',
+    'reading-3':    'pri_01m2pwnqtp3azqcce6zd3r0ew1',
+    'reading-10':   'pri_01m2pwx3x6sc71k9s2x23m5eyh',
+    'starter':      null,
+    'professional': null,
+    'advanced':     null
   };
+
+  // Keep false until the backend webhook (routes/subscription.js) can credit
+  // purchased readings to the account. With this off, pricing-page buttons
+  // fall back to the register flow instead of opening a live Paddle checkout
+  // that would charge a customer without delivering readings.
+  var PADDLE_CHECKOUT_LIVE = false;
+
+  function priceIdFor(plan) {
+    return PADDLE_CHECKOUT_LIVE ? (PADDLE_PRICES[plan] || null) : null;
+  }
 
   var onPricing  = !!document.querySelector('.plan-grid');
   var onCheckout = !!document.querySelector('.checkout-page');
@@ -3581,9 +3599,8 @@ setupResponsiveReports();
         if (!userId) return;
         try { localStorage.removeItem('clasr:pendingPlan'); } catch (ex) {}
         var planEl = document.querySelector('.checkout-plan.is-selected');
-        var plan = planEl ? planEl.dataset.checkoutPlan : 'trial-pack';
-        var priceKey = plan === 'trial-pack' ? 'trial-pack' : plan + '-' + (getBilling() === 'annual' ? 'annual' : 'monthly');
-        var priceId = PADDLE_PRICES[priceKey];
+        var plan = planEl ? planEl.dataset.checkoutPlan : 'reading-1';
+        var priceId = priceIdFor(plan);
         if (priceId) loadPaddle(function () { openCheckout(priceId, plan, userId); });
       };
     }
@@ -3604,11 +3621,6 @@ setupResponsiveReports();
     Paddle.Checkout.open(opts);
   }
 
-  function getBilling() {
-    var el = document.querySelector('[data-billing-option].is-active');
-    return el ? el.dataset.billingOption : 'monthly';
-  }
-
   document.addEventListener('click', function (e) {
     // Checkout page: "Continue to checkout" button
     var checkoutBtn = e.target.closest('[data-checkout-register]');
@@ -3617,9 +3629,8 @@ setupResponsiveReports();
       if (!userId) return; // not logged in — let href go to /register/
       e.preventDefault();
       var planEl = document.querySelector('.checkout-plan.is-selected');
-      var plan = planEl ? planEl.dataset.checkoutPlan : 'trial-pack';
-      var priceKey = plan === 'trial-pack' ? 'trial-pack' : plan + '-' + (getBilling() === 'annual' ? 'annual' : 'monthly');
-      var priceId = PADDLE_PRICES[priceKey];
+      var plan = planEl ? planEl.dataset.checkoutPlan : 'reading-1';
+      var priceId = priceIdFor(plan);
       if (!priceId) { window.location.href = checkoutBtn.href; return; }
       loadPaddle(function () { openCheckout(priceId, plan, userId); });
       return;
@@ -3634,8 +3645,7 @@ setupResponsiveReports();
       if (match) {
         e.preventDefault();
         var plan = decodeURIComponent(match[1]);
-        var priceKey = plan === 'trial-pack' ? 'trial-pack' : plan + '-' + (getBilling() === 'annual' ? 'annual' : 'monthly');
-        var priceId = PADDLE_PRICES[priceKey];
+        var priceId = priceIdFor(plan);
         if (!priceId) { window.location.href = planBtn.href; return; }
         loadPaddle(function () { openCheckout(priceId, plan, userId); });
         return;
@@ -3802,3 +3812,30 @@ setupResponsiveReports();
   });
 }());
 
+
+// ── Pricing page tabs: Buy Readings | Subscription Plans ─────────────────
+(function () {
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('[data-pricing-tab]'));
+  var panels = Array.prototype.slice.call(document.querySelectorAll('[data-pricing-panel]'));
+  if (!tabs.length || !panels.length) return;
+
+  function show(key) {
+    var active = key === 'subscriptions' ? 'subscriptions' : 'readings';
+    tabs.forEach(function (tab) {
+      var on = tab.getAttribute('data-pricing-tab') === active;
+      tab.classList.toggle('is-active', on);
+      tab.setAttribute('aria-pressed', String(on));
+    });
+    panels.forEach(function (panel) {
+      panel.hidden = panel.getAttribute('data-pricing-panel') !== active;
+    });
+  }
+
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () { show(tab.getAttribute('data-pricing-tab')); });
+  });
+
+  var fromUrl = new URLSearchParams(window.location.search).get('tab');
+  var fromHash = window.location.hash === '#subscriptions' ? 'subscriptions' : null;
+  show(fromUrl || fromHash || 'readings');
+}());

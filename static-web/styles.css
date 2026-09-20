@@ -27668,3 +27668,65 @@ body.theme-night .button--ghost {
   border-color: rgba(239, 231, 220, 0.32);
   color: var(--petrol);
 }
+
+/* Pricing model update (2026-09): tabs, panel intro, shared feature list. */
+.pricing-page .pricing-panel__intro {
+  margin: 4px auto 22px;
+  text-align: center;
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+.pricing-page .pricing-includes {
+  width: min(1080px, 100%);
+  margin: 28px auto 0;
+  padding: 20px 26px;
+  border: 1px solid rgba(44, 38, 32, 0.16);
+  border-radius: 8px;
+  background: rgba(245, 240, 229, 0.5);
+}
+
+.pricing-page .pricing-includes h3 {
+  margin: 0 0 10px;
+  color: var(--burgundy);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.pricing-page .pricing-includes ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 6px 24px;
+}
+
+.pricing-page .pricing-includes li {
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.pricing-page .pricing-includes li::before {
+  content: "\2713";
+  margin-right: 8px;
+  color: var(--red);
+  font-weight: 700;
+}
+
+body.theme-night .pricing-page .pricing-includes {
+  border-color: rgba(239, 231, 220, 0.18);
+  background: rgba(239, 231, 220, 0.04);
+}
+
+body.theme-night .pricing-page .pricing-includes h3 {
+  color: var(--petrol);
+}
+
+/* Landing: boundary row now holds only the "View plans" button. */
+.landing-boundary {
+  justify-content: center;
+}

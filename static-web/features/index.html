@@ -16,8 +16,8 @@
     <link rel="canonical" href="https://clasr.ai/features/">
     <title>Features | Clasr</title>
     <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/styles.css?v=export-system-1">
-    <script src="/script.js?v=export-system-1" defer></script>
+    <link rel="stylesheet" href="/styles.css?v=pricing-model-1">
+    <script src="/script.js?v=pricing-model-1" defer></script>
   </head>
   <body class="features-page">
     <header class="site-header">
@@ -133,7 +133,6 @@
               <div><span>Inference type</span><strong>Observation</strong></div>
               <div><span>Severity</span><strong>Moderate</strong></div>
             </div>
-            <p class="feature-signal-card__note">Your judgment remains final.</p>
           </aside>
         </div>
 
@@ -144,7 +143,7 @@
               <h2 class="cp-section__title">The core function.</h2>
               <div class="cp-section__body">
                 <p>Clasr reads the whole manuscript; how the topic gets framed, what the methods actually show, where the figures land, what&rsquo;s left uncertain. Eleven sections, each read the same disciplined way.</p>
-                <p>What comes back isn&rsquo;t a summary. It&rsquo;s every observation, labeled: where it&rsquo;s located, what kind of read it is, how serious it looks. You get the map, not someone&rsquo;s opinion of the map.</p>
+                <p>What comes back isn&rsquo;t a summary. It&rsquo;s every observation, labeled: where it&rsquo;s located, what kind of read it is, and how serious it looks. In Author Mode, each finding also includes a short &ldquo;Consider&rdquo; note.</p>
               </div>
             </div>
 
@@ -178,7 +177,7 @@
             <div class="cp-step"><h3 class="cp-step__title">Conclusion scope</h3><p class="cp-step__body">Does the conclusion stay inside what the evidence allows?</p></div>
           </div>
           <div class="cp-section__body cp-section__body--after-grid">
-            <p>A pattern this catches often: a manuscript that&rsquo;s correct section by section, but quietly redefines its claim by the time it reaches the discussion. Reviewers notice this. So does the Argument Chain.</p>
+            <p>A pattern this catches often: a manuscript that&rsquo;s correct section by section, but quietly redefines its claim by the time it reaches the discussion.<br>Reviewers notice this. So does the Argument Chain.</p>
           </div>
         </div>
 
@@ -186,26 +185,26 @@
           <span class="cp-section__label">Desk-Reject Profile</span>
           <h2 class="cp-section__title">Editorial concern rarely comes from a single flaw.</h2>
           <div class="cp-section__body">
-            <p>It comes from clusters: a scope mismatch next to an over-promising abstract, opaque methods, a thin reproducibility profile. Any one might pass alone. Together, they often don&rsquo;t.</p>
-            <p>The Desk-Reject Profile maps where these risks cluster before submission happens, and flags it when two critical gaps combine into something worse than either alone.</p>
-            <p>This is visibility, not prediction. Clasr doesn&rsquo;t estimate whether a manuscript gets rejected, since that depends on things no system can see, like journal strategy or submission load. It surfaces the patterns that tend to show up together right before one does.</p>
+            <p>It comes from clusters: a scope mismatch next to an over-promising abstract, opaque methods, or a thin reproducibility profile. Any one may be manageable on its own. Together, they can create a broader editorial concern.</p>
+            <p>The Desk-Reject Profile maps where these risks cluster across the manuscript and highlights when multiple critical gaps appear together.</p>
+            <p><strong>This is visibility, not prediction. Clasr does not estimate whether a manuscript will be rejected. It shows where multiple editorial concerns overlap, so you can see the pattern before submission.</strong></p>
           </div>
         </div>
 
         <div id="q-calibration" class="cp-section">
           <span class="cp-section__label">Q-Variant Calibration</span>
-          <h2 class="cp-section__title">A Q1 journal reads differently than a Q3 journal.</h2>
+          <h2 class="cp-section__title">Different journal tiers call for different levels of scrutiny.</h2>
           <div class="cp-section__body">
-            <p>You choose the tier you&rsquo;re targeting, and Clasr reads accordingly. If you&rsquo;d rather not choose, Auto is there as a backup, not the default. Most manuscript tools skip this step. They apply the same scrutiny no matter the target, so a borderline paper gets graded too harshly and a strong one gets let off too easy.</p>
+            <p>Choose the journal tier you&rsquo;re targeting, and Clasr adjusts the reading accordingly. If you&rsquo;re not sure, use Auto.</p>
           </div>
           <div class="cp-q-chips">
-            <div class="cp-q-chip"><span class="cp-q-chip__tag">Q1</span><span class="cp-q-chip__desc"><strong>Maximum restraint.</strong> Sensitivity rises for over-claiming, scope overflow, methodological opacity, weak uncertainty boundaries, and reproducibility gaps.</span></div>
-            <div class="cp-q-chip"><span class="cp-q-chip__tag">Q2</span><span class="cp-q-chip__desc"><strong>Controlled flexibility.</strong> Claims can be discussable when they&rsquo;re explicitly bounded, scope-marked, and contextualized.</span></div>
-            <div class="cp-q-chip"><span class="cp-q-chip__tag">Q3</span><span class="cp-q-chip__desc"><strong>Narrative allowance.</strong> More interpretation is permitted, though unsupported causal claims and unbounded generalization still get flagged.</span></div>
-            <div class="cp-q-chip"><span class="cp-q-chip__tag">Auto</span><span class="cp-q-chip__desc"><strong>Estimated.</strong> When no tier is specified, the system estimates one from methodological sophistication, claim density, reference density, and structural completeness.</span></div>
+            <div class="cp-q-chip"><span class="cp-q-chip__tag">Q1</span><span class="cp-q-chip__desc"><strong>Maximum restraint.</strong> Stricter on over-claiming, weak methods, unclear limits, and reproducibility gaps.</span></div>
+            <div class="cp-q-chip"><span class="cp-q-chip__tag">Q2</span><span class="cp-q-chip__desc"><strong>Controlled flexibility.</strong> Allows more room for interpretation when claims are clearly bounded and supported.</span></div>
+            <div class="cp-q-chip"><span class="cp-q-chip__tag">Q3</span><span class="cp-q-chip__desc"><strong>Narrative allowance.</strong> More interpretive freedom, while unsupported causal claims and broad generalizations are still flagged.</span></div>
+            <div class="cp-q-chip"><span class="cp-q-chip__tag">Auto</span><span class="cp-q-chip__desc"><strong>Balanced calibration.</strong> If no tier is selected, Clasr adjusts the reading based on the manuscript itself without assigning it a journal tier.</span></div>
           </div>
           <div class="cp-section__body">
-            <p>Tier and field work together too: a Q1 legal manuscript isn&rsquo;t read by the same criteria as a Q1 clinical trial, because their review cultures don&rsquo;t share the same criteria. Reporting standards like CONSORT, STROBE, PRISMA, STARD, ARRIVE, COREQ, and APA 7 are applied where relevant.</p>
+            <p>Field matters too. A legal paper and a clinical trial are not read the same way, even at the same journal tier. Relevant reporting frameworks such as CONSORT, STROBE, PRISMA, STARD, ARRIVE, and COREQ are used where applicable.</p>
           </div>
         </div>
 
@@ -215,19 +214,20 @@
           <div class="output-mode-list">
             <div class="output-mode-row">
               <h3 class="cp-col__title">Author Mode</h3>
-              <p class="cp-col__body">Plain-language explanations, plus a sense of what a reviewer might ask. Built for authors who don&rsquo;t speak the full signal vocabulary yet, and don&rsquo;t need to.</p>
+              <p class="cp-col__body">Plain-language explanations, plus a sense of what a reviewer might ask. Each finding includes a short &ldquo;Consider&rdquo; note to guide your next revision.</p>
             </div>
             <div class="output-mode-row">
               <h3 class="cp-col__title">Reviewer Mode</h3>
-              <p class="cp-col__body">Just labels and locations. No explanation, no prose. Built for readers who want density, not context.</p>
+              <p class="cp-col__body">Concise signal labels and locations, without extra explanation. Built for fast, focused reading.</p>
             </div>
             <div class="output-mode-row">
               <h3 class="cp-col__title">Editor Mode</h3>
-              <p class="cp-col__body">Signals ranked globally, for supervisors, writing centers, and institutional support teams. Built for triage, not deep reading.</p>
+              <p class="cp-col__body">A manuscript-wide view of the most important signals and where they cluster. Built for quick triage and oversight.</p>
             </div>
           </div>
           <div class="cp-section__body cp-section__body--after-grid">
-            <p>Detection doesn&rsquo;t change between modes. The signal layer underneath stays the same. Only the presentation does.</p>
+            <p>Detection doesn&rsquo;t change between modes. The same signals sit underneath; only the way they&rsquo;re presented changes.</p>
+            <p>Your full report can be exported as a PDF.</p>
           </div>
         </div>
 

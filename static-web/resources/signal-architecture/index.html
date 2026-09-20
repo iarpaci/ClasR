@@ -16,8 +16,8 @@
     <link rel="canonical" href="https://clasr.ai/resources/signal-architecture/">
     <title>Signal Architecture | Clasr</title>
     <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/styles.css?v=export-system-1">
-    <script src="/script.js?v=export-system-1" defer></script>
+    <link rel="stylesheet" href="/styles.css?v=pricing-model-1">
+    <script src="/script.js?v=pricing-model-1" defer></script>
   </head>
   <body>
     <header class="site-header">
@@ -74,7 +74,7 @@
           <div class="cp-hero__copy">
             <span class="cp-hero__label">Resources</span>
             <h1 class="cp-hero__title">Signal Architecture</h1>
-            <p class="cp-hero__sub">Clasr is a stack of modules, each with one job. You can trace any signal back to the module that made it. Nothing is hidden.</p>
+            <p class="cp-hero__sub">Clasr is built in layers, each with a specific role. Signals are structured by the module that surfaces them and carried into a traceable report.</p>
           </div>
 
           <aside class="architecture-stack" aria-label="Clasr layered reading stack">
@@ -106,41 +106,42 @@
           <div class="sa-row sa-row--core">
             <span class="sa-row__label">CORE</span>
             <div class="sa-row__items">
-              <div class="sa-item"><strong>System boundary.</strong><p>This is the part that never moves. English manuscripts go in, signal reports come out, and no module gets to turn that into a score, a verdict, or a guess at what a reviewer will say.</p></div>
-              <div class="sa-item"><strong>Stable identity.</strong><p>Every other layer can change around CORE without touching it. That's the whole point of putting it at the bottom: the system can grow without ever changing its basic promise.</p></div>
+              <div class="sa-item"><strong>System boundary.</strong><p>This is the part that does not change. English-language manuscripts go in, signal reports come out, and no module can turn that reading into a score, a decision, or a prediction of review outcome.</p></div>
+              <div class="sa-item"><strong>Stable identity.</strong><p>Other layers can evolve without changing this boundary. CORE keeps the system anchored to the same role: surfacing signals, not making decisions.</p></div>
             </div>
           </div>
 
           <div class="sa-row">
             <span class="sa-row__label">Tier 1</span>
             <div class="sa-row__items">
-              <div class="sa-item"><strong>Reading rules.</strong><p>This is what holds a report together: section order, label rules, the Q1/Q2/Q3 gates, expression thresholds, the blocks every report has to include no matter what.</p></div>
-              <div class="sa-item"><strong>Version discipline.</strong><p>It doesn't drift within a version. You can turn the sensitivity up or down with Q settings, but the structure underneath stays exactly where you left it.</p></div>
+              <div class="sa-item"><strong>Reading rules.</strong><p>This layer defines how every report is structured: section order, label rules, Q1/Q2/Q3 calibration, sensitivity thresholds, and the fields each report must contain.</p></div>
+              <div class="sa-item"><strong>Version discipline.</strong><p>The rule set stays fixed within a version. Q settings can change sensitivity, but not the underlying report structure.</p></div>
             </div>
           </div>
 
           <div class="sa-row">
             <span class="sa-row__label">Tier 2</span>
             <div class="sa-row__items">
-              <div class="sa-item"><strong>Governance and routing.</strong><p>This layer decides how a specific reading should run: which Q tier applies, which field, whether the input is partial, whether it's a revision, which output mode to use.</p></div>
-              <div class="sa-item"><strong>Context-sensitive configuration.</strong><p>A partial methods section and a full Q1 submission shouldn't be read the same way, and they aren't. Tier 2 picks the route. It never touches what the system fundamentally does.</p></div>
+              <div class="sa-item"><strong>Governance and routing.</strong><p>This layer configures each reading: target tier, field, input type, revision status, and how the report is presented.</p></div>
+              <div class="sa-item"><strong>Context-sensitive configuration.</strong><p>A partial methods section and a full Q1 manuscript should not be handled identically. Tier 2 sets the route without changing the system&rsquo;s core boundary.</p></div>
             </div>
           </div>
 
           <div class="sa-row">
             <span class="sa-row__label">Tier 3</span>
             <div class="sa-row__items">
-              <div class="sa-item"><strong>Signal extension.</strong><p>This is where the depth lives: argument integrity, figures and tables, reproducibility, sources, hedging, overreach, conclusion fit, reporting standards, domain-specific patterns.</p></div>
-              <div class="sa-item"><strong>Integrated systems.</strong><p>It all runs as one architecture now, every module handing back a signal you can trace, never just an opinion.</p></div>
-              <div class="sa-item"><strong>Selective activation.</strong><p>Not every manuscript needs the same stack. A theoretical law paper and a clinical trial are asking different questions, so Clasr only switches on what actually applies.</p></div>
+              <div class="sa-item"><strong>Signal extension.</strong><p>This is where depth is added: argument integrity, figures and tables, reproducibility, sources, hedging, overreach, conclusion fit, reporting standards, and field-specific patterns.</p></div>
+              <div class="sa-item"><strong>Integrated systems.</strong><p>Active modules work together to return structured signals rather than free-form commentary.</p></div>
+              <div class="sa-item"><strong>Selective activation.</strong><p>Not every manuscript needs the same checks. A theoretical law paper and a clinical trial raise different questions, so Clasr activates the modules that apply.</p></div>
             </div>
           </div>
 
           <div class="sa-row">
             <span class="sa-row__label">Output</span>
             <div class="sa-row__items">
-              <div class="sa-item"><strong>Traceable output.</strong><p>Every signal can be checked against the module that made it, and the version that shaped it. Nothing in here is a black box.</p></div>
-              <div class="sa-item"><strong>Disciplined reading.</strong><p>A careful reviewer doesn't read a paper in one pass. They read in layers, argument, then evidence, then structure. This architecture is built to do the same thing.</p></div>
+              <div class="sa-item"><strong>Traceable output.</strong><p>Signals are returned in a consistent structure, with their location, type, and severity preserved across modes.</p></div>
+              <div class="sa-item"><strong>Disciplined reading.</strong><p>Clasr separates the manuscript into layers &mdash; argument, evidence, structure, and context &mdash; then brings those signals back together in one report.</p></div>
+              <div class="sa-item"><p><strong>The underlying detection stays the same across Author, Reviewer, and Editor modes. Only the presentation changes.</strong></p></div>
             </div>
           </div>
 

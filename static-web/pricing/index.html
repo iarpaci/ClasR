@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Pricing | Clasr</title>
     <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/styles.css?v=export-system-1">
+    <link rel="stylesheet" href="/styles.css?v=pricing-model-1">
     <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
-    <script src="/script.js?v=export-system-1" defer></script>
+    <script src="/script.js?v=pricing-model-1" defer></script>
   </head>
   <body>
     <header class="site-header">
@@ -102,77 +102,123 @@
     <main class="pricing-page">
       <section class="pricing-choice" aria-labelledby="pricing-choice-title">
         <span class="pricing-choice__label">Pricing</span>
-        <h1 id="pricing-choice-title">Choose your plan</h1>
-        <p>A plan to fit how you work whether you read one manuscript a year or twelve a month.</p>
-        <div class="pricing-choice__controls" aria-label="Billing options">
-          <div class="billing-toggle" role="group" aria-label="Billing period">
-            <button class="is-active" type="button" data-billing-option="monthly" aria-pressed="true">Monthly</button>
-            <button type="button" data-billing-option="annual" aria-pressed="false">Annual</button>
+        <h1 id="pricing-choice-title">Choose how you read.</h1>
+        <p>Buy readings when you need them, or choose a monthly plan for regular use.</p>
+        <div class="pricing-choice__controls" aria-label="Purchase options">
+          <div class="billing-toggle" role="group" aria-label="Purchase type">
+            <button class="is-active" type="button" data-pricing-tab="readings" aria-pressed="true">Buy Readings</button>
+            <button type="button" data-pricing-tab="subscriptions" aria-pressed="false">Subscription Plans</button>
           </div>
-          <span class="annual-save">Save up to 17% annually</span>
         </div>
       </section>
 
-      <section class="plan-grid" aria-label="Plans">
-        <article class="plan-card" data-plan="trial-pack">
-          <h2>Trial Pack</h2>
-          <p class="plan-kicker">Try Clasr before committing</p>
-          <div class="plan-price-row">
-            <p class="price">$25</p>
-            <p class="plan-meta">one-time</p>
-          </div>
-          <p class="plan-submeta">Valid 30 days &middot; No subscription</p>
+      <div data-pricing-panel="readings">
+        <p class="pricing-panel__intro">One-time readings. No subscription required.</p>
+        <section class="plan-grid" aria-label="One-time readings">
+          <article class="plan-card" data-plan="reading-1">
+            <h2>1 Reading</h2>
+            <div class="plan-price-row">
+              <p class="price">$32</p>
+            </div>
+            <p class="plan-meta plan-divider-meta">$32 per reading</p>
+            <ul>
+              <li class="plan-reading-count">One-time purchase</li>
+            </ul>
+            <a class="button button--primary plan-card__cta" href="/register/?plan=reading-1">Purchase</a>
+          </article>
+          <article class="plan-card" data-plan="reading-3">
+            <h2>3 Readings</h2>
+            <div class="plan-price-row">
+              <p class="price">$85</p>
+            </div>
+            <p class="plan-meta plan-divider-meta">$28.33 per reading</p>
+            <ul>
+              <li class="plan-reading-count">One-time purchase</li>
+            </ul>
+            <a class="button button--primary plan-card__cta" href="/register/?plan=reading-3">Purchase</a>
+          </article>
+          <article class="plan-card" data-plan="reading-10">
+            <h2>10 Readings</h2>
+            <div class="plan-price-row">
+              <p class="price">$245</p>
+            </div>
+            <p class="plan-meta plan-divider-meta">$24.50 per reading</p>
+            <ul>
+              <li class="plan-reading-count">One-time purchase</li>
+              <li>Lower cost per reading</li>
+            </ul>
+            <a class="button button--primary plan-card__cta" href="/register/?plan=reading-10">Purchase</a>
+          </article>
+        </section>
+        <section class="pricing-includes" aria-label="Included with every reading">
+          <h3>Every reading includes</h3>
           <ul>
-            <li class="plan-reading-count">1 manuscript reading</li>
-            <li>Full signal report, all 11 sections</li>
-            <li>Q-variant calibration, field detection</li>
-            <li>Author, Reviewer, or Editor mode</li>
-            <li>PDF, DOCX, TXT export</li>
-            <li>$25 credited toward any upgrade</li>
+            <li>Full signal report across all 11 sections</li>
+            <li>Q-variant calibration and field-sensitive reading</li>
+            <li>Author, Reviewer, and Editor modes</li>
+            <li>Traceable signal locations and severity</li>
+            <li>PDF, DOCX, and TXT export</li>
           </ul>
-          <a class="button button--primary plan-card__cta" href="/register/?plan=trial-pack">Start with Trial Pack</a>
-        </article>
-        <article class="plan-card" data-plan="researcher">
-          <h2>Researcher</h2>
-          <p class="plan-kicker">For regular submissions</p>
-          <div class="plan-price-row">
-            <p class="price" data-monthly-text="$59" data-annual-text="$590">$59</p>
-            <p class="plan-meta" data-monthly-text="/ month" data-annual-text="/ year">/ month</p>
-          </div>
-          <p class="plan-meta plan-divider-meta" data-monthly-text="or $590/year, save $118" data-annual-text="Save $118 with annual billing">or $590/year, save $118</p>
+        </section>
+      </div>
+
+      <div data-pricing-panel="subscriptions" hidden>
+        <p class="pricing-panel__intro">For regular manuscript reading. Billed monthly.</p>
+        <section class="plan-grid" aria-label="Subscription plans">
+          <article class="plan-card" data-plan="starter">
+            <h2>Starter</h2>
+            <div class="plan-price-row">
+              <p class="price">$56</p>
+              <p class="plan-meta">/ month</p>
+            </div>
+            <p class="plan-meta plan-divider-meta">$28 per reading</p>
+            <ul>
+              <li class="plan-reading-count">2 readings / month</li>
+            </ul>
+            <a class="button button--primary plan-card__cta" href="/register/?plan=starter">Choose Starter</a>
+          </article>
+          <article class="plan-card" data-plan="professional">
+            <h2>Professional</h2>
+            <div class="plan-price-row">
+              <p class="price">$115</p>
+              <p class="plan-meta">/ month</p>
+            </div>
+            <p class="plan-meta plan-divider-meta">$23 per reading</p>
+            <ul>
+              <li class="plan-reading-count">5 readings / month</li>
+            </ul>
+            <a class="button button--primary plan-card__cta" href="/register/?plan=professional">Choose Professional</a>
+          </article>
+          <article class="plan-card" data-plan="advanced">
+            <h2>Advanced</h2>
+            <div class="plan-price-row">
+              <p class="price">$240</p>
+              <p class="plan-meta">/ month</p>
+            </div>
+            <p class="plan-meta plan-divider-meta">$20 per reading</p>
+            <ul>
+              <li class="plan-reading-count">12 readings / month</li>
+              <li>Lowest cost per reading</li>
+            </ul>
+            <a class="button button--primary plan-card__cta" href="/register/?plan=advanced">Choose Advanced</a>
+          </article>
+        </section>
+        <section class="pricing-includes" aria-label="Included with every subscription plan">
+          <h3>All subscription plans include</h3>
           <ul>
-            <li class="plan-reading-count">5 readings / month</li>
-            <li>Full signal report on every reading</li>
-            <li>Extra readings: $29 each</li>
-            <li>Reading history saved 7 days (configurable)</li>
-            <li>All output modes included</li>
+            <li>Full signal report</li>
+            <li>Author, Reviewer, and Editor modes</li>
+            <li>Q-variant calibration</li>
+            <li>PDF, DOCX, and TXT export</li>
+            <li>Reading history</li>
             <li>Cancel anytime</li>
           </ul>
-          <a class="button button--primary plan-card__cta" href="/register/?plan=researcher">Choose Researcher</a>
-        </article>
-        <article class="plan-card" data-plan="professional">
-          <h2>Professional</h2>
-          <p class="plan-kicker">For high-output researchers</p>
-          <div class="plan-price-row">
-            <p class="price" data-monthly-text="$119" data-annual-text="$1,190">$119</p>
-            <p class="plan-meta" data-monthly-text="/ month" data-annual-text="/ year">/ month</p>
-          </div>
-          <p class="plan-meta plan-divider-meta" data-monthly-text="or $1,190/year, save $238" data-annual-text="Save $238 with annual billing">or $1,190/year, save $238</p>
-          <ul>
-            <li class="plan-reading-count">12 readings / month</li>
-            <li>Everything in Researcher</li>
-            <li>Priority processing, no queue</li>
-            <li>Cross-manuscript comparison</li>
-            <li>Editor mode included</li>
-            <li>Cancel anytime</li>
-          </ul>
-          <a class="button button--primary plan-card__cta" href="/register/?plan=professional">Choose Professional</a>
-        </article>
-      </section>
+        </section>
+      </div>
 
       <section class="pricing-reading-note" aria-label="Reading definition">
-        <p><strong>What counts as one reading?</strong> Each PDF or DOCX submission counts as one reading, regardless of length up to 70,000 words. All 11 report sections are generated in full for every reading.</p>
-        <p><strong>Taxes.</strong> Listed prices do not include taxes. Applicable taxes may apply and will be calculated based on your location and shown before payment at checkout.</p>
+        <p><strong>What counts as one reading?</strong> Each PDF or DOCX submission counts as one reading, up to 70,000 words. All 11 report sections are generated in full for every reading.</p>
+        <p><strong>Taxes.</strong> Taxes are included in the prices shown. No additional tax will be added at checkout.</p>
       </section>
 
       <section id="institutions" class="institution-box">
@@ -190,47 +236,43 @@
         <div class="faq-grid">
           <article class="faq-card">
             <h3>What counts as one manuscript reading?</h3>
-            <p>One PDF or DOCX, up to 70,000 words, counts as one reading, no matter the length. You get all 11 report sections every time. Resubmitting a revised version counts as a new reading.</p>
+            <p>One PDF or DOCX, up to 70,000 words, counts as one reading. You get all 11 report sections every time. Resubmitting a revised version counts as a new reading.</p>
           </article>
           <article class="faq-card">
             <h3>Do unused monthly readings roll over?</h3>
-            <p>No, your reading allowance resets at the start of each billing period and unused readings do not carry over. Need more in a given month? Extra readings are available at the per-reading rate below.</p>
+            <p>No. Your monthly reading allowance resets at the start of each billing period, and unused readings do not carry over. If you need additional readings, you can purchase one-time readings separately.</p>
           </article>
           <article class="faq-card">
             <h3>What if I need more readings than my plan includes?</h3>
-            <p>Extra readings are $29 each, billed automatically through your account. No upgrade needed.</p>
+            <p>You can purchase additional readings at any time without changing your subscription. One-time options are available for 1, 3, or 10 readings.</p>
           </article>
           <article class="faq-card">
             <h3>Can I upgrade or downgrade my plan?</h3>
-            <p>Yes. Upgrades kick in right away, prorated for the rest of the period. Downgrades wait until the next billing cycle. If you're on the Trial Pack, you can upgrade within 30 days and the $25 counts fully toward your plan.</p>
-          </article>
-          <article class="faq-card">
-            <h3>Is annual billing charged upfront?</h3>
-            <p>Yes, one payment at the start of the year, about 17% cheaper than paying monthly. Researcher is $590/year versus $708 if paid monthly. Professional is $1,190/year versus $1,428.</p>
+            <p>Yes. You can switch between Starter, Professional, and Advanced plans from your account. Changes are handled through your subscription billing.</p>
           </article>
           <article class="faq-card">
             <h3>Is there a low-cost way to try Clasr first?</h3>
-            <p>Yes. The Trial Pack is $25 for one full reading, no subscription required, valid for 30 days. If you upgrade within that window, the $25 carries over to your first payment.</p>
+            <p>Yes. You can purchase a single full manuscript reading for $32 with no subscription required.</p>
           </article>
           <article class="faq-card">
             <h3>Is there a contract or long-term commitment?</h3>
-            <p>No, for individual plans. Cancel anytime, and you keep access until the period you already paid for ends. Enterprise contracts run about 12 months, with renewal terms in the agreement.</p>
+            <p>No for individual subscriptions. You can cancel anytime and keep access through the billing period you&rsquo;ve already paid for. Enterprise terms are defined separately in each agreement.</p>
           </article>
           <article class="faq-card">
             <h3>What payment methods are accepted?</h3>
-            <p>Major credit and debit cards are accepted through our secure checkout. Available payment methods are shown before payment.</p>
+            <p>Available payment methods are shown securely at checkout.</p>
           </article>
           <article class="faq-card">
             <h3>How are taxes handled?</h3>
-            <p>Taxes are not included in the listed prices. Applicable taxes (such as VAT or GST) are calculated based on your location and shown at checkout before payment.</p>
+            <p>Taxes are included in the prices shown. No additional tax will be added at checkout.</p>
           </article>
           <article class="faq-card">
             <h3>Are there discounts for students or developing regions?</h3>
-            <p>Not on individual monthly plans right now; the Trial Pack is meant to be the low-cost way in. For institutions in developing regions, email <a href="mailto:hello@clasr.ai">hello@clasr.ai</a> and we'll talk pricing.</p>
+            <p>There is no separate student discount at the moment. One-time readings are available without a subscription. For institutional pricing in developing regions, contact <a href="mailto:hello@clasr.ai">hello@clasr.ai</a>.</p>
           </article>
           <article class="faq-card">
             <h3>Where can I learn more about enterprise pricing?</h3>
-            <p>Email <a href="mailto:hello@clasr.ai">hello@clasr.ai</a> with your team size and use case: lab, department, university, or journal. You'll hear back within 2 business days with a proposal.</p>
+            <p>Email <a href="mailto:hello@clasr.ai">hello@clasr.ai</a> with your team size and use case &mdash; lab, department, university, or journal. We&rsquo;ll get back to you with the appropriate options.</p>
           </article>
         </div>
       </section>
