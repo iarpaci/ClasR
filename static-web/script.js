@@ -1771,6 +1771,13 @@ setupResponsiveReports();
     });
   }
 
+  // Exposed so other, independent IIFEs later in this file (e.g. the billing
+  // page's subscription-cancel section) can reuse the same token-attach +
+  // 401-refresh-and-retry logic instead of rolling a plain fetch() that
+  // silently breaks (unauthenticated-looking errors, no retry) whenever the
+  // access token has expired but the refresh token is still valid.
+  window._clasrApiFetch = apiFetch;
+
   // ── Email/password auth forms ──────────────────────────────────────────────
   document.querySelectorAll('[data-auth-form]').forEach(function(form) {
     if (form._apiWired) return;
@@ -3844,17 +3851,19 @@ setupResponsiveReports();
 (function () {
   var section = document.querySelector('[data-subscription-section]');
   if (!section) return;
-  var API_BASE = 'https://clasr-production.up.railway.app';
   var cancelBtn = section.querySelector('[data-subscription-cancel]');
   var statusEl = section.querySelector('[data-subscription-status]');
   var messageEl = section.querySelector('[data-subscription-message]');
 
+  // Reuses the shared apiFetch (token attach + 401 refresh-and-retry) exposed
+  // by the main API Integration IIFE above -- a plain fetch() here would
+  // silently fail (as an "invalid token" error, not a real cancel failure)
+  // whenever the access token had simply expired mid-session, since Paddle
+  // billing sessions on this page tend to be long-lived.
   var api = function (path, opts) {
-    var token = localStorage.getItem('clasr:at');
-    if (!token) return Promise.resolve(null);
-    return fetch(API_BASE + path, Object.assign({}, opts || {}, {
-      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token }
-    })).then(function (res) {
+    if (!window._clasrApiFetch) return Promise.resolve(null);
+    return window._clasrApiFetch(path, opts).then(function (res) {
+      if (!res) return null;
       return res.json().catch(function () { return {}; }).then(function (data) { return { ok: res.ok, data: data }; });
     }).catch(function () { return null; });
   };
