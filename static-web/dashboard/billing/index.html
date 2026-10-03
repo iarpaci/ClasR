@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Plan and Billing | Clasr</title>
     <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/styles.css?v=pricing-model-1">
-    <script src="/script.js?v=review-fix-1" defer></script>
+    <link rel="stylesheet" href="/styles.css?v=billing-portal-1">
+    <script src="/script.js?v=billing-portal-1" defer></script>
   </head>
   <body>
     <header class="site-header">
@@ -73,7 +73,10 @@
                     <span class="settings-panel__label">Subscription</span>
                     <h2>Manage your subscription</h2>
                   </div>
-                  <button type="button" class="button button--danger button--small" data-subscription-cancel>Cancel subscription</button>
+                  <div class="subscription-actions">
+                    <button type="button" class="button button--small" data-subscription-portal hidden>Update payment method</button>
+                    <button type="button" class="button button--danger button--small" data-subscription-cancel>Cancel subscription</button>
+                  </div>
                 </div>
                 <p class="settings-panel__copy" data-subscription-status>Your subscription renews automatically each billing period.</p>
                 <p class="clasr-modal__error" data-subscription-message hidden></p>

@@ -3854,6 +3854,7 @@ setupResponsiveReports();
   var cancelBtn = section.querySelector('[data-subscription-cancel]');
   var statusEl = section.querySelector('[data-subscription-status]');
   var messageEl = section.querySelector('[data-subscription-message]');
+  var portalBtn = section.querySelector('[data-subscription-portal]');
 
   // Reuses the shared apiFetch (token attach + 401 refresh-and-retry) exposed
   // by the main API Integration IIFE above -- a plain fetch() here would
@@ -3877,11 +3878,14 @@ setupResponsiveReports();
     var c = status.cancel;
     if (!c.canCancel && !c.scheduled) { section.hidden = true; return; }
     section.hidden = false;
+    if (portalBtn) portalBtn.hidden = !status.portalReady;
     if (c.scheduled) {
       statusEl.textContent = 'Your subscription is set to cancel' + (c.effectiveAt ? ' on ' + fmtDate(c.effectiveAt) : ' at the end of the current billing period') + '. You keep access until then, and you will not be charged again.';
       cancelBtn.hidden = true;
     } else if (status.paddleStatus === 'past_due') {
-      statusEl.textContent = 'Your last payment did not go through. Cancelling now stops further payment attempts.';
+      statusEl.textContent = status.portalReady
+        ? 'Your last payment did not go through. Update your payment method to keep your plan, or cancel now to stop further payment attempts.'
+        : 'Your last payment did not go through. Cancelling now stops further payment attempts.';
       cancelBtn.hidden = false;
     } else {
       statusEl.textContent = 'Your subscription renews automatically each billing period. If you cancel, you keep access until the end of the period you have already paid for.';
@@ -3929,6 +3933,25 @@ setupResponsiveReports();
       });
     });
   };
+
+  // Opens Paddle's customer portal (card update page). The link is a short-
+  // lived authenticated session, so it is fetched on click, not on load.
+  if (portalBtn) portalBtn.addEventListener('click', function () {
+    var label = portalBtn.textContent;
+    portalBtn.disabled = true;
+    portalBtn.textContent = 'Opening…';
+    messageEl.hidden = true;
+    api('/api/billing/portal', { method: 'POST' }).then(function (r) {
+      if (r && r.ok && r.data && r.data.url) {
+        window.location.href = r.data.url;
+        return;
+      }
+      portalBtn.disabled = false;
+      portalBtn.textContent = label;
+      messageEl.textContent = (r && r.data && r.data.error) || 'Could not reach the server. Please try again.';
+      messageEl.hidden = false;
+    });
+  });
 
   var currentStatus = null;
   cancelBtn.addEventListener('click', function () {

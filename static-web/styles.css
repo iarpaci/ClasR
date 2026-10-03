@@ -27730,3 +27730,20 @@ body.theme-night .pricing-page .pricing-includes h3 {
 .landing-boundary {
   justify-content: center;
 }
+
+/* Billing page: "Update payment method" + "Cancel subscription" side by side */
+.subscription-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+.subscription-actions [hidden] {
+  display: none !important;
+}
+@media (max-width: 900px) {
+  /* Two buttons are too wide for the shared 2-column head grid; stack them under the heading. */
+  #subscription .settings-section__head {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}

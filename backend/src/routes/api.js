@@ -747,7 +747,7 @@ router.get('/billing/status', requireAuth, async (req, res, next) => {
       periodType: isMonthly ? 'monthly' : 'total',
       paddleSubscriptionId: sub.paddle_subscription_id || null,
       paddleStatus: sub.paddle_status || null,
-      portalReady: false,
+      portalReady: !!(sub.paddle_subscription_id && process.env.PADDLE_API_KEY && !['canceled', 'cancelled'].includes(sub.paddle_status)),
       cancel: await getSubscriptionCancelState(sub),
     });
   } catch (err) { next(err); }
@@ -817,6 +817,39 @@ router.post('/subscription/cancel', requireAuth, async (req, res, next) => {
       await supabase.from('user_subscriptions').update({ plan: 'free', paddle_status: 'canceled', paddle_subscription_id: null, updated_at: new Date().toISOString() }).eq('user_id', req.user.id);
     }
     res.json({ success: true, effectiveFrom, effectiveAt: data?.scheduled_change?.effective_at || null });
+  } catch (err) { next(err); }
+});
+
+// ── POST /api/billing/portal ────────────────────────────────────────────────
+// Creates a short-lived Paddle customer portal session so the user can update
+// their card themselves. Needs PADDLE_API_KEY with "Customer portal sessions:
+// write" + "Subscriptions: read". The customer id is not stored locally, so it
+// is read from the Paddle subscription itself.
+router.post('/billing/portal', requireAuth, async (req, res, next) => {
+  try {
+    const sub = await getUserSub(req.user.id);
+    if (!sub.paddle_subscription_id || ['canceled', 'cancelled'].includes(sub.paddle_status)) {
+      return res.status(400).json({ error: 'There is no active subscription with a saved payment method.' });
+    }
+    let url;
+    try {
+      const paddleSub = await paddleRequest('GET', '/subscriptions/' + encodeURIComponent(sub.paddle_subscription_id));
+      if (!paddleSub?.customer_id) throw new Error('subscription has no customer_id');
+      const session = await paddleRequest('POST', '/customers/' + encodeURIComponent(paddleSub.customer_id) + '/portal-sessions', {
+        subscription_ids: [sub.paddle_subscription_id],
+      });
+      const subLinks = (session?.urls?.subscriptions || []).find((s) => s.id === sub.paddle_subscription_id);
+      url = subLinks?.update_subscription_payment_method || session?.urls?.general?.overview;
+      if (!url) throw new Error('portal session returned no url');
+    } catch (err) {
+      if (err.code === 'NO_KEY') {
+        console.error('[billing] portal requested but PADDLE_API_KEY is not configured');
+        return res.status(503).json({ error: 'Updating your payment method is temporarily unavailable. Please email hello@clasr.ai.' });
+      }
+      console.error('[billing] paddle portal session failed:', err.status, err.paddleCode, err.message);
+      return res.status(502).json({ error: 'We could not open the payment portal right now. Please try again or email hello@clasr.ai.' });
+    }
+    res.json({ url });
   } catch (err) { next(err); }
 });
 
