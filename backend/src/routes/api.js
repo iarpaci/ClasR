@@ -162,6 +162,61 @@ function handleUpload(req, res, next) {
   });
 }
 
+// ── Account preferences (stored in Supabase user_metadata) ────────────────
+const READING_ROLES = ['author', 'reviewer', 'editor'];
+const STUDY_TYPES = ['quantitative', 'qualitative'];
+const Q_PROFILES = ['Q1', 'Q2', 'Q3', 'Auto'];
+
+function readPreferences(meta = {}) {
+  const d = meta.readingDefaults || {};
+  return {
+    readingDefaults: {
+      role: READING_ROLES.includes(d.role) ? d.role : 'author',
+      studyType: STUDY_TYPES.includes(d.studyType) ? d.studyType : 'quantitative',
+      qProfile: Q_PROFILES.includes(d.qProfile) ? d.qProfile : 'Q1',
+    },
+    // Default on: only an explicit false turns reading-complete emails off.
+    emailReadingComplete: meta.emailReadingComplete !== false,
+  };
+}
+
+const cleanName = (v) => String(v).replace(/\s+/g, ' ').trim().slice(0, 80);
+
+// ── POST /api/account/profile ───────────────────────────────────────────────
+// Partial update: only the fields present in the body change.
+router.post('/account/profile', requireAuth, async (req, res, next) => {
+  try {
+    const body = req.body || {};
+    const meta = { ...(req.user.user_metadata || {}) };
+    if (body.firstName !== undefined) {
+      const v = cleanName(body.firstName);
+      if (!v) return res.status(400).json({ error: 'First name cannot be empty.' });
+      meta.firstName = v;
+    }
+    if (body.lastName !== undefined) meta.lastName = cleanName(body.lastName);
+    if (body.institution !== undefined) meta.institution = cleanName(body.institution);
+    if (body.readingDefaults !== undefined) {
+      const d = body.readingDefaults || {};
+      if (!READING_ROLES.includes(d.role) || !STUDY_TYPES.includes(d.studyType) || !Q_PROFILES.includes(d.qProfile)) {
+        return res.status(400).json({ error: 'Invalid reading defaults.' });
+      }
+      meta.readingDefaults = { role: d.role, studyType: d.studyType, qProfile: d.qProfile };
+    }
+    if (body.emailReadingComplete !== undefined) meta.emailReadingComplete = body.emailReadingComplete === true;
+
+    const { data, error } = await supabase.auth.admin.updateUserById(req.user.id, { user_metadata: meta });
+    if (error) {
+      console.error('[account] profile update failed:', error.message);
+      return res.status(502).json({ error: 'Could not save your changes. Please try again.' });
+    }
+    const m = data?.user?.user_metadata || meta;
+    res.json({
+      user: { firstName: m.firstName || '', lastName: m.lastName || '', institution: m.institution || '' },
+      preferences: readPreferences(m),
+    });
+  } catch (err) { next(err); }
+});
+
 // ── GET /api/session ────────────────────────────────────────────────────────
 router.get('/session', requireAuth, async (req, res) => {
   const sub = await getUserSub(req.user.id);
@@ -175,6 +230,7 @@ router.get('/session', requireAuth, async (req, res) => {
       firstName: meta.firstName || meta.given_name || oauthNameParts[0] || '',
       lastName: meta.lastName || meta.family_name || oauthNameParts.slice(1).join(' ') || '',
       institution: meta.institution || '',
+      preferences: readPreferences(meta),
       plan: sub.plan,
       creditsLeft: (() => {
         const limit = PLAN_CREDITS[sub.plan] || 0;
@@ -616,7 +672,9 @@ router.post('/readings/start', requireAuth, handleUpload, async (req, res, next)
 
         updateJob(jobId, { status: 'complete', readingId });
 
-        sendReportReadyEmail(req.user.email, readingId, outputMode).catch(() => {});
+        if (req.user.user_metadata?.emailReadingComplete !== false) {
+          sendReportReadyEmail(req.user.email, readingId, outputMode).catch(() => {});
+        }
       } catch (err) {
         console.error('[api] processing error:', err.message);
         updateJob(jobId, { status: 'failed', error: 'Analysis failed. Please try again.' });

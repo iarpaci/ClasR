@@ -27747,3 +27747,71 @@ body.theme-night .pricing-page .pricing-includes h3 {
     grid-template-columns: minmax(0, 1fr) !important;
   }
 }
+
+/* Account settings: inline edit mode */
+.settings-input {
+  font: inherit;
+  font-weight: 600;
+  color: inherit;
+  background: transparent;
+  border: 1px solid currentColor;
+  border-radius: 6px;
+  padding: 5px 9px;
+  min-width: 180px;
+  max-width: 100%;
+  text-align: right;
+}
+.settings-input:focus {
+  outline: 2px solid #a32642;
+  outline-offset: 1px;
+}
+select.settings-input {
+  text-align: left;
+  cursor: pointer;
+}
+body.theme-night .settings-input option {
+  background: #1f1a1c;
+  color: #efe7dc;
+}
+.settings-edit-actions {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+.settings-section__head .settings-edit-actions {
+  margin-top: 18px;
+}
+.settings-action[hidden],
+.settings-edit-actions [hidden] {
+  display: none !important;
+}
+.settings-action:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+.settings-action.settings-action--primary,
+.settings-action.settings-action--primary:hover,
+.settings-action.settings-action--primary:focus-visible {
+  background: #a32642 !important;
+  border-color: #a32642 !important;
+  color: #fff5ed !important;
+}
+.settings-message {
+  margin: 10px 0 0;
+  font-size: 0.92rem;
+}
+.settings-message[hidden] {
+  display: none !important;
+}
+.settings-message--error {
+  color: #a32642;
+}
+@media (max-width: 900px) {
+  .account-screen .settings-section__head .settings-edit-actions {
+    margin-top: 0;
+  }
+  .settings-input {
+    min-width: 0;
+    width: 100%;
+  }
+}

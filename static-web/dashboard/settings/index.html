@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Account Settings | Clasr</title>
     <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/styles.css?v=billing-portal-1">
-    <script src="/script.js?v=billing-portal-1" defer></script>
+    <link rel="stylesheet" href="/styles.css?v=settings-edit-1">
+    <script src="/script.js?v=settings-edit-1" defer></script>
   </head>
   <body>
     <header class="site-header">
@@ -61,7 +61,7 @@
               <section class="account-summary">
                 <div>
                   <span class="settings-panel__label">Signed in as</span>
-                  <strong>Michael Carter</strong>
+                  <strong data-settings-fullname>Michael Carter</strong>
                 </div>
                 <div class="account-summary__workspace">
                   <span class="settings-panel__label">Workspace</span>
@@ -75,11 +75,11 @@
                     <span class="settings-panel__label">Reading defaults</span>
                     <h2>Manuscript reading</h2>
                   </div>
-                  <button class="settings-action" type="button">Edit</button>
+                  <button class="settings-action" type="button" data-settings-edit="reading">Edit</button>
                 </div>
-                <div class="settings-row"><span>Default role</span><strong>Author</strong></div>
-                <div class="settings-row"><span>Study type</span><strong>Quantitative</strong></div>
-                <div class="settings-row"><span>Q-profile</span><strong>Q1 with Auto available</strong></div>
+                <div class="settings-row"><span>Default role</span><strong data-pref="role">Author</strong></div>
+                <div class="settings-row"><span>Study type</span><strong data-pref="studyType">Quantitative</strong></div>
+                <div class="settings-row"><span>Q-profile</span><strong data-pref="qProfile">Q1</strong></div>
                 <div class="settings-row"><span>Default sections</span><strong>All signal sections</strong></div>
               </section>
 
@@ -89,10 +89,9 @@
                     <span class="settings-panel__label">Reports</span>
                     <h2>Signal report output</h2>
                   </div>
-                  <button class="settings-action" type="button">Edit</button>
                 </div>
                 <div class="settings-row"><span>Export formats</span><strong>PDF, DOCX, TXT</strong></div>
-                <div class="settings-row"><span>Report tone</span><strong>Author-facing</strong></div>
+                <div class="settings-row"><span>Report tone</span><strong data-pref-tone>Author-facing</strong></div>
                 <div class="settings-row settings-row--action">
                   <span>Save recent readings</span>
                   <strong data-history-status>On</strong>
@@ -110,10 +109,12 @@
                     <span class="settings-panel__label">Profile</span>
                     <h2>Account details</h2>
                   </div>
-                  <button class="settings-action" type="button">Edit</button>
+                  <button class="settings-action" type="button" data-settings-edit="profile">Edit</button>
                 </div>
-                <div class="settings-row"><span>Name</span><strong>Michael Carter</strong></div>
-                <div class="settings-row"><span>Email</span><strong>michael.carter@university.edu</strong></div>
+                <div class="settings-row"><span>First name</span><strong data-pref="firstName">Michael</strong></div>
+                <div class="settings-row"><span>Last name</span><strong data-pref="lastName">Carter</strong></div>
+                <div class="settings-row"><span>Institution</span><strong data-pref="institution">—</strong></div>
+                <div class="settings-row"><span>Email</span><strong data-settings-email>michael.carter@university.edu</strong></div>
                 <div class="settings-row"><span>Workspace</span><strong>Clasr Research Workspace</strong></div>
               </section>
 
@@ -124,8 +125,9 @@
                     <h2>Workspace controls</h2>
                   </div>
                 </div>
-                <div class="settings-row settings-row--action"><span>Password</span><strong>Last changed recently</strong><button class="settings-action" type="button">Change password</button></div>
-                <div class="settings-row settings-row--action"><span>Email updates</span><strong>Reading completion only</strong><button class="settings-action" type="button">Edit</button></div>
+                <p class="settings-panel__copy settings-message" data-settings-message hidden></p>
+                <div class="settings-row settings-row--action"><span>Password</span><strong data-password-status>Reset by email link</strong><button class="settings-action" type="button" data-settings-password>Change password</button></div>
+                <div class="settings-row settings-row--action"><span>Email updates</span><strong data-pref="emailReadingComplete">Reading completion only</strong><button class="settings-action" type="button" data-settings-edit="email">Edit</button></div>
               </section>
             </div>
           </div>

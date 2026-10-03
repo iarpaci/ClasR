@@ -1976,6 +1976,7 @@ setupResponsiveReports();
       }
       if (typeof applyAccountProfile === 'function') applyAccountProfile();
       if (typeof renderAccountPlanCards === 'function') renderAccountPlanCards();
+      if (typeof window._clasrApplyReadingDefaults === 'function') window._clasrApplyReadingDefaults(data.user.preferences);
       if (typeof renderAccountBillingPanel === 'function') renderAccountBillingPanel();
       if (typeof window._clasrAutoOpenCheckout === 'function') {
         window._clasrAutoOpenCheckout(data.user.id || data.user.user_id || '');
@@ -3962,4 +3963,222 @@ setupResponsiveReports();
   });
 
   load();
+}());
+
+// ── Reading defaults: preselect saved choices on the new-reading screen ──────
+// Called from the session bootstrap with data.user.preferences. Skipped once
+// the user has clicked an option themselves, so a slow /api/session response
+// never overwrites a choice they already made.
+(function () {
+  var touched = false;
+  document.querySelectorAll('.hero-config-group .hero-role').forEach(function (b) {
+    b.addEventListener('click', function (e) { if (e.isTrusted) touched = true; });
+  });
+  var labels = { role: 'reading as', studyType: 'study type', qProfile: 'q-profile' };
+  window._clasrApplyReadingDefaults = function (prefs) {
+    var d = prefs && prefs.readingDefaults;
+    if (!d || touched) return;
+    document.querySelectorAll('.hero-config-group').forEach(function (group) {
+      var l = group.querySelector('.hero-role-label');
+      var label = l ? l.textContent.trim().toLowerCase() : '';
+      Object.keys(labels).forEach(function (key) {
+        if (labels[key] !== label || !d[key]) return;
+        group.querySelectorAll('.hero-role').forEach(function (btn) {
+          if (btn.textContent.trim().toLowerCase() === String(d[key]).toLowerCase() && !btn.classList.contains('is-active')) btn.click();
+        });
+      });
+    });
+  };
+}());
+
+// ── Account settings page: Edit buttons ─────────────────────────────────────
+// Values live in Supabase user_metadata via POST /api/account/profile.
+(function () {
+  if (!document.querySelector('[data-settings-edit]')) return;
+  var api = function (path, opts) {
+    if (!window._clasrApiFetch) return Promise.resolve(null);
+    return window._clasrApiFetch(path, opts).then(function (res) {
+      if (!res) return null;
+      return res.json().catch(function () { return {}; }).then(function (data) { return { ok: res.ok, data: data }; });
+    }).catch(function () { return null; });
+  };
+  var post = function (path, body) {
+    return api(path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  };
+  var cap = function (s) { s = String(s || ''); return s.charAt(0).toUpperCase() + s.slice(1); };
+
+  var FIELDS = {
+    reading: [
+      { key: 'role', type: 'select', options: [['author', 'Author'], ['reviewer', 'Reviewer'], ['editor', 'Editor']] },
+      { key: 'studyType', type: 'select', options: [['quantitative', 'Quantitative'], ['qualitative', 'Qualitative']] },
+      { key: 'qProfile', type: 'select', options: [['Q1', 'Q1'], ['Q2', 'Q2'], ['Q3', 'Q3'], ['Auto', 'Auto']] },
+    ],
+    profile: [
+      { key: 'firstName', type: 'text', label: 'First name' },
+      { key: 'lastName', type: 'text', label: 'Last name' },
+      { key: 'institution', type: 'text', label: 'Institution' },
+    ],
+    email: [
+      { key: 'emailReadingComplete', type: 'select', options: [['on', 'Reading completion only'], ['off', 'Off']] },
+    ],
+  };
+
+  var state = null; // { user: {...}, prefs: {...} }
+
+  var valueOf = function (key) {
+    if (!state) return '';
+    if (key in state.prefs.readingDefaults) return state.prefs.readingDefaults[key];
+    if (key === 'emailReadingComplete') return state.prefs.emailReadingComplete ? 'on' : 'off';
+    return state.user[key] || '';
+  };
+  var display = function (key) {
+    var v = valueOf(key);
+    if (key === 'role' || key === 'studyType') return cap(v);
+    if (key === 'emailReadingComplete') return v === 'on' ? 'Reading completion only' : 'Off';
+    if (key === 'institution' || key === 'lastName') return v || '—';
+    return v;
+  };
+
+  var render = function () {
+    if (!state) return;
+    document.querySelectorAll('[data-pref]').forEach(function (el) {
+      if (!el.closest('.is-editing')) el.textContent = display(el.getAttribute('data-pref'));
+    });
+    var tone = document.querySelector('[data-pref-tone]');
+    if (tone) tone.textContent = cap(state.prefs.readingDefaults.role) + '-facing';
+    var full = [state.user.firstName, state.user.lastName].filter(Boolean).join(' ');
+    document.querySelectorAll('[data-settings-fullname]').forEach(function (el) { if (full) el.textContent = full; });
+    document.querySelectorAll('[data-settings-email]').forEach(function (el) { if (state.user.email) el.textContent = state.user.email; });
+  };
+
+  var message = function (scope, text, isError) {
+    var el = scope.querySelector('[data-settings-message]');
+    if (!el) {
+      el = document.createElement('p');
+      el.className = 'settings-panel__copy settings-message';
+      el.setAttribute('data-settings-message', '');
+      scope.appendChild(el);
+    }
+    el.textContent = text || '';
+    el.hidden = !text;
+    el.classList.toggle('settings-message--error', !!isError);
+  };
+
+  var startEdit = function (btn) {
+    var key = btn.getAttribute('data-settings-edit');
+    var scope = btn.closest(key === 'email' ? '.settings-row' : '.settings-section');
+    var section = btn.closest('.settings-section');
+    if (!state || scope.classList.contains('is-editing')) return;
+    scope.classList.add('is-editing');
+    message(section, '');
+    FIELDS[key].forEach(function (f) {
+      var strong = scope.querySelector('[data-pref="' + f.key + '"]');
+      if (!strong) return;
+      var input;
+      if (f.type === 'select') {
+        input = document.createElement('select');
+        f.options.forEach(function (o) {
+          var opt = document.createElement('option');
+          opt.value = o[0]; opt.textContent = o[1];
+          input.appendChild(opt);
+        });
+      } else {
+        input = document.createElement('input');
+        input.type = 'text'; input.maxLength = 80;
+        input.setAttribute('aria-label', f.label);
+      }
+      input.className = 'settings-input';
+      input.value = valueOf(f.key);
+      input.setAttribute('data-pref-input', f.key);
+      strong.textContent = '';
+      strong.appendChild(input);
+    });
+    var first = scope.querySelector('[data-pref-input]');
+    if (first) first.focus();
+
+    btn.hidden = true;
+    var actions = document.createElement('div');
+    actions.className = 'settings-edit-actions';
+    actions.innerHTML = '<button type="button" class="settings-action" data-settings-cancel>Cancel</button>' +
+      '<button type="button" class="settings-action settings-action--primary" data-settings-save>Save</button>';
+    btn.parentNode.insertBefore(actions, btn.nextSibling);
+
+    var finish = function () {
+      scope.classList.remove('is-editing');
+      actions.remove();
+      btn.hidden = false;
+      render();
+    };
+    actions.querySelector('[data-settings-cancel]').addEventListener('click', function () { finish(); message(section, ''); });
+    var save = actions.querySelector('[data-settings-save]');
+    var doSave = function () {
+      var v = {};
+      scope.querySelectorAll('[data-pref-input]').forEach(function (i) { v[i.getAttribute('data-pref-input')] = i.value; });
+      var body = {};
+      if (key === 'reading') body.readingDefaults = { role: v.role, studyType: v.studyType, qProfile: v.qProfile };
+      if (key === 'profile') {
+        if (!String(v.firstName || '').trim()) { message(section, 'First name cannot be empty.', true); return; }
+        body.firstName = v.firstName; body.lastName = v.lastName; body.institution = v.institution;
+      }
+      if (key === 'email') body.emailReadingComplete = v.emailReadingComplete === 'on';
+      save.disabled = true; save.textContent = 'Saving…';
+      post('/api/account/profile', body).then(function (r) {
+        if (r && r.ok && r.data && r.data.preferences) {
+          state.prefs = r.data.preferences;
+          state.user.firstName = r.data.user.firstName;
+          state.user.lastName = r.data.user.lastName;
+          state.user.institution = r.data.user.institution;
+          if (key === 'profile' && typeof saveStoredProfile === 'function') {
+            saveStoredProfile({ firstName: state.user.firstName, lastName: state.user.lastName });
+            if (typeof applyAccountProfile === 'function') applyAccountProfile();
+          }
+          finish();
+          message(section, 'Saved.');
+          setTimeout(function () { message(section, ''); }, 3000);
+        } else {
+          save.disabled = false; save.textContent = 'Save';
+          message(section, (r && r.data && r.data.error) || 'Could not reach the server. Please try again.', true);
+        }
+      });
+    };
+    save.addEventListener('click', doSave);
+    scope.addEventListener('keydown', function onKey(e) {
+      if (!scope.classList.contains('is-editing')) { scope.removeEventListener('keydown', onKey); return; }
+      if (e.key === 'Enter' && e.target.matches('input')) { e.preventDefault(); doSave(); }
+      if (e.key === 'Escape') { finish(); message(section, ''); }
+    });
+  };
+
+  document.querySelectorAll('[data-settings-edit]').forEach(function (btn) {
+    btn.disabled = true; // enabled once the current values have loaded
+    btn.addEventListener('click', function () { startEdit(btn); });
+  });
+
+  var pwBtn = document.querySelector('[data-settings-password]');
+  if (pwBtn) pwBtn.addEventListener('click', function () {
+    var section = pwBtn.closest('.settings-section');
+    if (!state || !state.user.email) return;
+    pwBtn.disabled = true; pwBtn.textContent = 'Sending…';
+    post('/api/auth/forgot-password', { email: state.user.email }).then(function (r) {
+      pwBtn.textContent = 'Change password';
+      if (r && r.ok) {
+        message(section, 'We sent a password reset link to ' + state.user.email + '. Open it to choose a new password.');
+        setTimeout(function () { pwBtn.disabled = false; }, 60000);
+      } else {
+        pwBtn.disabled = false;
+        message(section, (r && r.data && r.data.error) || 'Could not send the reset link. Please try again.', true);
+      }
+    });
+  });
+
+  api('/api/session').then(function (r) {
+    if (!r || !r.ok || !r.data || !r.data.user) return;
+    var u = r.data.user;
+    state = {
+      user: { firstName: u.firstName || '', lastName: u.lastName || '', institution: u.institution || '', email: u.email || '' },
+      prefs: u.preferences || { readingDefaults: { role: 'author', studyType: 'quantitative', qProfile: 'Q1' }, emailReadingComplete: true },
+    };
+    render();
+    document.querySelectorAll('[data-settings-edit]').forEach(function (b) { b.disabled = false; });
+  });
 }());
