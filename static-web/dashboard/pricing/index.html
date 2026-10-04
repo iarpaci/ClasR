@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Compare Plans | Clasr</title>
     <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/styles.css?v=pricing-v2-1">
-    <script src="/script.js?v=pricing-v2-1" defer></script>
+    <link rel="stylesheet" href="/styles.css?v=plans-cleanup-1">
+    <script src="/script.js?v=plans-cleanup-1" defer></script>
   </head>
   <body>
     <header class="site-header">
@@ -41,73 +41,78 @@
         <div class="dashboard-inner">
           <div class="dash-header">
             <h1 id="account-pricing-title" class="dashboard-greeting">Compare plans</h1>
-            <p class="dashboard-status" data-account-pricing-status>Michael, your $25 Trial Pack credit is available for 30 days and can be applied to Researcher or Professional.</p>
+            <p class="dashboard-status" data-account-pricing-status>Choose a plan when you are ready to unlock manuscript readings.</p>
           </div>
 
-          <section class="account-credit-banner" aria-label="Trial Pack credit" data-trial-only hidden>
-            <div>
-              <span class="settings-panel__label">Trial credit</span>
-              <strong>$25 credit available</strong>
-              <p>Use it toward a monthly or yearly Researcher or Professional plan before the 30-day window closes.</p>
+          <div class="pricing-v2 pricing-v2--account">
+            <div class="pv-switch" role="group" aria-label="Purchase type">
+              <button class="is-active" type="button" data-pricing-tab="readings" aria-pressed="true">Buy Readings</button>
+              <button type="button" data-pricing-tab="subscriptions" aria-pressed="false">Subscription Plans</button>
             </div>
-            <a class="button button--small" href="/dashboard/billing/">Back to billing</a>
-          </section>
 
-          <section class="account-pricing-grid" aria-label="Plans">
-            <article class="plan-card account-plan-card" data-account-plan="trial-pack">
-              <h2>Trial Pack</h2>
-              <p class="plan-kicker">Try Clasr before committing</p>
-              <div class="plan-price-row">
-                <p class="price">$25</p>
-                <p class="plan-meta">one-time</p>
-              </div>
-              <p class="plan-submeta">Valid 30 days &middot; No subscription</p>
-              <ul>
-                <li class="plan-reading-count">1 manuscript reading</li>
-                <li>Full signal report, all 11 sections</li>
-                <li>Q-variant calibration, field detection</li>
-                <li>Author, Reviewer, or Editor mode</li>
-                <li>PDF, DOCX, TXT export</li>
-                <li>$25 credited toward any upgrade</li>
-              </ul>
-            </article>
-            <article class="plan-card account-plan-card" data-account-plan="researcher">
-              <h2>Researcher</h2>
-              <p class="plan-kicker">For regular submissions</p>
-              <div class="plan-price-row">
-                <p class="price">$34 today</p>
-                <p class="plan-meta">$59/month after credit</p>
-              </div>
-              <p class="plan-meta plan-divider-meta">Annual: $565 today, then $590/year</p>
-              <ul>
-                <li class="plan-reading-count">5 readings / month</li>
-                <li>Full signal report on every reading</li>
-                <li>Subscriber rate on extra readings: $29 each</li>
-                <li>Reading history saved 7 days</li>
-                <li>All output modes included</li>
-                <li>Cancel anytime</li>
-              </ul>
-              <a class="button button--primary button--small plan-card__cta" href="/checkout/?plan=researcher">Choose Researcher</a>
-            </article>
-            <article class="plan-card account-plan-card" data-account-plan="professional">
-              <h2>Professional</h2>
-              <p class="plan-kicker">For high-output researchers</p>
-              <div class="plan-price-row">
-                <p class="price">$94 today</p>
-                <p class="plan-meta">$119/month after credit</p>
-              </div>
-              <p class="plan-meta plan-divider-meta">Annual: $1,165 today, then $1,190/year</p>
-              <ul>
-                <li class="plan-reading-count">12 readings / month</li>
-                <li>Everything in Researcher</li>
-                <li>Priority processing, no queue</li>
-                <li>Cross-manuscript comparison</li>
-                <li>Editor mode included</li>
-                <li>Cancel anytime</li>
-              </ul>
-              <a class="button button--primary button--small plan-card__cta" href="/checkout/?plan=professional">Choose Professional</a>
-            </article>
-          </section>
+            <div data-pricing-panel="readings">
+              <div class="pv-section-label"><h2>Read at your own pace.</h2><p>One-time purchase. No subscription required.</p></div>
+              <section class="pv-cards" aria-label="One-time readings">
+                <article class="pv-card" data-account-plan="reading-1">
+                  <h3>1 Reading</h3>
+                  <div class="pv-price"><strong>$32</strong><span>one time</span></div>
+                  <p class="pv-unit">$32 per reading</p>
+                  <p class="pv-detail">No subscription required.</p>
+                  <a class="pv-buy" href="/checkout/?plan=reading-1">Buy 1 reading</a>
+                </article>
+                <article class="pv-card" data-account-plan="reading-3">
+                  <h3>3 Readings</h3>
+                  <div class="pv-price"><strong>$85</strong><span>one time</span></div>
+                  <p class="pv-unit">$28.33 per reading</p>
+                  <p class="pv-detail">Save 11% vs. a single $32 reading.</p>
+                  <a class="pv-buy" href="/checkout/?plan=reading-3">Buy 3 readings</a>
+                </article>
+                <article class="pv-card" data-account-plan="reading-10">
+                  <h3>10 Readings</h3>
+                  <div class="pv-price"><strong>$245</strong><span>one time</span></div>
+                  <p class="pv-unit">$24.50 per reading</p>
+                  <p class="pv-detail">Save 23% vs. a single $32 reading.</p>
+                  <a class="pv-buy" href="/checkout/?plan=reading-10">Buy 10 readings</a>
+                </article>
+              </section>
+            </div>
+
+            <div data-pricing-panel="subscriptions" hidden>
+              <div class="pv-section-label"><h2>For a regular reading practice.</h2><p>Billed monthly. Cancel anytime.</p></div>
+              <section class="pv-cards" aria-label="Subscription plans">
+                <article class="pv-card" data-account-plan="starter">
+                  <h3>Starter</h3>
+                  <p class="pv-allowance">2 readings per month</p>
+                  <div class="pv-price"><strong>$56</strong><span>/ month</span></div>
+                  <p class="pv-unit">$28 per reading</p>
+                  <p class="pv-detail">Save 13% vs. a single $32 reading.</p>
+                  <a class="pv-buy" href="/checkout/?plan=starter">Choose Starter</a>
+                </article>
+                <article class="pv-card" data-account-plan="professional">
+                  <h3>Professional</h3>
+                  <p class="pv-allowance">5 readings per month</p>
+                  <div class="pv-price"><strong>$115</strong><span>/ month</span></div>
+                  <p class="pv-unit">$23 per reading</p>
+                  <p class="pv-detail">Save 28% vs. a single $32 reading.</p>
+                  <a class="pv-buy" href="/checkout/?plan=professional">Choose Professional</a>
+                </article>
+                <article class="pv-card" data-account-plan="advanced">
+                  <h3>Advanced</h3>
+                  <p class="pv-allowance">12 readings per month</p>
+                  <div class="pv-price"><strong>$240</strong><span>/ month</span></div>
+                  <p class="pv-unit">$20 per reading</p>
+                  <p class="pv-detail">Save 38% vs. a single $32 reading.</p>
+                  <a class="pv-buy" href="/checkout/?plan=advanced">Choose Advanced</a>
+                </article>
+              </section>
+            </div>
+
+            <section class="pv-included" aria-label="Included in every reading">
+              <div><h2>Every reading. The full report.</h2><p>The same report access across all packages.</p></div>
+              <div><strong>Three reading modes</strong><p>Author, Reviewer, and Editor</p></div>
+              <div><strong>Take your report with you</strong><p>PDF, DOCX, and TXT export</p></div>
+            </section>
+          </div>
 
           <section class="account-credit-banner" aria-label="Enterprise pricing" id="institutions">
             <div>
@@ -120,11 +125,10 @@
 
           <section class="account-pricing-help" id="faq" aria-labelledby="account-pricing-faq">
             <h2 id="account-pricing-faq">Plan notes</h2>
-            <div class="settings-row" data-trial-only hidden><span>Can Michael use the Trial Pack credit on yearly plans?</span><strong>Yes, the $25 credit is applied at checkout.</strong></div>
-            <div class="settings-row" data-trial-only hidden><span>When does the credit expire?</span><strong>30 days from Trial Pack purchase.</strong></div>
-            <div class="settings-row"><span>Are taxes included?</span><strong>No. Applicable taxes are calculated based on your location and shown before payment at checkout.</strong></div>
+            <div class="settings-row"><span>Are taxes included?</span><strong>Yes. Taxes are included in the prices shown. No additional tax is added at checkout.</strong></div>
             <div class="settings-row"><span>Do unused monthly readings carry over?</span><strong>No, monthly reading allowances reset at the start of each billing period and do not carry over.</strong></div>
-            <div class="settings-row"><span>What if Michael needs more readings?</span><strong>Subscriber extra readings are $29 each.</strong></div>
+            <div class="settings-row"><span>What if I need more readings than my plan includes?</span><strong>Buy a one-time package of 1, 3, or 10 readings at any time, without changing your subscription.</strong></div>
+            <div class="settings-row"><span>Can I cancel?</span><strong>Yes, anytime from Plan and billing. You keep access through the period you have already paid for.</strong></div>
           </section>
         </div>
       </section>

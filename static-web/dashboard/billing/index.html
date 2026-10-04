@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Plan and Billing | Clasr</title>
     <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/styles.css?v=pricing-v2-1">
-    <script src="/script.js?v=pricing-v2-1" defer></script>
+    <link rel="stylesheet" href="/styles.css?v=plans-cleanup-1">
+    <script src="/script.js?v=plans-cleanup-1" defer></script>
   </head>
   <body>
     <header class="site-header">
@@ -41,7 +41,7 @@
         <div class="dashboard-inner">
           <div class="dash-header">
             <h1 id="billing-title" class="dashboard-greeting">Plan and billing</h1>
-            <p class="dashboard-status">Track manuscript usage, plan limits, and upgrade options for Michael's Clasr workspace.</p>
+            <p class="dashboard-status">Track manuscript usage, plan limits, and billing for your Clasr workspace.</p>
           </div>
 
           <div class="account-settings-layout">
@@ -53,7 +53,6 @@
               <a href="/dashboard/settings/#security">Security and data</a>
               <a href="/dashboard/billing/">Current plan</a>
               <a href="#invoices">Invoices</a>
-              <a href="#credit" data-trial-only>Upgrade credit</a>
               <a href="#enterprise">Enterprise</a>
             </aside>
 
@@ -61,8 +60,8 @@
               <section class="account-summary" id="plan">
                 <div>
                   <span class="settings-panel__label">Current plan</span>
-                  <strong data-billing-plan-name>Trial Pack</strong>
-                  <p data-billing-plan-summary>2 of 5 manuscript readings used. Credit window: 30 days from purchase.</p>
+                  <strong data-billing-plan-name>Loading…</strong>
+                  <p data-billing-plan-summary></p>
                 </div>
                 <a class="button button--primary" href="/dashboard/pricing/">Compare all plans</a>
               </section>
@@ -88,51 +87,10 @@
                     <span class="settings-panel__label">Invoices</span>
                     <h2>Receipts and billing records</h2>
                   </div>
-                  <span class="button button--small" aria-disabled="true">Payment portal unavailable</span>
+                  <button type="button" class="button button--small" data-invoices-portal hidden>View invoices</button>
                 </div>
-                <p class="settings-panel__copy">Paid checkout is not currently enabled. Payment methods, receipts, subscription controls, and provider terms will appear here when billing becomes available.</p>
-                <div class="invoice-list" aria-label="Invoice history" data-invoice-list>
-                  <article class="invoice-row">
-                    <div>
-                      <span>Jun 12, 2026</span>
-                      <strong>Trial Pack</strong>
-                    </div>
-                    <span>$25.00</span>
-                    <span class="invoice-status">Demo</span>
-                    <span>Demo record</span>
-                  </article>
-                  <article class="invoice-row">
-                    <div>
-                      <span>May 12, 2026</span>
-                      <strong>Researcher plan</strong>
-                    </div>
-                    <span>$59.00</span>
-                    <span class="invoice-status">Demo</span>
-                    <span>Demo record</span>
-                  </article>
-                </div>
-              </section>
-
-              <section class="settings-section" id="credit" data-trial-only>
-                <div class="settings-section__head">
-                  <span class="settings-panel__label">Upgrade credit</span>
-                  <h2>Your $25 Trial Pack credit is available</h2>
-                </div>
-                <p class="settings-panel__copy">Apply the full Trial Pack payment toward a monthly or yearly Researcher or Professional plan before the 30-day window closes. Yearly plan credit is applied at checkout.</p>
-                <div class="upgrade-credit-grid">
-                  <article class="upgrade-credit-card" data-upgrade-plan="researcher">
-                    <span>Researcher</span>
-                    <strong>$34 today</strong>
-                    <small>$59 monthly plan minus $25 Trial Pack credit.</small>
-                    <a class="button button--small" href="/dashboard/pricing/?plan=researcher&credit=trial-pack">Upgrade to Researcher</a>
-                  </article>
-                  <article class="upgrade-credit-card" data-upgrade-plan="professional">
-                    <span>Professional</span>
-                    <strong>$94 today</strong>
-                    <small>$119 monthly plan minus $25 Trial Pack credit.</small>
-                    <a class="button button--small" href="/dashboard/pricing/?plan=professional&credit=trial-pack">Upgrade to Professional</a>
-                  </article>
-                </div>
+                <p class="settings-panel__copy">Receipts are emailed by our payment provider, Paddle, after each payment. Subscribers can view and download past invoices from the billing portal.</p>
+                <p class="clasr-modal__error" data-invoices-message hidden></p>
               </section>
 
               <section class="settings-section" id="enterprise">

@@ -897,7 +897,10 @@ router.post('/billing/portal', requireAuth, async (req, res, next) => {
         subscription_ids: [sub.paddle_subscription_id],
       });
       const subLinks = (session?.urls?.subscriptions || []).find((s) => s.id === sub.paddle_subscription_id);
-      url = subLinks?.update_subscription_payment_method || session?.urls?.general?.overview;
+      // target "overview" = portal home (invoices, payments); default = card update page.
+      url = req.body?.target === 'overview'
+        ? session?.urls?.general?.overview || subLinks?.update_subscription_payment_method
+        : subLinks?.update_subscription_payment_method || session?.urls?.general?.overview;
       if (!url) throw new Error('portal session returned no url');
     } catch (err) {
       if (err.code === 'NO_KEY') {

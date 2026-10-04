@@ -27986,3 +27986,45 @@ body.theme-night .checkout-v2 {
   .co-order { padding: 20px; }
   .checkout-v2 .pv-switch button { padding: 8px 12px; }
 }
+
+/* Public header on narrow phones: logo + theme toggle + Log In + Register +
+   menu button were ~446px wide and overflowed 390px screens. Tighten. */
+@media (max-width: 440px) {
+  .site-header .site-header__inner {
+    gap: 6px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .site-header .site-header__inner > a:first-child .logo {
+    width: 74px;
+  }
+  .site-header .nav-actions {
+    gap: 4px;
+  }
+  .site-header .nav-actions .button {
+    padding: 6px 8px !important;
+    min-width: 0 !important;
+  }
+  .site-header .mobile-toggle {
+    width: 34px;
+    height: 34px;
+  }
+}
+@media (max-width: 350px) {
+  .site-header:not(.is-open) .nav-actions .theme-toggle {
+    display: none;
+  }
+}
+
+/* Logged-in Compare plans page reuses the public pricing cards */
+.pricing-v2.pricing-v2--account {
+  max-width: none;
+  padding: 0;
+  margin: 8px 0 28px;
+}
+.pricing-v2--account .pv-included { margin-top: 24px; }
+.pv-card.is-current-plan { border-color: var(--pv-accent); }
+.pv-card.is-current-plan .pv-buy { pointer-events: none; opacity: 0.7; }
+.settings-section__head .button[hidden] {
+  display: none !important;
+}
