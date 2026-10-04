@@ -103,13 +103,21 @@ GRANT EXECUTE ON FUNCTION grant_purchased_readings(uuid, text, text, integer) TO
 GRANT EXECUTE ON FUNCTION consume_reading(uuid, integer, boolean) TO service_role;
 GRANT EXECUTE ON FUNCTION refund_reading(uuid, text, boolean) TO service_role;
 
--- 8. Same lock-down for the older credit functions (v2/v3). The backend calls
---    them with the service role key only.
-REVOKE EXECUTE ON FUNCTION check_and_consume_credit(uuid, integer, boolean) FROM PUBLIC, anon, authenticated;
-REVOKE EXECUTE ON FUNCTION refund_credit(uuid, boolean) FROM PUBLIC, anon, authenticated;
-REVOKE EXECUTE ON FUNCTION increment_lifetime_count(uuid) FROM PUBLIC, anon, authenticated;
-REVOKE EXECUTE ON FUNCTION increment_monthly_count(uuid) FROM PUBLIC, anon, authenticated;
-GRANT EXECUTE ON FUNCTION check_and_consume_credit(uuid, integer, boolean) TO service_role;
-GRANT EXECUTE ON FUNCTION refund_credit(uuid, boolean) TO service_role;
-GRANT EXECUTE ON FUNCTION increment_lifetime_count(uuid) TO service_role;
-GRANT EXECUTE ON FUNCTION increment_monthly_count(uuid) TO service_role;
+-- 8. Same lock-down for the older credit functions (v2/v3), skipping any that
+--    do not exist. The backend calls them with the service role key only.
+DO $$
+DECLARE f text;
+BEGIN
+  FOREACH f IN ARRAY ARRAY[
+    'check_and_consume_credit(uuid, integer, boolean)',
+    'refund_credit(uuid, boolean)',
+    'increment_lifetime_count(uuid)',
+    'increment_monthly_count(uuid)'
+  ] LOOP
+    IF to_regprocedure(f) IS NOT NULL THEN
+      EXECUTE format('REVOKE EXECUTE ON FUNCTION %s FROM PUBLIC, anon, authenticated', f);
+      EXECUTE format('GRANT EXECUTE ON FUNCTION %s TO service_role', f);
+    END IF;
+  END LOOP;
+END
+$$;
