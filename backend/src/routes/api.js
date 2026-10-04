@@ -17,7 +17,7 @@ const { analyzeManuscript, reformatReport, reformatReportAuthorJson, reformatRep
 const { exportReportAsPdf, exportReportAsDocx, exportReportAsTxt, exportFilename } = require('../services/reportExport');
 const { extractText } = require('../services/fileParser');
 const { runConsistent } = require('../services/clasr-engine/consistency');
-const { atomicConsumeCredit } = require('../services/credits');
+const { atomicConsumeCredit, refundCredit, creditSummary, PLAN_CREDITS } = require('../services/credits');
 const {
   sendWelcomeEmail,
   sendReportReadyEmail,
@@ -64,22 +64,14 @@ setInterval(() => {
 
 // ── Plans config ────────────────────────────────────────────────────────────
 const PLANS = [
-  { id: 'trial-pack',    label: 'Trial Pack',    price: 25,   billing: 'one-time', creditsPerPeriod: 1,   periodType: 'total'   },
-  { id: 'researcher',    label: 'Researcher',    monthlyPrice: 59,  annualPrice: 590,  creditsPerPeriod: 5,   periodType: 'monthly' },
-  { id: 'professional',  label: 'Professional',  monthlyPrice: 119, annualPrice: 1190, creditsPerPeriod: 12,  periodType: 'monthly' },
-  { id: 'enterprise',    label: 'Enterprise',    price: 0,    billing: 'custom',   creditsPerPeriod: 9999, periodType: 'monthly' },
+  { id: 'reading-1',    label: '1 Reading',    price: 32,  billing: 'one-time', readings: 1 },
+  { id: 'reading-3',    label: '3 Readings',   price: 85,  billing: 'one-time', readings: 3 },
+  { id: 'reading-10',   label: '10 Readings',  price: 245, billing: 'one-time', readings: 10 },
+  { id: 'starter',      label: 'Starter',      monthlyPrice: 56,  creditsPerPeriod: 2,  periodType: 'monthly' },
+  { id: 'professional', label: 'Professional', monthlyPrice: 115, creditsPerPeriod: 5,  periodType: 'monthly' },
+  { id: 'advanced',     label: 'Advanced',     monthlyPrice: 240, creditsPerPeriod: 12, periodType: 'monthly' },
+  { id: 'enterprise',   label: 'Enterprise',   price: 0, billing: 'custom', creditsPerPeriod: 9999, periodType: 'monthly' },
 ];
-
-const PLAN_CREDITS = {
-  'free': 0, 'basic': 40, 'pro': 150,
-  'trial-pack': 1, 'researcher': 5, 'professional': 12, 'enterprise': 9999,
-};
-
-function isNewMonth(periodStart) {
-  const s = new Date(periodStart);
-  const n = new Date();
-  return s.getMonth() !== n.getMonth() || s.getFullYear() !== n.getFullYear();
-}
 
 async function getUserSub(userId) {
   const { data, error } = await dbReadClient
@@ -103,42 +95,6 @@ async function getUserSub(userId) {
     return { plan: 'free', lifetime_count: 0, monthly_count: 0, period_start: new Date().toISOString() };
   }
   return data;
-}
-
-async function checkAndConsumeCredit(userId) {
-  const sub = await getUserSub(userId);
-  const plan = sub.plan;
-  const limit = PLAN_CREDITS[plan] ?? 0;
-  const isMonthly = !['free', 'trial-pack', 'gift'].includes(plan);
-
-  if (isMonthly && isNewMonth(sub.period_start)) {
-    await supabase.from('user_subscriptions')
-      .update({ monthly_count: 0, period_start: new Date().toISOString() })
-      .eq('user_id', userId);
-  }
-
-  // Atomic check-and-increment via DB function to prevent race conditions
-  const { data: consumed, error: rpcError } = await supabase.rpc('check_and_consume_credit', {
-    p_user_id: userId,
-    p_limit: limit,
-    p_is_monthly: isMonthly,
-  });
-
-  if (rpcError) throw new Error(`Credit check failed: ${rpcError.message}`);
-
-  if (!consumed) {
-    const reason = isMonthly ? 'monthly_limit_reached' : 'lifetime_limit_reached';
-    return { ok: false, reason, plan, limit };
-  }
-  return { ok: true, plan, isMonthly };
-}
-
-// Mirrors checkAndConsumeCredit's increment in reverse — used when a credit
-// was consumed for a reading but the reading's row then failed to save, so
-// the user isn't charged a credit for a report they never received.
-async function refundCredit(userId, isMonthly) {
-  const { error } = await supabase.rpc('refund_credit', { p_user_id: userId, p_is_monthly: isMonthly });
-  if (error) console.error('[api] refund_credit RPC failed:', error.message, '— user', userId, 'was not refunded');
 }
 
 // ── File upload ────────────────────────────────────────────────────────────
@@ -232,12 +188,8 @@ router.get('/session', requireAuth, async (req, res) => {
       institution: meta.institution || '',
       preferences: readPreferences(meta),
       plan: sub.plan,
-      creditsLeft: (() => {
-        const limit = PLAN_CREDITS[sub.plan] || 0;
-        const isMonthly = !['free', 'trial-pack', 'gift'].includes(sub.plan);
-        const used = isMonthly ? (sub.monthly_count || 0) : (sub.lifetime_count || 0);
-        return Math.max(0, limit - used);
-      })(),
+      creditsLeft: creditSummary(sub).left,
+      purchasedReadings: creditSummary(sub).purchased,
     },
   });
 });
@@ -553,7 +505,7 @@ router.post('/readings/start', requireAuth, handleUpload, async (req, res, next)
       return res.status(400).json({ error: 'A manuscript file (PDF/DOCX/TXT) is required' });
     }
 
-    const creditCheck = await checkAndConsumeCredit(req.user.id);
+    const creditCheck = await atomicConsumeCredit(req.user.id);
     if (!creditCheck.ok) {
       sendLimitReachedEmail(req.user.email, creditCheck.plan).catch(() => {});
       return res.status(403).json({ error: creditCheck.reason, plan: creditCheck.plan, upgradeUrl: '/dashboard/pricing/' });
@@ -659,7 +611,7 @@ router.post('/readings/start', requireAuth, handleUpload, async (req, res, next)
             // instead of a job that "completes" into a 404, and give back the
             // credit consumed for a reading the user never received.
             failJobUnsaved(jobId);
-            refundCredit(req.user.id, creditCheck.isMonthly).catch(() => {});
+            refundCredit(req.user.id, creditCheck.isMonthly, creditCheck.source).catch(() => {});
             return;
           }
           // Fallback succeeded, so the reading itself is safe, but this run
@@ -678,7 +630,7 @@ router.post('/readings/start', requireAuth, handleUpload, async (req, res, next)
       } catch (err) {
         console.error('[api] processing error:', err.message);
         updateJob(jobId, { status: 'failed', error: 'Analysis failed. Please try again.' });
-        refundCredit(req.user.id, creditCheck.isMonthly).catch(() => {});
+        refundCredit(req.user.id, creditCheck.isMonthly, creditCheck.source).catch(() => {});
       }
     })();
 
@@ -749,7 +701,7 @@ router.post('/readings/start-v2', requireAuth, handleUpload, async (req, res, ne
         if (insertErr) {
           console.error('[api] v2 insert error:', insertErr.message, insertErr.details || '');
           failJobUnsaved(jobId);
-          refundCredit(req.user.id, creditCheck.isMonthly).catch(() => {});
+          refundCredit(req.user.id, creditCheck.isMonthly, creditCheck.source).catch(() => {});
           return;
         }
 
@@ -757,7 +709,7 @@ router.post('/readings/start-v2', requireAuth, handleUpload, async (req, res, ne
       } catch (err) {
         console.error('[api] v2 processing error:', err.message);
         updateJob(jobId, { status: 'failed', error: 'Analysis failed. Please try again.' });
-        refundCredit(req.user.id, creditCheck.isMonthly).catch(() => {});
+        refundCredit(req.user.id, creditCheck.isMonthly, creditCheck.source).catch(() => {});
       }
     })();
 
@@ -793,16 +745,15 @@ router.get('/processing/:jobId', requireAuth, (req, res) => {
 router.get('/billing/status', requireAuth, async (req, res, next) => {
   try {
     const sub = await getUserSub(req.user.id);
-    const limit = PLAN_CREDITS[sub.plan] || 0;
-    const isMonthly = !['free', 'trial-pack', 'gift'].includes(sub.plan);
-    const used = isMonthly ? (sub.monthly_count || 0) : (sub.lifetime_count || 0);
+    const c = creditSummary(sub);
 
     res.json({
       plan: sub.plan,
-      creditsLeft: Math.max(0, limit - used),
-      creditsTotal: limit,
-      creditsUsed: used,
-      periodType: isMonthly ? 'monthly' : 'total',
+      creditsLeft: c.left,
+      creditsTotal: c.limit,
+      creditsUsed: c.used,
+      purchasedReadings: c.purchased,
+      periodType: c.monthly ? 'monthly' : 'total',
       paddleSubscriptionId: sub.paddle_subscription_id || null,
       paddleStatus: sub.paddle_status || null,
       portalReady: !!(sub.paddle_subscription_id && process.env.PADDLE_API_KEY && !['canceled', 'cancelled'].includes(sub.paddle_status)),

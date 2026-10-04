@@ -3499,19 +3499,32 @@ setupResponsiveReports();
     'reading-1':    'pri_01m2pwhj8gjj6djrxync9d3dgm',
     'reading-3':    'pri_01m2pwnqtp3azqcce6zd3r0ew1',
     'reading-10':   'pri_01m2pwx3x6sc71k9s2x23m5eyh',
-    'starter':      null,
-    'professional': null,
-    'advanced':     null
+    'starter':      'pri_01kwwh5epwyphhpce1nw23d30z',
+    'professional': 'pri_01kwwh4cwhwpgvp02mhne8cxe9',
+    'advanced':     'pri_01kwwh3aqyw7yxzpty9536hx9q'
   };
 
-  // Keep false until the backend webhook (routes/subscription.js) can credit
-  // purchased readings to the account. With this off, pricing-page buttons
-  // fall back to the register flow instead of opening a live Paddle checkout
-  // that would charge a customer without delivering readings.
+  // Public switch. Turn on only after supabase_migration_v5.sql is applied and
+  // a real test purchase has credited readings (backend routes/subscription.js).
+  // Before that, ?checkouttest=1 enables checkout in this browser only (for the
+  // owner's test purchase); ?checkouttest=0 turns it off again.
   var PADDLE_CHECKOUT_LIVE = false;
+  try {
+    var ct = new URLSearchParams(window.location.search).get('checkouttest');
+    if (ct === '1') localStorage.setItem('clasr:checkoutTest', '1');
+    if (ct === '0') localStorage.removeItem('clasr:checkoutTest');
+  } catch (ex) {}
+  function checkoutEnabled() {
+    if (PADDLE_CHECKOUT_LIVE) return true;
+    try { return localStorage.getItem('clasr:checkoutTest') === '1'; } catch (ex) { return false; }
+  }
 
   function priceIdFor(plan) {
-    return PADDLE_CHECKOUT_LIVE ? (PADDLE_PRICES[plan] || null) : null;
+    return checkoutEnabled() ? (PADDLE_PRICES[plan] || null) : null;
+  }
+
+  function getUserEmail() {
+    try { return (JSON.parse(localStorage.getItem('clasr:userProfile') || '{}').email) || null; } catch (ex) { return null; }
   }
 
   var onPricing  = !!document.querySelector('.plan-grid, .pricing-v2');
@@ -3577,15 +3590,14 @@ setupResponsiveReports();
   }
 
   function openCheckout(priceId, plan, userId) {
+    if (!userId) { window.location.href = '/register/?plan=' + encodeURIComponent(plan); return; }
     var opts = {
       items: [{ priceId: priceId, quantity: 1 }],
-      settings: {
-        successUrl: userId
-          ? 'https://clasr.ai/dashboard/'
-          : 'https://clasr.ai/register/?checkout=complete&plan=' + plan
-      }
+      customData: { userId: userId, plan: plan },
+      settings: { successUrl: 'https://clasr.ai/dashboard/billing/?checkout=success' }
     };
-    if (userId) opts.customData = { userId: userId };
+    var email = getUserEmail();
+    if (email) opts.customer = { email: email };
     Paddle.Checkout.open(opts);
   }
 
@@ -3610,14 +3622,16 @@ setupResponsiveReports();
     // Pricing page: plan CTA buttons
     var planBtn = e.target.closest('a.plan-card__cta, a[data-plan-cta]');
     if (planBtn) {
-      var userId = getUserId(); // null if not logged in — openCheckout handles it
+      var userId = getUserId();
+      if (!userId) return; // not signed in: follow href to /register/?plan=…
       var rawHref = planBtn.getAttribute('href') || '';
       var match = rawHref.match(/[?&]plan=([^&]+)/);
       if (match) {
         e.preventDefault();
         var plan = decodeURIComponent(match[1]);
         var priceId = priceIdFor(plan);
-        if (!priceId) { window.location.href = planBtn.href; return; }
+        // Signed in but checkout not enabled: the checkout page explains why.
+        if (!priceId) { window.location.href = '/checkout/?plan=' + encodeURIComponent(plan); return; }
         loadPaddle(function () { openCheckout(priceId, plan, userId); });
         return;
       }
@@ -3853,6 +3867,11 @@ setupResponsiveReports();
       planNameEl.textContent = (typeof planLabels !== 'undefined' && planLabels[status.plan]) || status.plan;
       planSummaryEl.textContent = status.creditsUsed + ' of ' + status.creditsTotal + ' manuscript readings used' +
         (status.periodType === 'monthly' ? ' this billing period.' : '.');
+    }
+    if (status.purchasedReadings > 0) {
+      var extra = status.purchasedReadings + ' purchased reading' + (status.purchasedReadings === 1 ? '' : 's') + ' available.';
+      if (!status.plan || status.plan === 'free') { planNameEl.textContent = 'Reading packages'; planSummaryEl.textContent = extra; }
+      else planSummaryEl.textContent += ' Plus ' + extra.charAt(0).toLowerCase() + extra.slice(1);
     }
     if (invoicesBtn) invoicesBtn.hidden = !status.portalReady;
   };
