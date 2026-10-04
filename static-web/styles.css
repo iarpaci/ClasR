@@ -28028,3 +28028,22 @@ body.theme-night .checkout-v2 {
 .settings-section__head .button[hidden] {
   display: none !important;
 }
+
+/* Account Plans page (2026-10-04 design) */
+.pricing-v2--account .pv-intro { margin-bottom: 4px; }
+.pricing-v2--account .pv-intro h1 { font-size: 32px; }
+.pv-account-plan { font-size: 13px; color: var(--pv-muted); text-align: center; margin: 16px 0 0; }
+.pv-account-plan strong { color: var(--pv-deep); font-weight: 600; }
+.pv-plan-status { display: block; min-height: 19px; margin-bottom: 10px; font-size: 11px; font-weight: 600; color: var(--pv-accent); }
+.pv-card.is-current-plan { border-color: rgba(163, 38, 66, 0.55); background: rgba(163, 38, 66, 0.035); }
+.pv-card.is-current-plan .pv-buy { pointer-events: auto; opacity: 1; }
+button.pv-buy { width: 100%; }
+.pv-buy:disabled,
+.pv-buy:disabled:hover {
+  cursor: default; background: rgba(163, 38, 66, 0.08) !important; border-color: transparent; color: var(--pv-deep) !important;
+}
+.pv-change-message { margin: 14px 0 0; font-size: 13px; color: var(--pv-deep); text-align: center; }
+.pv-change-message[hidden] { display: none; }
+.pv-change-message--error { color: var(--pv-accent); }
+.pv-faq--account { margin-top: 32px; }
+.pv-faq--account h2 { font-size: 24px; }

@@ -4268,3 +4268,147 @@ setupResponsiveReports();
   chosen[typeOf(initial)] = initial.value;
   showType(typeOf(initial));
 }());
+
+// ── Account Plans page (2026-10-04 design): current plan + plan changes ─────
+// Subscribers change plan on their existing Paddle subscription (preview the
+// charge, then confirm) instead of going through checkout again, which would
+// create a second subscription.
+(function () {
+  var root = document.querySelector('[data-account-plans]');
+  if (!root) return;
+  var READINGS = { starter: 2, professional: 5, advanced: 12, researcher: 5 };
+  var LABELS = { starter: 'Starter', professional: 'Professional', advanced: 'Advanced', researcher: 'Researcher' };
+  var line = root.querySelector('[data-account-plan-line]');
+  var msg = root.querySelector('[data-plan-change-message]');
+  var cards = Array.prototype.slice.call(root.querySelectorAll('[data-monthly-plan]'));
+  var status = null;
+
+  var api = function (path, opts) {
+    if (!window._clasrApiFetch) return Promise.resolve(null);
+    return window._clasrApiFetch(path, opts).then(function (res) {
+      if (!res) return null;
+      return res.json().catch(function () { return {}; }).then(function (data) { return { ok: res.ok, data: data }; });
+    }).catch(function () { return null; });
+  };
+  var post = function (path, body) {
+    return api(path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  };
+  var fmt = function (m) { return m ? '$' + Number(m.amount).toFixed(2).replace(/\.00$/, '') : '$0'; };
+  var fmtDate = function (iso) { try { return new Date(iso).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }); } catch (e) { return ''; } };
+  var showMsg = function (text, isError) {
+    if (!msg) return;
+    msg.textContent = text || ''; msg.hidden = !text;
+    msg.classList.toggle('pv-change-message--error', !!isError);
+  };
+
+  var render = function () {
+    var plan = status && status.plan;
+    var hasSub = !!(status && status.paddleSubscriptionId && ['canceled', 'cancelled'].indexOf(status.paddleStatus) < 0);
+    var pastDue = hasSub && status.paddleStatus === 'past_due';
+    var current = READINGS[plan] ? plan : null;
+
+    if (line) {
+      line.hidden = !current;
+      if (current) {
+        line.textContent = 'Your plan: ';
+        var strong = document.createElement('strong'); strong.textContent = LABELS[current];
+        line.appendChild(strong);
+        line.appendChild(document.createTextNode(' · ' + READINGS[current] + ' readings / month'));
+      }
+    }
+
+    cards.forEach(function (card) {
+      var id = card.getAttribute('data-monthly-plan');
+      var isCurrent = id === current;
+      card.classList.toggle('is-current-plan', isCurrent);
+      var label = card.querySelector('[data-plan-status]');
+      if (label) label.textContent = isCurrent ? 'Your current plan' : '';
+      var old = card.querySelector('[data-plan-action]');
+      var el;
+      if (isCurrent) {
+        el = document.createElement('button'); el.type = 'button'; el.disabled = true; el.textContent = 'Current plan';
+      } else if (hasSub && pastDue) {
+        el = document.createElement('a'); el.href = '/dashboard/billing/';
+        el.textContent = (READINGS[id] > (READINGS[current] || 0) ? 'Upgrade to ' : 'Change to ') + LABELS[id];
+      } else if (hasSub) {
+        el = document.createElement('button'); el.type = 'button';
+        el.textContent = (READINGS[id] > (READINGS[current] || 0) ? 'Upgrade to ' : 'Change to ') + LABELS[id];
+        el.addEventListener('click', function () { openChange(id); });
+      } else {
+        el = document.createElement('a'); el.href = '/checkout/?plan=' + id; el.textContent = 'Choose ' + LABELS[id];
+      }
+      el.className = 'pv-buy'; el.setAttribute('data-plan-action', '');
+      old.parentNode.replaceChild(el, old);
+    });
+
+    if (pastDue) showMsg('Your last payment did not go through. Update your payment method on Plan and billing before changing plans.', true);
+  };
+
+  var openChange = function (target) {
+    showMsg('');
+    var existing = document.querySelector('[data-plan-change-modal]');
+    if (existing) existing.remove();
+    var overlay = document.createElement('div');
+    overlay.className = 'clasr-modal-overlay';
+    overlay.setAttribute('data-plan-change-modal', '');
+    overlay.innerHTML =
+      '<div class="clasr-modal" role="dialog" aria-modal="true" aria-labelledby="clasr-plan-change-title">' +
+        '<h2 id="clasr-plan-change-title"></h2>' +
+        '<p data-change-body>Checking the price of this change…</p>' +
+        '<div class="clasr-modal__actions">' +
+          '<button type="button" class="button button--ghost" data-change-cancel>Keep current plan</button>' +
+          '<button type="button" class="button button--danger" data-change-confirm disabled>Confirm change</button>' +
+        '</div>' +
+      '</div>';
+    overlay.querySelector('h2').textContent = 'Change to ' + LABELS[target] + '?';
+    document.body.appendChild(overlay);
+    var body = overlay.querySelector('[data-change-body]');
+    var confirmBtn = overlay.querySelector('[data-change-confirm]');
+    var close = function () { overlay.remove(); };
+    overlay.querySelector('[data-change-cancel]').addEventListener('click', close);
+    overlay.addEventListener('click', function (e) { if (e.target === overlay) close(); });
+    document.addEventListener('keydown', function esc(e) { if (e.key === 'Escape') { close(); document.removeEventListener('keydown', esc); } });
+
+    post('/api/subscription/change/preview', { plan: target }).then(function (r) {
+      if (!r || !r.ok) { body.textContent = (r && r.data && r.data.error) || 'Could not reach the server. Please try again.'; return; }
+      var d = r.data;
+      var next = d.nextBilledAt ? ' on ' + fmtDate(d.nextBilledAt) : '';
+      if (d.direction === 'upgrade') {
+        body.textContent = 'You will be charged ' + fmt(d.chargeNow) + ' today for the rest of this billing period. Your plan changes to ' +
+          LABELS[target] + ' (' + READINGS[target] + ' readings / month) right away. Your next bill' + next + ' will be ' + fmt(d.nextCharge) + '.';
+        confirmBtn.textContent = 'Upgrade and pay ' + fmt(d.chargeNow);
+      } else {
+        body.textContent = 'Your plan changes to ' + LABELS[target] + ' (' + READINGS[target] + ' readings / month) right away. Readings already used this period count toward the new allowance. ' +
+          (d.credit && d.credit.amount ? 'The unused ' + fmt(d.credit) + ' is credited to your next bill. ' : '') +
+          'Your next bill' + next + ' will be ' + fmt(d.nextCharge) + '.';
+        confirmBtn.textContent = 'Change to ' + LABELS[target];
+      }
+      confirmBtn.disabled = false;
+    });
+
+    confirmBtn.addEventListener('click', function () {
+      confirmBtn.disabled = true; confirmBtn.textContent = 'Changing…';
+      post('/api/subscription/change', { plan: target }).then(function (r) {
+        close();
+        if (r && r.ok) {
+          status.plan = r.data.plan;
+          render();
+          showMsg('Your plan is now ' + LABELS[r.data.plan] + '.');
+        } else {
+          showMsg((r && r.data && r.data.error) || 'Could not reach the server. Please try again.', true);
+        }
+      });
+    });
+  };
+
+  render();
+  api('/api/billing/status').then(function (r) {
+    if (!r || !r.ok) return;
+    status = r.data;
+    render();
+    if (READINGS[status.plan]) {
+      var tab = root.querySelector('[data-pricing-tab="subscriptions"]');
+      if (tab && !/[?&]tab=/.test(window.location.search)) tab.click();
+    }
+  });
+}());

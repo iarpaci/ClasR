@@ -18,6 +18,7 @@ const { exportReportAsPdf, exportReportAsDocx, exportReportAsTxt, exportFilename
 const { extractText } = require('../services/fileParser');
 const { runConsistent } = require('../services/clasr-engine/consistency');
 const { atomicConsumeCredit, refundCredit, creditSummary, PLAN_CREDITS } = require('../services/credits');
+const { PLAN_PRICE_IDS } = require('../services/catalog');
 const {
   sendWelcomeEmail,
   sendReportReadyEmail,
@@ -801,6 +802,86 @@ async function getSubscriptionCancelState(sub) {
     return { canCancel: !scheduled, scheduled, effectiveAt: scheduled ? change.effective_at : null };
   } catch { return { canCancel: true, scheduled: false, effectiveAt: null }; }
 }
+
+// ── Subscription plan change (Starter / Professional / Advanced) ────────────
+// An existing subscriber must never go through checkout again (that would
+// create a second subscription). Instead the current Paddle subscription's
+// price is swapped. Upgrades are charged the prorated difference now;
+// downgrades take effect now and the unused difference is credited to the
+// next bill. The preview endpoint shows the amounts before anything changes.
+function planChangeRequest(targetPlan, currentPlan) {
+  const priceId = PLAN_PRICE_IDS[targetPlan];
+  const upgrade = (PLAN_CREDITS[targetPlan] || 0) > (PLAN_CREDITS[currentPlan] || 0);
+  return {
+    upgrade,
+    body: {
+      items: [{ price_id: priceId, quantity: 1 }],
+      proration_billing_mode: upgrade ? 'prorated_immediately' : 'prorated_next_billing_period',
+      ...(upgrade ? { on_payment_failure: 'prevent_change' } : {}),
+    },
+  };
+}
+
+async function planChangeContext(req, res) {
+  const target = String(req.body?.plan || '');
+  if (!PLAN_PRICE_IDS[target]) { res.status(400).json({ error: 'Unknown plan.' }); return null; }
+  const sub = await getUserSub(req.user.id);
+  if (!sub.paddle_subscription_id || ['canceled', 'cancelled'].includes(sub.paddle_status)) {
+    res.status(400).json({ error: 'There is no active subscription to change. Choose a plan at checkout instead.' }); return null;
+  }
+  if (sub.paddle_status === 'past_due') {
+    res.status(409).json({ error: 'Your last payment did not go through. Update your payment method on the billing page before changing plans.' }); return null;
+  }
+  if (sub.plan === target) { res.status(400).json({ error: 'This is already your current plan.' }); return null; }
+  return { sub, target, ...planChangeRequest(target, sub.plan) };
+}
+
+const money = (minor, currency) => (minor == null ? null : { amount: Number(minor) / 100, currency: currency || 'USD' });
+
+router.post('/subscription/change/preview', requireAuth, async (req, res, next) => {
+  try {
+    const ctx = await planChangeContext(req, res); if (!ctx) return;
+    let data;
+    try {
+      data = await paddleRequest('PATCH', '/subscriptions/' + encodeURIComponent(ctx.sub.paddle_subscription_id) + '/preview', ctx.body);
+    } catch (err) {
+      if (err.code === 'NO_KEY') return res.status(503).json({ error: 'Plan changes are temporarily unavailable. Please email hello@clasr.ai.' });
+      console.error('[billing] plan change preview failed:', err.status, err.paddleCode, err.message);
+      return res.status(502).json({ error: 'We could not prepare this change right now. Please try again or email hello@clasr.ai.' });
+    }
+    const cur = data?.currency_code;
+    const now = data?.immediate_transaction?.details?.totals?.grand_total;
+    const next = data?.next_transaction?.details?.totals?.grand_total;
+    res.json({
+      plan: ctx.target,
+      direction: ctx.upgrade ? 'upgrade' : 'downgrade',
+      chargeNow: money(now ?? 0, cur),
+      nextBilledAt: data?.next_billed_at || null,
+      nextCharge: money(next, cur),
+      credit: money(data?.update_summary?.credit?.amount, data?.update_summary?.credit?.currency_code || cur),
+    });
+  } catch (err) { next(err); }
+});
+
+router.post('/subscription/change', requireAuth, async (req, res, next) => {
+  try {
+    const ctx = await planChangeContext(req, res); if (!ctx) return;
+    try {
+      await paddleRequest('PATCH', '/subscriptions/' + encodeURIComponent(ctx.sub.paddle_subscription_id), ctx.body);
+    } catch (err) {
+      if (err.code === 'NO_KEY') return res.status(503).json({ error: 'Plan changes are temporarily unavailable. Please email hello@clasr.ai.' });
+      console.error('[billing] plan change failed:', err.status, err.paddleCode, err.message);
+      const declined = /payment|declin/i.test(`${err.paddleCode} ${err.message}`);
+      return res.status(declined ? 402 : 502).json({ error: declined
+        ? 'The payment for this upgrade did not go through, so your plan was not changed. Update your payment method and try again.'
+        : 'We could not change your plan right now. Please try again or email hello@clasr.ai.' });
+    }
+    // The subscription.updated webhook confirms this too; set it now so the
+    // account reflects the change immediately.
+    await supabase.from('user_subscriptions').update({ plan: ctx.target, updated_at: new Date().toISOString() }).eq('user_id', req.user.id);
+    res.json({ success: true, plan: ctx.target, direction: ctx.upgrade ? 'upgrade' : 'downgrade' });
+  } catch (err) { next(err); }
+});
 
 router.post('/subscription/cancel', requireAuth, async (req, res, next) => {
   try {

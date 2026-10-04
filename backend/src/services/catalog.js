@@ -27,3 +27,9 @@ function lookupPrice(priceId) {
 }
 
 module.exports = { CATALOG, lookupPrice };
+
+// plan id -> current monthly price id (for plan changes on an existing subscription)
+const PLAN_PRICE_IDS = Object.fromEntries(
+  Object.entries(CATALOG).filter(([, v]) => v.kind === 'plan').map(([price, v]) => [v.id, price])
+);
+module.exports.PLAN_PRICE_IDS = PLAN_PRICE_IDS;
