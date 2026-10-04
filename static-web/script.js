@@ -3560,8 +3560,8 @@ setupResponsiveReports();
     return PADDLE_CHECKOUT_LIVE ? (PADDLE_PRICES[plan] || null) : null;
   }
 
-  var onPricing  = !!document.querySelector('.plan-grid');
-  var onCheckout = !!document.querySelector('.checkout-page');
+  var onPricing  = !!document.querySelector('.plan-grid, .pricing-v2');
+  var onCheckout = !!document.querySelector('.checkout-page, .checkout-v2');
   var onPublic   = !document.querySelector('.dashboard-shell, .account-shell, [data-auth-form]');
 
   var paddleReady = false;
@@ -3606,8 +3606,7 @@ setupResponsiveReports();
       window._clasrAutoOpenCheckout = function (userId) {
         if (!userId) return;
         try { localStorage.removeItem('clasr:pendingPlan'); } catch (ex) {}
-        var planEl = document.querySelector('.checkout-plan.is-selected');
-        var plan = planEl ? planEl.dataset.checkoutPlan : 'reading-1';
+        var plan = selectedCheckoutPlan();
         var priceId = priceIdFor(plan);
         if (priceId) loadPaddle(function () { openCheckout(priceId, plan, userId); });
       };
@@ -3615,6 +3614,13 @@ setupResponsiveReports();
   }
 
   if (!onPricing && !onCheckout) return;
+
+  function selectedCheckoutPlan() {
+    var radio = document.querySelector('input[name="clasr-plan"]:checked');
+    if (radio) return radio.value;
+    var planEl = document.querySelector('.checkout-plan.is-selected');
+    return planEl ? planEl.dataset.checkoutPlan : 'reading-1';
+  }
 
   function openCheckout(priceId, plan, userId) {
     var opts = {
@@ -3636,16 +3642,19 @@ setupResponsiveReports();
       var userId = getUserId();
       if (!userId) return; // not logged in — let href go to /register/
       e.preventDefault();
-      var planEl = document.querySelector('.checkout-plan.is-selected');
-      var plan = planEl ? planEl.dataset.checkoutPlan : 'reading-1';
+      var plan = selectedCheckoutPlan();
       var priceId = priceIdFor(plan);
-      if (!priceId) { window.location.href = checkoutBtn.href; return; }
+      if (!priceId) {
+        // Signed in but checkout not live yet: explain instead of bouncing to /register/.
+        if (typeof window._clasrCheckoutUnavailable === 'function') { window._clasrCheckoutUnavailable(); return; }
+        window.location.href = checkoutBtn.href; return;
+      }
       loadPaddle(function () { openCheckout(priceId, plan, userId); });
       return;
     }
 
     // Pricing page: plan CTA buttons
-    var planBtn = e.target.closest('a.plan-card__cta');
+    var planBtn = e.target.closest('a.plan-card__cta, a[data-plan-cta]');
     if (planBtn) {
       var userId = getUserId(); // null if not logged in — openCheckout handles it
       var rawHref = planBtn.getAttribute('href') || '';
@@ -4181,4 +4190,77 @@ setupResponsiveReports();
     render();
     document.querySelectorAll('[data-settings-edit]').forEach(function (b) { b.disabled = false; });
   });
+}());
+
+// ── Checkout page (2026-10 design): package selection + order summary ───────
+// Plan ids match PADDLE_PRICES / the register flow (reading-1 … advanced). The
+// handoff's ids (one-time-1, monthly-2, …) are accepted in ?plan= as aliases.
+(function () {
+  var root = document.querySelector('.checkout-v2');
+  if (!root) return;
+  var ALIASES = {
+    'one-time-1': 'reading-1', 'one-time-3': 'reading-3', 'one-time-10': 'reading-10',
+    'monthly-2': 'starter', 'monthly-5': 'professional', 'monthly-12': 'advanced'
+  };
+  var radios = Array.prototype.slice.call(root.querySelectorAll('input[name="clasr-plan"]'));
+  var tabs = Array.prototype.slice.call(root.querySelectorAll('[data-co-tab]'));
+  var panels = Array.prototype.slice.call(root.querySelectorAll('[data-co-panel]'));
+  var pay = root.querySelector('[data-checkout-register]');
+  var status = root.querySelector('[data-co-status]');
+  var el = function (sel) { return root.querySelector(sel); };
+  var typeOf = function (r) { return r.hasAttribute('data-co-monthly') ? 'monthly' : 'one-time'; };
+  var find = function (id) { return radios.filter(function (r) { return r.value === id; })[0]; };
+  var chosen = { 'one-time': 'reading-1', monthly: 'starter' };
+
+  var update = function () {
+    var r = radios.filter(function (x) { return x.checked; })[0] || radios[0];
+    var monthly = typeOf(r) === 'monthly';
+    el('[data-co-selected-name]').textContent = r.getAttribute('data-co-name');
+    el('[data-co-selected-count]').textContent = r.getAttribute('data-co-count') + (monthly ? ' / month' : '');
+    el('[data-co-selected-total]').textContent = '$' + r.getAttribute('data-co-price');
+    el('[data-co-billing]').textContent = monthly
+      ? '$' + r.getAttribute('data-co-price') + ' billed monthly. Cancel anytime.'
+      : 'One-time payment. No recurring charges.';
+    if (pay) pay.href = '/register/?plan=' + encodeURIComponent(r.value);
+    if (status) status.hidden = true;
+    try {
+      var url = new URL(window.location.href);
+      url.searchParams.set('plan', r.value);
+      history.replaceState(null, '', url);
+      localStorage.setItem('clasr:pendingPlan', r.value);
+    } catch (e) {}
+  };
+
+  var showType = function (type) {
+    tabs.forEach(function (t) {
+      var on = t.getAttribute('data-co-tab') === type;
+      t.classList.toggle('is-active', on);
+      t.setAttribute('aria-pressed', String(on));
+    });
+    panels.forEach(function (p) { p.hidden = p.getAttribute('data-co-panel') !== type; });
+    var r = find(chosen[type]);
+    if (r) r.checked = true;
+    update();
+  };
+
+  radios.forEach(function (r) {
+    r.addEventListener('change', function () { if (r.checked) { chosen[typeOf(r)] = r.value; update(); } });
+  });
+  tabs.forEach(function (t) { t.addEventListener('click', function () { showType(t.getAttribute('data-co-tab')); }); });
+
+  // Called by the Paddle click handler when checkout is not live yet and the
+  // visitor is already signed in (sending them to /register/ would be wrong).
+  window._clasrCheckoutUnavailable = function () {
+    if (!status) return;
+    status.textContent = 'Online payment is not open yet. Email hello@clasr.ai and we will set up your readings.';
+    status.hidden = false;
+  };
+
+  var requested = null;
+  try { requested = new URLSearchParams(window.location.search).get('plan'); } catch (e) {}
+  requested = ALIASES[requested] || requested;
+  if (!find(requested)) { try { requested = localStorage.getItem('clasr:pendingPlan'); } catch (e) {} }
+  var initial = find(ALIASES[requested] || requested) || find('reading-1');
+  chosen[typeOf(initial)] = initial.value;
+  showType(typeOf(initial));
 }());

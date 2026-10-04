@@ -3,11 +3,11 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Checkout Preview | Clasr</title>
+    <title>Checkout | Clasr</title>
     <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/styles.css?v=settings-edit-1">
+    <link rel="stylesheet" href="/styles.css?v=pricing-v2-1">
     <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
-    <script src="/script.js?v=settings-edit-1" defer></script>
+    <script src="/script.js?v=pricing-v2-1" defer></script>
   </head>
   <body class="setup-page">
     <header class="site-header">
@@ -20,60 +20,51 @@
       </div>
     </header>
 
-    <main class="checkout-page" aria-labelledby="checkout-title">
-      <section class="checkout-head">
-        <p class="flow-panel__step">Checkout preview</p>
-        <h1 id="checkout-title">Choose a plan.</h1>
-        <p>Select a plan to continue to secure checkout. Applicable taxes are calculated at checkout and shown before payment.</p>
-        <div class="pricing-choice__controls checkout-billing-controls" aria-label="Billing options">
-          <div class="billing-toggle" role="group" aria-label="Billing period">
-            <button class="is-active" type="button" data-billing-option="monthly" aria-pressed="true">Monthly</button>
-            <button type="button" data-billing-option="annual" aria-pressed="false">Annual</button>
+    <main class="checkout-v2" aria-labelledby="checkout-title">
+      <div class="co-intro">
+        <span class="pv-eyebrow">Checkout</span>
+        <h1 id="checkout-title">Choose your readings.</h1>
+        <p>Review your selection before continuing to payment. All prices include taxes.</p>
+      </div>
+      <div class="co-layout">
+        <section aria-label="Choose a package">
+          <div class="pv-switch" role="group" aria-label="Purchase type">
+            <button class="is-active" type="button" data-co-tab="one-time" aria-pressed="true">Buy Readings</button>
+            <button type="button" data-co-tab="monthly" aria-pressed="false">Subscription Plans</button>
           </div>
-          <span class="annual-save">Save up to 17% annually</span>
-        </div>
-      </section>
-
-      <section class="checkout-layout">
-        <div class="checkout-plans" aria-label="Plan selection">
-          <article class="checkout-plan is-selected" role="button" tabindex="0" data-checkout-plan="trial-pack" data-checkout-price="$25" data-checkout-label="Trial Pack">
-            <span>Trial Pack</span>
-            <strong>$25</strong>
-            <small>1 manuscript reading · valid 30 days</small>
-          </article>
-          <article class="checkout-plan" role="button" tabindex="0" data-checkout-plan="researcher" data-checkout-price="$59" data-checkout-annual-price="$590" data-checkout-label="Researcher" data-checkout-monthly-copy="5 readings / month" data-checkout-annual-copy="5 readings / month · billed yearly">
-            <span>Researcher</span>
-            <strong>$59</strong>
-            <small>5 readings / month</small>
-          </article>
-          <article class="checkout-plan" role="button" tabindex="0" data-checkout-plan="professional" data-checkout-price="$119" data-checkout-annual-price="$1,190" data-checkout-label="Professional" data-checkout-monthly-copy="12 readings / month" data-checkout-annual-copy="12 readings / month · billed yearly">
-            <span>Professional</span>
-            <strong>$119</strong>
-            <small>12 readings / month</small>
-          </article>
-        </div>
-
-        <aside class="checkout-preview" aria-label="Checkout availability">
-          <div class="checkout-preview__top">
-            <span>Selected plan</span>
-            <strong data-checkout-selected-plan>Trial Pack</strong>
-          </div>
-          <div class="checkout-preview__amount">
-            <span>Preview total</span>
-            <strong data-checkout-selected-price>$25</strong>
-          </div>
-          <div class="checkout-launch-placeholder">
-            <span class="section-eyebrow">Secure checkout</span>
-            <h2>Continue when ready.</h2>
-            <p>Your selected plan, billing period, and any applicable taxes will be confirmed before payment. Clasr never stores complete card details.</p>
-          </div>
-          <p class="checkout-preview__note">Listed prices do not include taxes. Applicable taxes may apply and will be calculated at checkout. Available payment methods, buyer terms, and any required consumer acknowledgements are shown before payment.</p>
-          <div class="checkout-actions">
-            <a class="button button--primary checkout-complete" href="/register/" data-checkout-register>Continue to checkout</a>
-            <a class="button checkout-pass" href="/pricing/">Back to pricing</a>
-          </div>
+          <fieldset data-co-panel="one-time">
+            <legend>One-time purchase. No subscription required.</legend>
+            <div class="co-options">
+              <label class="co-option"><input type="radio" name="clasr-plan" value="reading-1" data-co-name="1 Reading" data-co-count="1" data-co-price="32" checked><span class="co-text"><span class="co-name">1 Reading</span><span class="co-detail">$32 per reading</span></span><span class="co-price">$32<small>one time</small></span></label>
+              <label class="co-option"><input type="radio" name="clasr-plan" value="reading-3" data-co-name="3 Readings" data-co-count="3" data-co-price="85"><span class="co-text"><span class="co-name">3 Readings</span><span class="co-detail">$28.33 per reading</span></span><span class="co-price">$85<small>one time</small></span></label>
+              <label class="co-option"><input type="radio" name="clasr-plan" value="reading-10" data-co-name="10 Readings" data-co-count="10" data-co-price="245"><span class="co-text"><span class="co-name">10 Readings</span><span class="co-detail">$24.50 per reading</span></span><span class="co-price">$245<small>one time</small></span></label>
+            </div>
+          </fieldset>
+          <fieldset data-co-panel="monthly" hidden>
+            <legend>Monthly allowance. Billed monthly.</legend>
+            <div class="co-options">
+              <label class="co-option"><input type="radio" name="clasr-plan" value="starter" data-co-name="Starter" data-co-count="2" data-co-price="56" data-co-monthly><span class="co-text"><span class="co-name">Starter</span><span class="co-detail">2 readings / month &middot; $28 per reading</span></span><span class="co-price">$56<small>/ month</small></span></label>
+              <label class="co-option"><input type="radio" name="clasr-plan" value="professional" data-co-name="Professional" data-co-count="5" data-co-price="115" data-co-monthly><span class="co-text"><span class="co-name">Professional</span><span class="co-detail">5 readings / month &middot; $23 per reading</span></span><span class="co-price">$115<small>/ month</small></span></label>
+              <label class="co-option"><input type="radio" name="clasr-plan" value="advanced" data-co-name="Advanced" data-co-count="12" data-co-price="240" data-co-monthly><span class="co-text"><span class="co-name">Advanced</span><span class="co-detail">12 readings / month &middot; $20 per reading</span></span><span class="co-price">$240<small>/ month</small></span></label>
+            </div>
+          </fieldset>
+          <p class="co-footnote">Every reading includes all 11 report sections and PDF, DOCX, and TXT export.</p>
+        </section>
+        <aside class="co-order" aria-labelledby="order-title">
+          <h2 id="order-title">Order summary</h2>
+          <dl>
+            <div class="co-row"><dt>Selected package</dt><dd data-co-selected-name>1 Reading</dd></div>
+            <div class="co-row"><dt>Readings</dt><dd data-co-selected-count>1</dd></div>
+            <div class="co-row"><dt>Taxes</dt><dd>Included</dd></div>
+            <div class="co-row co-total"><dt>Total today</dt><dd data-co-selected-total>$32</dd></div>
+          </dl>
+          <p class="co-billing" data-co-billing>One-time payment. No recurring charges.</p>
+          <a class="co-pay" href="/register/?plan=reading-1" data-checkout-register>Continue to payment</a>
+          <p class="co-status" data-co-status hidden></p>
+          <p class="co-payment-note">Payment methods are shown at checkout.</p>
         </aside>
-      </section>
+      </div>
+      <details class="co-help"><summary>Reading and billing details</summary><p>One PDF or DOCX submission, up to 70,000 words, counts as one reading. A revised submission counts as a new reading.</p><p>Monthly allowances reset each billing period and do not roll over. You can cancel your subscription at any time and keep access through the period already paid for.</p></details>
     </main>
 
     <footer class="app-footer" aria-label="Checkout footer">
