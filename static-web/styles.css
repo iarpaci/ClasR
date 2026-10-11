@@ -28047,3 +28047,13 @@ button.pv-buy { width: 100%; }
 .pv-change-message--error { color: var(--pv-accent); }
 .pv-faq--account { margin-top: 32px; }
 .pv-faq--account h2 { font-size: 24px; }
+
+/* Checkout + onboarding (body.setup-page) used background: var(--vellum),
+   which is never defined, so the page fell back to browser white. Match the
+   rest of the site (cream by day, the shared dark gradient at night). */
+body.setup-page {
+  background: var(--cream) !important;
+}
+body.theme-night.setup-page {
+  background: linear-gradient(180deg, #241c18 0%, #1d1715 46%, #181312 100%) !important;
+}
