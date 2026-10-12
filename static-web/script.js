@@ -1987,6 +1987,7 @@ setupResponsiveReports();
       if (typeof applyAccountProfile === 'function') applyAccountProfile();
       if (typeof renderAccountPlanCards === 'function') renderAccountPlanCards();
       if (typeof window._clasrApplyReadingDefaults === 'function') window._clasrApplyReadingDefaults(data.user.preferences);
+      if (typeof data.user.hasPassword === 'boolean') window._clasrHasPassword = data.user.hasPassword;
       if (data.user.preferences && typeof data.user.preferences.readingHistory === 'boolean' && typeof window._clasrApplyHistoryState === 'function') {
         window._clasrApplyHistoryState(data.user.preferences.readingHistory);
       }
@@ -3453,36 +3454,52 @@ setupResponsiveReports();
     });
   };
 
-  window.clasrConfirmTurnOffHistory = function(onConfirmed) {
+  // Two ways to confirm: password (email accounts) or a one-time email link
+  // (Google accounts have no password). `token` = arriving from that link.
+  window.clasrConfirmTurnOffHistory = function(onConfirmed, token) {
     var existing = document.querySelector('[data-history-confirm-modal]');
     if (existing) existing.remove();
+    var noPassword = window._clasrHasPassword === false;
 
     var overlay = document.createElement('div');
     overlay.className = 'clasr-modal-overlay';
     overlay.setAttribute('data-history-confirm-modal', '');
+    var body;
+    if (token) {
+      body = '<p>Confirm with the link from your email. This will <strong>permanently delete all of your saved manuscript readings</strong>. This action cannot be undone.</p>';
+    } else {
+      body = '<p>This will <strong>permanently delete all of your saved manuscript readings</strong>. This action cannot be undone.</p>' +
+        '<p>While history is off, new reports can still be viewed and downloaded, but they are not saved to Readings and are deleted after 24 hours.</p>' +
+        (noPassword
+          ? '<p data-history-email-intro>You signed in with Google, so we will email you a confirmation link instead of asking for a password.</p>'
+          : '<label class="clasr-modal__field">' +
+              '<span>Enter your password to confirm</span>' +
+              '<input type="password" data-history-confirm-password autocomplete="current-password">' +
+            '</label>' +
+            '<p class="clasr-modal__alt"><button type="button" class="clasr-link-button" data-history-use-email>Confirm by email instead</button></p>');
+    }
     overlay.innerHTML =
       '<div class="clasr-modal" role="dialog" aria-modal="true" aria-labelledby="clasr-history-confirm-title">' +
-        '<h2 id="clasr-history-confirm-title">Turn off reading history?</h2>' +
-        '<p>This will <strong>permanently delete all of your saved manuscript readings</strong>. This action cannot be undone.</p>' +
-        '<p>While history is off, new reports can still be viewed and downloaded, but they are not saved to Readings and are deleted after 24 hours.</p>' +
-        '<label class="clasr-modal__field">' +
-          '<span>Enter your password to confirm</span>' +
-          '<input type="password" data-history-confirm-password autocomplete="current-password">' +
-        '</label>' +
+        '<h2 id="clasr-history-confirm-title">Turn off reading history?</h2>' + body +
         '<p class="clasr-modal__error" data-history-confirm-error hidden></p>' +
+        '<p class="clasr-modal__note" data-history-confirm-note hidden></p>' +
         '<div class="clasr-modal__actions">' +
           '<button type="button" class="button button--ghost" data-history-confirm-cancel>Cancel</button>' +
-          '<button type="button" class="button button--danger" data-history-confirm-submit>Delete</button>' +
+          '<button type="button" class="button button--danger" data-history-confirm-submit>' +
+            (token ? 'Delete history' : (noPassword ? 'Email me a link' : 'Delete')) + '</button>' +
         '</div>' +
       '</div>';
     document.body.appendChild(overlay);
 
     var pwInput = overlay.querySelector('[data-history-confirm-password]');
     var errEl = overlay.querySelector('[data-history-confirm-error]');
+    var noteEl = overlay.querySelector('[data-history-confirm-note]');
     var submitBtn = overlay.querySelector('[data-history-confirm-submit]');
     var cancelBtn = overlay.querySelector('[data-history-confirm-cancel]');
+    var useEmailBtn = overlay.querySelector('[data-history-use-email]');
     var origSubmitText = submitBtn.textContent;
-    pwInput.focus();
+    var mode = token ? 'token' : (noPassword ? 'email' : 'password');
+    if (pwInput) pwInput.focus(); else submitBtn.focus();
 
     var close = function() { overlay.remove(); };
     cancelBtn.addEventListener('click', close);
@@ -3490,34 +3507,70 @@ setupResponsiveReports();
     document.addEventListener('keydown', function escHandler(e) {
       if (e.key === 'Escape') { close(); document.removeEventListener('keydown', escHandler); }
     });
+    var showError = function(msg) { errEl.textContent = msg; errEl.hidden = false; submitBtn.disabled = false; submitBtn.textContent = origSubmitText; };
+    var post = function(path, body) {
+      return apiFetch(path, { method: 'POST', body: JSON.stringify(body || {}) }).then(function(res) {
+        if (!res) return { ok: false, data: { error: 'Could not reach the server. Please try again.' } };
+        return res.json().catch(function() { return {}; }).then(function(data) { return { ok: res.ok, data: data }; });
+      });
+    };
+
+    if (useEmailBtn) useEmailBtn.addEventListener('click', function() {
+      mode = 'email';
+      var field = overlay.querySelector('.clasr-modal__field'); if (field) field.remove();
+      useEmailBtn.parentNode.remove();
+      submitBtn.textContent = origSubmitText = 'Email me a link';
+      errEl.hidden = true;
+    });
 
     var submit = function() {
-      var password = pwInput.value;
-      if (!password) { errEl.textContent = 'Please enter your password.'; errEl.hidden = false; return; }
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Deleting…';
       errEl.hidden = true;
-      apiFetch('/api/account/history/disable', { method: 'POST', body: JSON.stringify({ password: password }) })
-        .then(function(res) {
-          if (!res) return { ok: false, data: { error: 'Could not reach the server. Please try again.' } };
-          return res.json().catch(function() { return {}; }).then(function(data) { return { ok: res.ok, data: data }; });
-        })
-        .then(function(result) {
-          if (!result.ok || !result.data.success) {
-            errEl.textContent = (result.data && result.data.error) || 'Something went wrong. Please try again.';
-            errEl.hidden = false;
-            submitBtn.disabled = false;
-            submitBtn.textContent = origSubmitText;
-            // Nothing was deleted and history stays on — no state change here.
-            return;
-          }
-          close();
-          onConfirmed();
+      submitBtn.disabled = true;
+      if (mode === 'email') {
+        submitBtn.textContent = 'Sending…';
+        post('/api/account/history/disable-email').then(function(result) {
+          if (!result.ok || !result.data.sent) return showError((result.data && result.data.error) || 'Something went wrong. Please try again.');
+          noteEl.textContent = 'We sent a confirmation link to ' + result.data.email + '. Open it while signed in to finish. Nothing has been deleted yet.';
+          noteEl.hidden = false;
+          submitBtn.hidden = true;
+          cancelBtn.textContent = 'Close';
         });
+        return;
+      }
+      var payload;
+      if (mode === 'token') payload = { token: token };
+      else {
+        var password = pwInput.value;
+        if (!password) { errEl.textContent = 'Please enter your password.'; errEl.hidden = false; submitBtn.disabled = false; return; }
+        payload = { password: password };
+      }
+      submitBtn.textContent = 'Deleting…';
+      post('/api/account/history/disable', payload).then(function(result) {
+        if (!result.ok || !result.data.success) {
+          // Nothing was deleted and history stays on — no state change here.
+          return showError((result.data && result.data.error) || 'Something went wrong. Please try again.');
+        }
+        close();
+        onConfirmed();
+      });
     };
     submitBtn.addEventListener('click', submit);
-    pwInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') submit(); });
+    if (pwInput) pwInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') submit(); });
   };
+
+  // Arriving from the confirmation email: ask once more, then turn off.
+  (function() {
+    var t = new URLSearchParams(window.location.search).get('confirm-history-off');
+    if (!t || !getToken()) return;
+    var cleanUrl = function() {
+      try { var u = new URL(window.location.href); u.searchParams.delete('confirm-history-off'); history.replaceState(null, '', u); } catch (e) {}
+    };
+    window.clasrConfirmTurnOffHistory(function() {
+      cleanUrl();
+      if (typeof clearVisibleReadings === 'function') clearVisibleReadings();
+      if (typeof window._clasrApplyHistoryState === 'function') window._clasrApplyHistoryState(false);
+    }, t);
+  }());
 
 }());
 

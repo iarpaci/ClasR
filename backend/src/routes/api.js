@@ -1,5 +1,6 @@
 'use strict';
 
+const crypto = require('crypto');
 const express = require('express');
 const multer = require('multer');
 const rateLimit = require('express-rate-limit');
@@ -22,6 +23,7 @@ const { PLAN_PRICE_IDS } = require('../services/catalog');
 const {
   sendWelcomeEmail,
   sendReportReadyEmail,
+  sendHistoryDeleteConfirmEmail,
   sendLimitReachedEmail,
   sendContactEmail,
   sendEnterpriseEmail,
@@ -210,6 +212,7 @@ router.get('/session', requireAuth, async (req, res) => {
       lastName: meta.lastName || meta.family_name || oauthNameParts.slice(1).join(' ') || '',
       institution: meta.institution || '',
       preferences: readPreferences(meta),
+      hasPassword: userHasPassword(req.user),
       plan: sub.plan,
       creditsLeft: creditSummary(sub).left,
       purchasedReadings: creditSummary(sub).purchased,
@@ -345,22 +348,60 @@ router.get('/auth/google/start', async (_req, res, next) => {
 // signInWithPassword, not just the bearer token) before touching any data —
 // a stolen/left-open session alone must not be enough to trigger this.
 async function setHistoryPreference(user, enabled) {
-  const meta = { ...(user.user_metadata || {}), readingHistoryEnabled: enabled };
+  // Any pending email-confirmation token is spent/invalidated by a change.
+  const meta = { ...(user.user_metadata || {}), readingHistoryEnabled: enabled, historyDeleteTokenHash: null, historyDeleteExpiresAt: null };
   const { error } = await supabase.auth.admin.updateUserById(user.id, { user_metadata: meta });
   return error;
 }
 
 // Wrong password must not look like an expired session to the frontend
 // (apiFetch treats 401 as "refresh the token"), so it is a 403.
+// Accounts without a password (Google sign-in) confirm by email instead: a
+// one-time link, valid 30 minutes, whose token hash lives in user_metadata.
+const HISTORY_TOKEN_TTL_MS = 30 * 60 * 1000;
+const sha256 = (v) => crypto.createHash('sha256').update(String(v)).digest('hex');
+const userHasPassword = (user) => {
+  const providers = user?.app_metadata?.providers || [user?.app_metadata?.provider];
+  return providers.includes('email');
+};
+
+router.post('/account/history/disable-email', requireAuth, async (req, res, next) => {
+  try {
+    const meta = req.user.user_metadata || {};
+    const issued = meta.historyDeleteIssuedAt ? new Date(meta.historyDeleteIssuedAt).getTime() : 0;
+    if (Date.now() - issued < 60 * 1000) {
+      return res.status(429).json({ error: 'A confirmation email was just sent. Please wait a minute before asking again.' });
+    }
+    const token = crypto.randomBytes(32).toString('hex');
+    const { error } = await supabase.auth.admin.updateUserById(req.user.id, { user_metadata: {
+      ...meta,
+      historyDeleteTokenHash: sha256(token),
+      historyDeleteExpiresAt: new Date(Date.now() + HISTORY_TOKEN_TTL_MS).toISOString(),
+      historyDeleteIssuedAt: new Date().toISOString(),
+    } });
+    if (error) return res.status(500).json({ error: 'Could not start email confirmation. Please try again.' });
+    const url = `${process.env.WEB_URL || 'https://clasr.ai'}/dashboard/readings/?confirm-history-off=${token}`;
+    const sent = await sendHistoryDeleteConfirmEmail(req.user.email, url);
+    if (!sent) return res.status(502).json({ error: 'The confirmation email could not be sent. Please try again or email hello@clasr.ai.' });
+    res.json({ sent: true, email: req.user.email });
+  } catch (err) { next(err); }
+});
+
 router.post('/account/history/disable', requireAuth, async (req, res, next) => {
   try {
-    const { password } = req.body || {};
-    if (!password) return res.status(400).json({ error: 'Password is required' });
-
-    const { error: authError } = await createAuthFlowClient().auth.signInWithPassword({
-      email: req.user.email, password,
-    });
-    if (authError) return res.status(403).json({ error: 'Incorrect password' });
+    const { password, token } = req.body || {};
+    const meta = req.user.user_metadata || {};
+    if (token) {
+      const valid = meta.historyDeleteTokenHash && meta.historyDeleteTokenHash === sha256(token)
+        && meta.historyDeleteExpiresAt && new Date(meta.historyDeleteExpiresAt) > new Date();
+      if (!valid) return res.status(403).json({ error: 'This confirmation link is invalid or has expired. Please request a new one.' });
+    } else {
+      if (!password) return res.status(400).json({ error: 'Password is required' });
+      const { error: authError } = await createAuthFlowClient().auth.signInWithPassword({
+        email: req.user.email, password,
+      });
+      if (authError) return res.status(403).json({ error: 'Incorrect password' });
+    }
 
     const { error: deleteError } = await supabase
       .from('analyses')

@@ -153,7 +153,33 @@ async function sendLegalRequestEmail({ document, email }) {
   `));
 }
 
+
+// Confirms turning reading history off for accounts without a password
+// (Google sign-in). Returns true only if Resend accepted the message.
+async function sendHistoryDeleteConfirmEmail(email, confirmUrl) {
+  const resend = getResend();
+  if (!resend) return false;
+  try {
+    const r = await resend.emails.send({ from: FROM(), to: email, subject: 'Confirm: delete your Clasr reading history', html: shell(`
+      <h1 style="margin:0 0 12px;font-size:22px;font-weight:700;color:#1A1A1A">Turn off reading history?</h1>
+      <p style="margin:0 0 20px;font-size:14px;color:#5A5548;line-height:1.7">
+        Someone signed in to your Clasr account asked to turn off reading history.
+        Confirming will <strong>permanently delete all of your saved manuscript readings</strong>. This cannot be undone.
+        The link works once and expires in 30 minutes.
+      </p>
+      ${btn(confirmUrl, 'Review and confirm &rarr;')}
+      <p style="margin:20px 0 0;font-size:12px;color:#8A8580">If you did not ask for this, ignore this email. Nothing will be deleted.</p>
+    `) });
+    if (r && r.error) { console.error('[email] history confirm:', r.error.message || r.error); return false; }
+    return true;
+  } catch (err) {
+    console.error('[email] history confirm:', err.message);
+    return false;
+  }
+}
+
 module.exports = {
+  sendHistoryDeleteConfirmEmail,
   sendWelcomeEmail,
   sendPasswordResetEmail,
   sendReportReadyEmail,

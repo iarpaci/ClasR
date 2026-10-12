@@ -28073,3 +28073,14 @@ body.theme-night .ephemeral-notice {
   border-color: rgba(224, 115, 138, 0.4);
   background: rgba(224, 115, 138, 0.08);
 }
+
+/* History-off confirmation: email option */
+.clasr-modal__alt { margin: 8px 0 0; }
+.clasr-link-button {
+  background: none !important; border: 0; padding: 0; font: inherit; font-size: 13px;
+  color: #a32642; text-decoration: underline; text-underline-offset: 3px; cursor: pointer;
+}
+.clasr-modal__note { margin: 12px 0 0; font-size: 14px; color: #5c0e20; }
+.clasr-modal__note[hidden], .clasr-modal [hidden] { display: none !important; }
+body.theme-night .clasr-link-button { color: #e0738a; }
+body.theme-night .clasr-modal__note { color: #f2b7c3; }
