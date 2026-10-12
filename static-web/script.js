@@ -3445,7 +3445,9 @@ setupResponsiveReports();
   // password re-check before anything is deleted, since it's permanent.
   window.clasrSetHistoryOn = function() {
     return apiFetch('/api/account/history/enable', { method: 'POST', body: '{}' }).then(function(res) {
-      if (res && res.ok) return true;
+      // 404 = backend without this endpoint yet (older deploy): the setting
+      // then lives in this browser only, as before.
+      if (res && (res.ok || res.status === 404)) return true;
       window.alert('Reading history could not be turned on. Please try again.');
       return false;
     });
