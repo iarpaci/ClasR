@@ -68,6 +68,10 @@ router.post('/', requireAuth, handleUpload, async (req, res, next) => {
       filename: req.file?.originalname || null,
     });
     if (insertErr) console.error('[clasr] insert error:', insertErr.message);
+    // Reading history off: keep the row only as a temporary reading (see api.js).
+    if (!insertErr && req.user?.user_metadata?.readingHistoryEnabled === false) {
+      await supabase.from('analyses').update({ ephemeral: true }).eq('id', analysisId);
+    }
 
     res.json({
       id: analysisId,

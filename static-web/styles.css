@@ -28057,3 +28057,19 @@ body.setup-page {
 body.theme-night.setup-page {
   background: linear-gradient(180deg, #241c18 0%, #1d1715 46%, #181312 100%) !important;
 }
+
+/* Report page: reading history is off, report is temporary */
+.ephemeral-notice {
+  margin: 0 0 18px;
+  padding: 12px 16px;
+  border: 1px solid rgba(163, 38, 66, 0.35);
+  border-radius: 6px;
+  background: rgba(163, 38, 66, 0.05);
+  color: #5c0e20;
+  font-size: 14px;
+}
+body.theme-night .ephemeral-notice {
+  color: #f2b7c3;
+  border-color: rgba(224, 115, 138, 0.4);
+  background: rgba(224, 115, 138, 0.08);
+}

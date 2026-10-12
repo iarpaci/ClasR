@@ -119,6 +119,26 @@ function handleUpload(req, res, next) {
   });
 }
 
+// ── Reading history off: temporary readings ─────────────────────────────
+// With history off, a finished reading is still stored so the report can be
+// opened, switched between modes and downloaded, but it is marked ephemeral:
+// hidden from the history list and deleted after 24 hours.
+const EPHEMERAL_TTL_MS = 24 * 60 * 60 * 1000;
+
+async function markEphemeralIfHistoryOff(user, readingId) {
+  if (user?.user_metadata?.readingHistoryEnabled !== false) return;
+  const { error } = await supabase.from('analyses').update({ ephemeral: true }).eq('id', readingId);
+  if (error) console.error('[history] could not mark reading temporary (migration v6 applied?)', readingId, error.message);
+}
+
+async function purgeExpiredEphemeral() {
+  const cutoff = new Date(Date.now() - EPHEMERAL_TTL_MS).toISOString();
+  const { error } = await supabase.from('analyses').delete().eq('ephemeral', true).lt('created_at', cutoff);
+  if (error && !/ephemeral/.test(error.message || '')) console.error('[history] purge failed:', error.message);
+}
+setInterval(() => { purgeExpiredEphemeral().catch(() => {}); }, 60 * 60 * 1000);
+setTimeout(() => { purgeExpiredEphemeral().catch(() => {}); }, 30 * 1000);
+
 // ── Account preferences (stored in Supabase user_metadata) ────────────────
 const READING_ROLES = ['author', 'reviewer', 'editor'];
 const STUDY_TYPES = ['quantitative', 'qualitative'];
@@ -134,6 +154,8 @@ function readPreferences(meta = {}) {
     },
     // Default on: only an explicit false turns reading-complete emails off.
     emailReadingComplete: meta.emailReadingComplete !== false,
+    // Reading history (default on). Changed only via /account/history/*.
+    readingHistory: meta.readingHistoryEnabled !== false,
   };
 }
 
@@ -322,6 +344,14 @@ router.get('/auth/google/start', async (_req, res, next) => {
 // irreversible, so it re-verifies the caller's password (a fresh
 // signInWithPassword, not just the bearer token) before touching any data —
 // a stolen/left-open session alone must not be enough to trigger this.
+async function setHistoryPreference(user, enabled) {
+  const meta = { ...(user.user_metadata || {}), readingHistoryEnabled: enabled };
+  const { error } = await supabase.auth.admin.updateUserById(user.id, { user_metadata: meta });
+  return error;
+}
+
+// Wrong password must not look like an expired session to the frontend
+// (apiFetch treats 401 as "refresh the token"), so it is a 403.
 router.post('/account/history/disable', requireAuth, async (req, res, next) => {
   try {
     const { password } = req.body || {};
@@ -330,15 +360,36 @@ router.post('/account/history/disable', requireAuth, async (req, res, next) => {
     const { error: authError } = await createAuthFlowClient().auth.signInWithPassword({
       email: req.user.email, password,
     });
-    if (authError) return res.status(401).json({ error: 'Incorrect password' });
+    if (authError) return res.status(403).json({ error: 'Incorrect password' });
 
     const { error: deleteError } = await supabase
       .from('analyses')
       .delete()
       .eq('user_id', req.user.id);
-    if (deleteError) return res.status(500).json({ error: 'Failed to delete reading history. Please try again.' });
+    if (deleteError) {
+      console.error('[history] delete failed for', req.user.id, deleteError.message);
+      return res.status(500).json({ error: 'Failed to delete reading history. Please try again.' });
+    }
 
-    res.json({ success: true });
+    const prefError = await setHistoryPreference(req.user, false);
+    if (prefError) {
+      console.error('[history] could not save history=off for', req.user.id, prefError.message);
+      return res.status(500).json({ error: 'Your readings were deleted, but the history setting could not be saved. Please try again.' });
+    }
+    res.json({ success: true, readingHistory: false });
+  } catch (err) { next(err); }
+});
+
+// Turning history back on needs no password and restores nothing: only
+// readings created from now on are kept.
+router.post('/account/history/enable', requireAuth, async (req, res, next) => {
+  try {
+    const prefError = await setHistoryPreference(req.user, true);
+    if (prefError) {
+      console.error('[history] could not save history=on for', req.user.id, prefError.message);
+      return res.status(500).json({ error: 'Could not turn reading history on. Please try again.' });
+    }
+    res.json({ success: true, readingHistory: true });
   } catch (err) { next(err); }
 });
 
@@ -348,12 +399,18 @@ router.get('/plans', (_req, res) => res.json({ plans: PLANS }));
 // ── GET /api/readings ───────────────────────────────────────────────────────
 router.get('/readings', requireAuth, async (req, res, next) => {
   try {
-    const { data, error } = await supabase
+    let { data, error } = await supabase
       .from('analyses')
       .select('*')
       .eq('user_id', req.user.id)
+      .eq('ephemeral', false)
       .order('created_at', { ascending: false })
       .limit(20);
+    if (error && /ephemeral/.test(error.message || '')) {
+      // migration v6 not applied yet: no temporary readings exist
+      ({ data, error } = await supabase.from('analyses').select('*').eq('user_id', req.user.id)
+        .order('created_at', { ascending: false }).limit(20));
+    }
     if (error) throw error;
     res.json({
       readings: (data || []).map(r => ({
@@ -380,9 +437,16 @@ router.get('/readings/:id', requireAuth, async (req, res, next) => {
       .eq('user_id', req.user.id)
       .single();
     if (error || !data) return res.status(404).json({ error: 'Reading not found' });
+    const expiresAt = data.ephemeral ? new Date(new Date(data.created_at).getTime() + EPHEMERAL_TTL_MS) : null;
+    if (expiresAt && expiresAt < new Date()) {
+      await supabase.from('analyses').delete().eq('id', data.id);
+      return res.status(404).json({ error: 'Reading not found' });
+    }
     const mode = data.output_mode || 'author';
     res.json({
       id: data.id,
+      ephemeral: !!data.ephemeral,
+      expiresAt: expiresAt ? expiresAt.toISOString() : null,
       title: data.filename || 'Untitled manuscript',
       mode,
       studyType: data.study_type || 'quantitative',
@@ -623,6 +687,7 @@ router.post('/readings/start', requireAuth, handleUpload, async (req, res, next)
           console.warn('[api] analyses row saved via fallback (basic columns only) for reading', readingId, '— check for missing DB columns');
         }
 
+        await markEphemeralIfHistoryOff(req.user, readingId);
         updateJob(jobId, { status: 'complete', readingId });
 
         if (req.user.user_metadata?.emailReadingComplete !== false) {
@@ -706,6 +771,7 @@ router.post('/readings/start-v2', requireAuth, handleUpload, async (req, res, ne
           return;
         }
 
+        await markEphemeralIfHistoryOff(req.user, readingId);
         updateJob(jobId, { status: 'complete', readingId });
       } catch (err) {
         console.error('[api] v2 processing error:', err.message);

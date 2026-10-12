@@ -20,6 +20,13 @@
   document.head.appendChild(script);
 })();
 
+// Upload state is per page view (2026-10-12): a browser cannot carry a picked
+// file to another page, and the file name alone made the register page claim
+// a months-old manuscript was "uploaded". Clear what older versions saved.
+try {
+  ["clasr:preuploadName", "clasr:landingConfigComplete", "clasr:landingSelections"].forEach((k) => localStorage.removeItem(k));
+} catch {}
+
 const header = document.querySelector(".site-header");
 const toggle = document.querySelector(".mobile-toggle");
 
@@ -1093,10 +1100,6 @@ const setLandingUpload = (file) => {
     return;
   }
 
-  try {
-    localStorage.setItem("clasr:preuploadName", file.name);
-  } catch {}
-
   if (landingUploadName) {
     landingUploadName.textContent = file.name;
   }
@@ -1107,6 +1110,20 @@ const setLandingUpload = (file) => {
 
   landingUploadDrop?.classList.add("has-file");
 };
+
+// Safari/Firefox restore a page from the back/forward cache with the old
+// file still in the input; reset the upload area whenever that happens.
+const landingUploadDefaults = {
+  name: landingUploadName ? landingUploadName.textContent : "",
+  status: landingUploadStatus ? landingUploadStatus.innerHTML : "",
+};
+const resetLandingUpload = () => {
+  if (landingUploadInput) landingUploadInput.value = "";
+  if (landingUploadName) landingUploadName.textContent = landingUploadDefaults.name;
+  if (landingUploadStatus) landingUploadStatus.innerHTML = landingUploadDefaults.status;
+  landingUploadDrop?.classList.remove("has-file");
+};
+window.addEventListener("pageshow", (event) => { if (event.persisted) resetLandingUpload(); });
 
 if (landingUploadInput) {
   landingUploadInput.addEventListener("change", () => {
@@ -1496,6 +1513,19 @@ const renderAccountBillingPanel = () => {
 
 renderAccountBillingPanel();
 
+// Every piece of UI that shows the reading-history setting registers a
+// renderer here; the session bootstrap calls them with the account's real
+// setting (user_metadata), so the switch survives reloads and new logins.
+const historyRenderers = [];
+window._clasrApplyHistoryState = (enabled) => {
+  try { localStorage.setItem("clasr:readingHistoryEnabled", String(enabled)); } catch {}
+  historyRenderers.forEach((fn) => fn(enabled));
+};
+// After history is turned off, readings already on screen must disappear too.
+const clearVisibleReadings = () => {
+  document.querySelectorAll("[data-readings-history-list], [data-recent-grid], [data-sidebar-recent-list]").forEach((el) => { el.innerHTML = ""; });
+};
+
 const dashboardRecentBlocks = Array.from(document.querySelectorAll("[data-history-dashboard-recent]"));
 const renderDashboardRecentBlocks = (isEnabled = getReadingHistoryEnabled()) => {
   dashboardRecentBlocks.forEach((block) => {
@@ -1504,6 +1534,7 @@ const renderDashboardRecentBlocks = (isEnabled = getReadingHistoryEnabled()) => 
 };
 
 renderDashboardRecentBlocks();
+historyRenderers.push((enabled) => renderDashboardRecentBlocks(enabled));
 
 document.querySelectorAll(".settings-toggle").forEach((group) => {
   const isReadingHistory = group.getAttribute("aria-label") === "Reading history";
@@ -1541,7 +1572,15 @@ document.querySelectorAll(".settings-toggle").forEach((group) => {
     localStorage.setItem("clasr:readingHistoryEnabled", String(historyEnabled));
     setHistoryStatus(historyEnabled);
     renderDashboardRecentBlocks(historyEnabled);
+    if (!historyEnabled) clearVisibleReadings();
   };
+  if (isReadingHistory) {
+    historyRenderers.push((enabled) => {
+      const target = Array.from(group.querySelectorAll("button")).find((b) => b.textContent.trim().toLowerCase() === (enabled ? "on" : "off"));
+      if (target) markActiveButton(target);
+      setHistoryStatus(enabled);
+    });
+  }
 
   group.querySelectorAll("button").forEach((button) => {
     button.addEventListener("click", () => {
@@ -1554,8 +1593,14 @@ document.querySelectorAll(".settings-toggle").forEach((group) => {
       // Turning history off permanently deletes every saved reading, so it
       // must go through a warning + password re-check before anything
       // changes — the button must not flip active until that's confirmed.
+      if (button.classList.contains("is-active")) return;
       if (!historyEnabled && typeof window.clasrConfirmTurnOffHistory === "function") {
         window.clasrConfirmTurnOffHistory(() => commitHistoryState(button, false));
+        return;
+      }
+      // Turning history on: saved on the account first, no password needed.
+      if (historyEnabled && typeof window.clasrSetHistoryOn === "function") {
+        window.clasrSetHistoryOn().then((ok) => { if (ok) commitHistoryState(button, true); });
         return;
       }
       commitHistoryState(button, historyEnabled);
@@ -1597,14 +1642,23 @@ if (historyEmpty && historyList) {
     markActiveHistoryButton(isEnabled);
   };
 
+  historyRenderers.push((enabled) => renderHistoryState(enabled));
+
   document.addEventListener("click", (event) => {
-    if (!event.target.closest("[data-history-enable]")) {
+    const btn = event.target.closest("[data-history-enable]");
+    if (!btn || btn.classList.contains("is-active")) {
       return;
     }
-
-    setHistoryEnabled(true);
-    renderHistoryState(true);
-    renderDashboardRecentBlocks(true);
+    const commitOn = () => {
+      setHistoryEnabled(true);
+      renderHistoryState(true);
+      renderDashboardRecentBlocks(true);
+    };
+    if (typeof window.clasrSetHistoryOn === "function") {
+      window.clasrSetHistoryOn().then((ok) => { if (ok) commitOn(); });
+      return;
+    }
+    commitOn();
   });
 
   document.addEventListener("click", (event) => {
@@ -1612,8 +1666,10 @@ if (historyEmpty && historyList) {
       return;
     }
 
+    if (event.target.closest("[data-history-disable]").classList.contains("is-active")) return;
     const commit = () => {
       setHistoryEnabled(false);
+      clearVisibleReadings();
       renderHistoryState(false);
       renderDashboardRecentBlocks(false);
     };
@@ -1931,6 +1987,9 @@ setupResponsiveReports();
       if (typeof applyAccountProfile === 'function') applyAccountProfile();
       if (typeof renderAccountPlanCards === 'function') renderAccountPlanCards();
       if (typeof window._clasrApplyReadingDefaults === 'function') window._clasrApplyReadingDefaults(data.user.preferences);
+      if (data.user.preferences && typeof data.user.preferences.readingHistory === 'boolean' && typeof window._clasrApplyHistoryState === 'function') {
+        window._clasrApplyHistoryState(data.user.preferences.readingHistory);
+      }
       if (typeof renderAccountBillingPanel === 'function') renderAccountBillingPanel();
       if (typeof window._clasrAutoOpenCheckout === 'function') {
         window._clasrAutoOpenCheckout(data.user.id || data.user.user_id || '');
@@ -2003,6 +2062,7 @@ setupResponsiveReports();
 
   // ── Dashboard upload ───────────────────────────────────────────────────────
   var _pendingFile = null;
+  window.addEventListener('pageshow', function(e) { if (e.persisted) _pendingFile = null; });
   var dashUploadInput = document.querySelector('[data-landing-upload-input]');
   if (dashUploadInput) {
     dashUploadInput.addEventListener('change', function() { _pendingFile = dashUploadInput.files && dashUploadInput.files[0] || null; });
@@ -3361,6 +3421,18 @@ setupResponsiveReports();
           return;
         }
         clasrApplyReadingData(data);
+        if (data.ephemeral) {
+          var rbody = document.querySelector('.reading-report-body');
+          if (rbody && !document.querySelector('[data-ephemeral-notice]')) {
+            var note = document.createElement('p');
+            note.className = 'ephemeral-notice';
+            note.setAttribute('data-ephemeral-notice', '');
+            var until = '';
+            try { until = new Date(data.expiresAt).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' }); } catch (e) {}
+            note.textContent = 'Reading history is off, so this report is not saved to your Readings. Download it now: it will be deleted' + (until ? ' on ' + until : ' within 24 hours') + '.';
+            rbody.parentNode.insertBefore(note, rbody);
+          }
+        }
       }).catch(function() {
         clasrShowReportError('This reading could not be loaded. Please try again in a moment.');
       });
@@ -3371,6 +3443,14 @@ setupResponsiveReports();
   // Shared by dashboard/settings/ and dashboard/readings/ — both let a user
   // flip reading history off, and both must go through this warning +
   // password re-check before anything is deleted, since it's permanent.
+  window.clasrSetHistoryOn = function() {
+    return apiFetch('/api/account/history/enable', { method: 'POST', body: '{}' }).then(function(res) {
+      if (res && res.ok) return true;
+      window.alert('Reading history could not be turned on. Please try again.');
+      return false;
+    });
+  };
+
   window.clasrConfirmTurnOffHistory = function(onConfirmed) {
     var existing = document.querySelector('[data-history-confirm-modal]');
     if (existing) existing.remove();
@@ -3382,6 +3462,7 @@ setupResponsiveReports();
       '<div class="clasr-modal" role="dialog" aria-modal="true" aria-labelledby="clasr-history-confirm-title">' +
         '<h2 id="clasr-history-confirm-title">Turn off reading history?</h2>' +
         '<p>This will <strong>permanently delete all of your saved manuscript readings</strong>. This action cannot be undone.</p>' +
+        '<p>While history is off, new reports can still be viewed and downloaded, but they are not saved to Readings and are deleted after 24 hours.</p>' +
         '<label class="clasr-modal__field">' +
           '<span>Enter your password to confirm</span>' +
           '<input type="password" data-history-confirm-password autocomplete="current-password">' +
