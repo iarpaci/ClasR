@@ -3327,7 +3327,13 @@ setupResponsiveReports();
           });
         });
       } else {
-        if (jsonNode) jsonNode.hidden = true;
+        // Plain-text report (no structured JSON for this mode): keep the
+        // container visible so the "View this report as" switcher still
+        // shows, but hide the three structured views.
+        if (jsonNode) jsonNode.hidden = false;
+        if (authorView) authorView.hidden = true;
+        if (reviewerView) reviewerView.hidden = true;
+        if (editorView) editorView.hidden = true;
         if (textNode) textNode.hidden = false;
         var parsed = clasrParseReport(data.report || '');
         if (textNode && data.report) {
